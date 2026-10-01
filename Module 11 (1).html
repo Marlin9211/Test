@@ -1,0 +1,2464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+/* =========================
+   Question Bank (Embedded) - Part 1 of 3
+   ========================= */
+/* Paste this first, then append Part 2 and Part 3 inside the array */
+
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Operating Systems & File Systems",
+    difficulty: "easy",
+    scenario: "A videographer needs to provide a 128GB USB flash drive to a client so they can share raw video footage. The flash drive contains several individual video files that are over 10GB each in size. The client will need to read and write to this drive using a mix of Windows 11 workstations, macOS laptops, and Linux machines. The videographer wants to format the drive so that it works seamlessly across all these operating systems without requiring the client to install any third-party software.",
+    prompt: "Which of the following file systems should the videographer use to format the USB drive?",
+    choices: [
+      { key: "A", text: "NTFS" },
+      { key: "B", text: "APFS" },
+      { key: "C", text: "FAT32" },
+      { key: "D", text: "exFAT" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"...video files that are over 10GB each... read and write to this drive using a mix of Windows 11 workstations, macOS laptops, and Linux machines.\"",
+    explanationCorrect: "The exFAT (Extended File Allocation Table) file system is designed specifically for removable flash drives and supports large file sizes well beyond 4GB. It is cross-platform and natively compatible across Windows, macOS, and Linux operating systems, making it the perfect choice for sharing large media files among different platforms.",
+    explanationIncorrect: {
+      A: "The New Technology File System (NTFS) is the standard for Windows devices and supports large file sizes. However, macOS can natively read NTFS drives but cannot write to them without third-party software, meaning it fails the requirement for seamless cross-platform read/write access.",
+      B: "The Apple File System (APFS) is a proprietary system optimized for Apple hardware and SSD storage. A flash drive formatted with APFS would not be natively accessible on a Windows operating system.",
+      C: "While FAT32 is an older file system that boasts wide cross-platform compatibility, it has strict size limitations. It only supports a maximum file size of 4GB (minus 1 byte), which means the 10GB video files could not be copied to the drive."
+    }
+  },
+  {
+    id: "Q002",
+    topic: "Professional Communication & Troubleshooting",
+    difficulty: "medium",
+    scenario: "A Tier 1 help desk technician is assisting a remote user whose computer monitor has gone dark. The user is anxious about a looming deadline and states, \"It's been like this for ages now, and I've tried pressing a key and moving the mouse, but nothing happens.\" The technician suspects the monitor may simply be turned off or in a sleep state, but wants to confirm the exact hardware state before proceeding with deeper troubleshooting.",
+    prompt: "Which of the following responses represents the BEST first step for the technician to take using proper communication methodology?",
+    choices: [
+      { key: "A", text: "\"What does the screen look like right now?\"" },
+      { key: "B", text: "\"Can you tell me whether the power light on the monitor is green or yellow?\"" },
+      { key: "C", text: "\"What happens when you press and hold the power button to reboot the computer?\"" },
+      { key: "D", text: "\"I apologize for the delay; let me escalate this ticket to a Tier 2 technician to get this fixed for your deadline.\"" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"...confirm the exact hardware state before proceeding with deeper troubleshooting.\"",
+    explanationCorrect: "In professional troubleshooting communication, once you have gathered broad information, you should use closed-ended questions (questions with fixed or simple answers) to confirm or narrow down a suspected issue. Asking about the specific color of the power LED is a closed question that immediately gives the technician factual data about the hardware's power state without relying on the user's technical interpretation.",
+    explanationIncorrect: {
+      A: "This is an open-ended question that invites the user to give a broad opinion about the problem. Because the technician already has the broad details and now needs to confirm a specific hardware state, an open-ended question is no longer the most efficient choice.",
+      C: "This asks an open-ended question while also prompting the user to take a drastic action (rebooting) before diagnosing the actual problem. A reboot might destroy active troubleshooting data, and basic power states should be verified first.",
+      D: "Escalation (moving a ticket to Tier 2) should only happen when an issue is beyond the scope of the current technician's abilities. Verifying if a monitor is turned on is a fundamental Tier 1 troubleshooting step that must be attempted before escalating the ticket."
+    }
+  },
+  {
+    id: "Q003",
+    topic: "Support Procedures & Ticketing",
+    difficulty: "hard",
+    scenario: "A network technician receives a ticket from a user stating that a proprietary cloud-based inventory application crashed on their workstation. Within the next hour, the help desk receives 15 more calls from different departments reporting that the exact same application is crashing and preventing them from working. Upon investigation, the technician discovers that a recently misconfigured core router is dropping packets to the application's server. The technician escalates the findings to the network engineering team to fix the router configuration.",
+    prompt: "According to service management standards, how should the engineering team's ticket be categorized?",
+    choices: [
+      { key: "A", text: "Incident" },
+      { key: "B", text: "Request" },
+      { key: "C", text: "Problem" },
+      { key: "D", text: "Standard Operating Procedure (SOP)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"...15 more calls from different departments reporting that the exact same application is crashing... discovers that a recently misconfigured core router is dropping packets...\"",
+    explanationCorrect: "In IT ticketing systems, a \"Problem\" is defined as the deeper underlying cause behind multiple related incidents. Because this scenario involves repeated app crashes (the incidents) that all trace back to a single misconfigured router requiring analysis and reconfiguration by an engineering team, it must be categorized as a problem.",
+    explanationIncorrect: {
+      A: "An incident is an individual error or unexpected condition causing a disruption to a single user or group, such as a single app crash. Because this ticket is tracking the root cause of multiple related incidents, it is classified as a problem, not a standalone incident.",
+      B: "A request category is used when a user needs something new provisioned, such as a new user account, a new device, or system access. It is not used for tracking unexpected outages or network errors.",
+      D: "An SOP is a document containing step-by-step instructions for completing a repeatable task to ensure consistency and compliance. It is a type of organizational documentation, not a ticket category used in an incident management system."
+    }
+  },
+  {
+    id: "Q004",
+    topic: "Support Procedures & Ticketing Systems",
+    difficulty: "medium",
+    scenario: "A user contacts the IT help desk because their department recently approved the purchase of a specialized graphic design software, and they need it installed on their workstation. The help desk already has a documented, step-by-step checklist on how to validate the license, deploy the software, and assign the proper security group permissions.",
+    prompt: "When creating the ticket in the IT service management system, how should the help desk agent categorize this specific ticket?",
+    choices: [
+      { key: "A", text: "Incident" },
+      { key: "B", text: "Request" },
+      { key: "C", text: "Problem" },
+      { key: "D", text: "Service Level Agreement (SLA)" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"...need it installed on their workstation. The help desk already has a documented, step-by-step checklist...\"",
+    explanationCorrect: "In a ticketing system, \"Requests\" are defined as tickets for provisioning something new that the IT department already has a Standard Operating Procedure (SOP) for, such as deploying new applications, setting up user accounts, or providing new hardware. Because the user is asking for a new software deployment and the help desk has a documented procedure to handle it, this is a standard service request.",
+    explanationIncorrect: {
+      A: "An incident ticket is used to track an error or an unexpected disruption to an existing service or system. The user in this scenario is not experiencing an error, outage, or broken system, so it is not an incident.",
+      C: "Problem tickets are used to track the underlying root cause of multiple related incidents, which typically requires deep analysis and service reconfiguration. There is no system failure or root cause to investigate in this scenario.",
+      D: "An SLA is a contract or metric that defines the expected level of service, uptime guarantees, and response times. It is an operational metric, not a ticket category used to classify a user's support inquiry."
+    }
+  },
+  {
+    id: "Q005",
+    topic: "Operating Systems & Hardware Compatibility",
+    difficulty: "hard",
+    scenario: "A systems administrator is planning to upgrade a fleet of 64-bit Windows 10 workstations to Windows 11. To verify compatibility, the administrator runs the PC Health Check tool on one of the devices. The workstation has an Intel Core i7 processor, 16GB of RAM, and a 1TB SSD. However, the tool immediately flags a critical hardware security issue that prevents the Windows 11 installation from proceeding.",
+    prompt: "Which of the following is the MOST likely cause of this compatibility failure?",
+    choices: [
+      { key: "A", text: "The system is utilizing an open-source operating system kernel." },
+      { key: "B", text: "Secure Boot has been enabled within the motherboard's UEFI settings." },
+      { key: "C", text: "The primary storage drive is formatted using the exFAT file system." },
+      { key: "D", text: "TPM 2.0 is missing or is not enabled in the BIOS/UEFI." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"...tool immediately flags a critical hardware security issue that prevents the Windows 11 installation from proceeding.\"",
+    explanationCorrect: "Operating systems are designed for specific hardware, and Windows 11 has strict security requirements that older machines may lack. Specifically, Windows 11 mandates that a Trusted Platform Module (TPM) version 2.0 must be supported and enabled on the system; if TPM 2.0 is missing or disabled, the upgrade is blocked.",
+    explanationIncorrect: {
+      A: "Linux is the OS that utilizes an open-source kernel, whereas Windows uses a proprietary kernel. The scenario explicitly states the machines are currently running Windows 10, meaning they do not use an open-source kernel.",
+      B: "Windows 11 actually requires Secure Boot to be enabled in the BIOS/UEFI. Having this feature turned on would help the workstation pass the compatibility check, not cause it to fail.",
+      C: "The exFAT file system is intended for removable hard drives and flash media, not for a primary Windows boot drive. Furthermore, a Windows 10 system would already be installed on an NTFS-formatted partition, so this is highly unlikely to be the cause of the failure."
+    }
+  },
+  {
+    id: "Q006",
+    topic: "Professional Communication & Customer Interaction",
+    difficulty: "easy",
+    scenario:
+      "A field technician arrives at a customer's desk to repair a malfunctioning printer. The customer is visibly frustrated, speaking very quickly, and raising their voice about how the broken printer has caused them to miss an important deadline. The technician recognizes the early signs of anger.",
+    prompt:
+      "Which of the following represents the BEST first step the technician should take to handle this difficult situation professionally?",
+    choices: [
+      { key: "A", text: "Issue a polite but firm warning that the repair will not continue if the abusive behavior persists." },
+      { key: "B", text: "Interrupt the customer to state that the help desk SLA allows 24 hours for printer repairs." },
+      { key: "C", text: "Let the customer fully explain the problem while actively listening and acknowledging their frustration." },
+      { key: "D", text: "Rapidly ask a series of closed-ended questions to force the customer to provide only technical details." }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...visibly frustrated, speaking very quickly, and raising their voice... BEST first step...\"",
+    explanationCorrect:
+      "When dealing with an angry or difficult customer, the primary goal is to de-escalate the tension. The most effective first step is to stay calm, actively listen, and allow the customer to fully explain their issue; this builds trust and enables a smoother path to resolution.",
+    explanationIncorrect: {
+      A:
+        "While issuing a warning is an acceptable protocol if a customer becomes explicitly abusive or threatening, it is not the correct first step for general venting or frustration. Prematurely threatening to halt the repair will immediately escalate the conflict.",
+      B:
+        "Interrupting a frustrated customer is highly unprofessional and will only increase their anger. Furthermore, citing SLA policies during an emotional moment comes across as dismissive and argumentative.",
+      D:
+        "Firing off a rapid sequence of closed-ended questions can overwhelm the user and make them feel like they are being interrogated. A technician should always start broad with open-ended questions before narrowing down to specific technical details."
+    }
+  },
+  {
+    id: "Q007",
+    topic: "Operating Systems & File Systems",
+    difficulty: "medium",
+    scenario:
+      "An enterprise system administrator is provisioning a massive new storage array for a Windows Server 2022 deployment. The organization works with extremely large data sets and requires a file system that focuses heavily on data availability. The chosen file system must have the resiliency to automatically detect corrupted data and repair it while the server remains online and actively in use.",
+    prompt:
+      "Which of the following file systems should the administrator configure for this storage array?",
+    choices: [
+      { key: "A", text: "NTFS" },
+      { key: "B", text: "ext4" },
+      { key: "C", text: "APFS" },
+      { key: "D", text: "ReFS" }
+    ],
+    correctKey: "D",
+    triggerPhrase:
+      "\"...Windows Server 2022 deployment... automatically detect corrupted data and repair it while the server remains online...\"",
+    explanationCorrect:
+      "The Resilient File System (ReFS) is a file system engineered by Microsoft specifically for enterprise environments, large storage systems, and extreme data integrity. Its defining feature is resiliency—the ability to automatically detect corrupted files and repair them while the storage array remains online and in use.",
+    explanationIncorrect: {
+      A:
+        "The New Technology File System (NTFS) is the standard file system for modern Windows environments and includes journaling to help prevent corruption. However, it does not possess the same advanced level of automated, online data repair and extreme scalability as ReFS.",
+      B:
+        "The Fourth Extended File System (ext4) is a reliable file system that supports large files, but it is natively associated with Linux distributions, not Windows Server environments. It therefore does not align with the Windows Server 2022 requirement in the scenario.",
+      C:
+        "The Apple File System (APFS) is a proprietary file system developed exclusively for Apple devices such as macOS workstations and iPads. It cannot be used to format a storage array on a Microsoft Windows server."
+    }
+  },
+  {
+    id: "Q008",
+    topic: "Documentation & Support Procedures",
+    difficulty: "hard",
+    scenario:
+      "An IT department is experiencing an unusually high volume of tickets regarding a proprietary cloud database application. The Tier 1 support team is frequently required to reset user application profiles to fix synchronization errors. Currently, agents are using their own independent judgment to resolve these errors, which is leading to inconsistent results, compliance issues, and duplicated efforts. IT management decides they must implement a mechanism to completely remove guesswork so that any technician gets the exact same result when resetting a profile.",
+    prompt:
+      "Which of the following should management create to achieve this goal?",
+    choices: [
+      { key: "A", text: "A Standard Operating Procedure (SOP)" },
+      { key: "B", text: "A Service Level Agreement (SLA)" },
+      { key: "C", text: "An Acceptable Use Policy (AUP)" },
+      { key: "D", text: "A Knowledge Base FAQ" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...completely remove guesswork so that any technician gets the exact same result...\"",
+    explanationCorrect:
+      "A Standard Operating Procedure (SOP) is a detailed, step-by-step set of instructions designed specifically for completing a repeatable task. By documenting the exact actions required in an SOP, management removes technician guesswork and ensures absolute consistency, accuracy, and organizational compliance.",
+    explanationIncorrect: {
+      B:
+        "An SLA is a contract or metric that dictates the guaranteed level of service, such as network uptime or minimum response times. It dictates what service level is required, but it does not provide step-by-step technical instructions on how to reset a software profile.",
+      C:
+        "An AUP establishes the rules for how employees are allowed to use company equipment and networks, such as forbidding unauthorized software or illegal activities. It governs user behavior, not IT help desk troubleshooting steps.",
+      D:
+        "While a Knowledge Base FAQ provides answers to common user questions (often for self-service), it does not serve as a rigid, step-by-step compliance document meant to force technicians to execute a task uniformly. An SOP is the proper structural mechanism for procedural compliance."
+    }
+  },
+  {
+    id: "Q009",
+    topic: "Operating Systems & Software Life-Cycles",
+    difficulty: "medium",
+    scenario:
+      "A small accounting firm is using an older, highly customized payroll application installed on a single desktop running Windows 10. The company’s management plans to keep this exact setup running indefinitely to avoid the high cost of upgrading to a newer software version. As the consulting IT technician, what is the MOST significant risk you should warn the firm about regarding their plan to keep this machine operational after October 14, 2025?",
+    prompt:
+      "Which of the following is the MOST significant risk you should warn the firm about?",
+    choices: [
+      { key: "A", text: "The Windows 10 operating system will automatically uninstall the payroll application due to compatibility conflicts." },
+      { key: "B", text: "The system's Trusted Platform Module (TPM) will disable itself, preventing the machine from booting." },
+      { key: "C", text: "The operating system will reach end-of-life and will no longer receive security patches, leaving the firm vulnerable to attacks." },
+      { key: "D", text: "The desktop will no longer be able to format or read NTFS-based storage drives." }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...plan to keep this exact setup running indefinitely... after October 14, 2025\"",
+    explanationCorrect:
+      "Microsoft has designated October 14, 2025, as the end-of-life (EOL) date for Windows 10, meaning no free support or security updates will be provided after that date. Systems running unsupported, EOL software become critical security risks because any new vulnerabilities discovered will remain unpatched by the vendor.",
+    explanationIncorrect: {
+      A:
+        "Operating systems do not arbitrarily uninstall applications when they reach EOL. The application will likely continue to run, but the underlying OS will be insecure.",
+      B:
+        "TPM is a hardware security chip and does not disable itself because an OS reaches end-of-life. While TPM 2.0 is a strict requirement to upgrade to Windows 11, failing to upgrade does not cause an existing TPM chip on a Windows 10 machine to disable itself.",
+      D:
+        "Reaching an EOL date simply means support and updates cease. It does not remove core OS functionality, such as the ability to read the standard New Technology File System (NTFS)."
+    }
+  },
+  {
+    id: "Q010",
+    topic: "Professional Communication & Data Privacy",
+    difficulty: "hard",
+    scenario:
+      "A field technician is dispatched to the HR director's office to troubleshoot a persistent network connectivity issue on their laptop. Upon arriving at the desk, the technician notices the laptop is logged in, and a spreadsheet containing employee salaries and upcoming termination plans is wide open on the screen. The HR director is currently on a phone call, makes eye contact with the technician, and gestures for them to go ahead and begin the repair.",
+    prompt:
+      "Which of the following is the BEST first step for the technician to take?",
+    choices: [
+      { key: "A", text: "Immediately minimize the spreadsheet to protect the sensitive data, then begin troubleshooting the network adapter." },
+      { key: "B", text: "Rapidly reboot the laptop so the files are closed and the network adapter is refreshed simultaneously." },
+      { key: "C", text: "Wait for the HR director to finish the call and ask them to close the sensitive files before touching the laptop." },
+      { key: "D", text: "Ask a third-party employee in the HR department to come over and close the application on behalf of the director." }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...spreadsheet containing employee salaries and upcoming termination plans is wide open on the screen.\"",
+    explanationCorrect:
+      "A core tenet of professional IT support is properly handling confidential and private material. Technicians must never open, close, or handle data files containing sensitive information without the user doing it first; the technician must allow the customer to secure the data before beginning work.",
+    explanationIncorrect: {
+      A:
+        "If the technician touches the mouse and minimizes the application, they are actively handling and viewing the sensitive data. This violates data privacy protocols; the user must be the one to secure their own files.",
+      B:
+        "Rebooting the machine while a user has a spreadsheet open could result in unsaved data loss. A technician should never forcibly reboot a machine without confirming the user has saved their work.",
+      D:
+        "Bringing another employee over to the screen exposes the sensitive salary and termination data to someone who may not be authorized to see it. That creates a severe HR breach and expands unnecessary exposure."
+    }
+  },
+  {
+    id: "Q011",
+    topic: "Support Procedures & Service Level Agreements",
+    difficulty: "easy",
+    scenario:
+      "An enterprise signs a contract with a new external cloud service provider to host its critical e-commerce database. The company's legal team wants to ensure the database will practically never go offline, explicitly demanding that the service experience no more than roughly 5 minutes of downtime per year.",
+    prompt:
+      "Which of the following metrics MUST be specified in the agreement to meet this strict requirement?",
+    choices: [
+      { key: "A", text: "A 5 nines (99.999%) availability SLA." },
+      { key: "B", text: "An Acceptable Use Policy (AUP) with an uptime mandate." },
+      { key: "C", text: "A Tier 3 external escalation protocol." },
+      { key: "D", text: "An 8 nines (99.999999%) availability SLA." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...experience no more than roughly 5 minutes of downtime per year.\"",
+    explanationCorrect:
+      "A Service Level Agreement (SLA) defines the metrics and guaranteed level of service between a company and an external third-party provider. A 5 nines (99.999%) SLA guarantees that downtime will not exceed roughly 5.26 minutes per year, which matches the requirement described.",
+    explanationIncorrect: {
+      B:
+        "An AUP is a document that dictates what employees are allowed to use company networks and equipment for (e.g., forbidding illegal activity). It is not a vendor contract that guarantees server uptime.",
+      C:
+        "Tier 3 escalation refers to moving a difficult support ticket to engineering, management, or developers for deep technical fixes. It does not dictate annual uptime metrics.",
+      D:
+        "An 8 nines SLA is far stricter than the company requested, allowing for only 315.58 milliseconds of downtime per year. It exceeds the stated requirement and is not the best match to the given downtime target."
+    }
+  },
+  {
+    id: "Q012",
+    topic: "Mobile Operating Systems",
+    difficulty: "medium",
+    scenario:
+      "A company is purchasing a fleet of 500 smartphones for its mobile sales team. The IT manager mandates that every device must be a closed ecosystem that receives direct, immediate operating system updates from the software developer. The IT manager explicitly wants to avoid the risk of OS updates being delayed or fragmented by third-party hardware manufacturers.",
+    prompt:
+      "Which of the following platforms is BEST suited to meet this requirement?",
+    choices: [
+      { key: "A", text: "Devices running Android OS." },
+      { key: "B", text: "Devices running iOS." },
+      { key: "C", text: "Devices running Chrome OS." },
+      { key: "D", text: "Devices running macOS." }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...closed ecosystem that receives direct, immediate operating system updates... avoid the risk of OS updates being delayed or fragmented by third-party hardware manufacturers.\"",
+    explanationCorrect:
+      "Apple iOS is a closed-source ecosystem that runs exclusively on Apple hardware. Because Apple controls both the hardware and the software, iOS updates are pushed directly to all compatible devices immediately, avoiding manufacturer-driven delays and fragmentation.",
+    explanationIncorrect: {
+      A:
+        "Android is an open-source OS used by many different hardware manufacturers (Samsung, Motorola, etc.). A major challenge with Android is fragmentation; manufacturers dictate when (or if) their specific devices receive Google's updates, which can cause severe delays.",
+      C:
+        "Chrome OS is an operating system designed primarily for laptops (Chromebooks) and desktops (Chromeboxes) focused on web applications. It is not a platform utilized for fleets of standard smartphones.",
+      D:
+        "macOS is Apple's operating system exclusively for desktop and laptop computers (MacBooks, iMacs). It is not a mobile smartphone operating system and therefore cannot meet the smartphone fleet requirement."
+    }
+  },
+  {
+    id: "Q013",
+    topic: "Support Procedures & Escalation Tiers",
+    difficulty: "easy",
+    scenario:
+      "A company's IT help desk is overwhelmed by the number of basic support tickets they receive, such as users forgetting how to map a network drive or sync their mobile email. To reduce the call volume, the IT director implements a self-service portal that contains a repository of FAQs, troubleshooting checklists, and step-by-step guides for users to try to resolve incidents themselves before opening a trouble ticket.",
+    prompt:
+      "According to standard support escalation levels, which tier of support does this new portal represent?",
+    choices: [
+      { key: "A", text: "Tier 0" },
+      { key: "B", text: "Tier 1" },
+      { key: "C", text: "Tier 2" },
+      { key: "D", text: "Tier 3" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...self-service portal that contains a repository of FAQs... for users to try to resolve incidents themselves before opening a trouble ticket.\"",
+    explanationCorrect:
+      "In standard IT support models, Tier 0 represents self-service options. By providing a knowledge base, FAQs, or a \"help bot,\" organizations empower users to fix minor issues on their own without needing to contact a human agent, thereby freeing up help desk resources.",
+    explanationIncorrect: {
+      B:
+        "Tier 1 represents the initial contact with a live support agent who performs basic troubleshooting and diagnosis. The scenario explicitly describes a self-service portal meant to be used before contacting an agent.",
+      C:
+        "Tier 2 involves escalating a ticket to a senior technician or specialized internal support group because the issue is too complex for a Tier 1 agent. This requires advanced human intervention, not self-service.",
+      D:
+        "Tier 3 escalation involves routing a problem ticket to deep-level engineering, development teams, or management for structural fixes. This is the highest level of technical escalation, completely opposite of a user self-service portal."
+    }
+  },
+  {
+    id: "Q014",
+    topic: "Professional Communication & Jargon",
+    difficulty: "medium",
+    scenario:
+      "A Tier 1 technician is on the phone with an elderly customer who is having trouble connecting to the internet. The customer states, \"The screen just says I'm not connected.\" The technician suspects the network adapter might be disabled, but wants to clarify the exact status without making assumptions or confusing the user with technical terms.",
+    prompt:
+      "Which of the following questions represents the BEST professional communication technique for this situation?",
+    choices: [
+      { key: "A", text: "\"Can you open the command prompt and ping your default gateway?\"" },
+      { key: "B", text: "\"Can you tell me if there is a green check mark on the network icon?\"" },
+      { key: "C", text: "\"Is your TFT monitor displaying a signed driver warning?\"" },
+      { key: "D", text: "\"Are you currently receiving an APIPA address starting with 169.254?\"" }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...clarify the exact status without making assumptions or confusing the user with technical terms.\"",
+    explanationCorrect:
+      "Professional communication requires using clear, concise language that the customer can easily understand without relying on jargon. Asking the user to identify a simple visual cue—like the presence of a green check mark—allows the technician to gather necessary technical data (network connection status) without requiring the user to have any technical expertise.",
+    explanationIncorrect: {
+      A:
+        "Asking a non-technical user to navigate a command-line interface and use networking utilities like \"ping\" relies on technical knowledge they likely do not have. This can cause frustration and confusion.",
+      C:
+        "This question uses heavy jargon (TFT, signed driver) that the average user will not understand. It fails the requirement to communicate in plain language.",
+      D:
+        "Mentioning APIPA (Automatic Private IP Addressing) and specific IP ranges is deep technical jargon. The user will not know what an APIPA address is or how to locate it without step-by-step guidance."
+    }
+  },
+
+  {
+    id: "Q015",
+    topic: "Operating Systems & Release Models",
+    difficulty: "hard",
+    scenario:
+      "A software developer is choosing a Linux distribution for their new workstation. Because they develop cutting-edge applications, they require an operating system that is constantly updated with the absolute newest features and software packages as soon as they become stable. The developer explicitly wants to avoid the process of performing major, fixed-version OS upgrades every year or two.",
+    prompt:
+      "Which of the following Linux release models should the developer choose?",
+    choices: [
+      { key: "A", text: "Standard release" },
+      { key: "B", text: "Long-Term Support (LTS) release" },
+      { key: "C", text: "Rolling release" },
+      { key: "D", text: "Proprietary release" }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...constantly updated with the absolute newest features as soon as they become stable... explicitly wants to avoid the process of performing major, fixed-version OS upgrades...\"",
+    explanationCorrect:
+      "In the Linux ecosystem, a \"rolling release\" model continuously provides updates to the operating system and its applications as soon as those updates are stable. This means the OS is constantly evolving with the latest features, eliminating the need to ever perform a massive upgrade from one discrete version to the next.",
+    explanationIncorrect: {
+      A:
+        "A standard release uses traditional versioning (e.g., Version 20, Version 21), meaning updates are periodically bundled into fixed versions. This directly conflicts with the developer's request to avoid fixed-version upgrades.",
+      B:
+        "An LTS release is a type of standard release designed for maximum stability over several years. It intentionally delays new, cutting-edge features in favor of extreme reliability, which makes it unsuitable for a developer wanting the absolute newest updates immediately.",
+      D:
+        "Linux is an open-source operating system kernel, not a proprietary one. While some enterprise distros offer paid support, \"proprietary release\" is not a recognized update distribution model for an OS seeking constant, version-less updates."
+    }
+  },
+  {
+    id: "Q016",
+    topic: "Documentation & Support Standards",
+    difficulty: "medium",
+    scenario:
+      "An IT manager is drafting documentation for the help desk team. The manager needs to provide instructions on how technicians should handle phone calls when a customer becomes highly emotional or abusive. Because human behavior is unpredictable, the manager realizes the decision-making process is too complex and subject to too many variables to capture in a strict, step-by-step list.",
+    prompt:
+      "Which of the following types of documentation should the manager create for this specific scenario?",
+    choices: [
+      { key: "A", text: "A Standard Operating Procedure (SOP)" },
+      { key: "B", text: "An Acceptable Use Policy (AUP)" },
+      { key: "C", text: "A Service Level Agreement (SLA)" },
+      { key: "D", text: "A Guideline" }
+    ],
+    correctKey: "D",
+    triggerPhrase:
+      "\"...decision-making process is too complex and subject to too many variables to capture in a strict, step-by-step list.\"",
+    explanationCorrect:
+      "In IT documentation, a guideline is used when a situation requires flexible decision-making or when there are too many variables to mandate a rigid procedure. Because handling an angry customer requires adaptability and emotional intelligence that cannot be perfectly scripted, providing a guideline is the correct administrative approach.",
+    explanationIncorrect: {
+      A:
+        "An SOP is a rigid, step-by-step list of instructions designed for repeatable tasks with clear steps (like resetting a password or installing an application). It is specifically not used when tasks involve many unpredictable variables.",
+      B:
+        "An AUP defines the rules for how employees are allowed to use company equipment (e.g., no browsing illicit websites on company laptops). It is a compliance document for end-users, not a troubleshooting document for managing angry callers.",
+      C:
+        "An SLA is an agreement that defines guaranteed metrics for service delivery, such as uptime percentages or response times. It has nothing to do with soft skills or human interaction protocols."
+    }
+  },
+  {
+    id: "Q017",
+    topic: "Operating Systems & Storage Limitations",
+    difficulty: "hard",
+    scenario:
+      "A remote worker purchases a new, budget-friendly laptop that comes pre-installed with Windows 11 Home. The user intends to use the laptop as a secure media server and plugs in three external 1TB USB hard drives. To maximize storage efficiency and security, the user attempts to combine all three physical disks into a single spanned volume using Windows Disk Management, and then intends to use native OS features to encrypt the volume. However, the user finds that both the spanning and encryption features are missing or grayed out.",
+    prompt:
+      "Which of the following BEST explains why the user cannot perform these actions?",
+    choices: [
+      { key: "A", text: "Windows Home editions do not support dynamic disks or native encryption features." },
+      { key: "B", text: "External USB drives must be formatted with APFS before they can be encrypted or spanned." },
+      { key: "C", text: "The combined size of the drives exceeds the maximum 2TB limit supported by the NTFS file system." },
+      { key: "D", text: "The laptop's motherboard is missing a TPM 2.0 chip, which disables disk management features." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...Windows 11 Home... combine all three physical disks into a single spanned volume... native OS features to encrypt the volume... features are missing or grayed out.\"",
+    explanationCorrect:
+      "While the NTFS file system technically supports advanced features like dynamic disks (combining multiple physical drives into one volume) and the Encrypting File System (EFS), Microsoft explicitly restricts these features based on the OS edition. Windows Home editions do not support dynamic disks or native encryption, which is why the user cannot access these tools.",
+    explanationIncorrect: {
+      B:
+        "APFS (Apple File System) is a proprietary file system used exclusively by Apple for macOS and iOS devices. A Windows operating system cannot format drives in APFS or natively use it for spanning.",
+      C:
+        "This is factually incorrect. While the much older FAT32 file system had strict limits, the modern NTFS file system supports massive volumes up to 256 Terabytes (or 8 Petabytes on the latest updates). A 3TB combined volume is well within NTFS limits.",
+      D:
+        "Windows 11 requires a TPM 2.0 chip just to be installed. Since the laptop came pre-installed with Windows 11, it must already have a functioning TPM 2.0 chip. Furthermore, lacking a TPM does not disable basic disk spanning capabilities."
+    }
+  },
+  {
+    id: "Q018",
+    topic: "Support Procedures & Service Level Agreements",
+    difficulty: "hard",
+    scenario:
+      "A multinational corporation is negotiating a Service Level Agreement (SLA) with a cloud service provider for a new enterprise backup solution. The corporation's legal and IT teams are extremely concerned about data durability. The cloud provider guarantees that the corporation could store 1 billion objects in their storage system and theoretically go 100 years without losing a single file.",
+    prompt:
+      "Which of the following SLA metrics is the cloud provider using to define this level of data durability?",
+    choices: [
+      { key: "A", text: "The Rule of 4 Nines" },
+      { key: "B", text: "The Rule of 11 Nines" },
+      { key: "C", text: "A 5 Nines (99.999%) availability metric" },
+      { key: "D", text: "A Tier 3 Escalation Guarantee" }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...store 1 billion objects in their storage system and theoretically go 100 years without losing a single file.\"",
+    explanationCorrect:
+      "In SLAs, the \"Rule of Nines\" is often used to measure both uptime availability and data durability. Specifically, the Rule of 11 Nines (99.999999999%) for durability mathematically means that even with 1 billion objects in storage, an organization would be able to go 100 years without losing a single object. This perfectly matches the provider's guarantee.",
+    explanationIncorrect: {
+      A:
+        "The Rule of 4 Nines (99.99%) is an availability metric that allows for a maximum of 52 minutes of system downtime per year. It is not a metric used to guarantee 100-year data durability for a billion objects.",
+      C:
+        "A 5 nines SLA translates to roughly 5.26 minutes of downtime per year. This measures how often a system is online, not the mathematical durability of stored file objects.",
+      D:
+        "Tier 3 escalation refers to routing a problem ticket to deep-level engineering or management for advanced structural fixes. It is an internal ticketing procedure, not a contractual metric for measuring data loss."
+    }
+  },
+  {
+    id: "Q019",
+    topic: "Operating Systems & Hardware Selection",
+    difficulty: "easy",
+    scenario:
+      "A school district is procuring 1,000 budget-friendly laptops for students to use during the academic year. The IT director requires an operating system that relies primarily on server-hosted software accessed via a web browser. The chosen platform must have a minimal local environment to reduce interference from other software or drivers and ensure maximum browser performance.",
+    prompt:
+      "Which of the following operating systems is BEST suited for this deployment?",
+    choices: [
+      { key: "A", text: "Windows Server 2022" },
+      { key: "B", text: "macOS" },
+      { key: "C", text: "Chrome OS" },
+      { key: "D", text: "Ubuntu Linux" }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...budget-friendly laptops... relies primarily on server-hosted software accessed via a web browser... minimal local environment...\"",
+    explanationCorrect:
+      "Chrome OS, developed by Google and based on Linux, is explicitly designed for budget hardware and the education market, such as Chromebooks. It is primarily built for web applications relying on server-hosted software accessed via a browser, and its minimal local environment enhances browser performance by reducing driver or software interference.",
+    explanationIncorrect: {
+      A:
+        "Windows Server is a Network Operating System (NOS) optimized for managing enterprise networks and resources. It is entirely inappropriate for budget-friendly student laptops designed for simple web browsing.",
+      B:
+        "macOS is exclusively available on Apple-built hardware, such as MacBooks and iMacs, which are generally premium devices rather than budget-friendly. Furthermore, it is a fully-featured desktop OS, not a minimal environment designed exclusively around web applications.",
+      D:
+        "While Ubuntu is a popular Linux distribution, Chrome OS is the specific lightweight, web-application-focused OS derived from Linux that targets budget education hardware and browser-based software."
+    }
+  },
+  {
+    id: "Q020",
+    topic: "Support Procedures & Ticketing Lifecycle",
+    difficulty: "medium",
+    scenario:
+      "A Tier 2 network technician receives an escalated ticket regarding a user's workstation that repeatedly drops its connection to the domain. Before attempting any advanced fixes, the Tier 2 technician wants to review exactly which diagnostic tools the Tier 1 agent already used, and what specific IP configurations were discovered during the initial troubleshooting phase.",
+    prompt:
+      "Which section of the ticket's free-form text fields should the technician review to find this specific information?",
+    choices: [
+      { key: "A", text: "Issue Description" },
+      { key: "B", text: "Problem Resolution" },
+      { key: "C", text: "Progress Notes" },
+      { key: "D", text: "Standard Operating Procedure (SOP)" }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...review exactly which diagnostic tools the Tier 1 agent already used, and what specific IP configurations were discovered...\"",
+    explanationCorrect:
+      "In a ticket's life cycle, the Progress Notes field is specifically used to record what diagnostic tools and processes have been utilized, what was discovered, and the identification of a probable cause. This is where a technician documents their ongoing troubleshooting steps.",
+    explanationIncorrect: {
+      A:
+        "The issue description field is used strictly to record the initial request from the user and the basic details collected at the time the ticket was opened. It will not contain the subsequent diagnostic steps taken by the Tier 1 agent.",
+      B:
+        "The problem resolution field sets out the final plan of action, documents the successful fix, and records the customer's acceptance that the ticket can be closed. Because this ticket is still active and escalated, the resolution has not yet been found.",
+      D:
+        "An SOP is a separate organizational document containing step-by-step instructions for completing a repeatable task. It is not a free-form text field inside a specific user's trouble ticket."
+    }
+  },
+  {
+    id: "Q021",
+    topic: "File Systems & Linux Storage",
+    difficulty: "hard",
+    scenario:
+      "A systems engineer is deploying a new Red Hat Enterprise Linux (RHEL) server to host a massive, high-performance database for a financial institution. The engineer needs to format the storage arrays using a 64-bit journaling file system that is natively the default for RHEL and is specifically optimized for heavy data workloads and high scalability.",
+    prompt:
+      "Which of the following file systems should the engineer select?",
+    choices: [
+      { key: "A", text: "ext4" },
+      { key: "B", text: "XFS" },
+      { key: "C", text: "ReFS" },
+      { key: "D", text: "APFS" }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...Red Hat Enterprise Linux (RHEL) server... default for RHEL and is specifically optimized for heavy data workloads and high scalability.\"",
+    explanationCorrect:
+      "XFS (Extended File System) is a high-performance, scalable 64-bit journaling file system. It is specifically the default file system for Red Hat Enterprise Linux (RHEL) installations and is designed for servers handling heavy data workloads.",
+    explanationIncorrect: {
+      A:
+        "While ext4 is the most common Linux file system and supports journaling, XFS is the specific high-performance file system designated as the default for RHEL installations facing heavy workloads.",
+      C:
+        "The Resilient File System (ReFS) is engineered by Microsoft for large enterprise storage systems. It is a Windows-based file system and would not be used to format arrays on a Linux server.",
+      D:
+        "The Apple File System (APFS) is a proprietary system used exclusively on macOS and Apple devices. It cannot be used as the file system for a Red Hat Linux enterprise server."
+    }
+  },
+  {
+    id: "Q022",
+    topic: "Professional Communication & Support Delivery",
+    difficulty: "medium",
+    scenario:
+      "A field technician is dispatched to an office to repair a malfunctioning laser printer. Upon inspection, the technician determines that the printer's fuser assembly is broken. However, the technician realizes they do not have a replacement fuser in their vehicle, meaning the repair cannot be completed immediately. The customer asks for an update.",
+    prompt:
+      "Which of the following responses is the BEST professional communication technique for the technician to use in this situation?",
+    choices: [
+      { key: "A", text: "\"I haven't seen this problem before, so I will have to check it out when I get back to the office and call you this afternoon.\"" },
+      { key: "B", text: "\"The printer needs a new fuser and I'm afraid I don't have this type with me. Let me call the office right now to find out how quickly we can get one.\"" },
+      { key: "C", text: "\"I apologize, but replacing hardware is a Tier 2 issue. I will escalate this ticket so a senior technician can come out and fix it.\"" },
+      { key: "D", text: "\"Unfortunately, because you violated the Acceptable Use Policy by printing unauthorized materials, the fuser burned out and we cannot repair it.\"" }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...technician realizes they do not have a replacement fuser in their vehicle... BEST professional communication technique...\"",
+    explanationCorrect:
+      "Professional communication requires being accountable, honest, and direct about delays while remaining positive and offering an immediate plan of action. Openly stating that the part is missing but immediately taking action to find out how quickly a replacement can be sourced demonstrates respect, competence, and a focus on resolving the customer's issue.",
+    explanationIncorrect: {
+      A:
+        "This is a valid response for a software issue requiring research, but it is a lie in this scenario. The technician already diagnosed the broken fuser, so claiming they haven't seen the problem before makes them appear incompetent.",
+      C:
+        "Replacing a basic part like a printer fuser is standard hardware support, not an automatic Tier 2 escalation. Escalating simply because a part is out of stock avoids accountability and delays the repair.",
+      D:
+        "This response is highly unprofessional because it is judgmental and actively blames the customer without any technical proof. Accusing a customer of an AUP violation to explain a mechanical failure will instantly escalate conflict."
+    }
+  },
+  {
+    id: "Q023",
+    topic: "Operating Systems & File Systems",
+    difficulty: "medium",
+    scenario:
+      "A videographer recently bought a 2TB external USB hard drive to share files between their primary Windows 11 workstation and their client's macOS laptop. After formatting the drive to ensure both operating systems can natively read and write to it without third-party software, the videographer attempts to configure folder-level access permissions to protect sensitive financial documents. However, the videographer discovers that the \"Security\" tab and permission options are completely missing when viewing the drive's properties in Windows.",
+    prompt:
+      "Which of the following is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The drive was formatted using the exFAT file system." },
+      { key: "B", text: "The drive was formatted using the NTFS file system." },
+      { key: "C", text: "The user is running the Windows 11 Home edition." },
+      { key: "D", text: "The drive was formatted using the APFS file system." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...ensure both operating systems can natively read and write to it... folder-level access permissions... 'Security' tab and permission options are completely missing...\"",
+    explanationCorrect:
+      "To ensure native read and write capabilities across both Windows and macOS, the user would have formatted the external drive using exFAT (or FAT32). While exFAT supports massive file sizes and wide compatibility, it does not support advanced security features like file permissions, ownership, or encryption. Because the file system fundamentally lacks this feature, the security tab will not appear.",
+    explanationIncorrect: {
+      B:
+        "NTFS fully supports file permissions, ownership, and encryption, meaning the security tab would be present. However, macOS can natively read NTFS drives but cannot write to them, which violates the scenario's requirement for native cross-platform read/write access.",
+      C:
+        "While it is true that Windows Home editions lack support for the Encrypting File System (EFS) and dynamic disks, they absolutely still support basic NTFS folder-level permissions. The OS edition is not the reason the security tab is missing; the file system is.",
+      D:
+        "The Apple File System (APFS) is proprietary and used exclusively on Apple devices. A Windows workstation cannot natively read or write to an APFS-formatted drive, so this configuration would immediately fail the cross-platform requirement."
+    }
+  },
+  {
+    id: "Q024",
+    topic: "Support Procedures & Documentation",
+    difficulty: "easy",
+    scenario:
+      "An enterprise recently suffered a massive, unexpected outage of its primary customer-facing web server, causing significant financial loss. After 12 hours, the Tier 3 engineering team finally stabilized the server and closed the tickets. The IT director demands a formal document be drafted that solicits opinions from the involved technicians, identifies the underlying root causes of the outage, and recommends preventative measures so this never happens again.",
+    prompt:
+      "Which of the following types of documentation MUST the IT team create to satisfy the director's request?",
+    choices: [
+      { key: "A", text: "An After-Action Report (AAR)" },
+      { key: "B", text: "A Standard Operating Procedure (SOP)" },
+      { key: "C", text: "An Acceptable Use Policy (AUP)" },
+      { key: "D", text: "A Service Level Agreement (SLA)" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...solicits opinions from the involved technicians, identifies the underlying root causes of the outage, and recommends preventative measures...\"",
+    explanationCorrect:
+      "For critical and major incidents, organizations develop an in-depth lessons learned document, known as an After-Action Report (AAR). The explicit purpose of an AAR is to investigate the root causes of a major issue and recommend remediation steps or preventative measures to mitigate the risk of a repeat occurrence.",
+    explanationIncorrect: {
+      B:
+        "An SOP is a step-by-step set of instructions for completing a routine, repeatable task (like onboarding a user). While an AAR might result in a new SOP being written, the SOP itself is not a post-incident investigative report.",
+      C:
+        "An AUP dictates the rules for how employees are allowed to use company equipment and networks, aiming to protect the organization from misuse or legal issues. It is a behavioral compliance document, not an outage investigation report.",
+      D:
+        "An SLA is a contract that defines the guaranteed metrics of service delivery, such as uptime percentages, between departments or external vendors. It dictates uptime expectations, but does not investigate why a server crashed."
+    }
+  },
+  {
+    id: "Q025",
+    topic: "Ticketing Systems & Issue Lifecycle",
+    difficulty: "hard",
+    scenario:
+      "A Tier 2 technician is investigating a ticket where a specialized database application keeps crashing. After identifying the root cause, the technician successfully implements a registry fix and tests the application to verify it is fully functional. The technician is now ready to formally document the fix and verify that the end-user is satisfied so the ticket can be officially closed.",
+    prompt:
+      "In which specific section of the ticketing system should the technician record this final documentation?",
+    choices: [
+      { key: "A", text: "The Problem Resolution field" },
+      { key: "B", text: "The Issue Description field" },
+      { key: "C", text: "The Progress Notes field" },
+      { key: "D", text: "The Tier 3 Escalation field" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...ready to formally document the fix and verify that the end-user is satisfied so the ticket can be officially closed.\"",
+    explanationCorrect:
+      "In the lifecycle of a support ticket, the Problem Resolution field is specifically designated to document the successful implementation and testing of the final fix. This field is also where the technician must record the end-user's or customer's acceptance that the system is fully functional before the ticket can be closed.",
+    explanationIncorrect: {
+      B:
+        "The issue description field is strictly used at the very beginning of the ticket lifecycle to record the initial request and the raw details collected at the time the user first reported the problem. It is not used for closing notes.",
+      C:
+        "Progress notes are used to record ongoing troubleshooting steps, diagnostic tool outputs, and the identification of probable causes while the ticket is actively being worked on. The final fix and customer sign-off belong in the resolution field.",
+      D:
+        "Tier 3 escalation is used when a ticket is too complex for Tier 2 and needs to be passed to deep-level engineering or management. Because the Tier 2 technician already fixed the issue, escalation is completely unnecessary."
+    }
+  },
+  {
+    id: "Q026",
+    topic: "Operating Systems & Desktop Environments",
+    difficulty: "medium",
+    scenario:
+      "A graphic designer has used Windows OS their entire career but recently transitioned to an Apple iMac for a new job. During their first day, they call the help desk. The designer asks the technician how to access the macOS equivalent of the Windows Start Menu (to see a grid view of all installed applications) and the equivalent of the Windows Control Panel (to adjust user accounts and network settings).",
+    prompt:
+      "Which of the following macOS features should the technician direct the user to?",
+    choices: [
+      { key: "A", text: "Launchpad and System Preferences" },
+      { key: "B", text: "The Dock and Finder" },
+      { key: "C", text: "System Preferences and the Dock" },
+      { key: "D", text: "Launchpad and the Magic Trackpad" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...equivalent of the Windows Start Menu (to see a grid view of all installed applications) and the equivalent of the Windows Control Panel...\"",
+    explanationCorrect:
+      "In the macOS environment, Launchpad provides a grid view of all installed applications, functioning similarly to the Windows Start Menu. System Preferences (or System Settings in newer versions) is the macOS equivalent of the Windows Control Panel, allowing users to configure accounts, networks, security, and hardware.",
+    explanationIncorrect: {
+      B:
+        "The Dock is the bottom bar used for quick access to frequently used apps, making it the equivalent of the Windows Taskbar, not the Start Menu. Finder is the macOS file manager, equivalent to Windows File Explorer, not the Control Panel.",
+      C:
+        "While System Preferences correctly answers the second half of the user's request, the Dock is the equivalent of the Taskbar, failing to provide the comprehensive grid view of all apps that Launchpad offers.",
+      D:
+        "While Launchpad is correct for finding applications, the Magic Trackpad is a physical hardware input device, not a software configuration menu used to adjust network or account settings."
+    }
+  },
+  {
+    id: "Q027",
+    topic: "Operating Systems & Kernel Architectures",
+    difficulty: "medium",
+    scenario:
+      "A software engineer is building a dedicated workstation to compile and run specialized web-hosting software. The engineer requires an operating system that is fundamentally built on a shell and kernel architecture derived from UNIX. Furthermore, the engineer insists the OS must be entirely open-source, highly customizable, and capable of supporting multiple different package managers (like APT or YUM) depending on the specific distribution chosen.",
+    prompt:
+      "Which of the following operating systems MUST the engineer select to meet all these requirements?",
+    choices: [
+      { key: "A", text: "Linux" },
+      { key: "B", text: "macOS" },
+      { key: "C", text: "Chrome OS" },
+      { key: "D", text: "Windows Server 2022" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...derived from UNIX... entirely open-source, highly customizable, and capable of supporting multiple different package managers...\"",
+    explanationCorrect:
+      "Linux is an open-source operating system kernel derived from UNIX. It is highly customizable, and its ecosystem relies on various distributions (like Ubuntu, Debian, or Red Hat) that support different package managers such as APT or YUM. It perfectly matches the engineer's demand for an open-source, highly flexible UNIX-like environment.",
+    explanationIncorrect: {
+      B:
+        "While macOS is derived from a UNIX kernel and features a shell, it is a proprietary, closed-source operating system that runs exclusively on Apple-built hardware. It directly violates the engineer's requirement for a fully open-source environment.",
+      C:
+        "Chrome OS is derived from Linux (and therefore UNIX), but it is a proprietary operating system developed by Google, designed specifically as a lightweight environment for web applications. It is not designed to be a highly customizable developer OS with varying package managers.",
+      D:
+        "Windows Server utilizes Microsoft's proprietary NT kernel, not a UNIX-derived kernel. Furthermore, it is a closed-source, commercial product, failing multiple requirements of the engineer's request."
+    }
+  },
+  {
+    id: "Q028",
+    topic: "Ticketing Systems & Issue Severity",
+    difficulty: "easy",
+    scenario:
+      "It is the busiest sales day of the year for a global e-commerce company. The primary database server crashes, causing the entire customer-facing website to go offline. Thousands of transactions are failing, resulting in massive financial losses per minute. The help desk agent immediately opens a ticket in the IT service management system.",
+    prompt:
+      "According to standard service management frameworks, how should the agent classify the severity of this ticket?",
+    choices: [
+      { key: "A", text: "Major" },
+      { key: "B", text: "Critical" },
+      { key: "C", text: "Minor" },
+      { key: "D", text: "Problem" }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...causing the entire customer-facing website to go offline... massive financial losses per minute.\"",
+    explanationCorrect:
+      "In standard ticketing systems, a \"Critical\" incident is defined as one that has a widespread business impact on customers or involves an actual data breach, requiring immediate action. Because the entire website is down and causing massive company-wide financial loss, this fits the definition of a critical incident perfectly.",
+    explanationIncorrect: {
+      A:
+        "A major incident affects a specific group of users but does not necessarily impact the entire organization or customer base. Because this outage takes down the entire customer-facing site, it transcends a \"major\" classification.",
+      C:
+        "A minor incident has a limited effect, usually impacting just a single user or representing a low-impact issue. This scenario is a massive revenue-impacting outage.",
+      D:
+        "In ticketing terminology, a \"Problem\" is a ticket category used to track the deeper, underlying root cause behind multiple related incidents. It is a classification of ticket type, not a measure of severity (how serious the impact is)."
+    }
+  },
+/* =========================
+   Question Bank (Embedded) - Part 3 of 3
+   ========================= */
+/* Append this inside the array after Part 2 (before the closing ];) */
+
+  {
+    id: "Q029",
+    topic: "Policies & Compliance Enforcement",
+    difficulty: "medium",
+    scenario:
+      "A healthcare organization recently updated its Acceptable Use Policy (AUP) to include stricter rules against browsing social media or accessing personal email on clinical workstations. The IT director wants to ensure that every single employee is visually reminded of these specific rules, and the legal consequences of unauthorized access, the moment they attempt to access a workstation.",
+    prompt:
+      "Which of the following is the BEST method for the IT technician to enforce this compliance requirement?",
+    choices: [
+      { key: "A", text: "Configure a splash screen to appear at login." },
+      { key: "B", text: "Email a PDF of the Standard Operating Procedure (SOP) to all employees." },
+      { key: "C", text: "Require the user to digitally sign a Service Level Agreement (SLA) before opening a browser." },
+      { key: "D", text: "Place a physical copy of the Knowledge Base (KB) next to the monitor." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...visually reminded of these specific rules... the moment they attempt to access a workstation.\"",
+    explanationCorrect:
+      "To enforce regulatory compliance and Acceptable Use Policies (AUPs), a splash screen can be configured to display a message, logo, or legal disclaimer during the startup or login process. This forces users to view (and often acknowledge) the data handling and acceptable use requirements every time they access the system.",
+    explanationIncorrect: {
+      B:
+        "An SOP provides step-by-step instructions for completing a technical task (like installing software); it is not a policy document dictating user behavioral rules like an AUP.",
+      C:
+        "An SLA is a contract defining the guaranteed metrics of service delivery (like uptime) between IT and a department or an external vendor. It does not dictate employee acceptable use rules.",
+      D:
+        "A Knowledge Base is a self-serve repository of technical FAQs and troubleshooting steps to help users fix technical issues. It does not act as an automated, digital enforcement mechanism for legal policies."
+    }
+  },
+  {
+    id: "Q030",
+    topic: "Professional Communication & Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario:
+      "A Tier 1 technician receives a call from a frustrated user who states, \"My computer screen is acting weird and I can't do my work. I have no idea what is wrong.\" The technician immediately responds by asking, \"Is the monitor's power indicator light blinking amber or is it solid green?\"",
+    prompt:
+      "Why is the technician's response considered a POOR communication technique for this specific stage of troubleshooting?",
+    choices: [
+      { key: "A", text: "The technician used a closed-ended question before using an open-ended question to gather broad information." },
+      { key: "B", text: "The technician used an open-ended question, which invites the user to complain rather than provide technical facts." },
+      { key: "C", text: "The technician failed to use technical jargon to establish authority and take control of the conversation." },
+      { key: "D", text: "The technician should have directed the user to a Tier 0 portal before attempting to ask any diagnostic questions." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...immediately responds by asking, 'Is the monitor's power indicator light blinking amber or is it solid green?'\"",
+    explanationCorrect:
+      "A core tenet of professional troubleshooting communication is to start broad with open-ended questions (e.g., \"What happens when you try to log in?\") to gather general information and understand the full situation. Asking a closed-ended question (a question with a strict \"amber or green\" answer) prematurely assumes the problem is a power state before the technician has even heard the full symptoms.",
+    explanationIncorrect: {
+      B:
+        "The technician actually used a closed-ended question. Asking if a light is green or amber forces a fixed response, whereas an open-ended question allows the user to explain freely.",
+      C:
+        "Using technical jargon should be avoided whenever possible because it confuses users. Using clear, simple language builds trust and avoids misunderstandings.",
+      D:
+        "Tier 0 represents self-service options (like a KB or chatbot). Sending a user back to self-service after they have already reached a live agent is poor customer service."
+    }
+  },
+  {
+    id: "Q031",
+    topic: "Mobile Operating Systems & Fragmentation",
+    difficulty: "medium",
+    scenario:
+      "A company purchased 100 smartphones for its field agents. To save money, the IT procurement team bought devices running the Android OS from three different hardware manufacturers. A year later, a critical security vulnerability is discovered in the core OS. Google quickly releases a patch. However, the IT manager notices that only one brand of their smartphones received the update, while the other two brands remain unpatched and vulnerable.",
+    prompt:
+      "Which of the following BEST explains why this discrepancy occurred?",
+    choices: [
+      { key: "A", text: "Android is open-source, and individual hardware manufacturers dictate when or if OS updates are pushed to their specific devices." },
+      { key: "B", text: "The unpatched devices were mistakenly formatted with the APFS file system prior to deployment." },
+      { key: "C", text: "The Android OS utilizes a rolling release model that requires the device to be physically plugged into a corporate network to update." },
+      { key: "D", text: "Google enforces a closed-source ecosystem that restricts updates exclusively to Google Pixel hardware." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...bought devices running the Android OS from three different hardware manufacturers... only one brand of their smartphones received the update...\"",
+    explanationCorrect:
+      "Android is an open-source operating system. A major challenge with Android is fragmentation; while Google develops the OS and issues regular updates, third-party manufacturers (like Samsung, Motorola, etc.) modify the code for their specific hardware. Those manufacturers ultimately decide if, and when, their devices receive the updates.",
+    explanationIncorrect: {
+      B:
+        "APFS (Apple File System) is proprietary to Apple devices (macOS, iOS). Android devices do not use APFS, so this would not cause an update failure.",
+      C:
+        "Rolling releases are typically associated with certain Linux desktop distributions (like Arch), not mobile OS updates. Furthermore, mobile devices update over-the-air (OTA) via Wi-Fi or cellular networks, not via physical corporate network connections.",
+      D:
+        "This describes Apple's iOS, which is a closed ecosystem running exclusively on Apple hardware. Android is open-source and heavily utilized by many different manufacturers."
+    }
+  },
+  {
+    id: "Q032",
+    topic: "File Systems & Backup Technologies",
+    difficulty: "hard",
+    scenario:
+      "A Windows Server administrator is configuring an automated backup schedule for a critical financial database. Because the business operates globally 24/7, the database is constantly online, meaning its core files are actively open and locked by system processes. The administrator needs to ensure the backup software can successfully copy these files without taking the database offline or generating \"file in use\" errors.",
+    prompt:
+      "Which specific feature of the NTFS file system allows the administrator to accomplish this?",
+    choices: [
+      { key: "A", text: "Snapshots (Volume Shadow Copy)" },
+      { key: "B", text: "Journaling" },
+      { key: "C", text: "Indexing" },
+      { key: "D", text: "Dynamic Disks" }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...files are actively open and locked by system processes... successfully copy these files without taking the database offline...\"",
+    explanationCorrect:
+      "The New Technology File System (NTFS) includes a feature called Snapshots, which utilizes the Volume Shadow Copy Service. This specific feature allows the OS to make read-only copies of files at a given point in time, even if the file is actively locked by another process. This is the exact mechanism that allows enterprise backup operations to succeed without taking databases offline.",
+    explanationIncorrect: {
+      B:
+        "Journaling is a feature where data is tracked and logged before it is written. In the event of a power outage or crash, the journal makes recovery faster and more reliable. It does not bypass file locks for backups.",
+      C:
+        "The Indexing Service creates a catalog of file properties and locations to drastically speed up local file searches. It does not help with copying files that are currently in use.",
+      D:
+        "Dynamic Disks is a disk management feature that allows an administrator to combine space on multiple physical drives into a single logical volume. It relates to storage architecture, not live file backup capabilities."
+    }
+  },
+  {
+    id: "Q033",
+    topic: "Ticketing Systems & Escalation Tiers",
+    difficulty: "easy",
+    scenario:
+      "A Tier 2 support technician has spent several hours troubleshooting a complex bug in an internally developed inventory application. After extensive testing, the technician determines that the application's source code contains a memory leak and needs to be rewritten. This fix requires direct action from the software development team and approval from IT management.",
+    prompt:
+      "According to standard support procedures, to which tier of support MUST this ticket be escalated?",
+    choices: [
+      { key: "A", text: "Tier 0" },
+      { key: "B", text: "Tier 1" },
+      { key: "C", text: "Tier 2 – External" },
+      { key: "D", text: "Tier 3" }
+    ],
+    correctKey: "D",
+    triggerPhrase:
+      "\"...application's source code contains a memory leak and needs to be rewritten. This fix requires direct action from the software development team and approval from IT management.\"",
+    explanationCorrect:
+      "In standard IT service management, Tier 3 escalation is strictly reserved for deep-level technical issues that require the involvement of engineering teams, software developers, or senior management for structural fixes or higher approvals. Because the technician has identified a core code defect that only developers can rewrite and managers must approve, the ticket must be escalated to Tier 3.",
+    explanationIncorrect: {
+      A:
+        "Tier 0 represents self-service options, such as knowledge bases or chatbots, where the customer attempts to resolve the incident themselves. This is the opposite of an advanced software development escalation.",
+      B:
+        "Tier 1 involves the initial contact agent who performs basic diagnosis and troubleshooting. The ticket is already at Tier 2 and needs advanced development work, so sending it back to basic support is incorrect.",
+      C:
+        "Tier 2 External involves escalating a ticket to a third-party vendor or manufacturer for warranty support. Because this is an internally developed application, the internal software development team (Tier 3) must handle the rewrite, not an external vendor."
+    }
+  },
+  {
+    id: "Q034",
+    topic: "Professional Communication & Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario:
+      "A user submits a help desk ticket stating their computer is \"running extremely slow.\" The assigned agent contacts the user and asks, \"What exactly happens when you try to open your web browser?\" After the user describes the browser freezing and the mouse cursor spinning, the agent then asks, \"Are you seeing a specific error code, such as 'Error 404', on the screen?\"",
+    prompt:
+      "Which of the following professional troubleshooting techniques is the agent demonstrating?",
+    choices: [
+      { key: "A", text: "Using closed-ended questions first to gather facts, followed by open-ended questions to confirm the user's opinion." },
+      { key: "B", text: "Starting broad with open-ended questions to gather information, then using closed-ended questions to narrow down the issue." },
+      { key: "C", text: "Utilizing active listening to restate and summarize the user's emotional frustration." },
+      { key: "D", text: "Applying an Acceptable Use Policy (AUP) to interrogate the user about unauthorized software." }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...asks, 'What exactly happens when you try to open your web browser?' ... agent then asks, 'Are you seeing a specific error code...'\"",
+    explanationCorrect:
+      "A core tenet of professional communication during troubleshooting is to first use open-ended questions (questions that invite a detailed response) to gather broad information and understand the full situation. Once the agent understands the general symptoms, they should transition to closed-ended questions (questions with fixed or simple answers, like identifying an error code) to confirm specific technical facts and narrow down the suspected issue.",
+    explanationIncorrect: {
+      A:
+        "This is the exact opposite of the correct methodology. The agent correctly started with an open-ended question to draw out details before asking a closed-ended question about the error code.",
+      C:
+        "While active listening is a vital skill, it involves repeating back what the customer said to confirm understanding. The agent in this scenario is asking diagnostic questions, not summarizing previous statements.",
+      D:
+        "An AUP dictates the rules for employee network usage, such as forbidding illegal material or unauthorized software. The agent is diagnosing a performance issue, not interrogating the user for a policy violation."
+    }
+  },
+  {
+    id: "Q035",
+    topic: "File Systems & Advanced Features",
+    difficulty: "hard",
+    scenario:
+      "A systems engineer is provisioning a massive storage array on a new Windows Server 2022 machine. The development team intends to use this server to host older, ported UNIX applications. To ensure these legacy applications run correctly, the development team explicitly requests that the chosen file system natively support case-sensitive file naming and the creation of hard links.",
+    prompt:
+      "Which of the following file systems should the engineer select to meet these specific requirements?",
+    choices: [
+      { key: "A", text: "APFS" },
+      { key: "B", text: "ext4" },
+      { key: "C", text: "NTFS" },
+      { key: "D", text: "exFAT" }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...Windows Server 2022 machine... natively support case-sensitive file naming and the creation of hard links.\"",
+    explanationCorrect:
+      "The New Technology File System (NTFS) is a proprietary Microsoft file system that includes specialized features to support UNIX/Linux compatibility. Specifically, NTFS is engineered to be POSIX compliant, meaning it natively supports the case-sensitive naming and hard links required by UNIX applications, making it the correct choice for this Windows Server.",
+    explanationIncorrect: {
+      A:
+        "The Apple File System (APFS) is proprietary and designed exclusively for Apple hardware and macOS/iOS environments. It cannot be used to format a storage array natively on a Windows Server.",
+      B:
+        "The Fourth Extended File System (ext4) is the most common default file system for Linux distributions. While it supports UNIX features, it is not a native Windows Server file system and cannot be used for this deployment.",
+      D:
+        "The Extended File Allocation Table (exFAT) is designed primarily for removable hard drives and flash media to ensure cross-platform compatibility. It lacks advanced security, journaling, and native POSIX compliance features like hard link support."
+    }
+  },
+  {
+    id: "Q036",
+    topic: "Operating Systems & Mobile Architecture",
+    difficulty: "medium",
+    scenario:
+      "An organization provides its executive team with the latest generation of iPads. The IT security director wants to deploy a highly customized, internally developed packet-sniffing application directly onto the devices. To do this, the director attempts to access the device's source code to modify the underlying operating system kernel so the app can run invisibly in the background. However, the director finds that modifying the kernel is impossible.",
+    prompt:
+      "Which of the following BEST explains why the director cannot perform this action?",
+    choices: [
+      { key: "A", text: "The devices are missing a TPM 2.0 chip, which is required for custom application sideloading." },
+      { key: "B", text: "iPadOS relies on a rolling release schedule that actively overwrites user kernel modifications." },
+      { key: "C", text: "iPadOS is a closed-source ecosystem, meaning only Apple has the authority and ability to modify the OS code." },
+      { key: "D", text: "The devices are formatted with the ext4 file system, which restricts administrative root access." }
+    ],
+    correctKey: "C",
+    triggerPhrase:
+      "\"...attempts to access the device's source code to modify the underlying operating system kernel... finds that modifying the kernel is impossible.\"",
+    explanationCorrect:
+      "iPadOS (which is developed from iOS) is a strictly closed-source, proprietary operating system. This means that the source code is not publicly available, and only Apple engineers have the ability to view or modify the core operating system and kernel. Consequently, an internal IT director cannot alter the OS code to support custom background applications.",
+    explanationIncorrect: {
+      A:
+        "The requirement for a Trusted Platform Module (TPM) version 2.0 is a strict hardware security mandate for installing Windows 11, not a limitation preventing kernel modification on an Apple iPad.",
+      B:
+        "A rolling release is a distribution model commonly used by certain Linux distributions (like Arch Linux) where updates are provided continuously without version numbers. Apple uses standard, versioned releases (e.g., iOS 17, iOS 18).",
+      D:
+        "iPads and other Apple devices utilize the proprietary Apple File System (APFS), not ext4. Furthermore, ext4 is primarily associated with Linux and Android OS environments."
+    }
+  },
+  {
+    id: "Q037",
+    topic: "Professional Communication & De-escalation",
+    difficulty: "easy",
+    scenario:
+      "A field technician arrives at a customer's office to resolve an ongoing network outage. Upon entering the room, the technician observes the customer pacing rapidly, breathing heavily, and speaking in a very loud, raised voice about how the IT department is incompetent.",
+    prompt:
+      "According to professional support delivery standards, what is the BEST first step the technician should take?",
+    choices: [
+      { key: "A", text: "Interrupt the customer to firmly state that the repair will not proceed unless they use a respectful tone." },
+      { key: "B", text: "Step in calmly, use a low voice, and allow the customer to fully explain the problem while actively listening." },
+      { key: "C", text: "Immediately walk away and escalate the ticket to a Tier 3 manager due to the threat of physical violence." },
+      { key: "D", text: "Agree that the IT department is incompetent to quickly build a rapport with the angry user." }
+    ],
+    correctKey: "B",
+    triggerPhrase:
+      "\"...observes the customer pacing rapidly, breathing heavily, and speaking in a very loud, raised voice... BEST first step...\"",
+    explanationCorrect:
+      "When dealing with a difficult or angry customer, the first step is to identify the early signs of anger (like raised voices or fast speech) and step in calmly to de-escalate. The technician should not take the complaints personally, use a low/soothing voice, and actively listen while letting the customer fully explain the issue to draw out technical facts.",
+    explanationIncorrect: {
+      A:
+        "Interrupting an angry customer will only increase their frustration and escalate the conflict. A polite warning should only be issued if the customer becomes explicitly abusive or threatening.",
+      C:
+        "While technicians should distance themselves if genuinely threatened, raising a voice and pacing are signs of frustration, not immediate physical violence. Escaping the room without attempting calm communication abandons the support request unnecessarily.",
+      D:
+        "Agreeing with defamatory statements about your own company is unprofessional and undermines the entire organization's credibility. Technicians should empathize with the frustration without agreeing to place blame."
+    }
+  },
+  {
+    id: "Q038",
+    topic: "File Systems & Storage Limitations",
+    difficulty: "easy",
+    scenario:
+      "An administrator is preparing a 64GB USB flash drive to transfer a massive 8GB database backup file from an older server to an off-site location. The flash drive currently has 64GB of completely unallocated free space. However, the moment the administrator attempts to drag and drop the backup file onto the drive, the operating system throws an error stating: \"The file is too large for the destination file system.\"",
+    prompt:
+      "Which of the following BEST explains why this error is occurring?",
+    choices: [
+      { key: "A", text: "The flash drive is formatted using the FAT32 file system." },
+      { key: "B", text: "The flash drive is formatted using the exFAT file system." },
+      { key: "C", text: "The administrator does not have NTFS folder-level permissions." },
+      { key: "D", text: "The flash drive lacks an EFI System Partition (ESP) for boot access." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...massive 8GB database backup file... error stating: 'The file is too large for the destination file system.'\"",
+    explanationCorrect:
+      "The FAT32 file system is an older storage format that provides wide compatibility across different operating systems, but it possesses strict storage limitations. Specifically, FAT32 only supports a maximum individual file size of 4 GB minus 1 byte. Because the database file is 8GB in size, the transfer will instantly fail regardless of how much total free space is left on the drive.",
+    explanationIncorrect: {
+      B:
+        "The Extended File Allocation Table (exFAT) is a 64-bit version of FAT designed precisely to overcome the 4GB file size limit of FAT32 while maintaining cross-platform compatibility. An exFAT drive would easily accept an 8GB file.",
+      C:
+        "If the drive were formatted in NTFS and the administrator lacked write permissions, the error would explicitly state \"Access Denied\" or prompt for administrative credentials, rather than stating the file itself is too large.",
+      D:
+        "An ESP is used by the BIOS/UEFI to boot an operating system. It has absolutely nothing to do with the simple storage and transfer of a data file."
+    }
+  },
+  {
+    id: "Q039",
+    topic: "Professional Communication & Ethics",
+    difficulty: "medium",
+    scenario:
+      "A field support technician finishes a highly stressful onsite visit where the customer was verbally aggressive and repeatedly blamed the technician for an application outage. The technician remained calm, successfully resolved the issue, and returned to their work van. Frustrated by the encounter, the technician pulls out their personal smartphone and posts a lengthy complaint on their personal Twitter account detailing how unreasonable the customer was, though they do not mention the customer's name or company.",
+    prompt:
+      "According to professional communication standards, why is the technician's action unacceptable?",
+    choices: [
+      { key: "A", text: "Under no circumstances should social media be used to disclose work frustrations, as it risks the reputation and trust of the organization." },
+      { key: "B", text: "Posting on social media constitutes a Tier 3 escalation, which requires management approval before being published." },
+      { key: "C", text: "The technician failed to include an After-Action Report (AAR) alongside the social media post to explain the root cause." },
+      { key: "D", text: "The technician violated the Acceptable Use Policy (AUP) by using the company's wireless network to access social media." }
+    ],
+    correctKey: "A",
+    triggerPhrase:
+      "\"...pulls out their personal smartphone and posts a lengthy complaint on their personal Twitter account detailing how unreasonable the customer was...\"",
+    explanationCorrect:
+      "IT professionals must always exercise discretion and professionalism regarding the incidents they are involved in. Everyone has bad days, but posting work frustrations on public forums invites scrutiny, risks the company's reputation, and breaches customer trust—even if names are omitted. Once posted online, these statements are nearly impossible to completely withdraw.",
+    explanationIncorrect: {
+      B:
+        "Tier 3 escalation involves routing a complex technical ticket to engineering, development, or senior management for a structural fix. Complaining on Twitter is a breach of professionalism, not an official IT support escalation path.",
+      C:
+        "An AAR is an official, internal document used to identify the root causes of major incidents and recommend preventive measures. It is highly confidential and would never be attached to a personal social media post.",
+      D:
+        "An AUP dictates how employees use company-owned systems and networks. The scenario states the technician used their personal smartphone in their van, meaning they likely used personal cellular data, not the company network. The violation here is ethical professionalism, not a network policy breach."
+    }
+  },
+
+  {
+    id: "Q040",
+    topic: "Ticketing Systems & Asset Management",
+    difficulty: "hard",
+    scenario: "A Tier 1 help desk agent receives a call from an employee reporting that their laptop's cooling fan is making a loud grinding noise. The agent asks the user to read the service tag number located on the bottom of the device. The agent enters this specific asset ID into the IT department's ticketing system, which immediately populates the ticket with the device's exact hardware specifications and warranty status.",
+    prompt: "Beyond viewing hardware specs, what is the PRIMARY benefit of cross-referencing the inventory system with the ticketing system in this manner?",
+    choices: [
+      { key: "A", text: "It allows the agent to view a complete history of previous incident tickets associated with that specific asset." },
+      { key: "B", text: "It automatically bypasses Tier 1 and escalates the ticket to Tier 2 if the laptop is found to be out of warranty." },
+      { key: "C", text: "It automatically drafts a Standard Operating Procedure (SOP) based on the asset's manufacturer." },
+      { key: "D", text: "It enforces the company's Acceptable Use Policy (AUP) by verifying the user is authorized to submit tickets." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"...enters this specific asset ID into the IT department's ticketing system... Beyond viewing hardware specs, what is the PRIMARY benefit...\"",
+    explanationCorrect: "Cross-referencing an inventory system with a ticketing system allows organizations to associate incident and problem statistics directly with specific hardware assets. The primary benefit for a troubleshooting agent is the ability to instantly view the history of previous tickets associated with that exact machine. This allows them to see if the hardware has a recurring defect or if a similar issue was resolved previously.",
+    explanationIncorrect: {
+      B: "Ticketing systems do not arbitrarily bypass Tier 1 simply because a device is out of warranty. The Tier 1 agent must still document the issue description and perform initial triage.",
+      C: "An SOP is a formal organizational document containing step-by-step instructions for completing a routine task. Entering an asset tag into a ticketing system does not autogenerate administrative policies or procedures.",
+      D: "An AUP governs how employees are permitted to behave on company networks, such as forbidding the installation of unauthorized software. Verifying an asset tag tracks hardware history; it does not enforce behavioral compliance."
+    }
+  }
+];
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 40);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", q.triggerPhrase));
+
+  // Correct Answer
+  const correctChoiceText = q.choices.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", q.explanationCorrect));
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+    expl.textContent = q.explanationIncorrect[key];
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+init();
+</script>
+</body>
+</html>
