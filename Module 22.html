@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A systems administrator determines that a critical enterprise database server requires a comprehensive software upgrade to resolve a lingering performance fault. The organization is currently in an active maintenance window, and the administrator classifies this as a \"Normal\" change. Before initiating the upgrade, the administrator considers simply obtaining verbal authorization from the department manager to expedite the process.",
+    prompt: "What is the BEST first step the administrator should take to comply with change management best practices?",
+    choices: [
+      { key: "A", text: "Obtain written approval from the department supervisor and immediately begin the upgrade." },
+      { key: "B", text: "Generate a request-for-change (RFC) form and submit it to the Change Advisory Board (CAB) for approval." },
+      { key: "C", text: "Implement the change in a sandbox environment and require end-user acceptance before proceeding." },
+      { key: "D", text: "Proceed with the installation and document the effects of the change in the CMDB afterward." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"classifies this as a 'Normal' change\"",
+    explanationCorrect: "In a formal change-management process, the need for a change and the procedure for implementing it must be captured in a request-for-change (RFC) form and submitted for approval. Because this is classified as a \"Normal\" change, it triggers the full change management process and requires approval from a Change Advisory Board (CAB).",
+    explanationIncorrect: {
+      A: "While a minor or standard change might only require approval from a supervisor or department manager, normal or major changes must go through the CAB. Proceeding with only a supervisor's approval bypasses the required risk analysis and stakeholder input.",
+      B: "",
+      C: "Testing the change in a sandbox environment is an important part of the planning phase. However, testing is done to support the RFC, and end-user acceptance occurs after the change has been formally implemented, making this incorrect as a first step.",
+      D: "Proceeding with the installation before approval violates change management policies designed to reduce the risk of service downtime. A configuration management database (CMDB) tracks assets, not post-implementation change approvals."
+    },
+    examTrap: "The \"Authorization Bypass\" trap. Technicians often confuse the approval authority required for \"Standard\" (routine) versus \"Normal\" (one-time, major) changes."
+  },
+  {
+    id: "Q002",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A junior technician writes a Windows PowerShell script to automate mapping a network drive (\\\\MS10\\LABFILES) to the letter \"L\" for the marketing department. During testing, the script runs successfully on three machines but suddenly hangs and returns an error on the fourth machine. A visual inspection reveals the fourth user already has a locally mapped USB drive assigned to the letter \"L\".",
+    prompt: "Which of the following scripting constructs should the technician implement to PREVENT this error from halting the script in the future?",
+    choices: [
+      { key: "A", text: "Use a \"While\" loop to continually retry mapping the \"L\" drive until it succeeds." },
+      { key: "B", text: "Use an \"If\" branch to test if the path exists, and execute Remove-PSDrive before mapping." },
+      { key: "C", text: "Implement the Test-Path cmdlet using an environment variable instead of a constant." },
+      { key: "D", text: "Switch the script from PowerShell to a basic .bat batch file using the net use command." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"already has a locally mapped USB drive assigned to the letter 'L'\"",
+    explanationCorrect: "Robust scripts require proper error handling to anticipate conflicts. Using an \"If\" condition allows the script to evaluate a logical test; if the drive letter \"L:\" already exists, the script can gracefully execute Remove-PSDrive to clear the letter before using the New-PSDrive cmdlet to map the network share.",
+    explanationIncorrect: {
+      A: "A \"While\" loop repeats an indeterminate number of times until a logical condition is met. Continually attempting to map a drive that is actively blocked by an existing volume will create an infinite loop and crash the script.",
+      B: "",
+      C: "Test-Path is indeed used to check for the drive, but changing the drive letter from a constant to a variable does not resolve the conflict of the letter already being in use. The existing drive must still be unmapped.",
+      D: "Switching to a batch file does not solve the underlying logic failure. While a .bat file using net use L: /delete inside an if exist block works, abandoning PowerShell entirely is not the BEST solution, as PowerShell provides more robust automation cmdlets."
+    },
+    examTrap: "The \"Language Swap\" trap. Students often think switching the tool (PowerShell to Batch) fixes logic errors, rather than fixing the logical constructs (branches) within the code itself."
+  },
+  {
+    id: "Q003",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "While servicing a high-volume laser printer in a carpeted corporate office space, a technician accidentally drops a used toner cartridge, causing a massive spill of fine black powder across the floor and inside the printer chassis.",
+    prompt: "Which of the following is the MOST appropriate tool to remediate this hazard?",
+    choices: [
+      { key: "A", text: "A compressed air blaster" },
+      { key: "B", text: "A domestic vacuum cleaner" },
+      { key: "C", text: "A toner-safe PC vacuum" },
+      { key: "D", text: "A damp natural bristle brush" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"massive spill of fine black powder... in a carpeted corporate office space\"",
+    explanationCorrect: "Loose toner must be collected carefully using an approved toner vacuum equipped with filters fine enough to contain the airborne particles. Standard domestic vacuums lack these fine filters and can also produce high levels of dangerous static electricity.",
+    explanationIncorrect: {
+      A: "Using a compressed air blaster on a toner spill in an office area will blow fine toner dust into the atmosphere, creating a severe respiratory health hazard.",
+      B: "Domestic vacuum appliances should never be used on electronic equipment or toner spills because they generate high levels of static electricity and lack the fine filtration required to trap toner particles.",
+      C: "",
+      D: "A natural bristle brush is acceptable for removing ordinary dust from a motherboard, but brushing a massive toner spill will push the fine powder into the carpet fibers and air, rather than containing it safely."
+    },
+    examTrap: "The \"Familiar Tool\" trap. Compressed air and standard vacuums are common household cleaning items, but their use in enterprise IT environments against fine particulate hazards like toner is explicitly prohibited."
+  },
+  {
+    id: "Q004",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A technician is dispatched to an older manufacturing facility to upgrade memory modules in several desktop PCs. The facility is extremely dry and has carpeting throughout. The technician brings an anti-ESD wrist strap that utilizes a grounding plug designed to plug directly into a wall socket. Upon inspecting the facility, the technician notices flickering lights and suspects the building's electrical wiring is unverified and potentially faulty.",
+    prompt: "How should the technician mitigate the risk of electrostatic discharge (ESD) in this specific environment?",
+    choices: [
+      { key: "A", text: "Plug the ESD wrist strap into the wall socket to guarantee the lowest path of electrical resistance." },
+      { key: "B", text: "Connect the wrist strap's crocodile clip to an unpainted part of the computer's metal chassis." },
+      { key: "C", text: "Increase the humidity of the room to 90% to prevent static electricity generation." },
+      { key: "D", text: "Use a standard surge suppressor to ground the technician to the building's power distribution grid." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"suspects the building's electrical wiring is unverified and potentially faulty\"",
+    explanationCorrect: "You should never use a grounding plug if there is any suspicion of a fault in the wall socket or the building's electrical wiring. Instead, the technician should use a crocodile clip attached to a grounded point or an unpainted part of the computer's metal chassis to safely drain residual charge.",
+    explanationIncorrect: {
+      A: "Grounding plugs rely on the building's ground wire. If the wiring is faulty or not regularly inspected, using a wall grounding plug puts the technician at severe risk of electric shock.",
+      B: "",
+      C: "While increasing humidity helps bleed off static charges, raising it to 90% introduces a new hazard: high humidity causes condensation to form, which damages electronic equipment. The ideal humidity level is around 50%.",
+      D: "A surge suppressor protects equipment from brief increases in voltage (spikes). It is not a personal safety device for ESD mitigation and does not safely attach to a human to drain static."
+    },
+    examTrap: "The \"By the Book vs. Context\" trap. A grounding plug is a valid tool normally, but the subtle clue regarding \"faulty wiring\" completely invalidates its safe use."
+  },
+  {
+    id: "Q005",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A corporation is expanding its operations and recently purchased 50 new rack-mounted servers. A technician is tasked with entering these new assets into the Configuration Management Database (CMDB) to ensure accurate tracking throughout their lifecycle. The technician scans the invoices, warranties, and physical hardware.",
+    prompt: "Which of the following combinations of data is MOST critical to log in the CMDB to distinguish the physical identity of each server and facilitate future manufacturer support?",
+    choices: [
+      { key: "A", text: "The MAC address and the Request-for-Change (RFC) ticket number." },
+      { key: "B", text: "The operating system shell language and the network subnet." },
+      { key: "C", text: "The system make/model, the Asset ID (service tag), and purchase date." },
+      { key: "D", text: "The End-User Acceptance signature and the rollback plan." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"distinguish the physical identity of each server and facilitate future manufacturer support\"",
+    explanationCorrect: "Accurate inventory lists must include the System Make/Model to identify the asset type, and the unique Asset ID (or service tag number) assigned by the manufacturer for distinct physical identification. The purchase date and warranty information are essential to verify coverage when escalating support issues to the manufacturer.",
+    explanationIncorrect: {
+      A: "While MAC addresses track network interfaces, an RFC ticket number applies to the change management process, not the static hardware identity in an asset database.",
+      B: "The OS shell language (like Bash or PowerShell) and subnet are configuration details, not procurement data used for tracking physical lifecycle and manufacturer warranty status.",
+      C: "",
+      D: "End-user acceptance signatures and rollback plans are strict components of the Change Management implementation phase, not inventory or asset management tracking."
+    },
+    examTrap: "Confusing Change Management artifacts (RFCs, Rollbacks) with Asset Management artifacts (CMDB, Service Tags, Lifecycles)."
+  },
+  {
+    id: "Q006",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A server room resides in an industrial facility where heavy machinery frequently turns on and off. The IT staff notices that during shift changes, the servers momentarily power off and instantly restart, leading to file corruption. The building's electrical load temporarily dips due to the high-starting inrush current of the machinery.",
+    prompt: "Which of the following devices should the IT staff install to BEST prevent the servers from powering off during these specific power events?",
+    choices: [
+      { key: "A", text: "A 600-joule rated surge suppressor" },
+      { key: "B", text: "A carbon dioxide (CO2) suppression system" },
+      { key: "C", text: "An Uninterruptible Power Supply (UPS)" },
+      { key: "D", text: "A 15-amp passive filter plug" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"load temporarily dips due to the high-starting inrush current... servers momentarily power off\"",
+    explanationCorrect: "The scenario describes an under-voltage event, also known as a brownout, caused by the high-starting (inrush) current of large motors. An Uninterruptible Power Supply (UPS) provides a temporary battery power source that activates during power dips or blackouts, preventing the servers from powering off suddenly and protecting cached read/write operations from corruption.",
+    explanationIncorrect: {
+      A: "A surge suppressor is designed to filter out over-voltage events (brief increases in voltage or spikes). It cannot supply power during a dip or brownout.",
+      B: "A CO2 suppression system is an electrical fire safety tool used to extinguish fires without damaging electronic equipment. It does not regulate electrical power delivery.",
+      C: "",
+      D: "A passive filter plug operates similarly to a surge suppressor to mitigate spikes. It does not contain the battery backup necessary to sustain system operations when building voltage drops."
+    },
+    examTrap: "The \"Surge vs. Sag\" trap. Students frequently mix up mitigating over-voltage (surges/spikes) with under-voltage (brownouts/sags)."
+  },
+  {
+    id: "Q007",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "An IT department is auditing its storage closet and finds several dozen swollen and leaking lithium-ion laptop batteries, along with obsolete CRT monitors containing lead and circuit boards containing mercury. The department needs to clear the space quickly.",
+    prompt: "Which of the following actions is required to maintain legal and environmental compliance?",
+    choices: [
+      { key: "A", text: "Dispose of the components as general waste in a local landfill since they are obsolete." },
+      { key: "B", text: "Use an air-filter mask to drain the batteries, then incinerate the remaining plastics." },
+      { key: "C", text: "Consult the Material Safety Data Sheet (MSDS) and utilize an approved waste management and recycling facility." },
+      { key: "D", text: "Seal the leaking batteries in standard antistatic bags and return them to the original manufacturer." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"swollen and leaking... obsolete CRT monitors containing lead\"",
+    explanationCorrect: "Electronic devices containing toxins like lead, mercury, and leaking battery acid are classified as waste electrical and electronic equipment (WEEE) and must be disposed of through an approved waste management and recycling facility. A Material Safety Data Sheet (MSDS) must be consulted to determine health hazards, first aid, and safe disposal procedures for chemical leaks.",
+    explanationIncorrect: {
+      A: "Toxins such as lead and mercury are harmful to human health and the environment; federal regulations explicitly forbid disposing of electronic devices as general waste in landfills.",
+      B: "Incinerating electronic components releases toxic heavy metals and chemicals into the air. Draining leaking batteries manually is a severe safety hazard that invites acid burns.",
+      C: "",
+      D: "Antistatic bags are used to protect sensitive components from electrostatic discharge (ESD) during shipping, not to contain highly corrosive chemical leaks from swollen batteries."
+    },
+    examTrap: "The \"Quick Fix\" trap. Treating hazardous e-waste like regular garbage or using incorrect containment (antistatic bags) is a common compliance violation."
+  },
+  {
+    id: "Q008",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A system administrator downloads a Python script from an open-source repository designed to automate the compilation of system logs. The documentation states the script needs to run with root permissions and requires the server's host firewall scanning software to be temporarily disabled so the script can execute its API calls successfully.",
+    prompt: "What is the BEST course of action regarding the deployment of this script?",
+    choices: [
+      { key: "A", text: "Execute the script in a sandbox, then disable the host firewall in production to allow the API calls." },
+      { key: "B", text: "Modify the script to use a .sh file extension so it runs safely in the Bash shell environment instead." },
+      { key: "C", text: "Reject the script deployment, as code requiring the disabling of security mechanisms is fundamentally unsafe." },
+      { key: "D", text: "Run the script from the command prompt using pythonw.exe to suppress the API errors." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"requires the server's host firewall scanning software to be temporarily disabled\"",
+    explanationCorrect: "Custom or downloaded scripts pose a significant risk of inadvertent system changes or malware if they mishandle resources or alter security baselines. Best practices dictate that scripts that can only be made to work by disabling security mechanisms are inherently unsafe and should not be considered for running.",
+    explanationIncorrect: {
+      A: "While testing in a development/sandbox environment is a best practice, deploying code into production that intentionally weakens the security configuration (disabling firewalls) introduces a massive vulnerability and should never be done.",
+      B: "Changing a script's file extension from .py to .sh does not alter the underlying Python syntax or nullify the dangerous API calls. It will simply cause a syntax error in the Bash interpreter.",
+      C: "",
+      D: "Using pythonw.exe runs a Python script as a windowed application without opening a command console in Windows. It does not suppress security errors or make disabling firewalls safe."
+    },
+    examTrap: "The \"Functional over Secure\" trap. A script that \"works\" but destroys a host's security posture is a failed script."
+  },
+  {
+    id: "Q009",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "A junior helpdesk technician is tasked with relocating an awkward, 65-pound server chassis from a receiving dock to the third-floor server room. The route involves crossing a busy warehouse floor and navigating a long, narrow hallway.",
+    prompt: "What is the MOST appropriate lifting and transport technique for the technician to use?",
+    choices: [
+      { key: "A", text: "Bend at the waist, lift the chassis smoothly, and carry it quickly across the warehouse." },
+      { key: "B", text: "Get help from a coworker or tightly secure the server to a cart for transport." },
+      { key: "C", text: "Plant feet together, keep the chin down, and lift by jerking the server up onto a shoulder." },
+      { key: "D", text: "Use a heavy-duty velcro strap to bundle the chassis directly to the technician's back." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"awkward, 65-pound server chassis\"",
+    explanationCorrect: "Lifting heavy or awkward objects incorrectly can cause severe back and muscle damage. If an object cannot be lifted safely because it is too awkward or heavy, the standard safety protocol is to get help from a coworker or use a transport cart, ensuring the equipment is tightly secured during movement.",
+    explanationIncorrect: {
+      A: "Bending at the waist is improper lifting technique that strains the lower back. Technicians must bend at the knees and lift smoothly with their legs.",
+      B: "",
+      C: "Technicians should keep their chin up, plant feet around the object (not together), and never jerk an object upward.",
+      D: "Velcro straps are used for cable management (bundling cables together to prevent trip hazards), not as a makeshift human harness for transporting heavy computer chassis."
+    },
+    examTrap: "Direct recall of physical safety standards. Identifying that \"too heavy/awkward = get help or a cart\" overrides trying to hero-lift it."
+  },
+  {
+    id: "Q010",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "An administrator is writing a Linux shell script to parse through output from the ps command and save specific process states to a log file. The administrator wants to use a coding construct that will iterate exactly 254 times to check a specific block of IP addresses sequentially.",
+    prompt: "Which scripting construct is MOST appropriate for this task?",
+    choices: [
+      { key: "A", text: "A \"For\" loop" },
+      { key: "B", text: "A \"While\" loop" },
+      { key: "C", text: "An \"If / Else\" branch" },
+      { key: "D", text: "A String variable" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"iterate exactly 254 times to check a specific block... sequentially\"",
+    explanationCorrect: "Loops allow a statement block to be repeated based on a condition. A \"For\" loop is explicitly used when the number of iterations is predictable (e.g., executing a command for each host address in 192.168.1.0/24, from 1 to 254).",
+    explanationIncorrect: {
+      A: "",
+      B: "A \"While\" or \"Until\" loop is used when the process repeats an indeterminate number of times until a specific logical condition is met (e.g., pinging continuously until a host replies). It is less efficient for a mathematically fixed number of iterations.",
+      C: "An \"If / Else\" branch changes the order of execution based on the outcome of a logical test, taking one path or another. It does not inherently loop or iterate a sequence of instructions.",
+      D: "A string variable is a data type used to label and store a value (like text or a name). It is not an execution structure or a loop."
+    },
+    examTrap: "Understanding the nuanced difference between loop types (For = predictable/fixed iteration; While = condition-based iteration)."
+  },
+  {
+    id: "Q011",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "Following approval from the CAB, a network engineer begins implementing a normal change to update the firmware on the core distribution switches during a scheduled Sunday maintenance window. Halfway through the update, the primary switch fails to reboot, taking the entire internal network offline. The engineer attempts to troubleshoot the switch via a console cable for 30 minutes but cannot identify the error.",
+    prompt: "According to change management best practices, what is the BEST next step?",
+    choices: [
+      { key: "A", text: "Generate an emergency request-for-change (RFC) to replace the switch entirely." },
+      { key: "B", text: "Initiate the rollback plan to restore the switch to its original configuration." },
+      { key: "C", text: "Require a peer review to find the misspelling or skipped step in the script." },
+      { key: "D", text: "Shift services to an alternative site and keep troubleshooting the failed switch." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"cannot identify the error... halfway through the update\"",
+    explanationCorrect: "In change management, if the implementation process runs into a critical issue that cannot be immediately resolved, the technician must execute the rollback plan. This plan is pre-approved by the CAB to reverse the change, restore the data from backups, and return the system to its original, functional configuration before the maintenance window ends.",
+    explanationIncorrect: {
+      A: "Submitting an emergency RFC is used to reactively fix a major outage not caused by an ongoing change window. Because this outage happened during an approved change, the pre-approved rollback plan is the immediate remedy.",
+      B: "",
+      C: "A peer review is conducted after a change is completed successfully to ensure it was implemented correctly according to the approval. It is not an active incident response tool during a critical failure.",
+      D: "While shifting to an alternative site might be a component of a drastic backup plan, indefinitely troubleshooting the failed switch during a downtime window violates the purpose of the rollback plan, which is to guarantee service restoration."
+    },
+    examTrap: "The \"Troubleshoot Forever\" trap. Technicians inherently want to fix the problem, but process dictates that when a change fails, you roll back to the known good state rather than extending downtime."
+  },
+  {
+    id: "Q012",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A technician is working inside an electrical closet that houses network switches and a large building transformer. The technician accidentally drops a metal screwdriver, which bridges two exposed terminals on the transformer. A brilliant flash occurs, and the protective rubber coating on the surrounding cables catches fire.",
+    prompt: "After ensuring the electricity supply is automatically or manually turned off, which of the following is the BEST tool to suppress the flames?",
+    choices: [
+      { key: "A", text: "A water-based extinguisher" },
+      { key: "B", text: "An anti-ESD service mat" },
+      { key: "C", text: "A dry powder extinguisher" },
+      { key: "D", text: "A carbon dioxide (CO2) extinguisher" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"electrical closet... network switches... cables catches fire\"",
+    explanationCorrect: "For an electrical fire, especially one near live or recently live electronic equipment, the best type of suppression tool is a carbon dioxide (CO2) gas extinguisher. CO2 safely smothers the fire without leaving a corrosive residue that ruins the surrounding networking equipment.",
+    explanationIncorrect: {
+      A: "Water or foam extinguishers are highly dangerous if used near electrical equipment because water is conductive and can cause severe electric shock to the user.",
+      B: "An anti-ESD service mat is used to organize sensitive electronic components and ground static charges. It is highly flammable and not a fire suppression tool.",
+      C: "While dry powder extinguishers can technically put out an electrical fire, they leave behind a dense, corrosive residue that will permanently damage the delicate electronic equipment (switches) in the area. CO2 is the superior choice.",
+      D: ""
+    },
+    examTrap: "The \"Valid but Not Best\" trap. Dry powder can put out the fire, making it technically valid, but it destroys the electronics, making CO2 the distinctly best answer."
+  },
+  {
+    id: "Q013",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "An IT project manager is planning an upgrade to the company's enterprise resource planning (ERP) software. The manager drafts a Request for Change (RFC) that includes a detailed implementation schedule, the business purpose for the upgrade, and a confirmed testing phase in a sandbox environment. However, during the Change Advisory Board (CAB) meeting, the request is outright rejected due to missing critical documentation regarding the impact of the change.",
+    prompt: "What is the MOST likely cause for the CAB rejecting this RFC?",
+    choices: [
+      { key: "A", text: "The manager failed to include the Scope of the change, detailing the users, departments, and risks involved." },
+      { key: "B", text: "The manager did not secure End-User Acceptance signatures before presenting the plan to the CAB." },
+      { key: "C", text: "The manager incorrectly classified the upgrade as a Normal change rather than an Emergency change." },
+      { key: "D", text: "The manager failed to conduct a peer review of the installation script prior to the CAB meeting." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"missing critical documentation regarding the impact of the change\"",
+    explanationCorrect: "According to change management procedures, a complete Request for Change (RFC) must document the scope of the change. The scope details the number of devices, users, or customers affected, as well as a risk analysis detailing the potential impact on those entities. Without understanding who is impacted and what the risks are, the CAB cannot properly evaluate the business case or authorize the budget, leading to an immediate rejection.",
+    explanationIncorrect: {
+      A: "",
+      B: "End-user acceptance is a process that occurs after the change has been formally implemented and tested in production. It is technically impossible to secure end-user acceptance signatures during the initial RFC drafting phase.",
+      C: "An Emergency change is reserved for high-impact, urgent situations to correct a major outage that is actively happening. A planned software upgrade is an anticipated, proactive event that correctly falls under standard or normal change classifications.",
+      D: "A peer review is conducted by a colleague immediately after a change is completed to ensure no steps were skipped during implementation. It is not a prerequisite artifact for the CAB approval phase."
+    },
+    examTrap: "The \"Timeline Confusion\" trap. Test-takers often mix up the artifacts required during the Planning Phase (Scope, Risk Analysis) with those required during the Implementation/Closing Phase (Peer Review, End-User Acceptance)."
+  },
+  {
+    id: "Q014",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A systems administrator drafts a script to automate the backup of web server directories on a Linux machine. The script syntax is perfect, and it correctly begins with the #!/bin/bash shebang. The administrator navigates to the working directory and types ./backup.sh into the terminal. However, the system immediately returns a \"Permission denied\" error and the script fails to run.",
+    prompt: "What is the BEST first step to resolve this execution failure?",
+    choices: [
+      { key: "A", text: "Execute the command chmod u+x backup.sh to grant execution rights to the file." },
+      { key: "B", text: "Modify the first line of the file to read #!/bin/sh to match the local operating system environment." },
+      { key: "C", text: "Move the script to the root directory so the system PATH variable can locate it." },
+      { key: "D", text: "Run the script using the pythonw.exe interpreter to bypass terminal restrictions." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"system immediately returns a 'Permission denied' error\"",
+    explanationCorrect: "In Linux environments, simply writing a script does not automatically make it an executable program. By default, new text files lack execution permissions; you must explicitly set the execute permission for the user, group, or world before the OS will run it. Running the chmod u+x command correctly adds the execute (x) permission for the user (u), resolving the permission denial.",
+    explanationIncorrect: {
+      A: "",
+      B: "The shebang #!/bin/bash correctly designates the Bash interpreter, which is standard for Linux shell scripts. Changing it to #!/bin/sh might point to a different or less robust shell, but it will not resolve a file system permission block.",
+      C: "The error is \"Permission denied\", not \"File not found\" or \"Command not found.\" Furthermore, typing ./ explicitly tells the OS to look in the current working directory, completely bypassing the need for a system PATH variable.",
+      D: "The pythonw.exe interpreter is a windowed Python environment specific to the Windows OS, not Linux. Attempting to run a Bash script through a Windows Python interpreter on a Linux machine is completely invalid."
+    },
+    examTrap: "The \"Valid syntax vs. OS Permissions\" trap. A script can have perfect internal code, but if OS-level file permissions (chmod) are forgotten, it will never execute."
+  },
+  {
+    id: "Q015",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "An IT procurement manager is purchasing passive surge suppressors for a remote branch office located in an area with highly volatile electrical grid activity and frequent lightning storms. The manager is comparing two 15-amp rated models. Model Alpha features a clamping voltage of 400 V and a rating of 800 Joules. Model Beta features a clamping voltage of 300 V and a rating of 1200 Joules.",
+    prompt: "Which device should the manager select to ensure maximum safety for the equipment, and why?",
+    choices: [
+      { key: "A", text: "Model Beta, because a lower clamping voltage and higher joule rating offer superior protection against electrical spikes." },
+      { key: "B", text: "Model Alpha, because a higher clamping voltage prevents the device from tripping falsely during normal power fluctuations." },
+      { key: "C", text: "Model Beta, because 1200 Joules allows the suppressor to safely carry more than its rated 15-amp load." },
+      { key: "D", text: "Model Alpha, because 800 Joules ensures the building's electrical wiring is not overwhelmed by an under-voltage event." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"highly volatile electrical grid activity... comparing clamping voltage and joules\"",
+    explanationCorrect: "Surge suppressors rely on specific ratings to determine their effectiveness against surges and spikes. The clamping voltage defines the threshold at which the protection circuitry activates; a lower number (like 300 V) is better because it reacts faster to stop excess voltage. The joule rating defines how much energy the protector can absorb before degrading; a higher number (like 1200 J) offers superior, longer-lasting protection.",
+    explanationIncorrect: {
+      A: "",
+      B: "A higher clamping voltage means the device allows more dangerous excess voltage to hit the connected equipment before activating. In an area with frequent lightning, you want the device to trigger as early as possible to protect the hardware.",
+      C: "The joule rating refers entirely to the amount of energy the internal components can absorb during a surge event. It has absolutely nothing to do with the continuous amperage load the device can carry, which is fixed at 15 amps.",
+      D: "Surge suppressors protect against over-voltage events (surges and spikes), not under-voltage events (brownouts or sags). Furthermore, joule ratings do not protect building wiring from being overwhelmed."
+    },
+    examTrap: "The \"Higher is Always Better\" trap. While higher joules are better, a higher clamping voltage is actually worse. Students must understand the inverse relationship of clamping voltage."
+  },
+  {
+    id: "Q016",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "A medium-sized enterprise undergoes an unannounced software audit by a major technology vendor. The enterprise is heavily fined because employees had installed copies of a premium graphic design application far exceeding the 50-seat volume limit purchased by the company.",
+    prompt: "Which of the following documentation best practices is the MOST appropriate policy-compliant solution to prevent this in the future?",
+    choices: [
+      { key: "A", text: "Implement a Configuration Management Database (CMDB) to record software licensing details alongside device and user allocations." },
+      { key: "B", text: "Ensure that the MAC address of every corporate workstation is logged on the original procurement invoice." },
+      { key: "C", text: "Mandate that all software installations undergo a post-implementation peer review process." },
+      { key: "D", text: "Require a signed Material Safety Data Sheet (MSDS) before any external software can be deployed." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"installed copies... far exceeding the 50-seat volume limit purchased\"",
+    explanationCorrect: "Software licensing information must be strictly documented to ensure the organization maintains compliance with vendor requirements and volume limits. Utilizing a Configuration Management Database (CMDB) to track these licenses, along with precisely which devices or users are allocated a seat, prevents over-installation and protects the company from audit fines.",
+    explanationIncorrect: {
+      A: "",
+      B: "While a MAC address is useful for network identification, logging it on a procurement invoice does not track software license distribution or seat limits. Hardware identification does not solve software compliance.",
+      C: "A peer review is a change management step used to verify that a complex technical implementation was done correctly without syntax errors. It is not a tool used for tracking enterprise-wide volume license counts.",
+      D: "A Material Safety Data Sheet (MSDS) contains health hazards, handling, and disposal information for physical chemicals and hazardous substances like toner or battery acid. It has absolutely no relation to software deployment."
+    },
+    examTrap: "Pure definitional recall, ensuring the student distinguishes between physical asset tracking and software/license compliance tracking within a CMDB."
+  },
+  {
+    id: "Q017",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A technician relies on a Bash shell script to pull daily activity logs for specific employees from a centralized Linux server. The technician wants to execute the script from the terminal by typing ./getlogs.sh jsmith so the script specifically isolates and filters data for the user 'jsmith'.",
+    prompt: "Which of the following constructs must the technician include inside the script code to correctly capture and utilize the 'jsmith' input?",
+    choices: [
+      { key: "A", text: "The $1 argument variable" },
+      { key: "B", text: "The -eq comparison operator" },
+      { key: "C", text: "The #!/bin/bash shebang" },
+      { key: "D", text: "The echo command" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"typing ./getlogs.sh jsmith so the script specifically isolates... 'jsmith'\"",
+    explanationCorrect: "When a user types extra text after executing a script (like 'jsmith' after the script name), they are passing an argument (or parameter) to the script. In Bash, these arguments are referred to by their position. The first positional parameter provided is captured by the $1 variable, allowing the script to dynamically insert 'jsmith' into its internal filtering commands.",
+    explanationIncorrect: {
+      A: "",
+      B: "The -eq construct is a comparison operator used to test if two numerical values are equal (e.g., if X == Y). It is not a variable and cannot capture or store command-line input.",
+      C: "The #!/bin/bash shebang simply tells the operating system which interpreter to use to run the file. While necessary for the script to run, it plays no part in capturing user-supplied arguments.",
+      D: "The echo command is used to output or print text back to the terminal screen. It is an output action, not a variable capable of capturing incoming user input."
+    },
+    examTrap: "Understanding the difference between script syntax components (interpreters vs. commands vs. variables). Test-takers must recognize $1 as the specific vehicle for passing external data into a shell script."
+  },
+  {
+    id: "Q018",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A field technician needs to ship two parts back to headquarters in the same cardboard box. Part A is a highly static-sensitive bare motherboard. Part B is a simple, non-static-sensitive metal mounting bracket. The technician places the motherboard inside a shiny, gray metallic bag. The technician wants to ensure the metal bracket's packaging does not act as an insulator that builds up a static charge near the motherboard during transit.",
+    prompt: "Which type of packaging is MOST appropriate for the metal bracket?",
+    choices: [
+      { key: "A", text: "Dissipative packaging (light pink or blue)" },
+      { key: "B", text: "An antistatic bag (shiny, gray metallic)" },
+      { key: "C", text: "A standard domestic plastic zip-tie bag" },
+      { key: "D", text: "A tightly bound anti-ESD wrist strap" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"non-static-sensitive... does not act as an insulator that builds up a static charge near the motherboard\"",
+    explanationCorrect: "Dissipative packaging (usually light pink or blue) is specifically designed to be slightly more conductive than normal plastics, preventing the buildup of static electricity in the general vicinity of its contents. This makes it the exact, correct material for packaging non-static-sensitive components (like the metal bracket) that must be packed in close physical proximity to highly static-sensitive components.",
+    explanationIncorrect: {
+      A: "",
+      B: "Shiny, gray metallic antistatic bags are more expensive and are specifically used to protect highly sensitive microelectronics (like the motherboard) from direct discharge. Wasting this specialized shielding on a solid metal bracket is highly inefficient and not the intended use case.",
+      C: "Standard domestic plastic is an excellent insulator and acts as a strong generator of static electricity. Using it near a motherboard introduces a massive ESD hazard.",
+      D: "An anti-ESD wrist strap is a personal safety device used to ground human technicians to a chassis while working. It is not a packaging material and cannot be wrapped around components to protect them during physical shipping."
+    },
+    examTrap: "The \"Nuance of ESD Bags\" trap. Students generally know what the shiny gray bag does, but often fail to learn the distinction and specific use case for the pink/blue dissipative packaging for proximity items."
+  },
+  {
+    id: "Q019",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "At 2:00 PM on a Tuesday, a core distribution switch suffers a catastrophic hardware failure, instantly severing network connectivity to a company's primary customer service call center. A replacement switch is available in the storage closet, but the network team knows any hardware replacement technically requires change documentation.",
+    prompt: "According to ITIL and CompTIA best practices, what is the MOST appropriate way to navigate the change management process in this specific scenario?",
+    choices: [
+      { key: "A", text: "Submit an Emergency change request to expedite approval and immediately implement the replacement." },
+      { key: "B", text: "Submit a Normal change request and test the new switch in a sandbox environment for one week." },
+      { key: "C", text: "Implement the replacement immediately to stop revenue loss and file a Standard change request later." },
+      { key: "D", text: "Wait for the scheduled Sunday night maintenance window to swap the hardware safely." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"catastrophic hardware failure, instantly severing network connectivity... call center\"",
+    explanationCorrect: "The scenario describes an active, critical outage impacting business operations. In change management, this triggers an Emergency change request, which is designed for high-impact, urgent situations. The emergency process expedites the traditional CAB approval timeline, allowing technicians to fix major outages immediately while still maintaining a paper trail of the configuration change.",
+    explanationIncorrect: {
+      A: "",
+      B: "A Normal change triggers the full, slow Change Advisory Board (CAB) process and requires extensive risk analysis and sandbox testing. This timeline is completely unacceptable when a critical production system is actively offline.",
+      C: "A Standard change is for low-impact, routine, and repeatable tasks (like password resets or deploying a standard laptop). Replacing a core switch during a massive outage does not fit this category, and bypassing prior approval entirely violates CM policy.",
+      D: "Waiting for a normal maintenance window is proper procedure for proactive upgrades. Leaving a primary call center completely offline for several days to wait for a weekend window will result in massive business and revenue loss."
+    },
+    examTrap: "Categorization of Change Types. Distinguishing when to use Standard (routine), Normal (major but planned), or Emergency (break/fix) RFCs."
+  },
+  {
+    id: "Q020",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A systems engineer writes a Python script designed to automate the deployment of web server configuration files across multiple production environments. Because the script alters system-level files, the engineer is concerned that if a threat actor compromises the script file, they could use it as a Trojan to inject fileless malware into the network.",
+    prompt: "Which of the following is the BEST configuration practice to mitigate the risk of this script being used for privilege escalation?",
+    choices: [
+      { key: "A", text: "Configure the script to execute only with the minimum system privileges necessary to complete its specific task." },
+      { key: "B", text: "Compile the script using the Python 2 interpreter to ensure legacy compatibility and security." },
+      { key: "C", text: "Change the script's file extension from .py to .vbs to obfuscate its code from threat actors." },
+      { key: "D", text: "Temporarily disable host firewall scanning software while the script runs to prevent false positives." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"BEST configuration practice to mitigate the risk... used for privilege escalation\"",
+    explanationCorrect: "Scripts pose a major security risk if compromised, as threat actors can use them to run arbitrary code or escalate their access. The most effective defense against this is the principle of least privilege; scripts should be explicitly configured to run with the minimum privileges necessary for the task. If the script is compromised, the attacker is strictly limited by those same low-level permissions, preventing complete system takeover.",
+    explanationIncorrect: {
+      A: "",
+      B: "Python 2 is end-of-life (EOL) and no longer receives security updates, making it inherently insecure and a poor choice for new deployments.",
+      C: "Changing the file extension to .vbs (Visual Basic Script) does not obfuscate or secure the code; it simply misidentifies the file. A Python script will fail to execute if the operating system attempts to run it through the VBScript interpreter (wscript.exe).",
+      D: "Disabling security mechanisms (like firewalls or scanning software) to make a script work is a fundamentally unsafe practice. This actually creates the exact vulnerability the engineer is trying to avoid."
+    },
+    examTrap: "The \"Security Bypass\" trap. Students often mistakenly believe that changing extensions provides security, or that scripts naturally require high-level permissions. Applying the Principle of Least Privilege to automation is the core concept."
+  },
+  {
+    id: "Q021",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "An IT contractor is installing a large metal server rack in a historic office building. The contractor discovers that the building's three-prong wall outlets lack a proper, tested ground connection. To save time and avoid calling an electrician, the contractor considers simply snipping the ground wire off the rack's power distribution unit (PDU) so it can plug into a standard two-prong adapter.",
+    prompt: "What is the primary safety risk associated with disconnecting the equipment ground wire?",
+    choices: [
+      { key: "A", text: "If an internal fault occurs, the metal chassis could become electrically live, causing severe shock to anyone who touches it." },
+      { key: "B", text: "The server rack will draw more than its maximum 15-amp rating, causing the building's circuit breaker to trip continuously." },
+      { key: "C", text: "The connected servers will lack protection against under-voltage events, resulting in data corruption during brownouts." },
+      { key: "D", text: "The lack of a ground wire will generate an intense electromagnetic pulse (EMP), destroying the server CPUs." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"snipping the ground wire off the rack's power distribution unit\"",
+    explanationCorrect: "Large metal equipment racks and electronic components must be grounded. If an internal electrical fault occurs that causes the metal parts of the equipment to become live, the ground wire provides a path of least resistance for the lethal current to flow harmlessly away. Removing or snipping this ground wire breaks that safety path, meaning the electricity will travel through the next conductive object that touches it—usually a technician, resulting in severe electric shock or death.",
+    explanationIncorrect: {
+      A: "",
+      B: "Amperage draw is determined by the power requirements of the internal components (servers, switches), not the presence or absence of a ground wire.",
+      C: "Protection against under-voltage events (brownouts) is provided by an Uninterruptible Power Supply (UPS) battery backup. A ground wire provides no power sustainment capabilities during a grid failure.",
+      D: "While static electricity (ESD) is a risk to components, the lack of a ground wire on an AC plug does not generate an electromagnetic pulse (EMP). An EMP is an entirely different phenomenon usually caused by specialized weaponry or massive solar flares."
+    },
+    examTrap: "Direct safety recall regarding the physical purpose of the ground wire path."
+  },
+  {
+    id: "Q022",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A company recently relocated its helpdesk team to an open-concept workspace. The network drops and power outlets are located on the perimeter walls, but the technicians' desks are grouped in the center of the room. To connect their workstations, multiple heavy ethernet and power cables must be routed across a high-traffic pedestrian walkway used by the entire office.",
+    prompt: "What is the MOST appropriate, policy-compliant solution to mitigate the physical hazard created by this layout?",
+    choices: [
+      { key: "A", text: "Run the cables through a heavy-duty floor cord protector spanning the walkway." },
+      { key: "B", text: "Secure the cables tightly to the hard floor using transparent office tape." },
+      { key: "C", text: "Route the cables directly underneath the carpet padding to hide them entirely." },
+      { key: "D", text: "Use thick velcro straps to bundle the cables together so they are easily stepped over." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"cables must be routed across a high-traffic pedestrian walkway\"",
+    explanationCorrect: "Cables routed across walkways create severe trip hazards for employees. While the absolute best practice is to avoid running cables across walkways entirely, if there is no other option, safety regulations dictate that a proper cord protector must be used to cover the cabling. This provides a gradual slope for feet and carts to pass over without snagging the wires.",
+    explanationIncorrect: {
+      A: "",
+      B: "Standard transparent office tape is not strong enough to secure heavy cables in a high-traffic area. The tape will quickly fail, creating a sticky, loose trip hazard that violates safety laws.",
+      C: "Routing power and data cables under carpet padding is a massive fire hazard. The cables can fray over time due to people walking on them, and the heat generated cannot dissipate, potentially igniting the carpet.",
+      D: "Velcro straps and cable ties are excellent for organizing cables behind a desk or in a server rack. However, bundling them together in the middle of a walkway simply creates a thicker, more dangerous obstacle to trip over."
+    },
+    examTrap: "The \"Contextual Tool Selection\" trap. Velcro straps are a valid cable management tool, but they are the wrong tool for floor-level walkway trip hazards."
+  },
+  {
+    id: "Q023",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A junior developer is tasked with enhancing the company's intranet portal. The developer needs to create a script that will validate user input on a web form (e.g., ensuring an email address contains an \"@\" symbol). The script must execute instantly and automatically on the client's machine as soon as the user interacts with the web page, without requiring the user to download or manually run a file.",
+    prompt: "Which of the following scripting approaches is MOST appropriate for this specific task?",
+    choices: [
+      { key: "A", text: "Develop a Windows Batch file (.bat) and provide a hyperlink to it on the homepage." },
+      { key: "B", text: "Write the script in Python and instruct users to execute it via pythonw.exe." },
+      { key: "C", text: "Embed JavaScript code directly into the web page's HTML structure." },
+      { key: "D", text: "Create a PowerShell script (.ps1) to run validation checks against Active Directory." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"validate user input on a web form... execute instantly and automatically on the client's machine\"",
+    explanationCorrect: "JavaScript is specifically designed to implement interactive web-based content and client-side web applications. Because almost all modern web browsers feature a built-in JavaScript interpreter, placing JavaScript code directly into the HTML of a web page allows the browser to execute it automatically and seamlessly without any manual intervention from the user.",
+    explanationIncorrect: {
+      A: "A Windows Batch file (.bat) is a command-line script used for OS automation. Providing a link to it would require the user to download and manually execute the file, which violates the requirement for automatic, seamless execution.",
+      B: "Python is a powerful general-purpose language, but it requires the client to have a Python interpreter (like pythonw.exe) installed locally to run the code. It does not run natively inside standard web browser HTML.",
+      C: "",
+      D: "PowerShell (.ps1) is a Windows OS automation tool. It cannot be embedded into HTML to natively validate web forms on a client's browser."
+    },
+    examTrap: "Recognizing the core use-case and environment for different scripting languages (JavaScript = Web/HTML; PowerShell/Bash = OS Automation)."
+  },
+  {
+    id: "Q024",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A systems administrator is tasked with procuring a new Uninterruptible Power Supply (UPS) for a small server closet. The UPS must be capable of sustaining the entire closet's hardware load during a complete blackout. The closet contains one 50 W network switch, two 300 W application servers, and a 150 W external storage array.",
+    prompt: "Using standard vendor conversion factors, what is the minimum Volt-Ampere (VA) rating required to support this hardware load?",
+    choices: [
+      { key: "A", text: "800 VA" },
+      { key: "B", text: "1336 VA" },
+      { key: "C", text: "1600 VA" },
+      { key: "D", text: "479 VA" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"one 50 W switch, two 300 W servers, and a 150 W external storage array... conversion factors\"",
+    explanationCorrect: "To determine the minimum VA rating required for a UPS, you must first calculate the total wattage of all attached devices, and then multiply that sum by the standard conversion factor of 1.67. The total load is 50 W + 300 W + 300 W + 150 W = 800 Watts. Multiplying 800 Watts by the 1.67 conversion factor equals 1336 Volt-Amperes (VA).",
+    explanationIncorrect: {
+      A: "800 is the raw wattage total of the connected devices (50+300+300+150). Failing to multiply this raw wattage by the 1.67 conversion factor will result in purchasing an undersized UPS that cannot sustain the load.",
+      B: "",
+      C: "1600 VA would be the result of incorrectly multiplying the total wattage by 2.0 instead of the standard 1.67 conversion factor.",
+      D: "479 VA is the result of incorrectly dividing the total wattage (800) by the conversion factor (1.67) instead of multiplying it."
+    },
+    examTrap: "The \"Math/Formula\" trap. The A+ exam occasionally requires technicians to know standard calculation constants, in this case, the Total Wattage x 1.67 = VA formula for UPS sizing."
+  },
+  {
+    id: "Q025",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "A helpdesk department processes over fifty requests a week to perform routine password resets and standard software deployments for new hires. The IT manager wants to streamline the process because submitting a full change request for every minor, repetitive task is delaying employee onboarding.",
+    prompt: "How should the IT manager classify these specific tasks to optimize workflow while remaining compliant with change management policies?",
+    choices: [
+      { key: "A", text: "Classify them as Normal changes and submit a single bulk RFC at the end of every month." },
+      { key: "B", text: "Classify them as Emergency changes to bypass the approval process and expedite onboarding." },
+      { key: "C", text: "Classify them as Standard changes so they can be repeated as necessary without triggering the full change management process." },
+      { key: "D", text: "Remove them from the change management system entirely, as daily operations do not require documentation." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"routine password resets and standard software deployments... repetitive task\"",
+    explanationCorrect: "According to change management procedures, a \"Standard\" change is defined as a low-impact and repeatable task. Classifying these tasks as Standard allows the change management process to be set up once and then repeated continuously without needing to trigger the full Change Advisory Board (CAB) approval process every single time. This accelerates routine workflow while maintaining an authorized procedural baseline.",
+    explanationIncorrect: {
+      A: "A \"Normal\" change is a one-time change that triggers the full CM process and explicitly requires change board approval. Waiting until the end of the month to bulk-approve daily tasks defeats the purpose of timely onboarding.",
+      B: "\"Emergency\" changes are reserved strictly for high-impact, urgent situations to correct major outages. Routine password resets are not emergencies.",
+      C: "",
+      D: "Removing tasks from the system entirely violates ITIL and CompTIA best practices; all configuration changes must be documented to reduce the risk of service downtime, even if the approval process is streamlined."
+    },
+    examTrap: "The \"Terminology Confusion\" trap. Test-takers often confuse the definitions of Standard (routine/pre-approved) versus Normal (one-time/requires CAB)."
+  },
+  {
+    id: "Q026",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "An administrator writes a Linux Bash script designed to create customized network logs. The script accepts a user's name as an argument. The administrator executes the command ./logmaker.sh Alice. However, instead of outputting \"Log generated for Alice\", the terminal literally outputs \"Log generated for $1\".",
+    prompt: "What is the MOST likely cause of this syntax error?",
+    choices: [
+      { key: "A", text: "The administrator forgot to include the #!/bin/bash shebang at the top of the script." },
+      { key: "B", text: "The echo command utilized single quotes instead of double quotes around the text." },
+      { key: "C", text: "The script was not granted execution permissions using the chmod command." },
+      { key: "D", text: "The variable was not explicitly declared as a string data type before the loop began." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"literally outputs 'Log generated for $1'\"",
+    explanationCorrect: "If a variable is enclosed in double quotes, Bash allows the variable to \"expand\" to whatever data it represents (e.g., \"Alice\"). Using single quotes instructs the interpreter to treat the contents as a literal string, resulting in the script printing the exact characters \"$1\" to the terminal rather than the expanded name.",
+    explanationIncorrect: {
+      A: "If the shebang (#!/bin/bash) were missing or incorrect, the OS might fail to execute the file entirely or parse it with the wrong interpreter. It would not cause a specific variable expansion failure.",
+      B: "",
+      C: "If execution permissions were missing, the operating system would immediately return a \"Permission denied\" error when ./logmaker.sh was typed, and no output at all would be generated.",
+      D: "In Bash, positional parameters like $1 are automatically passed into the script from the command line; they do not require manual declaration of data types (like string or integer) before use."
+    },
+    examTrap: "The \"Quote Nuance\" trap. Understanding the deep syntax difference between single quotes (literal) and double quotes (variable expansion) in shell scripting."
+  },
+  {
+    id: "Q027",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A heavy winter storm strikes a corporate headquarters. A shipment of new, highly sensitive bare-metal servers arrives via a freezing freight truck. To get a head start, an eager junior technician immediately unpacks the freezing servers, racks them in the 72°F (22°C) server room, and powers them on. Within five minutes, two of the motherboards short out and fail.",
+    prompt: "What environmental hazard MOST likely caused this immediate hardware failure?",
+    choices: [
+      { key: "A", text: "Electrostatic discharge (ESD) caused by the low humidity of the winter storm." },
+      { key: "B", text: "Condensation forming on the internal electronics due to sudden warming." },
+      { key: "C", text: "A brownout caused by the high inrush current of the new servers." },
+      { key: "D", text: "Thermal trip caused by inadequate ventilation in the server chassis." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"freezing servers, racks them in the 72°F (22°C) server room, and powers them on\"",
+    explanationCorrect: "Electronic equipment that is subjected to cold temperatures must be allowed to adjust to room temperature gradually. Bringing freezing equipment into a warm environment causes sudden warming, which pulls moisture from the air and forms condensation (water) directly on the delicate circuitry. Powering the device on while this condensation is present causes immediate electrical shorts.",
+    explanationIncorrect: {
+      A: "While low humidity does increase the risk of static electricity (ESD), the sudden catastrophic failure of multiple unhandled motherboards immediately upon power-up after moving from cold to warm is the hallmark of condensation shorting, not ESD.",
+      B: "",
+      C: "A brownout is an under-voltage event usually caused by massive motors (lifts, transformers) starting up. Two servers do not draw enough inrush current to cause a building-wide electrical dip.",
+      D: "A thermal trip happens when a computer overheats due to dust buildup or failed fans. These are brand-new, freezing-cold servers; overheating within five minutes is highly improbable compared to water damage."
+    },
+    examTrap: "The \"Acclimatization\" trap. Failing to recognize that temperature extremes create water (condensation) inside electronics."
+  },
+  {
+    id: "Q028",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A systems administrator downloads a custom Python script to automate the sorting of database records. The script is syntactically correct and requires no elevated privileges. However, an hour after executing the script, the server's CPU usage spikes to 100%, memory is entirely consumed, and the host browser crashes, locking legitimate users out of the system.",
+    prompt: "Which of the following vulnerabilities did this script MOST likely introduce?",
+    choices: [
+      { key: "A", text: "Fileless malware injected via the PowerShell interpreter." },
+      { key: "B", text: "Privilege escalation via a modified source-code Trojan." },
+      { key: "C", text: "An accidental Denial of Service (DoS) due to the mishandling of resources." },
+      { key: "D", text: "A memory leak caused by Python 2 reaching End of Life (EOL)." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"CPU usage spikes to 100%, memory is entirely consumed... locking legitimate users out\"",
+    explanationCorrect: "Scripts can cause an accidental Denial of Service (DoS) if they suffer from coding mistakes that mishandle computer resources. An example of this is a faulty loop construct that does not terminate (an infinite loop), which will hang the system, rapidly consume all available RAM and CPU cycles, and cause APIs or host browsers to crash.",
+    explanationIncorrect: {
+      A: "The scenario explicitly states this is a Python script, not a PowerShell script. Furthermore, fileless malware usually operates stealthily in memory to maintain access, rather than immediately crashing the host system.",
+      B: "The scenario notes the script required \"no elevated privileges.\" Privilege escalation involves gaining administrative access, not simply crashing the system by exhausting CPU cycles.",
+      C: "",
+      D: "While Python 2 is End of Life (EOL), scripting languages are generally considered safe with respect to direct memory handling compared to C/C++. The crash is due to logic errors (infinite loops) eating resources, not the EOL status of the interpreter."
+    },
+    examTrap: "Recognizing the symptoms of an \"Accidental DoS\" via infinite loops, differentiating malicious malware behavior from poor coding practices."
+  },
+  {
+    id: "Q029",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A technician in a European branch office notices that a desktop computer keeps blowing its 3-amp (3A) plug fuse every time it renders 3D graphics. Tired of replacing the fuse every week, the technician decides to swap the 3A fuse for a higher-rated 13A fuse.",
+    prompt: "What is the primary safety hazard introduced by this action?",
+    choices: [
+      { key: "A", text: "The higher amperage will cause the building's main circuit breaker to trip continuously." },
+      { key: "B", text: "The fuse will fail to blow during a fault, allowing excessive current to overheat the cables and potentially start a fire." },
+      { key: "C", text: "The device will be subjected to an under-voltage event, causing file corruption." },
+      { key: "D", text: "The 13A fuse will decrease the clamping voltage, disabling the surge protector." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"swap the 3A fuse for a higher-rated 13A fuse\"",
+    explanationCorrect: "A fuse is a safety mechanism designed to blow and break the circuit if an electrical supply problem occurs. If a fuse rating is too high for the device it protects, it will not blow when it should; this allows too much current to pass through cables not rated for that load, causing the cables to heat up and potentially ignite nearby flammable materials.",
+    explanationIncorrect: {
+      A: "Swapping a small device fuse does not inherently draw more current from the building grid to trip a main breaker; it simply removes the local safety bottleneck that stops faults inside the device.",
+      B: "",
+      C: "Fuses protect against over-current. Under-voltage events (brownouts) are caused by heavy building loads or grid failure, not by installing a higher-rated fuse in a PC plug.",
+      D: "Clamping voltage is a feature of surge suppressors, which are passive protection devices for external spikes. A glass plug fuse does not dictate clamping voltage."
+    },
+    examTrap: "The \"Bigger is Better\" trap. In electrical safety, intentionally over-rating a fuse destroys its purpose as a sacrificial safety element."
+  },
+  {
+    id: "Q030",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A network engineer submits a Request for Change (RFC) to upgrade the core distribution switches. The RFC includes the implementation schedule, the rollback plan, and a list of all 500 branch locations affected. The Change Advisory Board (CAB) rejects the RFC, stating the document failed to identify how the engineer will prevent data loss during the required 10-minute downtime.",
+    prompt: "Which section of the RFC did the engineer fail to complete adequately?",
+    choices: [
+      { key: "A", text: "The Scope of the Change" },
+      { key: "B", text: "The Purpose of the Change" },
+      { key: "C", text: "The Risk Analysis" },
+      { key: "D", text: "The End-User Acceptance" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"failed to identify how the engineer will prevent data loss... during downtime\"",
+    explanationCorrect: "A thorough risk analysis is a systematic approach to identifying possible risks associated with a change, such as a temporary outage of a critical system. Crucially, the risk analysis must also document the controls or checks used to mitigate that risk to an acceptable level. Failing to detail how data loss will be mitigated during known downtime means the Risk Analysis was incomplete.",
+    explanationIncorrect: {
+      A: "The Scope of the change details the number of devices, users, or customers affected. Because the engineer successfully listed the \"500 branch locations affected,\" the scope was already provided.",
+      B: "The Purpose of the change provides the business case and benefits for making the upgrade. It does not detail specific mitigation controls for service outages.",
+      C: "",
+      D: "End-user acceptance is obtained after the change is successfully implemented. It is impossible to include in an initial RFC draft prior to CAB approval."
+    },
+    examTrap: "Differentiating between identifying the impact zone (Scope) and identifying the mitigation strategy (Risk Analysis)."
+  },
+  {
+    id: "Q031",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A technician needs to deploy a Windows Installer package (install.msi) to 50 user workstations. To prevent users from interrupting the process, the technician writes a script that will run the installation completely in the background without displaying any dialog boxes or prompts to the user.",
+    prompt: "Which of the following is the MOST appropriate command line syntax to include in the script?",
+    choices: [
+      { key: "A", text: "setup.exe /S" },
+      { key: "B", text: "msiexec C:\\install.msi /qn" },
+      { key: "C", text: "wusa.exe C:\\install.msi" },
+      { key: "D", text: "Start-Process install.msi -Force" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Windows Installer package (install.msi)... completely in the background without displaying any dialog boxes\"",
+    explanationCorrect: "In Windows scripting, different installer types require different command-line tools and switches. To silently install a Windows Installer (.MSI) package, the script must utilize the msiexec command tool, followed by the path to the installer and the /qn switch, which dictates a quiet installation with no user interface.",
+    explanationIncorrect: {
+      A: "The setup.exe /S command is indeed used for silent installations, but it is strictly used for executable (.EXE) installers, not .MSI packages.",
+      B: "",
+      C: "The wusa.exe process is the Windows Update Standalone Installer. It is used to apply Windows update files (.msu), not standard third-party .msi application packages.",
+      D: "While Start-Process is a valid PowerShell cmdlet, simply appending -Force does not instruct an MSI package to run silently. It would still require MSI-specific arguments to suppress the UI."
+    },
+    examTrap: "Tool syntax precision. Differentiating the silent switch for .exe (/S) from the silent switch for .msi (/qn)."
+  },
+  {
+    id: "Q032",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "A financial firm wants to implement a unified system to track the lifecycle of its hardware. They need a solution that logs the purchase date of a laptop, identifies the domain administrator assigned to it, and integrates directly with the helpdesk platform so that any future repair issues can be tracked against that specific laptop's history.",
+    prompt: "Which documentation solution is BEST suited for this requirement?",
+    choices: [
+      { key: "A", text: "A Material Safety Data Sheet (MSDS)" },
+      { key: "B", text: "A Configuration Management Database (CMDB) integrated with a support ticketing system" },
+      { key: "C", text: "An Active Directory Domain Controller utilizing Group Policy" },
+      { key: "D", text: "A Request for Change (RFC) log" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"logs the purchase date... assigned administrator... integrates directly with the helpdesk platform\"",
+    explanationCorrect: "A Configuration Management Database (CMDB) is specifically designed to track assets throughout their entire lifecycle, from procurement to disposal, including warranty and assigned user data. Modern CMDBs often feature direct integration within a support ticketing system, allowing technicians to track ongoing hardware issues directly against the specific asset record.",
+    explanationIncorrect: {
+      A: "An MSDS provides health, safety, and disposal information for hazardous chemicals. It has nothing to do with tracking IT hardware lifecycles or helpdesk tickets.",
+      B: "",
+      C: "Active Directory tracks user accounts and enforces security policies via Group Policy. While it interacts with computers on the network, it is an identity management tool, not an asset lifecycle or procurement database.",
+      D: "An RFC log tracks the history of approvals and modifications to the network infrastructure to prevent downtime. It does not track physical asset warranties or act as a helpdesk ticketing system."
+    },
+    examTrap: "Direct definition recall of Asset Management best practices and the modern capabilities of a CMDB."
+  },
+  {
+    id: "Q033",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A PC technician with mild asthma is tasked with cleaning the interior of heavily soiled workstations retrieved from a manufacturing warehouse. The technician sets up a controlled work area and prepares to use a compressed air canister to blow out the thick dust clogging the CPU heat sinks.",
+    prompt: "Which of the following personal protective equipment (PPE) is MOST critical for the technician to utilize in this scenario?",
+    choices: [
+      { key: "A", text: "An anti-ESD wrist strap" },
+      { key: "B", text: "Protective safety goggles" },
+      { key: "C", text: "An air-filter mask" },
+      { key: "D", text: "Heavy rubber gloves" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"mild asthma... use a compressed air canister to blow out the thick dust\"",
+    explanationCorrect: "Using compressed air violently dislodges dust, throwing fine particulate matter into the immediate atmosphere. For respiratory safety—especially for individuals suffering from conditions like asthma or bronchitis—it is critical to wear an air-filter mask that fits over the mouth and nose to prevent the inhalation of harmful dirt and particles.",
+    explanationIncorrect: {
+      A: "An anti-ESD wrist strap protects the equipment from static shock; it is not a piece of personal protective equipment designed to protect the human body from respiratory hazards.",
+      B: "Safety goggles are recommended to protect eyes from flying debris or chemical burns, but they do not protect the respiratory tract from fine dust inhalation, which is the primary hazard identified by the technician's asthma.",
+      C: "",
+      D: "Heavy rubber gloves are used when handling corrosive materials like leaking batteries. They provide no benefit against airborne dust."
+    },
+    examTrap: "Identifying the correct PPE for the specific hazard. Masks for respiratory (dust/toner), gloves for contact (chemicals/heat)."
+  },
+  {
+    id: "Q034",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "While upgrading an older industrial network rack, a technician notices an acrid burning smell and sees flames erupting from the back of a network switch. The switch is heavily integrated with surrounding equipment. The technician immediately hits the building's master electrical cutoff switch to guarantee the power supply is severed.",
+    prompt: "Which of the following is the BEST tool to suppress this fire while minimizing secondary damage to the adjacent networking equipment?",
+    choices: [
+      { key: "A", text: "A dry powder extinguisher" },
+      { key: "B", text: "A carbon dioxide (CO2) extinguisher with a black label" },
+      { key: "C", text: "A water-based extinguisher with a red label" },
+      { key: "D", text: "An anti-ESD dissipative mat" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"flames erupting... minimizing secondary damage to the adjacent networking equipment\"",
+    explanationCorrect: "For fires involving electronic equipment, a carbon dioxide (CO2) gas extinguisher (typically identified by a black label) is the best choice. CO2 safely smothers the flames without leaving behind any destructive chemical residue, thereby protecting the delicate, highly expensive adjacent networking equipment from further damage.",
+    explanationIncorrect: {
+      A: "A dry powder extinguisher will successfully put out an electrical fire; however, it leaves behind a highly corrosive, dense powder that will severely and permanently damage the adjacent electronic equipment.",
+      B: "",
+      C: "Water or foam extinguishers are highly dangerous around electrical equipment due to conductivity risks. Even with the main power cut, UPS batteries inside the rack may still be outputting lethal voltage.",
+      D: "An anti-ESD dissipative mat is a static-control surface used on workstations; it is highly flammable and provides no fire suppression capabilities whatsoever."
+    },
+    examTrap: "The \"Contextual Best\" trap. Dry powder is technically valid for stopping the fire, but it violates the prompt's requirement to \"minimize secondary damage.\""
+  },
+  {
+    id: "Q035",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A systems engineer wants to automate the management of Active Directory users. The engineer is deciding between writing the scripts in PowerShell versus writing them in Python. The engineer wants a solution that natively taps directly into Windows administrative subsystems without needing to build intermediate modules.",
+    prompt: "From an architectural standpoint, why is PowerShell the superior choice for this specific environment?",
+    choices: [
+      { key: "A", text: "PowerShell utilizes prebuilt cmdlets that natively access Windows features, whereas Python must rely on OS API calls via imported modules." },
+      { key: "B", text: "PowerShell scripts are compiled into binary executables, making them faster than Python's glue language framework." },
+      { key: "C", text: "PowerShell utilizes the #!/bin/bash shebang to interact directly with the Windows kernel, bypassing the need for an interpreter." },
+      { key: "D", text: "Python 2 has reached End of Life (EOL) and can no longer execute commands against a Windows Domain Controller." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"natively taps directly into Windows administrative subsystems without needing to build intermediate modules\"",
+    explanationCorrect: "PowerShell is deeply integrated into the Windows OS and utilizes hundreds of prebuilt cmdlets (using a Verb-Noun format) that natively access and change components of Windows and Active Directory. In contrast, Python is a general-purpose language; to automate OS tasks, a Python script must import specific modules to make Application Programming Interface (API) calls to the operating system.",
+    explanationIncorrect: {
+      A: "",
+      B: "PowerShell is an interpreted scripting language (saved as .ps1 text files), not a compiled binary executable (.exe) programming language.",
+      C: "The #!/bin/bash shebang is used exclusively in Linux environments to dictate the shell interpreter. It has absolutely no function in Windows PowerShell.",
+      D: "While it is true that Python 2 is EOL, Python 3 is fully supported and perfectly capable of managing Windows environments through proper modules. Python's EOL status is not the architectural reason PowerShell is natively superior for Windows OS management."
+    },
+    examTrap: "Comparing \"Shell/OS Scripting\" (PowerShell/Bash) vs \"General Purpose Scripting\" (Python)."
+  },
+  {
+    id: "Q036",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "An enterprise relies on a standby generator to provide long-term power during city-wide blackouts. However, it takes the generator exactly three minutes to spool up and begin supplying stable electricity. The IT manager needs to ensure the core servers do not abruptly shut off during this three-minute gap.",
+    prompt: "Which power protection characteristic must the IT manager prioritize when purchasing an Uninterruptible Power Supply (UPS) to bridge this gap?",
+    choices: [
+      { key: "A", text: "The UPS must have a high Joules rating to absorb the generator's inrush current." },
+      { key: "B", text: "The UPS batteries must feature an Amp Hours (Ah) rating sufficient to provide at least 5 minutes of Runtime." },
+      { key: "C", text: "The UPS must feature a clamping voltage of 300 V to filter out the generator's spikes." },
+      { key: "D", text: "The UPS must connect to a dissipative mat to bleed off static electricity during the transition." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"ensure the core servers do not abruptly shut off during this three-minute gap\"",
+    explanationCorrect: "At the system level, a UPS provides temporary battery power during a blackout. To bridge the gap until an alternative power source (like a standby generator) activates, the UPS must have adequate Runtime. Runtime indicates the number of minutes the batteries will supply power, which is determined by the strength of the batteries measured in Amp Hours (Ah).",
+    explanationIncorrect: {
+      A: "A Joules rating determines how much energy a surge protector can absorb from a spike. It does not dictate how long a battery can keep a server running during a blackout.",
+      B: "",
+      C: "Clamping voltage dictates when a surge protector activates to stop high-voltage spikes. It provides zero power sustainment during a blackout.",
+      D: "Dissipative mats are used to prevent electrostatic discharge (ESD) from damaging individual components on a workbench. They are completely unrelated to sustaining electrical AC power to a rack of servers."
+    },
+    examTrap: "The \"VA vs Runtime\" trap. While VA determines how much equipment can be plugged in, Amp Hours (Ah) determine how long that equipment stays on."
+  },
+  {
+    id: "Q037",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A technician submits a Normal change request to deploy a PowerShell script (.ps1) that will automatically map the \\\\CorpShare\\Data network drive to the letter \"L\" for all employees. The Change Advisory Board (CAB) approves the implementation schedule. After deployment, users report the script works perfectly. However, during the post-implementation peer review, a senior engineer notes that the script will return an error and fail if an employee already has a personal USB drive mapped to the letter \"L\". No users have reported this error yet.",
+    prompt: "What is the MOST policy-compliant preventative solution to ensure the script does not cause future errors?",
+    choices: [
+      { key: "A", text: "Submit an Emergency change request to immediately roll back the script using the backup plan." },
+      { key: "B", text: "Implement an \"If\" condition using the Test-Path and Remove-PSDrive cmdlets before the mapping command." },
+      { key: "C", text: "Switch the execution environment from PowerShell to the wscript.exe interpreter to bypass the error." },
+      { key: "D", text: "Use a \"While\" loop to continually repeat the mapping command until the letter \"L\" becomes available." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"script will return an error and fail if an employee already has a personal USB drive mapped to the letter 'L'\"",
+    explanationCorrect: "Error handling is an important part of developing robust scripts. To anticipate and prevent the script from failing when a drive letter is already assigned, the best practice is to use an \"If\" condition to evaluate the logical test; if Test-Path detects the \"L:\" drive, it can execute Remove-PSDrive to clear the mapping before assigning the new network drive. This directly mitigates the risk identified during the peer review without abandoning the automation.",
+    explanationIncorrect: {
+      A: "Emergency changes are strictly reserved for high-impact, urgent situations to correct a major outage. Because the script is currently working and no users are experiencing downtime, this preventative fix does not qualify for bypassing the standard CAB approval process.",
+      B: "",
+      C: "The wscript.exe interpreter is designed to execute Visual Basic Script (.vbs), not PowerShell (.ps1) scripts. Switching the interpreter will cause the script to fail entirely, and it does not resolve the logical error of a blocked drive letter.",
+      D: "A \"While\" loop repeats an indeterminate number of times until a logical condition is met. Continually attempting to map a drive that is actively blocked by an existing physical USB mapping will create an infinite loop that causes the script to hang."
+    },
+    examTrap: "The \"Proactive vs. Reactive\" trap. Test-takers must recognize that anticipating errors via conditional branches (If statements) is the core of robust script design, rather than misusing loops or emergency processes."
+  },
+  {
+    id: "Q038",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A high-end graphics workstation suddenly powers off and will not turn back on. A technician diagnoses a failed ATX power supply unit. The technician unplugs the AC power cord from the wall and places the workstation on an anti-ESD mat. The technician notes that the chassis feels slightly warm to the touch.",
+    prompt: "What is the BEST first step the technician should take before opening the chassis and disconnecting the internal power cables?",
+    choices: [
+      { key: "A", text: "Put on heavy rubber gloves to protect against corrosive battery acid." },
+      { key: "B", text: "Hold down the power button on the device to drain the circuits." },
+      { key: "C", text: "Test the internal components using a digital voltage tester." },
+      { key: "D", text: "Attach an anti-ESD wrist strap to an unpainted part of the power supply case." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"diagnoses a failed ATX power supply unit... unplugs the AC power cord\"",
+    explanationCorrect: "PC power supply units can carry dangerously high levels of voltage, and charges held in capacitors can persist for hours after the power supply is turned off. The absolute best first safety step after removing the AC plug is to hold down the power button on the device to ensure the circuits are actively drained of any residual power. This prevents unexpected and potentially lethal electrical shocks when handling the power supply.",
+    explanationIncorrect: {
+      A: "Heavy rubber gloves are used to minimize the risk of chemical burns when handling corrosive materials like leaking batteries. They are not the standard safety protocol for mitigating electrical charge in a desktop power supply.",
+      B: "",
+      C: "While using a voltage tester is a valid way to confirm the absence of power before working on components, the first active step to remove the hazard is draining the capacitors via the power button.",
+      D: "Anti-ESD straps protect the equipment from static electricity generated by the human body; they do not protect the human from the lethal high-voltage charges stored inside a power supply's capacitors. In fact, opening a power supply unit is extremely dangerous and should not be done unless specifically trained."
+    },
+    examTrap: "The \"Residual Power\" trap. Disconnecting from the wall does not instantly make a computer electrically safe due to capacitors."
+  },
+  {
+    id: "Q039",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "A junior administrator writes a Python script (.py) to automate the processing of massive database files. The script executes perfectly in the development sandbox. However, shortly after running the script in the production environment, the server's disk storage rapidly depletes, generating thousands of temporary files until the host OS crashes and becomes unresponsive. The security team scans the script and confirms no malware is present.",
+    prompt: "What is the MOST likely cause of this system crash?",
+    choices: [
+      { key: "A", text: "The script was executed using the CPython interpreter instead of PyPy." },
+      { key: "B", text: "The administrator inadvertently deployed fileless malware via the Bash interpreter." },
+      { key: "C", text: "The Python 2 interpreter reached its End of Life (EOL) and corrupted the memory." },
+      { key: "D", text: "The script contained a faulty loop construct that caused an accidental Denial of Service (DoS)." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"disk storage rapidly depletes, generating thousands of temporary files until the host OS crashes... confirms no malware\"",
+    explanationCorrect: "Scripts can cause an accidental Denial of Service (DoS) through the mishandling of resources. A prime example of this is a faulty loop construct that does not terminate; if the loop continuously creates temporary files without a proper exit condition, it will quickly deplete disk storage resources and cause the system to hang or crash. Because malware was ruled out, this coding error is the most likely culprit.",
+    explanationIncorrect: {
+      A: "CPython is the standard, default interpreter environment for Windows and is fully capable of running Python scripts. The choice of a valid interpreter does not spontaneously cause temporary file floods.",
+      B: "Fileless malware operates stealthily in memory, often using tools like PowerShell. The scenario explicitly states the script was written in Python, was confirmed to be malware-free by security, and caused a storage (not memory) flood.",
+      C: "While Python 2 is End of Life (EOL) and poses security risks, scripting languages in general are considered safe with respect to direct memory handling. An EOL interpreter does not inherently cause a disk storage flood; poor loop logic does.",
+      D: ""
+    },
+    examTrap: "Distinguishing between malicious attacks (malware) and non-malicious/inadvertent threats (Accidental DoS via poor coding)."
+  },
+  {
+    id: "Q040",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "A technician needs to ship a spare metal mounting bracket in the same box as several highly sensitive, bare motherboards. The motherboards are already safely sealed in shiny, gray metallic bags. The technician wants to ensure the metal bracket's packaging does not act as an insulator that builds up a static charge near the motherboards during transit.",
+    prompt: "Which type of packaging is MOST appropriate for the metal bracket?",
+    choices: [
+      { key: "A", text: "Dissipative packaging" },
+      { key: "B", text: "Antistatic bags" },
+      { key: "C", text: "A standard plastic zip-tie bag" },
+      { key: "D", text: "Foam packaging wrapped in nylon" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"ensure the metal bracket's packaging does not act as an insulator... near the motherboards\"",
+    explanationCorrect: "Dissipative packaging (usually light pink or blue) is specifically designed to be slightly more conductive than normal plastics. This slight conductivity prevents the buildup of static electricity in the general vicinity of the contents, making it the perfect choice for packaging non-static-sensitive components (like the bracket) that are packed in close proximity to highly sensitive components.",
+    explanationIncorrect: {
+      A: "",
+      B: "Antistatic bags (shiny, gray metallic) are used to shield highly sensitive microelectronics from direct discharge. Wasting an expensive, heavy-duty shielding bag on a solid metal bracket is inefficient and not its intended use case.",
+      C: "Standard plastic bags are excellent insulators and act as strong generators of static electricity. Using one near sensitive components introduces a massive Electrostatic Discharge (ESD) hazard.",
+      D: "Synthetic materials like nylon act as excellent generators of static electricity and provide insulating layers that allow charges to accumulate. Surrounding foam in nylon would create a severe static hazard."
+    },
+    examTrap: "The \"Pink vs. Gray Bag\" trap. Students often think all computer parts go in gray bags, but dissipative (pink/blue) bags are specifically engineered for non-sensitive proximity items."
+  },
+  {
+    id: "Q041",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "During an approved Sunday maintenance window, a network engineer attempts to apply a normal change by updating the firmware on the core enterprise firewall. The update causes a total routing failure, taking the internal network offline. The engineer spends 30 minutes trying to troubleshoot the syntax error but is unsuccessful. Adhering to change management best practices, the engineer decides to execute a pre-approved script that restores the firewall to its previous, functional configuration.",
+    prompt: "Which component of the Change Management process is the engineer explicitly executing?",
+    choices: [
+      { key: "A", text: "The Risk Analysis" },
+      { key: "B", text: "The Rollback plan" },
+      { key: "C", text: "The End-user acceptance" },
+      { key: "D", text: "The Peer review" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"restores the firewall to its previous, functional configuration\"",
+    explanationCorrect: "In change management, if the implementation process runs into an issue that cannot be resolved during the window, the technician must execute a rollback plan. The purpose of a rollback plan is to reverse the change, often using system backups, to restore the system to its original configuration before the outage impacts business operations.",
+    explanationIncorrect: {
+      A: "A Risk Analysis is a systematic approach conducted during the planning phase to identify possible risks and mitigation controls prior to CAB approval. It is not the physical act of reversing a failed change.",
+      B: "",
+      C: "End-user acceptance occurs after a change has been successfully implemented and the system is fully functional. It ensures the client is satisfied with the working change, which is not the case here.",
+      D: "A peer review involves having a colleague check the completed work to ensure no steps were skipped or misspelled. It is an inspection step for successful changes, not a system restore process."
+    },
+    examTrap: "Recognizing the exact operational definition of a Rollback Plan within the context of a failed implementation."
+  },
+  {
+    id: "Q042",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "hard",
+    scenario: "An IT manager is calculating the power requirements for a new network closet located in a facility that frequently experiences under-voltage events (brownouts) due to heavy machinery. The manager wants to purchase an Uninterruptible Power Supply (UPS) to keep the equipment running during these dips. The equipment load consists of a 50 W router, a 150 W switch, and a 400 W application server.",
+    prompt: "Using standard vendor conversion formulas, what is the MINIMUM Volt-Ampere (VA) rating required for this UPS to sustain the load?",
+    choices: [
+      { key: "A", text: "600 VA" },
+      { key: "B", text: "1002 VA" },
+      { key: "C", text: "1200 VA" },
+      { key: "D", text: "600 Joules" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"50 W router, a 150 W switch, and a 400 W application server... MINIMUM Volt-Ampere (VA) rating\"",
+    explanationCorrect: "To calculate the minimum VA rating required for a UPS, you must sum the wattage of all attached devices and multiply that total by a standard conversion factor of 1.67. The total load is 50 W + 150 W + 400 W = 600 Watts. Multiplying 600 W by the 1.67 conversion factor yields 1002 Volt-Amperes (VA). Therefore, 1002 VA is the minimum rating required.",
+    explanationIncorrect: {
+      A: "600 is the raw wattage total of the connected devices. Failing to multiply this raw wattage by the 1.67 conversion factor will result in purchasing a severely undersized UPS that cannot sustain the hardware load.",
+      B: "",
+      C: "1200 VA is the result of incorrectly multiplying the total wattage by a factor of 2.0. While a 1200 VA UPS would work, it is not the mathematically accurate minimum required by the standard 1.67 conversion formula.",
+      D: "A Joules rating determines the amount of energy a passive surge protector can absorb during a spike. It does not measure the battery capacity or load limit of a UPS during a brownout."
+    },
+    examTrap: "The \"Formula Recall\" trap. Technicians must know the specific Total Wattage x 1.67 = VA equation to properly size a UPS."
+  },
+  {
+    id: "Q043",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A corporation is subjected to a surprise software audit by a major vendor. The audit reveals that several departments have installed a premium project management application on their workstations, far exceeding the 100-seat volume limit originally purchased by the company. The IT director demands a system be put in place to prevent this compliance violation in the future.",
+    prompt: "Which documentation best practice should the IT department implement to MOST effectively track this limitation?",
+    choices: [
+      { key: "A", text: "Submit a Standard change request for every individual software installation." },
+      { key: "B", text: "Enforce a peer review process for all new hires during onboarding." },
+      { key: "C", text: "Record software licensing details, including device/user allocations, in a Configuration Management Database (CMDB)." },
+      { key: "D", text: "Require a signed Material Safety Data Sheet (MSDS) before any external software can be downloaded." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"installed a premium project management application... far exceeding the 100-seat volume limit\"",
+    explanationCorrect: "Organizations must track software licensing to maintain compliance with vendor requirements and limitations. The best practice is to utilize a Configuration Management Database (CMDB), which not only tracks hardware assets but also records software licensing details, including exactly which devices or users are allocated a seat. This prevents over-installation and audit fines.",
+    explanationIncorrect: {
+      A: "A Standard change request is used for low-impact, repeatable technical tasks. While it documents the action of installing the software, it does not centrally track the organization's total volume license counts or seat limits.",
+      B: "A peer review is a change management check where a colleague verifies that a technical configuration was implemented correctly without errors. It is not an asset management or license tracking tool.",
+      C: "",
+      D: "A Material Safety Data Sheet (MSDS) provides health hazards, precautions, and disposal information for physical chemicals and hazardous substances. It has absolutely nothing to do with software licensing."
+    },
+    examTrap: "Recognizing that a CMDB is not just for physical hardware (routers/servers), but is the primary tool for software licensing and lifecycle tracking."
+  },
+  {
+    id: "Q044",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "medium",
+    scenario: "A Linux administrator creates a Bash shell script to troubleshoot network connectivity. The script uses an until loop to continuously execute the ping command against a target IP address until a reply is received. The administrator wants the script to run cleanly without the standard, verbose output of the ping command cluttering up the terminal screen while it loops.",
+    prompt: "Which of the following syntax elements MUST the administrator include in the script to achieve this?",
+    choices: [
+      { key: "A", text: "Enclose the ping command variable in single quotes." },
+      { key: "B", text: "Append &>/dev/null to the ping command line." },
+      { key: "C", text: "Execute the script using the wscript.exe windowed interpreter." },
+      { key: "D", text: "Precede the ping command with the chmod u+x command." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"run cleanly without the standard, verbose output of the ping command cluttering up the terminal screen\"",
+    explanationCorrect: "In Linux shell scripting, some commands produce continuous, unwanted text output to the screen. To suppress this, the administrator can append &>/dev/null to the command, which stops the usual output from being written to the terminal by redirecting it into a null device (essentially a black hole for data). This keeps the terminal interface clean while the loop runs in the background.",
+    explanationIncorrect: {
+      A: "Single quotes are used in scripting to instruct the interpreter to treat the contents as a literal string (preventing variables from expanding). They do not suppress the standard execution output of a command like ping.",
+      B: "",
+      C: "The wscript.exe interpreter is used in Windows to run Visual Basic Scripts (.vbs) in a desktop window. It cannot execute Linux Bash scripts.",
+      D: "The chmod u+x command is used at the OS level to set the execute permission on the script file so it can run. Placing it inside the loop before a ping command does not suppress terminal output."
+    },
+    examTrap: "Syntax recall for standard Linux redirection. Understanding that /dev/null is the proper mechanism for silencing command output in Bash."
+  },
+  {
+    id: "Q045",
+    topic: "CompTIA A+ 220-1102",
+    difficulty: "easy",
+    scenario: "A technician is working in a small server room when a frayed power cable sparks, igniting the plastic cable ties inside a network rack. The building's power distribution circuit breaker immediately trips, plunging the room into darkness and severing all electricity. However, the fire continues to burn inside the rack.",
+    prompt: "Which of the following is the MOST appropriate tool to extinguish the flames without causing secondary damage to the delicate electronics?",
+    choices: [
+      { key: "A", text: "A dry powder extinguisher" },
+      { key: "B", text: "A water-based foam extinguisher" },
+      { key: "C", text: "A carbon dioxide (CO2) gas extinguisher" },
+      { key: "D", text: "An anti-ESD dissipative mat" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"extinguish the flames without causing secondary damage to the delicate electronics\"",
+    explanationCorrect: "When dealing with an electrical fire—especially one near highly sensitive IT equipment—the best type of suppression tool is a carbon dioxide (CO2) gas extinguisher. CO2 safely smothers the fire by removing oxygen and dissipates completely without leaving any corrosive residue, thereby protecting the delicate components from secondary damage.",
+    explanationIncorrect: {
+      A: "While a dry powder extinguisher can effectively put out an electrical fire, it leaves behind a dense, highly corrosive powder that will severely and permanently damage the electronic equipment it touches.",
+      B: "Water or foam extinguishers are highly dangerous if used near electrical equipment because water is conductive. Even with the main breaker tripped, UPS battery backups inside the rack could still be supplying lethal voltage to the system.",
+      C: "",
+      D: "An anti-ESD dissipative mat is a workstation surface used to slowly drain static electricity from components. It is highly flammable itself and offers absolutely zero fire suppression capabilities."
+    },
+    examTrap: "The \"Technically Valid vs. Contextually Best\" trap. Dry powder is technically a valid fire extinguisher for electrical fires, but CO2 is the best choice because it prevents secondary equipment damage."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
