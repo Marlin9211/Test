@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "medium",
+    scenario: "A company recently migrated from on-premises servers to cloud-based identity management. Several users report occasional network lockups during the day when accessing legacy shared drives. The system logs indicate that an unknown external entity is attempting to authenticate using lists of commonly used passwords overnight. The network administrator wants to mitigate this threat without burdening the helpdesk with daily ticket requests from legitimate users who simply mistype their credentials once or twice.",
+    prompt: "Which policy configuration is the MOST appropriate solution to secure the accounts?",
+    choices: [
+      { key: "A", text: "Set the account expiration policy to the end of the current month." },
+      { key: "B", text: "Enable a failed attempts lockout policy with a threshold of 5 attempts." },
+      { key: "C", text: "Restrict login times to business hours only." },
+      { key: "D", text: "Relax minimum password length limits to prevent user typos." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"attempting to authenticate using lists of commonly used passwords\" and \"without burdening the helpdesk... mistype their credentials once or twice.\"",
+    explanationCorrect: "Enable a failed attempts lockout policy with a threshold of 5 attempts is correct because a failed attempts lockout specifically mitigates the risk of threat actors gaining system access using lists of possible passwords. By setting the threshold slightly higher (e.g., 5 attempts), it prevents brute-force dictionary attacks while allowing legitimate users a margin of error for simple typos without immediately requiring helpdesk intervention to unlock the account via the Properties dialog box.",
+    explanationIncorrect: {
+      A: "Setting an account expiration policy will automatically disable the account beyond a specific date and time, which is useful for temporary contractors but does not stop ongoing brute-force password guessing. Additionally, it would permanently lock out legitimate employees at the end of the month, violating the requirement to minimize helpdesk tickets.",
+      B: "",
+      C: "Restricting login times prevents accounts from being used at unusual hours (like overnight), which would technically stop the overnight attack. However, if the attacker simply shifted their attack to daytime hours, the vulnerability to list-based password guessing would remain entirely unmitigated.",
+      D: "Relaxing minimum password length limits encourages poor security practice and makes the accounts significantly easier to crack using dictionary files. This directly contradicts the goal of securing the environment against password-guessing threat actors."
+    },
+    examTrap: "Confusing time-based restrictions and expiration policies with brute-force authentication mitigation."
+  },
+  {
+    id: "Q002",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "hard",
+    scenario: "A developer is setting up a new workstation and needs a specialized web development extension. Because the corporate firewall blocks the official Google Chrome web store, the developer downloads the extension installer from a third-party open-source repository. The repository website lists a specific alphanumeric string labeled \"SHA256\" next to the download button. The developer is concerned the downloaded installer package might be bundled with adware or a Trojan.",
+    prompt: "What is the BEST method for the developer to verify the integrity of the downloaded installer?",
+    choices: [
+      { key: "A", text: "Run the get-filehash command on the file using the SHA1 algorithm and compare the outputs." },
+      { key: "B", text: "Check the file's properties to verify the presence of a code-signing digital certificate." },
+      { key: "C", text: "Calculate the hash of the downloaded file using a SHA256 function and compare it to the website's string." },
+      { key: "D", text: "Upload the file to the corporate proxy server to scan for adware prior to installation." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"lists a specific alphanumeric string labeled 'SHA256'\" and \"verify the integrity\".",
+    explanationCorrect: "Calculating the hash with a SHA256 function is correct because manually comparing the developer-published hash file with one computed for the downloaded file verifies that the file has not been altered. Crucially, when comparing a provided hash and a self-generated hash, the exact same hash function (in this case, SHA256) must be used.",
+    explanationIncorrect: {
+      A: "Using the get-filehash command is a valid tool, but using the SHA1 algorithm against a vendor-provided SHA256 hash will result in completely different outputs, making comparison impossible. The hash algorithms must match exactly to verify file integrity.",
+      B: "Checking for a code-signing digital certificate is a valid method to prove authenticity for officially signed software. However, software downloaded from third-party open-source repositories often lacks official digital certificates, making the manual hash comparison the most viable and direct method available in this specific scenario.",
+      C: "",
+      D: "While a proxy server can be used to filter traffic and block certain content, it is not primarily used to manually verify the cryptographic integrity of an individual file package. Relying on a network scan does not cryptographically prove that the file matches the developer's original code."
+    },
+    examTrap: "Mismatching hash algorithms during integrity verification procedures."
+  },
+  {
+    id: "Q003",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "medium",
+    scenario: "(Integration: Networking + Security) A user clicks a malicious link in an unsolicited email. Shortly after, the user's PC begins experiencing severe performance lockups, and the local software firewall service crashes. Concurrently, a network technician notices the switch port connected to this PC is flashing rapidly, and other users on the same VLAN report that internal DNS requests are timing out.",
+    prompt: "According to CompTIA's malware removal best practices, what should the technician do FIRST?",
+    choices: [
+      { key: "A", text: "Disable System Restore in the Windows Control Panel." },
+      { key: "B", text: "Disconnect the infected workstation's network link." },
+      { key: "C", text: "Update the Windows Defender Antivirus definitions." },
+      { key: "D", text: "Reboot the workstation into Safe Mode." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"what should the technician do FIRST?\" and \"switch port... is flashing rapidly\".",
+    explanationCorrect: "Disconnecting the network link is correct because it fulfills Step 2 of the CompTIA malware removal best practices: Quarantine infected systems. Because the malware appears to be spreading or launching a network-based attack (evidenced by the rapid port flashing and VLAN degradation), physically or logically removing the host from the network immediately prevents the worm or backdoor from compromising other systems.",
+    explanationIncorrect: {
+      A: "Disabling System Restore is Step 3 of the CompTIA malware removal process. This must be done after the system is quarantined to prevent the malware from utilizing the network while the technician navigates the Windows GUI.",
+      B: "",
+      C: "Updating anti-malware software is Step 4a of the methodology. If the system is still connected to the production network, the malware may exfiltrate data or spread laterally while the technician waits for the updates to download.",
+      D: "Rebooting the workstation into Safe Mode is a scanning and removal technique (Step 4b) used to prevent infected code from running at startup. This must only be done after the system is properly isolated and System Restore is disabled."
+    },
+    examTrap: "Knowing the exact sequence of the 7-step malware removal process and prioritizing containment over immediate remediation."
+  },
+  {
+    id: "Q004",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "easy",
+    scenario: "An IT administrator suspects that a rogue application installed on a standard Windows 10 workstation is attempting to act as an unauthorized web server to host illicit files to external users. The user of the workstation still needs to browse the internet via HTTPS to complete their daily tasks.",
+    prompt: "Which of the following is the BEST way to secure the workstation using Windows Defender Firewall with Advanced Security?",
+    choices: [
+      { key: "A", text: "Configure an outbound rule to block TCP port 80." },
+      { key: "B", text: "Configure an outbound rule to block TCP port 443." },
+      { key: "C", text: "Configure an inbound rule to block TCP port 80." },
+      { key: "D", text: "Configure the Private Profile to block all inbound connections." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"act as an unauthorized web server\" and \"still needs to browse the internet\".",
+    explanationCorrect: "Configuring an inbound rule to block TCP port 80 is correct because port security triggers based on the Transmission Control Protocol (TCP) port number can prevent clients from connecting to the default port for a web server. Web servers listen for incoming connections, so blocking inbound traffic on the HTTP port effectively stops the workstation from hosting the site to external users.",
+    explanationIncorrect: {
+      A: "Blocking outbound TCP port 80 would prevent the local user from browsing standard, unencrypted HTTP websites on the internet. It does not stop external users from initiating an inbound connection to the rogue web server application.",
+      B: "Blocking outbound TCP port 443 would completely prevent the user from browsing the internet via HTTPS, which directly violates the requirement that the user still needs to browse securely to complete daily tasks.",
+      C: "",
+      D: "Blocking all inbound connections stops all traffic regardless of the specific rules setup. While this would stop the rogue web server, it is too broad and might break other necessary inbound enterprise communications or required networking services."
+    },
+    examTrap: "Differentiating between inbound (listening) and outbound (initiating) firewall rules for server vs. client behavior."
+  },
+  {
+    id: "Q005",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "hard",
+    scenario: "(Integration: OS + Security) A remote user's Windows 10 Pro laptop suffered a motherboard failure. The hard drive was removed and connected via a USB enclosure to a new replacement PC. The user logs into the new PC with a newly created local administrator account. However, when navigating to their old documents folder, the file names appear in green text, and the user receives an \"Access Denied\" error when attempting to copy them. UAC is enabled and the user clicked \"Run as Administrator\" on File Explorer.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The files were protected with BitLocker To Go and require a TPM module to decrypt." },
+      { key: "B", text: "The files were encrypted using EFS and are tied to the previous user's account password." },
+      { key: "C", text: "The new local administrator account lacks the proper NTFS Read permissions on the old drive." },
+      { key: "D", text: "The user needs to authenticate using a Smart Card because execution control is blocking the file transfer." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"file names appear in green text\" and \"receives an 'Access Denied' error... even though they are an administrator\".",
+    explanationCorrect: "The files being encrypted using EFS is correct because folders and files that have been encrypted using the Encrypting File System (EFS) feature of NTFS are shown with green color coding in Windows Explorer. Furthermore, any user other than the specific principal who originally encrypted the file will receive an \"Access Denied\" error, and these files cannot be opened by other users—even those with full local administrator privileges.",
+    explanationIncorrect: {
+      A: "BitLocker To Go is used for removable data drives, but it operates as a full disk encryption (FDE) product, meaning the entire drive is locked behind a password prompt, not individual green-coded files. Additionally, BitLocker To Go relies on a user-entered password or smart card, whereas the TPM is used to tie a fixed disk to a specific motherboard.",
+      B: "",
+      C: "While NTFS permissions can cause \"Access Denied\" errors when moving drives between operating systems, standard NTFS permissions do not change the file text color to green. Also, an administrator could easily take ownership of the files to bypass standard NTFS ACL restrictions, which is impossible with EFS without the encryption key.",
+      D: "Execution control refers to logical security technologies designed to prevent malicious executable software from running on a host. It does not govern the ability to read or copy static document files, nor does it turn file names green."
+    },
+    examTrap: "Recognizing the visual GUI symptoms of EFS (green text) versus FDE/BitLocker."
+  },
+  {
+    id: "Q006",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "medium",
+    scenario: "A corporate IT department generates its own digital certificates using an internal Certificate Authority (CA) for an intranet payroll application. Employees using Microsoft Edge can access the HTTPS application without any issues. However, an employee who recently installed Mozilla Firefox encounters an alert icon and a warning stating the certificate is invalid. The system date and time are accurate.",
+    prompt: "How should the IT technician resolve this issue for the Firefox user?",
+    choices: [
+      { key: "A", text: "Run Windows Update to refresh the operating system's trusted root certificate store." },
+      { key: "B", text: "Add the internal CA root certificate manually to Firefox's trusted authority store." },
+      { key: "C", text: "Instruct the user to clear the cache and browsing data in the Firefox privacy settings." },
+      { key: "D", text: "Disable strict tracking protection in Firefox to allow the HTTPS connection." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Employees using Microsoft Edge can access... employee who recently installed Mozilla Firefox encounters an alert\".",
+    explanationCorrect: "Adding the internal CA root certificate manually to Firefox is correct because third-party browsers like Firefox maintain a completely separate store of trusted and personal certificates. When using enterprise certificates for internal sites, the technician must ensure that the internal CA root certificate is explicitly added to the third-party browser's authority list.",
+    explanationIncorrect: {
+      A: "Microsoft Edge inherently uses the central Windows certificate store, which is why Edge already trusts the connection. Running Windows Update will only update the OS-level store, which Firefox ignores in favor of its own independent certificate store.",
+      B: "",
+      C: "Clearing the cache and browsing history deletes session data, cookies, and saved form fields. It does not resolve cryptographic trust issues or missing Certificate Authority signatures.",
+      D: "Tracking protection governs how the browser handles third-party cookies, browser fingerprinting, and analytics trackers. It has no bearing on Transport Layer Security (TLS) certificate validation."
+    },
+    examTrap: "Knowing that Firefox uses an independent certificate store compared to Windows/Edge."
+  },
+  {
+    id: "Q007",
+    topic: "2.4 Summarize types of malware and tools/methods for detection, removal, and prevention.",
+    difficulty: "hard",
+    scenario: "A user submits a ticket stating their computer is behaving oddly and running very slowly. The user mentions ignoring a sudden pop-up warning about \"Police locking the computer\" earlier in the week. The technician investigates and strongly suspects malware, but when executing Task Manager and the netstat command locally on the infected machine, no unauthorized running processes or suspicious listening ports are visible.",
+    prompt: "Which type of malware is MOST likely responsible for successfully concealing its presence from these local administrative tools?",
+    choices: [
+      { key: "A", text: "Adware" },
+      { key: "B", text: "Ransomware" },
+      { key: "C", text: "Fileless malware" },
+      { key: "D", text: "Rootkit" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"no unauthorized running processes or suspicious listening ports are visible\" when using local shell processes.",
+    explanationCorrect: "A rootkit is correct because this type of malware executes with SYSTEM-level kernel privileges, granting it the capability to alter how the operating system reports data. A rootkit can compromise system files and programming interfaces so that local shell processes, such as Task Manager or port-listening tools like netstat, are actively manipulated to no longer reveal the malware's presence.",
+    explanationIncorrect: {
+      A: "Adware is a potentially unwanted program (PUP) designed to display unsolicited advertisements or redirect search engines. It does not possess the extreme privilege escalation required to rewrite how Windows Task Manager or netstat reports active system states.",
+      B: "Ransomware attempts to extort money by displaying threatening messages or encrypting files. While the user saw a fake police pop-up (a common ransomware tactic), ransomware generally does not possess the kernel-level stealth required to remain totally invisible to Task Manager.",
+      C: "Fileless malware uses the host's native scripting environment (like PowerShell) to create malicious processes in memory without writing an executable to the disk. However, the active processes it spawns in memory would still be visible in Task Manager, unlike a rootkit which actively blinds the monitoring tools.",
+      D: ""
+    },
+    examTrap: "Recognizing the specific capability of rootkits to subvert local OS monitoring tools compared to other malware payloads."
+  },
+  {
+    id: "Q008",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "easy",
+    scenario: "(Integration: Hardware + Security) The security team has noticed a rise in Trojan infections originating from unapproved optical discs and thumb drives. However, the marketing department insists they must physically attach flash drives to import photos from digital cameras. The IT manager wants to stop malware from automatically installing itself via these drives without physically disabling the hardware ports in the BIOS.",
+    prompt: "Which of the following is the BEST approach to secure the workstations?",
+    choices: [
+      { key: "A", text: "Implement full disk encryption using BitLocker on the workstation C: drive." },
+      { key: "B", text: "Configure the drive properties to disable AutoRun and AutoPlay actions." },
+      { key: "C", text: "Install an Ad Blocker extension on the workstation's default web browser." },
+      { key: "D", text: "Set the AutoPlay default to \"Open folder to view files\" for all removable drives." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"stop malware from automatically installing itself\" and \"without physically disabling the hardware ports\".",
+    explanationCorrect: "Disabling AutoRun and AutoPlay actions is correct because legacy malware often exploits the autorun.inf file stored in the root of a removable drive to automatically execute setup files. By explicitly disabling the autorun/autoplay options, the operating system is prevented from automatically executing any commands when a USB drive is attached, securing the system while still allowing users to manually navigate to their photo files.",
+    explanationIncorrect: {
+      A: "BitLocker provides full disk encryption to protect data-at-rest against physical theft. It does absolutely nothing to prevent malware from executing from a live, mounted USB drive while the operating system is running.",
+      B: "",
+      C: "An Ad Blocker is a browser extension used to filter unwanted content, web advertisements, and pop-ups during internet browsing. It operates entirely within the web browser and cannot control operating system hardware-level USB execution policies.",
+      D: "Setting AutoPlay to \"Open folder to view files\" simply changes the default prompt behavior; it does not aggressively disable the AutoRun execution vector entirely. Complete disablement is required to fully prevent malicious autorun.inf execution."
+    },
+    examTrap: "Selecting a hardware prevention methodology that balances security with operational availability."
+  },
+  {
+    id: "Q009",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "medium",
+    scenario: "An IT support technician identifies symptoms of malware on a desktop computer. The technician immediately unplugs the Ethernet cable to move the infected system into a secure, isolated sandbox segment. The desktop has a feature enabled that takes weekly snapshot backups of the operating system state.",
+    prompt: "According to the CompTIA troubleshooting methodology for malware, what is the NEXT required action the technician should take?",
+    choices: [
+      { key: "A", text: "Run a full scan using Windows Defender Antivirus." },
+      { key: "B", text: "Disable System Restore in Windows." },
+      { key: "C", text: "Boot the system using the Windows Recovery Environment (WinRE)." },
+      { key: "D", text: "Create a fresh restore point." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"unplugs the Ethernet cable to move the infected system into a secure, isolated sandbox\" (Step 2 done) and \"what is the NEXT required action\".",
+    explanationCorrect: "Disabling System Restore is correct because it is explicitly Step 3 in the CompTIA seven-step best practice procedure for malware removal. Once a system is quarantined (Step 2), System Restore and other automated backup systems must be disabled because there is a high probability that the saved backup snapshots are also infected with the malware.",
+    explanationIncorrect: {
+      A: "Running a full antivirus scan represents Remediation (Step 4). If System Restore is not disabled first, the antivirus might clean the active drive, but the user could accidentally reinfect the machine by rolling back to a corrupted snapshot later.",
+      B: "",
+      C: "Booting the system into the Windows Recovery Environment (WinRE) is a valid scanning and removal technique for highly persistent malware. However, this falls under Step 4b (Remediate infected systems), meaning it is out of sequence until System Restore is disabled.",
+      D: "Creating a fresh restore point is part of Step 6 (Re-enable System Restore and create a restore point). Taking a snapshot now would simply permanently save a copy of the active malware infection into the system backups."
+    },
+    examTrap: "Recognizing the strict sequential order of the 7-step malware removal process, specifically transitioning from isolation to prevention of backup contamination."
+  },
+  {
+    id: "Q010",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "easy",
+    scenario: "A corporate executive travels frequently with a Windows 10 Enterprise laptop. The IT director mandates that all data-at-rest must be protected against physical theft. The chosen solution must happen invisibly in the background without depending on the executive to manually secure individual folders, and it must explicitly protect system-level data like print queues and the swap file.",
+    prompt: "Which of the following technologies is BEST suited for this specific requirement?",
+    choices: [
+      { key: "A", text: "BitLocker" },
+      { key: "B", text: "Encrypting File System (EFS)" },
+      { key: "C", text: "BitLocker To Go" },
+      { key: "D", text: "Transport Layer Security (TLS)" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"without depending on the executive to manually secure individual folders\" and \"explicitly protect system-level data like print queues and the swap file\".",
+    explanationCorrect: "BitLocker is correct because it is a full disk encryption (FDE) product that encrypts the entire fixed volume. The primary advantage of FDE is that it does not depend on the user to remember to encrypt data manually, and it successfully encrypts the operating system's swap file, print queues, and temporary files automatically.",
+    explanationIncorrect: {
+      A: "",
+      B: "The Encrypting File System (EFS) is an NTFS feature that applies encryption only to individual files or folders. This would require the executive to manually configure properties for specific files, and it does not natively encrypt global system assets like the OS swap file.",
+      C: "BitLocker To Go is used specifically to encrypt removable data drives, such as USB flash drives. It is not designed to encrypt the internal, fixed operating system drive of the laptop.",
+      D: "Transport Layer Security (TLS) is used to implement a secure connection over a network, protecting data-in-transit against snooping. It does absolutely nothing to protect local data-at-rest if the physical laptop is stolen."
+    },
+    examTrap: "Differentiating between file-level encryption (EFS) and volume-level encryption (BitLocker) capabilities."
+  },
+  {
+    id: "Q011",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "hard",
+    scenario: "(Integration: OS + Browser Security) A user submits a helpdesk ticket stating that every time they try to navigate to a major news website, their browser immediately jumps to a visually identical but slightly misspelled domain. Additionally, the user complains that they cannot find a recipe they bookmarked this morning, and checking the browser history shows it is completely blank despite browsing all day. The technician confirms the OS is fully patched.",
+    prompt: "What is the MOST likely explanation for these two distinct symptoms occurring simultaneously?",
+    choices: [
+      { key: "A", text: "The website uses third-party cookies, and the browser's tracking protection is set to strict." },
+      { key: "B", text: "The browser has a corrupt cache file, and all extensions have been disabled via group policy." },
+      { key: "C", text: "The user has configured a network proxy server, and an Ad Blocker is filtering the content." },
+      { key: "D", text: "The user is browsing in Private-browsing mode, and the system is infected with spyware." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"browser immediately jumps to a visually identical but slightly misspelled domain\" and \"history shows it is completely blank\".",
+    explanationCorrect: "The user browsing in Private-browsing mode and having a spyware infection is correct because these represent two distinct issues matching the symptoms. Spyware commonly performs DNS redirection, sending the user to spoofed sites when they attempt to navigate to legitimate ones. Concurrently, Private-browsing mode disables caching features so that no browsing history, cookies, or bookmarks are permanently stored when the session is closed, explaining the blank history and missing recipe.",
+    explanationIncorrect: {
+      A: "Strict tracking protection mitigates sites from using third-party cookies to harvest data and track analytics. It does not maliciously redirect users to spoofed domains, nor does it completely wipe the local daily browsing history.",
+      B: "A corrupt cache might slow down browsing or fail to load a specific page, but it does not aggressively redirect traffic to a fake domain. Disabling extensions would actually stop malicious add-ons from executing redirection.",
+      C: "A proxy server redirects web requests to monitor or filter content, but in an enterprise, it redirects to safe internet gateways, not spoofed malicious domains. An Ad Blocker selectively removes page elements; it does not erase the browser's history log.",
+      D: ""
+    },
+    examTrap: "Combining multiple concurrent troubleshooting symptoms (one malicious, one configuration-based) requiring the isolation of overlapping root causes."
+  },
+  {
+    id: "Q012",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "medium",
+    scenario: "A standard user is tasked with running a legacy internal database application once a month. The legacy software requires the ability to make configuration changes to the C:\\Windows folder during execution. The IT department strictly enforces the principle of least privilege and refuses to grant the user a permanent administrative account.",
+    prompt: "How can the IT technician allow the user to execute this legacy program successfully while remaining compliant with corporate security policy?",
+    choices: [
+      { key: "A", text: "Instruct the user to use the Run As Administrator option and provide them with temporary administrative credentials." },
+      { key: "B", text: "Disable User Account Control (UAC) globally on the workstation so the prompt is bypassed." },
+      { key: "C", text: "Move the executable to the Windows AppData folder to bypass execution control." },
+      { key: "D", text: "Assign the user's account to the root superuser group in the Active Directory domain." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"requires the ability to make configuration changes to the C:\\Windows folder\" and \"strictly enforces the principle of least privilege\".",
+    explanationCorrect: "Instructing the user to use the Run As Administrator option is correct because it allows a standard user account to run a specific program or utility with elevated administrative privileges temporarily. By providing the administrative account password only when requested by the UAC prompt for this specific task, the user remains a standard user for all other daily activities, satisfying the principle of least privilege.",
+    explanationIncorrect: {
+      A: "",
+      B: "Disabling User Account Control (UAC) is a severe security violation that removes the requirement for confirmation when making system changes. Even if UAC is disabled, a standard user fundamentally lacks the NTFS rights to modify OS files without elevating privileges.",
+      C: "The AppData folder is used to store specific application settings and data for user profiles. Moving an executable there does not grant the program the administrative rights required to alter the heavily protected C:\\Windows directory.",
+      D: "Assigning the user to a root or superuser group grants them permanent, unrestricted access to the entire system. This explicitly violates the IT department's strict enforcement of the principle of least privilege, which dictates users should be given only sufficient access to complete their tasks."
+    },
+    examTrap: "Balancing legacy software permission requirements with modern execution control and least privilege policies."
+  },
+  {
+    id: "Q013",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "medium",
+    scenario: "A user opens an unsolicited PDF attachment from an external sender. Immediately after opening the file, a black command-line window flashing the word \"PowerShell\" briefly appears and disappears. The user assumes the PDF reader crashed and attempts to open it again, but a pop-up appears stating \"Adobe Reader requires a critical update.\" Meanwhile, a technician reviewing network logs notices the workstation is suddenly attempting to scan the local subnet. The technician remotely verifies that unauthorized scripts are executing in memory.",
+    prompt: "According to the CompTIA malware removal best practices, what is the FIRST action the technician should take after verifying these symptoms?",
+    choices: [
+      { key: "A", text: "Terminate the PowerShell process using Task Manager." },
+      { key: "B", text: "Disconnect the workstation's Ethernet cable." },
+      { key: "C", text: "Disable the System Restore service." },
+      { key: "D", text: "Run a full system scan using Windows Defender Antivirus." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"after verifying these symptoms\" and \"attempting to scan the local subnet\".",
+    explanationCorrect: "Disconnecting the Ethernet cable to quarantine the system is correct because it directly aligns with Step 2 of the CompTIA malware removal best practice methodology (Quarantine infected systems). Because the fileless malware is actively using a scripting environment to scan the subnet and potentially spread or establish a command-and-control (C2) backdoor, isolating the host from the network immediately arrests the threat's ability to propagate or exfiltrate data.",
+    explanationIncorrect: {
+      A: "Terminating the process using Task Manager is a manual remediation technique (Step 4b) that is technically valid for stopping active code. However, attempting to remediate the system before isolating it leaves the network vulnerable to lateral movement while the technician navigates the OS interface.",
+      B: "",
+      C: "Disabling the System Restore service is explicitly Step 3 in the CompTIA methodology. It is a critical action to ensure backup snapshots are not infected, but it must be performed after the system has been safely quarantined (Step 2).",
+      D: "Running a full antivirus scan represents the remediation phase (Step 4a). Executing a scan while the system is still attached to the production network allows the malware to continue its network-based attacks while the potentially lengthy scan completes."
+    },
+    examTrap: "Recognizing the strict sequential order of the malware removal methodology and distinguishing between local remediation actions and immediate network containment."
+  },
+  {
+    id: "Q014",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "hard",
+    scenario: "(Integration: Networking + Security) A developer travels to a client site to demonstrate a custom web application hosted locally on their Windows 10 laptop. At the home office, coworkers frequently access this local application via the laptop's IP address on port 8080 without issue. At the client site, the developer connects the laptop to the client's guest Wi-Fi and successfully authenticates through the captive portal. However, when the client attempts to navigate to the laptop's IP address to view the demo, the connection times out. The developer confirms the local web server service is running.",
+    prompt: "What is the MOST likely cause of this blocked connection?",
+    choices: [
+      { key: "A", text: "The laptop's MAC address is being filtered by the client's wireless access point." },
+      { key: "B", text: "The Windows Defender Firewall is applying the Public Profile policies." },
+      { key: "C", text: "The guest Wi-Fi requires a proxy server configuration in the browser." },
+      { key: "D", text: "The developer needs to use the Run As Administrator option to start the web service." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"connects the laptop to the client's guest Wi-Fi\" and \"connection times out\" despite working at the office.",
+    explanationCorrect: "The Windows Defender Firewall applying the Public Profile is correct because Windows maintains different firewall profiles (Domain, Private, and Public) based on the trusted status of the connected network. When connecting to an untrusted guest Wi-Fi, Windows defaults to the Public Profile, which fundamentally blocks inbound connection requests (such as a client attempting to access port 8080) to protect the host from unauthorized network scans.",
+    explanationIncorrect: {
+      A: "MAC filtering is used to allow or deny devices from joining a wireless network. Since the developer successfully connected to the Wi-Fi and authenticated through the captive portal, MAC filtering is not the issue preventing the application connection.",
+      B: "",
+      C: "A proxy server is often used in enterprise environments to route outbound internet requests for filtering and monitoring. It has no bearing on local LAN-to-LAN inbound connections between two devices on the same internal wireless subnet.",
+      D: "Using \"Run As Administrator\" is necessary when an application requires elevated local execution privileges to start or modify system files. Because the scenario explicitly states the web server service is already verified as running, local execution permissions are not the cause of the network timeout."
+    },
+    examTrap: "Understanding how Windows dynamically applies different host-based firewall profiles based on network location awareness."
+  },
+  {
+    id: "Q015",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "medium",
+    scenario: "An employee is using a company-issued laptop at an airport coffee shop and attempts to log into their web-based payroll portal. The browser abruptly displays a warning page stating, \"Potential Security Risk Ahead,\" noting that the certificate authority (CA) is invalid. The employee knows the portal is highly secure, ignores the warning, clicks \"Advanced,\" and proceeds to log in. The laptop's local system time is verified via NTP and is perfectly accurate. A week later, the employee's payroll direct deposit routing number is found to be maliciously altered.",
+    prompt: "Which of the following BEST describes the attack vector used to compromise the employee's credentials?",
+    choices: [
+      { key: "A", text: "A rootkit concealed its presence and captured the local system swap file." },
+      { key: "B", text: "An evil-twin access point executed an on-path attack using a spoofed certificate." },
+      { key: "C", text: "The web browser's tracking protection was disabled, allowing a third-party cookie to hijack the session." },
+      { key: "D", text: "The payroll portal's root certificate expired due to an inaccurate internal clock." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"airport coffee shop\", \"certificate authority (CA) is invalid\", and \"employee... ignores the warning\".",
+    explanationCorrect: "An evil-twin access point executing an on-path attack is correct because it perfectly explains the certificate warning on a public network. A threat actor sets up a malicious access point to intercept traffic and presents a spoofed digital certificate to the victim's browser. Because the spoofed certificate is not signed by a trusted root CA, the browser generates a warning; when the user bypasses it, the attacker proxies the connection and decrypts the credential payload in transit.",
+    explanationIncorrect: {
+      A: "A rootkit is malware with SYSTEM-level privileges used to hide malicious processes from local OS monitoring tools like Task Manager. It does not cause browser certificate authority warnings during TLS handshakes.",
+      B: "",
+      C: "Disabling tracking protection allows marketing analytics and third-party cookies to track user browsing habits across different domains. It does not generate severe TLS certificate validation errors, nor is it typically used to outright steal and reuse financial authentication credentials.",
+      D: "While an expired certificate will cause a browser warning, the scenario explicitly states the warning was due to an \"invalid\" CA, and the prompt rules out time-sync issues by confirming the laptop's NTP is accurate. Furthermore, an expired server certificate would not explain how the credentials were stolen locally at the airport."
+    },
+    examTrap: "Recognizing the real-world symptoms of an on-path (man-in-the-middle) attack via untrusted certificates on public networks."
+  },
+  {
+    id: "Q016",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "easy",
+    scenario: "A financial firm requires that all data-at-rest on corporate laptops be completely inaccessible if the physical device is stolen. The IT department utilizes a built-in Windows enterprise tool to perform full disk encryption (FDE) on the C: drives. During the deployment of a new batch of laptops, the deployment script fails on several machines, displaying an error that a required hardware security component is missing or disabled.",
+    prompt: "Which hardware component must the technician enable in the system firmware to resolve this issue?",
+    choices: [
+      { key: "A", text: "Encrypting File System (EFS)" },
+      { key: "B", text: "Secure Boot" },
+      { key: "C", text: "Trusted Platform Module (TPM)" },
+      { key: "D", text: "Unified Extensible Firmware Interface (UEFI)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"full disk encryption (FDE)\" and \"required hardware security component is missing or disabled\".",
+    explanationCorrect: "The Trusted Platform Module (TPM) is correct because BitLocker, the native Windows FDE tool, heavily relies on the TPM chip installed on the motherboard to securely store the volume encryption keys. If the TPM is disabled in the BIOS/UEFI firmware, BitLocker cannot tie the encrypted disk to that specific hardware, causing the deployment process to fail.",
+    explanationIncorrect: {
+      A: "The Encrypting File System (EFS) is a software feature of the NTFS file system used for file-level and folder-level encryption, not full disk encryption. Furthermore, EFS is not a hardware component enabled in the firmware.",
+      B: "Secure Boot is a UEFI feature that verifies the cryptographic integrity of the bootloader and operating system files to prevent bootkits. While it is a critical security feature, it is not the dedicated hardware cryptographic processor required to store FDE keys.",
+      C: "",
+      D: "UEFI is the modern firmware interface that replaces the legacy BIOS. While the technician must enter the UEFI interface to make the change, UEFI itself is the firmware environment, not the specific cryptographic hardware module required by BitLocker."
+    },
+    examTrap: "Distinguishing between software encryption tools and the physical hardware dependencies (TPM) required to support them."
+  },
+  {
+    id: "Q017",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "hard",
+    scenario: "(Integration: OS + Security) An administrator needs to access an HR manager's local files after the HR manager was abruptly terminated and their Active Directory account was immediately disabled. The files on the local C: drive appear with green text in File Explorer. To gain access quickly without navigating complex domain tools, a junior technician logs into the local machine as the built-in Administrator, navigates to Local Users and Groups, and selects \"Reset Password\" on the HR manager's local account. The technician then logs in with the new password but receives an \"Access Denied\" error when clicking the green files.",
+    prompt: "Why did the technician's remediation attempt fail?",
+    choices: [
+      { key: "A", text: "The files are protected by BitLocker, which requires the original TPM recovery key to decrypt the drive." },
+      { key: "B", text: "Resetting the password via the Administrator account destroys access to the user's EFS decryption key." },
+      { key: "C", text: "The HR manager's account was disabled in Active Directory, preventing local file access." },
+      { key: "D", text: "The new password did not meet the domain's minimum complexity requirements, leaving the account locked." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"files... appear with green text\", \"selects 'Reset Password'\", and \"receives an 'Access Denied' error\".",
+    explanationCorrect: "Resetting the password destroying access to the EFS key is correct because files displayed in green text are encrypted using the Encrypting File System (EFS). The EFS encryption key is intrinsically tied to the user's secure account credentials; if an administrator forces a password reset via the local management console (rather than the user changing it themselves with their old password), the link to the cryptographic key is broken, resulting in permanent data loss unless a Data Recovery Agent (DRA) was previously configured.",
+    explanationIncorrect: {
+      A: "BitLocker is a full disk encryption (FDE) technology that encrypts the entire volume invisibly. It does not color-code individual file names green in Windows Explorer, which is the hallmark visual symptom of EFS file-level encryption.",
+      B: "",
+      C: "Disabling an Active Directory account prevents network authentication, but the scenario explicitly notes the technician reset a local user account password to log in. The \"Access Denied\" error is cryptographic (due to missing keys), not authentication-based.",
+      D: "If the new password failed to meet complexity requirements, the OS would reject the password change entirely and prevent the technician from logging in. The scenario states the technician successfully logged in with the new password, proving the reset was structurally accepted."
+    },
+    examTrap: "Understanding the severe consequences of administrative password resets on EFS-encrypted data."
+  },
+  {
+    id: "Q018",
+    topic: "2.4 Summarize types of malware and tools/methods for detection, removal, and prevention.",
+    difficulty: "medium",
+    scenario: "Employees in the accounting department complain that their workstations sound like jet engines and the interfaces are severely lagging. When a technician opens Task Manager to investigate, the fan noise immediately ceases, CPU utilization drops to 2%, and the system performs flawlessly. As soon as the technician closes Task Manager, the fan noise ramps back up and the system slows to a crawl. The technician notices a high volume of port 443 traffic communicating with an unknown external server during the lag periods.",
+    prompt: "Which type of malware payload is MOST likely responsible for this specific behavior?",
+    choices: [
+      { key: "A", text: "Keylogger" },
+      { key: "B", text: "Cryptominer" },
+      { key: "C", text: "Ransomware" },
+      { key: "D", text: "Adware" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"fan noise immediately ceases, CPU utilization drops... when a technician opens Task Manager\".",
+    explanationCorrect: "A cryptominer is correct because cryptojacking malware relies on hijacking a host's CPU and GPU resources to perform the intense blockchain calculations necessary to mine digital currency, leading to high heat and fan noise. To evade detection and remain on the host as long as possible, sophisticated cryptominers are programmed to monitor for local diagnostic tools (like Task Manager) and temporarily suspend their mining operations when these tools are active.",
+    explanationIncorrect: {
+      A: "A keylogger is spyware designed to silently record keystrokes to steal credentials. It operates covertly and requires very little processing power, meaning it would not cause the system fans to spin up or cause severe interface lagging.",
+      B: "",
+      C: "Ransomware attempts to extort money by aggressively encrypting the user's file system or locking the OS shell. While encryption uses CPU cycles, ransomware wants to make its presence known immediately to demand payment, rather than hiding its activity when Task Manager is opened.",
+      D: "Adware is a potentially unwanted program (PUP) that injects unwanted advertisements or redirects browsers. While annoying, it does not typically consume enough global system resources to max out the CPU and trigger thermal fans, nor does it selectively pause execution to hide from local diagnostics."
+    },
+    examTrap: "Identifying the physical hardware symptoms (fan noise, heat) and evasion tactics unique to cryptojacking payloads."
+  },
+  {
+    id: "Q019",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "hard",
+    scenario: "A marketing manager frequently visits a media-heavy industry news website. Recently, the website implemented a strict policy that prevents any articles or videos from loading if it detects that revenue-generating scripts are being blocked. The marketing manager relies on this site for daily research but currently only sees a blank white page with a message stating, \"Please disable your filtering software to view this content.\" The manager has no custom proxy settings configured and uses an untrusted third-party browser.",
+    prompt: "What is the BEST administrative action to restore access to the site's content while maintaining general web security?",
+    choices: [
+      { key: "A", text: "Clear the browser's cache and delete all saved session cookies." },
+      { key: "B", text: "Launch the browser using Private-browsing mode." },
+      { key: "C", text: "Add the specific website's domain to the Ad Blocker extension's allow list." },
+      { key: "D", text: "Verify the file hash of the downloaded browser against the developer's SHA256 string." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"prevents any articles or videos from loading if it detects that revenue-generating scripts are being blocked\" and \"BEST administrative action\".",
+    explanationCorrect: "Adding the website to the Ad Blocker's allow list is correct because modern websites actively scan for ad-blocking browser extensions and will deliberately withhold content (resulting in a blank page or warning message) if their advertisement elements are filtered. By configuring a site-specific exception, the manager satisfies the site's requirement to load ads while leaving the ad blocker active to protect against malvertising on the rest of the internet.",
+    explanationIncorrect: {
+      A: "Clearing the cache and session cookies removes temporary internet files and saved login states. It does not disable or bypass the active browser extensions that are currently filtering the site's advertisement scripts.",
+      B: "Launching Private-browsing mode typically enables strict tracking protection and blocks third-party cookies by default. This aggressive privacy stance is highly likely to further break the site's revenue scripts, rather than satisfying the site's demand to disable filtering software.",
+      C: "",
+      D: "Verifying the browser's file hash is a valid security step to ensure the installer package hasn't been tampered with prior to installation. However, it is an integrity check, not a configuration setting, and will do absolutely nothing to change how the active browser renders the news website."
+    },
+    examTrap: "Recognizing the functional impact of browser extensions on modern web delivery and implementing granular exceptions rather than global disablement."
+  },
+  {
+    id: "Q020",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "easy",
+    scenario: "A small business wants to prevent standard employees from plugging in external USB flash drives and having malicious scripts automatically execute. However, employees still need to be able to plug in digital cameras and manually navigate to the DCIM folders to extract photos. The IT administrator wants to configure this using built-in Windows features.",
+    prompt: "Which of the following is the MOST appropriate policy configuration to meet this requirement?",
+    choices: [
+      { key: "A", text: "Configure the Windows Defender Firewall to block outbound port 443." },
+      { key: "B", text: "Disable the AutoRun and AutoPlay settings in the OS drive properties." },
+      { key: "C", text: "Enable BitLocker To Go on all removable media." },
+      { key: "D", text: "Set the AutoPlay default to \"Take no action\" for memory cards." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"having malicious scripts automatically execute\" and \"still need to be able to plug in digital cameras and manually navigate\".",
+    explanationCorrect: "Disabling the AutoRun and AutoPlay settings is correct because legacy malware often exploits the autorun.inf file stored in the root of removable media to immediately execute payloads upon insertion. By globally disabling these features, the operating system ignores the automatic execution commands but still mounts the drive, allowing the user to safely and manually open File Explorer to copy their photos.",
+    explanationIncorrect: {
+      A: "Blocking outbound port 443 via the Windows Defender Firewall prevents the computer from making secure HTTPS connections to the internet. It provides zero protection against local script execution originating from a physical USB port.",
+      B: "",
+      C: "BitLocker To Go encrypts data on a USB drive to protect it if stolen. It does not stop a mounted, unlocked drive from automatically executing a malicious script via an AutoRun instruction.",
+      D: "Setting AutoPlay to \"Take no action\" changes the default prompt behavior for media, but it does not comprehensively disable the legacy AutoRun vector. Explicitly disabling the features entirely provides the secure baseline required to stop automatic script execution."
+    },
+    examTrap: "Differentiating between data-at-rest encryption (BitLocker) and physical hardware execution vectors (AutoRun)."
+  },
+  {
+    id: "Q021",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "medium",
+    scenario: "An IT support technician detects a Trojan on a workstation and successfully completes the remediation phase by booting into Safe Mode and removing the infected files using an anti-malware scanner. The system is still physically disconnected from the network and System Restore remains disabled.",
+    prompt: "According to the CompTIA malware removal best practices, what is the NEXT logical step the technician must perform before bringing the system back online?",
+    choices: [
+      { key: "A", text: "Investigate and verify the malware symptoms." },
+      { key: "B", text: "Create a fresh restore point." },
+      { key: "C", text: "Schedule scans and run updates." },
+      { key: "D", text: "Educate the end user on phishing techniques." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"successfully completes the remediation phase\" (Step 4 done) and \"what is the NEXT logical step\".",
+    explanationCorrect: "Scheduling scans and running updates is correct because it is exactly Step 5 of the CompTIA seven-step malware removal methodology. Once the active infection is remediated (Step 4), the technician must ensure the anti-malware software is scheduled to scan regularly and that virus definitions are updated so the system remains secure before advancing to re-enabling backups.",
+    explanationIncorrect: {
+      A: "Investigating and verifying malware symptoms is Step 1. This was already completed when the technician initially diagnosed the Trojan.",
+      B: "Creating a fresh restore point is part of Step 6. This must only be done after scheduled scans and updates are configured to ensure the new baseline snapshot is completely clean and the system is permanently protected.",
+      C: "",
+      D: "Educating the end user is Step 7, the final step of the methodology. This occurs after the machine has been fully secured, backed up, and returned to production service."
+    },
+    examTrap: "Knowing the precise sequence of the 7-step malware removal process, specifically what happens immediately after remediation."
+  },
+  {
+    id: "Q022",
+    topic: "2.4 Summarize types of malware and tools/methods for detection, removal, and prevention.",
+    difficulty: "hard",
+    scenario: "(Integration: Hardware + Malware) An organization purchased several used USB thumb drives for a promotional giveaway. A curious employee plugs one of the unformatted drives into their workstation before turning the computer on. The PC's UEFI firmware is configured to boot from USB devices first. The computer fails to load Windows and displays a black screen with a flashing cursor. The technician removes the workstation's internal solid-state drive (SSD), places it in an external enclosure, and verifies via another PC that the Windows directory and all user files are perfectly intact and unencrypted.",
+    prompt: "Which type of malware vector MOST likely caused this exact outage?",
+    choices: [
+      { key: "A", text: "Ransomware" },
+      { key: "B", text: "Boot Sector Virus" },
+      { key: "C", text: "Fileless Malware" },
+      { key: "D", text: "Network Worm" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"plugs one of the unformatted drives... before turning the computer on\", \"fails to load Windows\", and \"Windows directory and all user files are perfectly intact\".",
+    explanationCorrect: "A Boot Sector Virus is correct because this type of malware infects the bootloader process or partition table. Because the system was configured to boot from the infected USB drive first, the virus executed at the firmware level, hijacking the bootloader and preventing the OS from finding the Windows partition. The fact that the OS files on the SSD are uncorrupted when viewed externally confirms the issue is isolated to the boot sector handover rather than OS-level file destruction.",
+    explanationIncorrect: {
+      A: "Crypto-ransomware attempts to encrypt user files and demand payment. The scenario explicitly states that the technician verified the files were completely unencrypted when the drive was mounted externally.",
+      B: "",
+      C: "Fileless malware operates by injecting malicious code directly into system memory using native scripting tools (like PowerShell) once the OS is running. It cannot execute if the operating system fails to load entirely.",
+      D: "A worm is designed to self-replicate across network connections to exploit vulnerable client/server software. The vector here was physical hardware insertion prior to boot, not lateral movement over an Ethernet connection."
+    },
+    examTrap: "Combining hardware boot order configuration with specific malware vectors to rule out OS-level payload execution."
+  },
+  {
+    id: "Q023",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "medium",
+    scenario: "A systems administrator is tasked with securing a fleet of shared Windows 10 Pro computers in a public library. To minimize helpdesk tickets, the administrator wants to prevent patrons from attempting to brute-force the local library account. However, if a patron does type the password incorrectly multiple times, the administrator wants the account to become available again automatically after 30 minutes without requiring IT intervention.",
+    prompt: "Which combination of Account Policies should the administrator configure in the Local Group Policy Editor?",
+    choices: [
+      { key: "A", text: "Set Maximum Password Age to 30 days and enforce password complexity." },
+      { key: "B", text: "Configure a Failed Attempts Lockout threshold and specify a Lockout Duration." },
+      { key: "C", text: "Restrict Login Times and configure a 30-minute Screen Lock timeout." },
+      { key: "D", text: "Enable Account Expiration and require a Smart Card for login." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"prevent patrons from attempting to brute-force\" and \"become available again automatically after 30 minutes\".",
+    explanationCorrect: "Configuring a Failed Attempts Lockout threshold and Lockout Duration is correct because the threshold policy disables the account after a specified number of incorrect guesses, directly mitigating brute-force dictionary attacks. Pairing this with a lockout duration ensures the account automatically unlocks after the designated time period (e.g., 30 minutes), perfectly satisfying the requirement to avoid manual IT intervention.",
+    explanationIncorrect: {
+      A: "Maximum password age forces users to change their password periodically, while complexity requires symbols and numbers. While good security practices, these do absolutely nothing to stop an active brute-force attack from guessing the current password.",
+      B: "",
+      C: "Restricting login times prevents access during closed hours (like overnight). A screen lock timeout protects unattended workstations from physical access. Neither policy prevents an attacker from repeatedly guessing passwords while sitting at the machine during open hours.",
+      D: "Account expiration disables an account permanently on a specific calendar date (useful for temporary contractors). It does not dynamically lock and unlock an account based on bad password attempts."
+    },
+    examTrap: "Differentiating between session lockouts (screensaver) and authentication lockouts (failed attempts)."
+  },
+  {
+    id: "Q024",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "easy",
+    scenario: "An enterprise relies heavily on an internally developed legacy application that lacks modern code signing. To comply with a new security framework, the IT Director mandates the implementation of a strict \"Execution Control\" policy across all workstations. The goal is to establish a logical security boundary that stops unapproved or malicious software from running, regardless of whether the user is logged in as an Administrator.",
+    prompt: "Which of the following is the BEST technology to deploy to achieve this mandate?",
+    choices: [
+      { key: "A", text: "Disable User Account Control (UAC) globally via Group Policy." },
+      { key: "B", text: "Implement an application control suite utilizing a strict allow list." },
+      { key: "C", text: "Configure Windows Defender Antivirus to perform daily heuristic scans." },
+      { key: "D", text: "Set the network profile to Domain to enable advanced Windows Firewall rules." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"stops unapproved or malicious software from running, regardless of whether the user is logged in as an Administrator.\"",
+    explanationCorrect: "Implementing an application control suite with an allow list is correct because execution control relies on denying the execution of any binary that is not explicitly approved by IT. By using an allow list (formerly known as whitelisting), the system fundamentally rejects unapproved software, Trojans, or unauthorized test applications, completely bypassing reliance on user judgment or local privileges.",
+    explanationIncorrect: {
+      A: "Disabling User Account Control (UAC) is the exact opposite of execution control. Removing UAC allows applications to execute and make system-level changes silently without prompting the user, drastically lowering the security posture of the workstation.",
+      B: "",
+      C: "Heuristic scanning is a vital anti-malware technique used to spot virus-like behavior. However, AV scanning is a reactive detection measure, whereas execution control (allow listing) is a proactive, binary restriction on what software is permitted to launch in the first place.",
+      D: "Setting the network profile to Domain manages inbound and outbound network traffic rules via the Windows Firewall. A network firewall cannot prevent a locally logged-in user from executing a malicious binary stored on their C: drive."
+    },
+    examTrap: "Distinguishing between reactive anti-malware scanning and proactive execution control (allow listing)."
+  },
+  {
+    id: "Q025",
+    topic: "2.4 Summarize types of malware and tools/methods for detection, removal, and prevention.",
+    difficulty: "medium",
+    scenario: "A user opens a seemingly harmless PDF document sent via a spoofed internal company email. Immediately, a command prompt window flashes on the screen briefly before disappearing, and the system begins to run sluggishly. The local antivirus scanner shows no malicious executable files written to the storage drive. However, a technician analyzing the system memory discovers malicious scripts actively running within the PowerShell environment.",
+    prompt: "Based on the symptoms and vector of execution, which type of malware has infected the system?",
+    choices: [
+      { key: "A", text: "Boot Sector Virus" },
+      { key: "B", text: "Fileless Malware" },
+      { key: "C", text: "Trojan" },
+      { key: "D", text: "Crypto-ransomware" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"no malicious executable files written to the storage drive\" and \"running within the PowerShell environment.\"",
+    explanationCorrect: "Fileless malware is the correct answer because this classification describes malicious code that uses a host's native scripting environment, such as Windows PowerShell or PDF JavaScript, to create new malicious processes directly in memory. Since it operates entirely in RAM and does not write a traditional executable image file to the disk, it evades basic file system scanning. This directly matches the scenario's description of a script launching from a PDF without dropping an executable file.",
+    explanationIncorrect: {
+      A: "A boot sector virus is incorrect because it explicitly infects the boot sector code or partition table on a disk drive. It attempts to hijack the bootloader process when the disk is attached, which does not match a payload delivered via an active PDF script while the OS is already running.",
+      B: "",
+      C: "A Trojan is technically plausible as it involves social engineering (a spoofed email), but it is incorrect because a Trojan is concealed within an installer package that places executable files onto the disk. The scenario explicitly notes that no executable files were written to the storage drive, ruling out traditional Trojans.",
+      D: "Crypto-ransomware attempts to aggressively encrypt user files on fixed, removable, and network drives to extort a payment. While ransomware can be delivered via fileless scripts, there is no mention of file encryption or extortion demands in the scenario, making it an unsupported conclusion."
+    },
+    examTrap: "Recognizing the specific execution vector of fileless malware (in-memory scripts) versus traditional disk-based payloads."
+  },
+  {
+    id: "Q026",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "hard",
+    scenario: "(Integration: Networking + Security) A corporate executive travels to a conference and connects their laptop to the hotel's public Wi-Fi network. When navigating to the company's secure HTTPS webmail portal, the browser replaces the usual padlock icon with an alert icon and presents a warning that the site's security certificate is untrusted. The executive urgently needs an attachment and clicks \"Advanced\" to bypass the warning. The next day, the IT department notices unauthorized logins to the executive's account.",
+    prompt: "What is the MOST likely method the threat actor used to capture the executive's credentials?",
+    choices: [
+      { key: "A", text: "The browser was infected with adware that harvested form-field data." },
+      { key: "B", text: "A malicious proxy executed an on-path attack using a spoofed certificate." },
+      { key: "C", text: "The webmail portal's DNS records were temporarily corrupted by the hotel router." },
+      { key: "D", text: "A rootkit on the laptop bypassed the tracking protection in private-browsing mode." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"public Wi-Fi network,\" \"alert icon,\" and \"security certificate is untrusted.\"",
+    explanationCorrect: "A malicious proxy executing an on-path attack is correct because this vector perfectly describes the scenario's symptoms. In this type of attack, malware or an evil-twin access point intercepts the request and presents its own spoofed certificate to the browser. When the user overrides the warning, the malicious proxy establishes the session, allowing it to intercept and modify all the traffic that would normally be encrypted, successfully stealing the credentials.",
+    explanationIncorrect: {
+      A: "Adware is incorrect because its primary function is to serve unwanted advertisements or redirect traffic to generate revenue. While adware is a nuisance, it does not typically generate TLS certificate errors or systematically steal enterprise login credentials.",
+      B: "",
+      C: "DNS corruption could redirect a user to a fake site, which is a valid attack. However, it does not account for the specific browser behavior of presenting an untrusted certificate warning, which is the hallmark of a failed Transport Layer Security (TLS) identity validation during an intercept.",
+      D: "A rootkit operates with SYSTEM-level privileges to hide its presence from the OS. Tracking protection is a browser privacy setting that blocks third-party cookies; neither rootkits nor tracking protection are related to TLS certificate validation errors on public Wi-Fi."
+    },
+    examTrap: "Understanding the technical symptoms (untrusted certificate warnings) and consequences (data interception) of on-path / man-in-the-middle attacks on public networks."
+  },
+  {
+    id: "Q027",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "easy",
+    scenario: "A helpdesk technician responds to a user reporting severe performance degradation, missing files, and unprompted browser pop-ups. The technician investigates and strongly suspects the machine is infected with an advanced worm. The workstation is currently connected to the corporate LAN and mapping multiple file shares.",
+    prompt: "According to the CompTIA malware removal best practices, what is the FIRST technical action the technician must take to secure the environment?",
+    choices: [
+      { key: "A", text: "Disable System Restore in the Windows Control Panel." },
+      { key: "B", text: "Disconnect the workstation's network link." },
+      { key: "C", text: "Boot the system using the Windows Recovery Environment (WinRE)." },
+      { key: "D", text: "Run a full heuristic scan using Windows Defender Antivirus." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"suspects the machine is infected with an advanced worm\" and \"FIRST technical action\".",
+    explanationCorrect: "Disconnecting the network link is correct because it fulfills Step 2 of the CompTIA malware removal procedure: quarantine infected systems. Because malware such as worms propagates over networks, one of the very first actions must be to disconnect the network link to prevent the threat actor or autonomous code from infecting other hosts.",
+    explanationIncorrect: {
+      A: "Disabling System Restore is explicitly Step 3 in the CompTIA methodology. This must be done after the system is successfully quarantined to ensure the malware cannot spread while the technician is navigating the local operating system.",
+      B: "",
+      C: "Booting into WinRE is a valid scanning and removal technique (Step 4b) used for advanced remediation. Performing this before quarantining the system leaves the corporate network vulnerable to lateral movement during the reboot process.",
+      D: "Running an antivirus scan is part of the remediation phase (Step 4). Executing a scan while the system is actively mapped to corporate file shares risks widespread data corruption before the local scan can quarantine the malicious processes."
+    },
+    examTrap: "Recognizing the strict sequential order of the 7-step malware removal process, specifically prioritizing containment before local remediation."
+  },
+  {
+    id: "Q028",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "hard",
+    scenario: "(Integration: OS + Security) A financial analyst's Windows 10 Pro workstation suffers a critical motherboard failure. To retrieve a vital financial report, a technician connects the analyst's hard drive to a lab computer via a USB enclosure. The technician navigates to the user's documents folder and notices the financial report file name is displayed in green text. When the technician attempts to open or copy the file using a local Administrator account on the lab PC, they receive an \"Access Denied\" error. The drive is fully visible, and other standard files on the drive open normally.",
+    prompt: "What is the MOST likely cause of this specific access error?",
+    choices: [
+      { key: "A", text: "The entire drive is encrypted with BitLocker and requires a TPM key to unlock." },
+      { key: "B", text: "The file is protected by the Encrypting File System (EFS) and requires the original user's key." },
+      { key: "C", text: "The technician must use the \"Run As Administrator\" option to bypass execution control." },
+      { key: "D", text: "The file's NTFS permissions lack an explicit \"Allow\" rule for the lab PC's Administrator group." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"file name is displayed in green text\" and \"receives an 'Access Denied' error\" despite other files opening normally.",
+    explanationCorrect: "The Encrypting File System (EFS) is correct because folders and files that have been encrypted using EFS are shown with green color coding in Windows Explorer. Any user other than the specific principal who originally encrypted the file will receive an \"Access Denied\" error, and the file cannot be opened by other users—even administrators.",
+    explanationIncorrect: {
+      A: "BitLocker is a full disk encryption (FDE) product that encrypts the entire volume. If the drive were protected by BitLocker without the unlock key, the entire drive would be inaccessible, contradicting the scenario's clue that the drive is fully visible and other standard files open normally.",
+      B: "",
+      C: "The \"Run As Administrator\" option allows a standard user account to run executable programs or utilities with administrative privileges to satisfy User Account Control (UAC). It is not used to cryptographically decrypt data files like a financial report.",
+      D: "While NTFS access control lists (ACLs) govern file access and could potentially block an administrator until ownership is taken, standard NTFS permissions do not change the file text color to green. The green text is the definitive visual indicator of EFS encryption."
+    },
+    examTrap: "Differentiating between file-level encryption (EFS) visual symptoms and volume-level encryption (BitLocker) behavior."
+  },
+  {
+    id: "Q029",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "medium",
+    scenario: "A systems administrator suspects that a rogue application installed on a standard user's Windows PC is attempting to act as an unauthorized file server, listening for external connections. The user of the workstation still needs to access corporate internet resources via their web browser to complete their daily tasks.",
+    prompt: "Which of the following is the BEST way to secure the workstation using Windows Defender Firewall with Advanced Security?",
+    choices: [
+      { key: "A", text: "Configure an outbound rule to block TCP port 80 and 443." },
+      { key: "B", text: "Set the network profile to Domain to inherently block all outbound traffic." },
+      { key: "C", text: "Configure an inbound rule to block the specific rogue application process." },
+      { key: "D", text: "Configure the Private Profile to block all inbound and outbound connections." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"listening for external connections\" and \"user... still needs to access corporate internet resources\".",
+    explanationCorrect: "Configuring an inbound rule to block the specific process is correct because application security triggers in the Windows Defender Firewall are based on the process that listens for connections. Creating an inbound block rule for this specific rogue application effectively prevents external clients from connecting to it without disrupting the local user's outbound web browsing traffic.",
+    explanationIncorrect: {
+      A: "Blocking outbound TCP ports 80 and 443 would prevent the local user's web browser from initiating HTTP and HTTPS connections to the internet. This directly violates the requirement that the user must still access corporate internet resources.",
+      B: "Setting the network profile to Domain applies policies suitable for a corporate network, but default firewall policies do not inherently block all outbound traffic. An explicit rule is still required to target the rogue application's listening state.",
+      C: "",
+      D: "Blocking all inbound and outbound connections via the Private Profile would completely isolate the machine. While this would stop the rogue server, it would also break the user's ability to browse the internet, failing the scenario's operational requirement."
+    },
+    examTrap: "Understanding the difference between inbound (listening) and outbound (initiating) firewall rules and utilizing application-specific triggers."
+  },
+  {
+    id: "Q030",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "medium",
+    scenario: "An IT manager is configuring security policies for a set of shared library computers. The goal is to prevent threat actors from successfully using dictionary files containing popular words to guess the passwords of the local user accounts. However, because these are public machines, the IT manager wants to ensure that if a patron accidentally mistypes their password a few times, the account will automatically unlock itself after 15 minutes to reduce helpdesk calls.",
+    prompt: "Which combination of Account Policies should the IT manager configure in the Local Group Policy Editor?",
+    choices: [
+      { key: "A", text: "Set the Maximum Password Age to 30 days and enable complexity requirements." },
+      { key: "B", text: "Enable a Failed Attempts Lockout threshold and configure a Lockout Duration." },
+      { key: "C", text: "Restrict login times to library hours and configure a 15-minute screen lock." },
+      { key: "D", text: "Set the Account Expiration to the end of the day and disable the Guest account." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"dictionary files... to guess the passwords\" and \"automatically unlock itself after 15 minutes.\"",
+    explanationCorrect: "Enabling a Failed Attempts Lockout threshold and configuring a Lockout Duration is correct because the threshold specifies a maximum number of incorrect sign-in attempts, explicitly mitigating the risk of threat actors gaining system access using lists of possible passwords. Pairing this with a lockout duration ensures the account is disabled for a set time (e.g., 15 minutes) before unlocking, satisfying the requirement to reduce helpdesk calls for simple typos.",
+    explanationIncorrect: {
+      A: "Maximum password age forces periodic password changes, and complexity rules make passwords harder to guess initially. However, neither policy actively stops a threat actor from running an automated, continuous brute-force guessing attack against the current password.",
+      B: "",
+      C: "Restricting login times prevents access during off-hours, and a screen lock protects an unattended machine. Neither of these policies dynamically locks an account in response to active, repeated failed password attempts.",
+      D: "Setting an account expiration date permanently disables the account at a specific time, which does not defend against active dictionary attacks. Disabling the Guest account is a good general practice but does not protect named user accounts from brute-force tactics."
+    },
+    examTrap: "Distinguishing between session timeout controls (screen locks) and authentication protection controls (lockout thresholds)."
+  },
+  {
+    id: "Q031",
+    topic: "2.4 Summarize types of malware and tools/methods for detection, removal, and prevention.",
+    difficulty: "easy",
+    scenario: "A user complains that their workstation sounds like a jet engine due to the fans spinning at maximum speed, and the OS is extremely unresponsive. The technician opens Task Manager to investigate the resource usage. Immediately, the fan noise ceases, the CPU utilization drops to 2%, and the system performs flawlessly. When the technician closes Task Manager, the symptoms immediately return.",
+    prompt: "Which type of malware payload is MOST likely attempting to evade detection while consuming these resources?",
+    choices: [
+      { key: "A", text: "Keylogger" },
+      { key: "B", text: "Cryptominer" },
+      { key: "C", text: "Rootkit" },
+      { key: "D", text: "Adware" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"fans spinning at maximum speed,\" \"unresponsive,\" and symptoms immediately stopping when Task Manager is opened.",
+    explanationCorrect: "A cryptominer is the correct answer because cryptojacking malware hijacks the host's computing resources to perform the enormous blockchain calculations necessary to mine digital currency, inherently causing high CPU usage, heat, and fan noise. To evade detection and removal by a technician, sophisticated miners are programmed to detect when monitoring tools like Task Manager are launched and temporarily suspend their operations.",
+    explanationIncorrect: {
+      A: "A keylogger is spyware that actively attempts to steal confidential information by silently recording keystrokes. It operates covertly and requires minimal processing power, meaning it would not trigger massive thermal loads or fan noise.",
+      B: "",
+      C: "A rootkit operates with SYSTEM-level privileges and can alter how Task Manager reports data to hide its processes entirely. However, a rootkit's primary goal is persistence and evasion, not inherently maxing out CPU resources to generate massive heat.",
+      D: "Adware is designed to display unwanted and unsolicited advertisements or redirect browser requests. While adware is a nuisance that can slow a system slightly, it does not typically consume enough computational power to max out hardware thermals, nor does it selectively pause execution to hide from local diagnostics."
+    },
+    examTrap: "Identifying the unique physical hardware symptoms (fan noise/heat) combined with the evasion tactics associated with cryptojacking."
+  },
+  {
+    id: "Q032",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "medium",
+    scenario: "An employee heavily relies on a specific industry news website for daily research. Recently, the website implemented a strict script-detection policy and now displays a blank white page stating, \"Please disable your filtering software to view this content.\" The employee uses a standard browser with no custom proxy settings configured by the enterprise.",
+    prompt: "What is the MOST appropriate configuration change to restore access to the site's content while maintaining general web security for other sites?",
+    choices: [
+      { key: "A", text: "Launch the browser using Private-browsing mode." },
+      { key: "B", text: "Add the specific website's domain to the Ad Blocker extension's exceptions list." },
+      { key: "C", text: "Clear the browser's cache and delete all saved session cookies." },
+      { key: "D", text: "Manually import the website's digital certificate into the browser's trusted root store." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"blank white page stating, 'Please disable your filtering software to view this content.'\"",
+    explanationCorrect: "Adding the website to the Ad Blocker extension's exceptions list is correct because many sites detect ad blockers and will deliberately withhold content or display a warning message while the filtering is enabled. Configuring an exception on a site-by-site basis satisfies the website's requirement to load its revenue-generating elements while leaving the ad blocker active to protect the user on the rest of the internet.",
+    explanationIncorrect: {
+      A: "Private-browsing mode disables caching and typically enables strict tracking protection by default. This aggressive privacy stance blocks third-party cookies and trackers, which is highly likely to trigger the website's filtering detection rather than bypass it.",
+      B: "",
+      C: "Clearing the cache and session cookies removes browsing history and saved login states. It does not disable or bypass the active browser extensions (like an Ad Blocker) that are actively stripping the site's advertisement elements.",
+      D: "Manually importing a digital certificate is used to resolve untrusted CA errors during an HTTPS connection. The issue described in the scenario is an application-layer script block triggered by an extension, not a Transport Layer Security (TLS) cryptographic validation failure."
+    },
+    examTrap: "Recognizing the operational impact of Ad Blockers on modern web browsing and applying granular exceptions rather than disabling security globally."
+  },
+  {
+    id: "Q033",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "medium",
+    scenario: "A financial firm requires strict execution control on all endpoint laptops to stop zero-day Trojans from executing. The IT policy mandates that absolutely no unapproved software can run, regardless of whether the user is logged in with an Administrator account or a Standard account.",
+    prompt: "Which of the following is the BEST technology implementation to achieve this mandate?",
+    choices: [
+      { key: "A", text: "Configure an application control suite utilizing a strict allow list." },
+      { key: "B", text: "Ensure User Account Control (UAC) is set to \"Always Notify\"." },
+      { key: "C", text: "Schedule Windows Defender Antivirus to perform daily heuristic scans." },
+      { key: "D", text: "Enable AutoPlay for all inserted removable media drives." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"absolutely no unapproved software can run\" and \"regardless of whether the user is logged in with an Administrator account\".",
+    explanationCorrect: "Configuring an application control suite utilizing a strict allow list is correct because execution control establishes a security boundary that prevents malicious software from running on a host regardless of what the user account privileges allow. By configuring an allow list (approved software) and denying everything else, the system fundamentally rejects unapproved executables or Trojans, bypassing reliance on user judgment entirely.",
+    explanationIncorrect: {
+      A: "",
+      B: "While User Account Control (UAC) requires confirmation when making system changes, it ultimately relies on the user to accept the prompt or enter credentials. The scenario demands that unapproved software be stopped completely, not just placed behind a user-consent prompt.",
+      C: "Heuristic scanning uses knowledge of virus patterns to spot virus-like behavior reactively. While crucial, antivirus scanning is a detection measure, whereas an execution control allow list proactively denies the launch of any binary not explicitly approved by IT.",
+      D: "Enabling AutoPlay simply prompts the user to take a particular action when media is inserted. It does absolutely nothing to restrict the execution of an unapproved binary once it is copied to the hard drive."
+    },
+    examTrap: "Distinguishing between reactive anti-malware scanning / user-consent mechanisms (UAC) and proactive, strict execution control (allow listing)."
+  },
+  {
+    id: "Q034",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "hard",
+    scenario: "An IT support technician detects an advanced persistent threat (APT) Trojan on a workstation. Following best practices, the technician quarantines the system, disables automated backups, and successfully completes the remediation phase by booting into Safe Mode and removing the infected registry keys. The system is still offline.",
+    prompt: "According to the CompTIA malware removal methodology, what is the NEXT required action the technician should take?",
+    choices: [
+      { key: "A", text: "Create a fresh restore point in Windows." },
+      { key: "B", text: "Investigate and verify the malware symptoms." },
+      { key: "C", text: "Schedule scans and run updates." },
+      { key: "D", text: "Remediate the infected system using WinRE." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"successfully completes the remediation phase\" (Step 4 done) and \"what is the NEXT required action\".",
+    explanationCorrect: "Scheduling scans and running updates is correct because it explicitly aligns with Step 5 of the CompTIA seven-step procedure for malware removal. After successfully remediating the system (Step 4), the technician must ensure the anti-malware software is updated with the latest definitions and scheduled to scan regularly to protect the clean baseline before moving on to re-enable system backups.",
+    explanationIncorrect: {
+      A: "Creating a fresh restore point is part of Step 6. This must only be done after scheduled scans and updates (Step 5) are configured to guarantee the new snapshot is completely clean and the system has updated protections.",
+      B: "Investigating and verifying malware symptoms is Step 1 of the methodology. This was already completed when the technician initially identified the APT Trojan.",
+      C: "",
+      D: "Remediating the infected system using the Windows Recovery Environment (WinRE) is a removal technique falling under Step 4. Since the scenario explicitly states the remediation phase is successfully completed, repeating a Step 4 action is unnecessary and out of sequence."
+    },
+    examTrap: "Knowing the precise sequential order of the 7-step malware removal process, specifically transitioning from active removal to prevention of reinfection."
+  },
+  {
+    id: "Q035",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "easy",
+    scenario: "(Integration: Hardware + Security) A corporate IT department wants to deploy full disk encryption (FDE) to a fleet of new Windows 10 laptops to protect data-at-rest against physical theft. During the automated rollout, the BitLocker deployment script fails on several laptops, displaying an error that a required hardware security component is disabled in the system firmware.",
+    prompt: "Which hardware component must the technician enable in the UEFI firmware to resolve this issue?",
+    choices: [
+      { key: "A", text: "Trusted Platform Module (TPM)" },
+      { key: "B", text: "Encrypting File System (EFS)" },
+      { key: "C", text: "Secure Boot" },
+      { key: "D", text: "AutoRun" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"full disk encryption (FDE)\", \"BitLocker\", and \"hardware security component is disabled in the system firmware.\"",
+    explanationCorrect: "The Trusted Platform Module (TPM) is correct because BitLocker makes use of the TPM chip installed on the motherboard to tie the use of a fixed disk to that particular hardware. The TPM acts as a secure cryptographic processor to store the encryption key; if it is disabled in the firmware, BitLocker cannot automatically secure the volume, causing the rollout to fail.",
+    explanationIncorrect: {
+      A: "",
+      B: "The Encrypting File System (EFS) is a software feature of the NTFS file system used for file-level and folder-level encryption. It is not a hardware component, nor is it related to the volume-level FDE provided by BitLocker.",
+      C: "Secure Boot is a UEFI feature that verifies the cryptographic integrity of the operating system files to prevent bootkits. While vital for overall security, it is not the dedicated hardware module (like the TPM) required to store full disk encryption keys.",
+      D: "AutoRun is a legacy operating system feature that automatically executes commands defined in an autorun.inf file. It is an execution vector, not a cryptographic hardware component managed in firmware."
+    },
+    examTrap: "Distinguishing between encryption software capabilities and the physical hardware dependencies (TPM) required to support them."
+  },
+  {
+    id: "Q036",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "medium",
+    scenario: "A user receives a new corporate laptop and signs into their Microsoft Edge browser using their corporate Azure Active Directory account. The user complains that their carefully organized bookmarks, saved form autofill entries, and passwords from their old laptop are missing. The old laptop is powered off but was functioning normally yesterday.",
+    prompt: "What configuration setting must the technician verify to resolve this issue?",
+    choices: [
+      { key: "A", text: "Verify that the browser's profile synchronization settings are enabled." },
+      { key: "B", text: "Check the local AppData folder and verify the profile permissions." },
+      { key: "C", text: "Disable Private-browsing mode to restore access to cookies." },
+      { key: "D", text: "Import the developer's SHA256 hash to authenticate the profile extension." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"signs into their Microsoft Edge browser\", \"bookmarks, saved form autofill entries, and passwords... are missing\".",
+    explanationCorrect: "Verifying that the browser's profile synchronization settings are enabled is correct because a browser sign-in allows the user to synchronize settings between instances of the browser software on different devices. Items that can be synced explicitly include bookmarks, history, saved autofill entries, and passwords; if sync is disabled, the new laptop will not retrieve these from the cloud profile.",
+    explanationIncorrect: {
+      A: "",
+      B: "While settings and data for specific applications are stored in the Windows AppData folder locally, the user is transitioning to a brand-new laptop. Manually digging into local permissions on an empty AppData folder does not resolve the core issue, which requires pulling the profile data via the cloud sync feature.",
+      C: "Private-browsing mode disables caching features so no cookies or history are stored during that session. It does not permanently erase or hide cloud-synced bookmarks or passwords linked to a corporate identity profile.",
+      D: "Verifying a SHA256 hash is a cryptographic integrity check used to ensure a downloaded file or browser installer package has not been tampered with. It has absolutely nothing to do with authenticating cloud-based user profile data or bookmarks."
+    },
+    examTrap: "Recognizing the function of profile synchronization in modern browsers to transition personal data across devices."
+  },
+  {
+    id: "Q037",
+    topic: "2.6 Given a scenario, implement procedures for basic small office/home office (SOHO) malware removal.",
+    difficulty: "medium",
+    scenario: "A technician confirms a user's workstation is infected with a Trojan. The technician immediately unplugs the workstation's Ethernet cable and disables its Wi-Fi adapter to air-gap the machine. The user is frantic because they cannot access their mapped network drives to save their current document. The technician prepares to boot the system into Safe Mode to run a manual anti-malware scan.",
+    prompt: "According to the CompTIA malware removal best practices, what mandatory action MUST the technician perform immediately before booting into Safe Mode to scan the system?",
+    choices: [
+      { key: "A", text: "Create a fresh System Restore point to preserve the user's open document." },
+      { key: "B", text: "Disable System Restore in the Windows Control Panel." },
+      { key: "C", text: "Re-enable the network adapter temporarily to download the latest virus definitions." },
+      { key: "D", text: "Educate the user on the dangers of opening suspicious email attachments." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"unplugs the workstation's Ethernet cable... to air-gap the machine\" (Step 2 completed) and \"immediately before booting into Safe Mode\" (Step 4b initiation).",
+    explanationCorrect: "Disabling System Restore is correct because it explicitly aligns with Step 3 of the CompTIA seven-step malware removal procedure. Once a system has been successfully quarantined from the network (Step 2), the technician must disable automated backup systems like System Restore before attempting remediation. This prevents the system from saving a snapshot of the infected state, which could accidentally be used to reinfect the computer later.",
+    explanationIncorrect: {
+      A: "Creating a fresh System Restore point is part of Step 6. Doing this before removing the malware would permanently capture a backup of the active Trojan, actively working against the remediation effort.",
+      B: "",
+      C: "Updating virus definitions is technically Step 4a, but re-enabling the network adapter on a known-infected system completely breaks the quarantine established in Step 2. The technician must use an out-of-band method (like a clean USB drive) to update definitions on an isolated machine.",
+      D: "Educating the end user is Step 7, the final step of the methodology. This must only be conducted after the threat has been completely neutralized, the system is backed up, and the machine is safely returned to production."
+    },
+    examTrap: "Recognizing the strict, unyielding sequence of the 7-step malware removal process, specifically transitioning from Quarantine (Step 2) to Disabling Backups (Step 3)."
+  },
+  {
+    id: "Q038",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "hard",
+    scenario: "(Integration: Networking + Security) A developer's Windows 10 Pro workstation is running a legacy, custom-built application. A security audit reveals this rogue application is listening for unauthorized incoming connections from the local subnet. The workstation also natively hosts a shared local printer that coworkers connect to throughout the day. The network administrator needs to stop external devices from connecting to the legacy application but must ensure the coworkers can still print.",
+    prompt: "Which configuration in Windows Defender Firewall with Advanced Security is the BEST administrative solution?",
+    choices: [
+      { key: "A", text: "Create an inbound block rule targeting the specific executable process of the legacy application." },
+      { key: "B", text: "Create an inbound block rule for TCP and UDP port 445 to secure the local subnet traffic." },
+      { key: "C", text: "Change the workstation's network profile from Domain to Public." },
+      { key: "D", text: "Create an outbound block rule targeting the legacy application's executable process." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"listening for unauthorized incoming connections\" and \"must ensure the coworkers can still print\" (requiring legitimate inbound connections to survive).",
+    explanationCorrect: "Creating an inbound block rule targeting the specific executable process is correct because application security triggers in Windows Defender Firewall allow administrators to block traffic based on the specific process listening for connections. By blocking the legacy application's executable, the firewall immediately stops the rogue listener while perfectly preserving other inbound network services, such as the required print sharing.",
+    explanationIncorrect: {
+      A: "",
+      B: "Port 445 is used for SMB (Server Message Block), which handles native Windows file and printer sharing. Blocking this port inbound would successfully increase security, but it would completely break the coworkers' ability to connect to the shared local printer, violating the scenario's requirements.",
+      C: "Changing the network profile to Public applies strict default rules that block almost all unsolicited inbound connections, which is excellent for untrusted networks like coffee shops. However, applying the Public profile on a corporate LAN would inherently block the incoming printer sharing traffic alongside the rogue application.",
+      D: "An outbound rule restricts traffic initiated by the local workstation heading out to the network. Since the scenario explicitly states the application is listening for incoming connections (acting as a server), an outbound block rule would do nothing to stop external clients from successfully connecting to it."
+    },
+    examTrap: "Differentiating between inbound (listening) and outbound (initiating) firewall rules, and prioritizing granular application-based triggers over broad port or profile blocks."
+  },
+  {
+    id: "Q039",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "medium",
+    scenario: "A corporate executive logs into an airport's public Wi-Fi. When attempting to navigate to the company's secure internal webmail portal via HTTPS, the browser replaces the padlock icon with an alert icon. A warning page states the connection is insecure because the certificate authority (CA) is not recognized. The executive notes that the system clock on their laptop is perfectly synced with the local time zone and the portal worked flawlessly at their home office hours earlier.",
+    prompt: "What is the MOST likely cause of this browser warning?",
+    choices: [
+      { key: "A", text: "The company's webmail digital certificate has expired." },
+      { key: "B", text: "An evil-twin access point is performing an on-path attack using a spoofed certificate." },
+      { key: "C", text: "The web browser's tracking protection is set to Strict mode, blocking the TLS handshake." },
+      { key: "D", text: "The browser has cached a corrupt DNS record and is routing to a parked domain." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"airport's public Wi-Fi\", \"certificate authority (CA) is not recognized\", and the misleading symptom that the \"system clock... is perfectly synced\".",
+    explanationCorrect: "An evil-twin access point performing an on-path attack is correct because it perfectly explains an unrecognized CA warning on a public network. The malicious proxy intercepts the web request and presents its own spoofed digital certificate to the browser. Because this spoofed certificate is not signed by a trusted root CA stored in the browser, a severe warning is generated, indicating an active attempt to intercept and decrypt the traffic.",
+    explanationIncorrect: {
+      A: "While an expired certificate triggers a browser warning, the scenario explicitly states the CA is \"not recognized\" (an identity issue), rather than the certificate being out of date (a validity period issue). Furthermore, a genuinely expired corporate certificate would have failed at the home office earlier that morning.",
+      B: "",
+      C: "Strict tracking protection is a privacy feature used to block third-party cookies and analytics trackers from profiling users across sites. It operates at the application layer and does not interfere with or invalidate Transport Layer Security (TLS) cryptographic handshakes.",
+      D: "A corrupt DNS cache could redirect a user to a wrong IP address, which is a valid attack vector. However, navigating to a parked domain generally loads a valid, albeit different, website; it does not inherently cause a TLS certificate authority mismatch error unless an on-path interception is actively spoofing the original domain."
+    },
+    examTrap: "Recognizing the precise technical symptoms of malicious TLS interception (unrecognized CA) versus administrative misconfigurations (expired certs/clock skew)."
+  },
+  {
+    id: "Q040",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "hard",
+    scenario: "(Integration: Hardware + Security) An IT administrator is tasked with deploying full disk encryption (FDE) across a fleet of Windows 10 Enterprise laptops. The goal is to ensure the swap file, print queues, and temporary files are completely unreadable if a device is stolen. During deployment, one specific laptop repeatedly aborts the BitLocker initialization script, generating an error that the \"secure storage provider could not be found.\" The laptop's internal SSD is formatted as NTFS.",
+    prompt: "What hardware configuration is the MOST likely reason for this deployment failure?",
+    choices: [
+      { key: "A", text: "Secure Boot is currently disabled in the UEFI firmware." },
+      { key: "B", text: "The Encrypting File System (EFS) certificate has not been generated." },
+      { key: "C", text: "The Trusted Platform Module (TPM) is disabled in the system firmware." },
+      { key: "D", text: "The storage drive is configured as a dynamic disk instead of a basic disk." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"full disk encryption (FDE)\", \"BitLocker initialization script\", and \"secure storage provider could not be found.\"",
+    explanationCorrect: "The Trusted Platform Module (TPM) being disabled is correct because BitLocker natively requires the TPM chip on the motherboard to act as a secure cryptographic processor to store the volume encryption keys. If the TPM is disabled in the system firmware (BIOS/UEFI), BitLocker cannot tie the encrypted volume to that specific hardware, causing the automated initialization process to fail exactly as described.",
+    explanationIncorrect: {
+      A: "Secure Boot is a UEFI protocol that checks the cryptographic signatures of bootloaders to prevent bootkits. While it is a critical security feature, it is not the physical secure storage provider required to hold BitLocker FDE keys.",
+      B: "The Encrypting File System (EFS) is an NTFS software feature used for file-level and folder-level encryption, entirely separate from the volume-level FDE provided by BitLocker. BitLocker does not rely on EFS certificates to function.",
+      C: "",
+      D: "While disk partition styles can affect some advanced storage features, the specific error regarding a missing \"secure storage provider\" explicitly points to the cryptographic hardware module (TPM), not a logical partition formatting issue."
+    },
+    examTrap: "Distinguishing between software encryption features (EFS) and the physical hardware dependencies (TPM) required for FDE deployment."
+  },
+  {
+    id: "Q041",
+    topic: "2.4 Summarize types of malware and tools/methods for detection, removal, and prevention.",
+    difficulty: "easy",
+    scenario: "A user opens a seemingly harmless PDF document sent via a spoofed internal company email. Immediately, a command prompt window flashes on the screen briefly before disappearing, and the system begins to run sluggishly. The local antivirus scanner shows no malicious executable files written to the storage drive. However, a technician analyzing the system memory discovers malicious scripts actively running within the PowerShell environment.",
+    prompt: "Based on the vector of execution, which type of malware has infected the system?",
+    choices: [
+      { key: "A", text: "Fileless Malware" },
+      { key: "B", text: "Boot Sector Virus" },
+      { key: "C", text: "Trojan" },
+      { key: "D", text: "Crypto-ransomware" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"no malicious executable files written to the storage drive\" and \"running within the PowerShell environment.\"",
+    explanationCorrect: "Fileless malware is the correct answer because this classification explicitly describes malicious code that uses a host's native scripting environment—such as Windows PowerShell or PDF JavaScript—to create new malicious processes directly in memory. Since it operates entirely in RAM and does not write a traditional executable image file to the hard disk, it evades basic file system scanning, perfectly matching the scenario.",
+    explanationIncorrect: {
+      A: "",
+      B: "A boot sector virus strictly infects the boot sector code or partition table on a disk drive to hijack the bootloader. This vector occurs during the hardware hand-off to the OS, which does not match a payload delivered via an active PDF script while Windows is already running.",
+      C: "A Trojan relies on social engineering (like a spoofed email), making it a plausible guess. However, a traditional Trojan is concealed within an installer package that places physical executable files onto the disk. The scenario explicitly notes no executable files were written to storage, ruling out standard Trojans.",
+      D: "Crypto-ransomware aggressively encrypts user files on fixed and network drives to extort payment. While ransomware can be delivered via fileless scripts, there is absolutely no mention of file encryption, locked screens, or extortion demands in the scenario to support this classification."
+    },
+    examTrap: "Recognizing the specific execution vector of fileless malware (in-memory scripts) versus traditional disk-based executable payloads."
+  },
+  {
+    id: "Q042",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "medium",
+    scenario: "A company wants to secure its fleet of workstations against automated dictionary attacks that attempt to guess local account passwords overnight. However, the IT director mandates that if a legitimate user accidentally mistypes their password multiple times on a Monday morning, the account must automatically restore access after 30 minutes to prevent overwhelming the helpdesk with manual reset tickets.",
+    prompt: "Which combination of Account Policies must the administrator configure in the Local Group Policy Editor to achieve this?",
+    choices: [
+      { key: "A", text: "Set the Maximum Password Age to 30 days and enable complexity requirements." },
+      { key: "B", text: "Restrict login times to business hours and configure a 30-minute screen lock timeout." },
+      { key: "C", text: "Enable a Failed Attempts Lockout threshold and configure a Lockout Duration." },
+      { key: "D", text: "Set the Account Expiration to the end of the year and disable the Guest account." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"against automated dictionary attacks\", \"mistypes their password multiple times\", and \"automatically restore access after 30 minutes\".",
+    explanationCorrect: "Enabling a Failed Attempts Lockout threshold and configuring a Lockout Duration is correct because the threshold specifies a maximum number of incorrect sign-in attempts, directly mitigating the risk of threat actors gaining system access using lists of possible passwords. Pairing this with a lockout duration ensures the account is dynamically disabled for a set time (e.g., 30 minutes) before unlocking itself, perfectly satisfying the requirement to avoid manual IT intervention for simple typos.",
+    explanationIncorrect: {
+      A: "Maximum password age forces periodic password changes, and complexity rules make passwords harder to guess. Neither of these policies dynamically stops an active dictionary attack from repeatedly attempting to guess the current password.",
+      B: "Restricting login times prevents access during off-hours, which stops overnight attacks but leaves the system vulnerable to brute force during the day. A screen lock timeout protects an unattended machine; it does not lock an account against authentication failures.",
+      C: "",
+      D: "Setting an account expiration date permanently disables an account at a specific calendar date (useful for temporary contractors). It does not dynamically lock and unlock an account in response to failed password attempts."
+    },
+    examTrap: "Distinguishing between session timeout controls (screen locks) and authentication protection controls (lockout thresholds and durations)."
+  },
+  {
+    id: "Q043",
+    topic: "2.11 Given a scenario, configure relevant security settings in a browser.",
+    difficulty: "easy",
+    scenario: "A marketing manager relies heavily on a specific industry news website for daily research. Recently, the website implemented a strict detection policy and now displays a blank white page stating, \"Please disable your filtering software to view this content.\" The manager uses a standard browser equipped with a corporate-approved suite of security extensions, but has no custom proxy settings configured.",
+    prompt: "What is the BEST administrative action to restore access to the site's content while maintaining the user's security posture on the rest of the internet?",
+    choices: [
+      { key: "A", text: "Add the specific website's domain to the Ad Blocker extension's allow list." },
+      { key: "B", text: "Instruct the user to open the website using Private-browsing mode." },
+      { key: "C", text: "Clear the browser's cache and delete all saved session cookies." },
+      { key: "D", text: "Manually import the website's digital certificate into the Trusted Root store." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"blank white page stating, 'Please disable your filtering software to view this content.'\"",
+    explanationCorrect: "Adding the website to the Ad Blocker extension's allow list is correct because many modern websites actively detect ad blockers and will deliberately withhold content if their revenue-generating elements are stripped. Configuring a site-specific exception satisfies the website's requirement to load ads while leaving the ad blocker active to protect the user against malvertising on all other domains.",
+    explanationIncorrect: {
+      A: "",
+      B: "Launching Private-browsing mode typically enables strict tracking protection and aggressively blocks third-party cookies by default. This heightened privacy stance is highly likely to trigger the website's anti-filtering detection rather than bypass it.",
+      C: "Clearing the cache and session cookies removes temporary internet files and saved login states. It does not disable or bypass the active browser extensions (like the Ad Blocker) that are actively stripping the site's elements and causing the block.",
+      D: "Manually importing a digital certificate is a resolution for untrusted Certificate Authority (CA) errors during an HTTPS connection. The issue described is an application-layer script block triggered by a local extension, completely unrelated to TLS cryptographic validation."
+    },
+    examTrap: "Recognizing the operational impact of Ad Blockers on modern web browsing and applying granular exceptions rather than globally disabling security."
+  },
+  {
+    id: "Q044",
+    topic: "2.7 Given a scenario, apply workstation security options and hardening techniques.",
+    difficulty: "hard",
+    scenario: "(Integration: OS + Security) A user is abruptly terminated. To recover critical data before wiping the machine, an IT administrator logs into the departed user's Windows 10 Pro workstation using the local built-in Administrator account. Upon navigating to the user's Documents folder, the admin sees the critical spreadsheet listed in green text. However, when attempting to copy the file to a flash drive, the admin receives an \"Access Denied\" error. The admin verifies their account has full NTFS ownership of the file, but the error persists.",
+    prompt: "Why is the administrator STILL unable to copy or open the spreadsheet?",
+    choices: [
+      { key: "A", text: "The file is protected by BitLocker To Go, which requires the original TPM recovery key to decrypt." },
+      { key: "B", text: "The administrator must use the \"Run As Administrator\" context menu to bypass Execution Control." },
+      { key: "C", text: "The file's archive attribute is unchecked, actively preventing the OS from copying it to external media." },
+      { key: "D", text: "The file is protected by the Encrypting File System (EFS), which requires the departed user's specific cryptographic key." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"critical spreadsheet listed in green text\" and \"receives an 'Access Denied' error\" despite having full NTFS ownership.",
+    explanationCorrect: "The file being protected by the Encrypting File System (EFS) is correct because Windows Explorer uses green color coding to visually indicate folders and files encrypted by EFS. Because EFS encryption is mathematically tied to the specific user account credentials that encrypted it, any other user—even a local administrator who has taken NTFS ownership—will receive an \"Access Denied\" error because they lack the necessary private decryption key.",
+    explanationIncorrect: {
+      A: "BitLocker To Go is used exclusively for removable data drives (like USB flash drives), not internal workstation folders. Furthermore, BitLocker relies on volume-level encryption and does not color-code individual file names green in Windows Explorer.",
+      B: "The \"Run As Administrator\" option allows a standard user account to temporarily elevate privileges to execute a program or make system changes (satisfying UAC). It is an execution control feature, not a data decryption tool, and cannot bypass mathematical cryptographic locks on static data files.",
+      C: "The archive attribute is a legacy file system flag used by backup software to determine if a file has changed since the last backup. It has absolutely no bearing on an administrator's fundamental ability to manually copy or read a file.",
+      D: ""
+    },
+    examTrap: "Understanding the severe administrative limitations of EFS file-level encryption and recognizing its visual GUI symptoms (green text)."
+  },
+  {
+    id: "Q045",
+    topic: "2.2 Given a scenario, configure and apply basic Microsoft Windows OS security settings.",
+    difficulty: "medium",
+    scenario: "A financial institution mandates that absolutely no unapproved software, including test scripts or zero-day Trojans, can execute on its endpoints. This policy must apply regardless of whether the user is logged in with a Standard account or an Administrator account. The IT department wants to establish a logical security boundary that does not rely on reacting to virus definition updates.",
+    prompt: "Which of the following is the BEST technology implementation to achieve this strict mandate?",
+    choices: [
+      { key: "A", text: "Ensure Group Policy forces User Account Control (UAC) to \"Always Notify\"." },
+      { key: "B", text: "Configure an application control suite utilizing a strict allow list." },
+      { key: "C", text: "Schedule Windows Defender Antivirus to perform daily heuristic scans." },
+      { key: "D", text: "Disable the AutoRun and AutoPlay features globally on all workstations." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"absolutely no unapproved software... can execute\" and \"does not rely on reacting to virus definition updates\".",
+    explanationCorrect: "Configuring an application control suite utilizing a strict allow list is correct because execution control establishes a proactive security boundary that prevents any binary from launching unless it is explicitly approved by IT. By using an allow list (deny-by-default), the system fundamentally rejects unknown executables, Trojans, and unapproved scripts, completely bypassing reliance on user judgment or reactive anti-malware databases.",
+    explanationIncorrect: {
+      A: "User Account Control (UAC) requires confirmation when making system changes, but it ultimately relies on the logged-in user to evaluate the prompt and click 'Yes'. The scenario demands that unapproved software be mathematically blocked from running, not just placed behind a user-consent prompt.",
+      B: "",
+      C: "Heuristic scanning is a crucial reactive technique used to spot virus-like behavior. However, antivirus scanning is inherently reactive, whereas an execution control allow list proactively denies the launch of any binary not explicitly approved beforehand.",
+      D: "Disabling AutoRun and AutoPlay strictly prevents legacy automated script execution from physical USB insertions. While a good hardening step, it does absolutely nothing to stop a user from manually double-clicking and executing an unapproved application downloaded from the internet."
+    },
+    examTrap: "Distinguishing between reactive user-consent mechanisms (UAC) and proactive, strict execution control methodologies (allow listing)."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
