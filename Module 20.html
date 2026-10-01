@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues. (Integrates Networking & Mobile)",
+    difficulty: "hard",
+    scenario: "A user brings an older, corporate-issued smartphone (equipped with an 802.11n adapter) to a newly upgraded branch office. They complain that the phone cannot detect or connect to the new wireless access point, although their brand new laptop connects perfectly. The smartphone's battery is currently at 15%, and the user mentions the phone connects without issue at the main headquarters.",
+    prompt: "What is the MOST likely cause of this connectivity issue?",
+    choices: [
+      { key: "A", text: "The smartphone's battery is too low, causing the OS to disable the Wi-Fi radio to conserve power." },
+      { key: "B", text: "The new access point is configured strictly for 802.11ac without compatibility mode enabled." },
+      { key: "C", text: "The user needs to clear the cached network settings for the device's Wi-Fi manager." },
+      { key: "D", text: "The smartphone's Wi-Fi antenna is suffering from severe physical interference from the building's walls." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"older, corporate-issued smartphone (equipped with an 802.11n adapter)... new laptop connects perfectly.\"",
+    explanationCorrect: "The selected answer is correct because wireless access points must be configured to support the specific 802.11 standard of the client device. A legacy smartphone with an 802.11n adapter physically lacks the hardware capable of communicating on an exclusive 802.11ac frequency stream, meaning the access point must have compatibility (mixed) mode enabled to allow older devices to associate. Because the new laptop connects perfectly, we know the network is operational, but the legacy client is fundamentally mismatched with the AP's configuration.",
+    explanationIncorrect: {
+      A: "It is technically true that a low battery can reduce a mobile device's radio signal strength or trigger battery-saver modes. However, this is incorrect in this specific scenario because the phone works fine at headquarters at the same battery level, pointing to a location-specific network standard issue rather than a local power constraint.",
+      B: "",
+      C: "Clearing network settings or forgetting a network is a standard troubleshooting step for authentication failures or corrupted profiles. However, this is incorrect here because the device is completely failing to detect/connect to a newly upgraded AP, which is indicative of a hardware standard incompatibility rather than a corrupt local cache.",
+      D: "Physical barriers and interference are highly plausible causes for weakened signal strength. However, this option is incorrect in this context because the user's new laptop connects perfectly in the exact same location, ruling out environmental interference as the primary root cause."
+    },
+    examTrap: "The \"Misleading Symptom\" trap. The exam wants you to be distracted by the 15% battery life and choose power-saving features, but the hardware standard mismatch (802.11n vs 802.11ac) is the definitive cause."
+  },
+  {
+    id: "Q002",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "A logistics driver reports their corporate Android tablet is extremely slow to respond, and the screen occasionally freezes entirely when navigating the proprietary routing app. The device is fully charged, but the driver suspects a hardware overheating issue because the tablet feels slightly warm to the touch.",
+    prompt: "What is the BEST first step to troubleshoot this performance issue?",
+    choices: [
+      { key: "A", text: "Perform a factory reset via Settings > System > Advanced." },
+      { key: "B", text: "Clear the proprietary routing app's cache and data." },
+      { key: "C", text: "Perform a soft reset by powering the device off and on again." },
+      { key: "D", text: "Boot the device into Safe Mode to disable third-party background services." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"screen occasionally freezes entirely... BEST first step.\"",
+    explanationCorrect: "The selected answer is correct because performing a soft reset (rebooting the device) is the fundamental first step for resolving temporary performance or stability issues. Rebooting closes all applications, clears the RAM without affecting stored data, and is specifically highly effective for restoring unresponsive or frozen systems. If the screen is completely locking up, more granular app-level troubleshooting cannot be effectively performed until the system's memory is cleared and core processes are restarted.",
+    explanationIncorrect: {
+      A: "A factory reset is a valid remediation step for persistent OS corruption or deeply entrenched malware. However, it is incorrect as a first step because it erases all user data, apps, and settings, making it a drastic measure of last resort rather than an immediate troubleshooting action.",
+      B: "Clearing an app's cache is an excellent, technically valid step if a specific application is misbehaving or corrupted. However, it is incorrect as the first step when the device screen is freezing entirely, as a soft reset should always be executed first to rule out temporary memory exhaustion before targeting specific app data.",
+      C: "",
+      D: "Booting into Safe Mode is a powerful diagnostic tool used to isolate issues caused by third-party apps. However, this is an intermediate troubleshooting phase; a standard reboot should always be attempted first to see if the issue is merely a transient resource constraint before entering diagnostic boot modes."
+    },
+    examTrap: "The \"Valid but out of sequence\" trap. Clearing the app cache or booting to Safe Mode are great steps, but CompTIA strictly tests the troubleshooting methodology sequence. Rebooting is always step one for frozen systems."
+  },
+  {
+    id: "Q003",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices. (Integrates Security & MDM)",
+    difficulty: "hard",
+    scenario: "A user reports they left their personal smartphone in a taxi while traveling. The phone is enrolled in the company's Bring Your Own Device (BYOD) program via an MDM suite. The user is panicked because the device contains irreplaceable family photos, alongside highly sensitive corporate client data. The device is protected only by a weak 4-digit PIN.",
+    prompt: "What action should the IT administrator take to secure the corporate data while accommodating the specific deployment model?",
+    choices: [
+      { key: "A", text: "Execute a remote wipe via the native vendor locator app." },
+      { key: "B", text: "Perform an enterprise wipe via the MDM console." },
+      { key: "C", text: "Reset the device passcode remotely to a 10-character alphanumeric password." },
+      { key: "D", text: "Quarantine the device's MAC address on the corporate firewall." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"personal smartphone... Bring Your Own Device (BYOD) program... irreplaceable family photos.\"",
+    explanationCorrect: "The selected answer is correct because an enterprise wipe is specifically designed for BYOD environments to separate corporate and personal data boundaries. When executed via the MDM, an enterprise wipe securely removes only corporate accounts, profiles, and files while leaving the user's personal apps, settings, and photos completely intact. This fulfills the administrative requirement of securing the sensitive client data without maliciously destroying the employee's personal property.",
+    explanationIncorrect: {
+      A: "A remote wipe is a technically valid action that can be executed via vendor apps (like Find My) to protect data. However, this is incorrect in this scenario because a remote wipe performs a full factory reset, which would permanently destroy the employee's personal photos, violating the standard operational procedures of a BYOD deployment.",
+      B: "",
+      C: "Remotely changing a passcode via MDM is a valid feature to harden a device against brute force attacks. However, this is incorrect here because it does not actually secure or remove the sensitive data from a lost device; if the device is already in a threat actor's hands and unlocked, changing the password post-loss offers no protection.",
+      D: "Quarantining a MAC address prevents a device from joining the local corporate Wi-Fi network. However, this is incorrect because it does absolutely nothing to protect the corporate data already cached locally on the device, nor does it prevent the device from accessing cloud resources via cellular networks."
+    },
+    examTrap: "The \"Scope and Context\" trap. A full remote wipe is the best security choice for a corporate-owned (COBO) device, but for BYOD, an enterprise wipe is the only policy-compliant solution."
+  },
+  {
+    id: "Q004",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "An employee is attempting to review a wide spreadsheet on their iOS tablet, but the application remains in portrait mode when they turn the device horizontally. The user mentions that their email and web browser apps also refuse to switch to landscape mode.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The internal gyroscope sensor hardware has failed." },
+      { key: "B", text: "The application was natively coded for a single orientation." },
+      { key: "C", text: "The Rotation Lock is enabled in the Control Center." },
+      { key: "D", text: "The device's Accessibility settings have manual orientation control enabled via AssistiveTouch." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"email and web browser apps also refuse to switch\".",
+    explanationCorrect: "The selected answer is correct because the Rotation Lock feature, easily toggled from the iOS Control Center, universally prevents the screen from automatically reorienting across the entire OS. Because the user specifies that multiple native applications (email, browser) are also failing to rotate, it confirms this is a system-wide setting rather than an isolated app behavior. Checking the control center is the simplest and most common resolution for autorotate failures.",
+    explanationIncorrect: {
+      A: "Hardware failure of the accelerometer or gyroscope is technically possible and would cause systemic rotation failure. However, it is incorrect to assume hardware failure before verifying the simplest, most common software configuration (rotation lock), aligning with CompTIA troubleshooting methodology to check simple causes first.",
+      B: "It is true that some applications are designed for a single orientation and will override device rotation. However, this is incorrect here because the trigger phrase explicitly states that standard native apps (email, browser) are also failing to rotate, ruling out single-app design constraints.",
+      C: "",
+      D: "AssistiveTouch is an iOS accessibility feature that can be configured to allow manual screen orientation control. While technically valid, it is highly unlikely to be the root cause compared to the standard Control Center rotation lock, making it an inferior answer for the most likely cause."
+    },
+    examTrap: "The \"Overcomplicating the issue\" trap. Test takers might jump to hardware failure or accessibility nuances, but CompTIA wants you to verify standard quick-settings toggles first."
+  },
+  {
+    id: "Q005",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "medium",
+    scenario: "An enterprise issues Android smartphones to its field technicians. Recently, several technicians have been found using unapproved, third-party network scanning tools. The technicians claim they bypassed the Google Play Store and downloaded the .APK files directly from a tech forum.",
+    prompt: "Which configuration change should the administrator implement to prevent this behavior long-term?",
+    choices: [
+      { key: "A", text: "Revoke root access privileges for all standard user accounts." },
+      { key: "B", text: "Disable the \"Install unknown apps\" toggle via an MDM policy." },
+      { key: "C", text: "Enable Google Play Protect to block unauthorized application execution." },
+      { key: "D", text: "Configure a local firewall app to block traffic to known tech forum IP addresses." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"bypassed the Google Play Store and downloaded the .APK files\".",
+    explanationCorrect: "The selected answer is correct because sideloading refers to the practice of installing applications using .APK files from third-party sources outside the official app store. Android OS natively features an \"Install unknown apps\" security toggle that permits or denies this behavior; using an MDM to disable and lock this toggle effectively blocks all unapproved app sources. This is a definitive preventative measure that aligns directly with enterprise security management.",
+    explanationIncorrect: {
+      A: "Root access grants administrative control over the Android OS. While technically related to deep security bypasses, it is incorrect here because standard sideloading of an .APK file does not require a device to be rooted; it only requires the \"unknown sources\" toggle to be enabled.",
+      B: "",
+      C: "Google Play Protect is a built-in security feature that scans apps for malicious behavior. However, it is incorrect because it acts as an anti-malware scanner, not a strict policy enforcement tool; it will not reliably prevent users from sideloading non-malicious but policy-violating network scanners.",
+      D: "A local \"no-root\" firewall app can restrict network connections to specific IPs via a VPN interface. However, it is incorrect because blocking one specific forum IP is a reactive \"whack-a-mole\" approach that does not fix the underlying vulnerability; users could easily download APKs from countless other sources."
+    },
+    examTrap: "Remediation vs. Prevention. A firewall blocks a specific site (weak remediation), but locking the OS sideloading setting via MDM actually prevents the behavior globally."
+  },
+  {
+    id: "Q006",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "hard",
+    scenario: "An executive's corporate iOS device suddenly loses access to the enterprise email app. The helpdesk notes that the MDM console has flagged the device as \"Non-Compliant\" and revoked corporate access. The user admits they recently installed an unauthorized utility to change the carrier network and customize the native home screen interface.",
+    prompt: "What is the MOST likely reason the MDM revoked access, and what security concept does this represent?",
+    choices: [
+      { key: "A", text: "The device has been jailbroken; the MDM detected subverted OS security controls." },
+      { key: "B", text: "The device was put into Developer Mode; the MDM detected unauthorized API access." },
+      { key: "C", text: "The user sideloaded a bootleg app; the MDM detected a fake security warning." },
+      { key: "D", text: "The device has been rooted; the MDM detected custom Android ROMs." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"iOS device... change the carrier network and customize the native home screen interface.\"",
+    explanationCorrect: "The selected answer is correct because \"jailbreaking\" is the specific term used for gaining root privileges on the restrictive iOS platform. Jailbreaking allows users to bypass Apple's security controls to perform unauthorized actions such as changing carriers, sideloading unapproved apps, and heavily customizing the UI. Modern MDM solutions dynamically monitor device health and will instantly block network and workspace access when they detect these subverted security controls, ensuring compromised devices cannot access corporate data.",
+    explanationIncorrect: {
+      A: "",
+      B: "Developer mode grants access to advanced configuration settings and diagnostic data for testing. While MDMs can block devices in developer mode, it is incorrect here because developer mode alone does not natively allow changing carrier network locks or deep UI customization, which are classic symptoms of a jailbreak.",
+      C: "Sideloading bootleg apps is a severe security risk that can introduce Trojans or scareware. However, this is incorrect because merely sideloading an app does not grant the underlying OS privileges required to change carriers or native iOS home screen UI logic; that requires kernel-level patching via a jailbreak.",
+      D: "Rooting is the process of gaining administrative control and installing custom ROMs on mobile devices. However, this is incorrect specifically because \"rooting\" is the terminology applied exclusively to Android devices, whereas the scenario explicitly identifies the hardware as an iOS device."
+    },
+    examTrap: "Terminology distinction based on OS platform. Rooting (Android) vs. Jailbreaking (iOS). You must match the symptom and platform to the correct terminology."
+  },
+  {
+    id: "Q007",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "A user is attempting to install a critical zero-day security patch on their iOS smartphone. The device successfully downloads the update over the corporate Wi-Fi, but when the user taps \"Install,\" the process repeatedly fails and returns a non-descriptive error. The device is currently at 35% battery life and is not plugged in. The user has 10 GB of free storage.",
+    prompt: "What is the BEST immediate action the user should take to allow the update to proceed?",
+    choices: [
+      { key: "A", text: "Delete unused applications and media to free up more than 10 GB of space." },
+      { key: "B", text: "Connect the device to a wall charger or power source." },
+      { key: "C", text: "Connect the device to a macOS computer via a Lightning cable and use Finder." },
+      { key: "D", text: "Clear the App Store cache by tapping any bottom icon 10 times rapidly." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"fails and returns a non-descriptive error. The device is currently at 35% battery life and is not plugged in.\"",
+    explanationCorrect: "The selected answer is correct because mobile operating systems proactively block the installation phase of OS updates if the device has a low battery and is not connected to a power source. This is a built-in safety mechanism to prevent the device from dying mid-installation, which could corrupt the OS and brick the phone. Simply connecting the device to power is the most immediate and common resolution to force the update to execute.",
+    explanationIncorrect: {
+      A: "Insufficient storage is a very common reason for an OS update failure. However, this is incorrect in this specific scenario because 10 GB of free storage is more than sufficient for a standard iOS security patch, making the battery level the actual limiting factor.",
+      B: "",
+      C: "Connecting the device to a macOS computer via a Lightning cable and using Finder is a highly valid method for installing updates when over-the-air (OTA) methods fail. However, this is not the best immediate action because it requires secondary hardware; plugging the phone into a standard charger is a simpler, more immediate fix for a battery-gated update.",
+      D: "Clearing the App Store cache by tapping the bottom icon 10 times is a legitimate trick for resolving stuck application downloads in older iOS versions. However, it is incorrect here because OS updates are managed through the Settings app (Settings > General > Software Update), completely independent of the App Store application."
+    },
+    examTrap: "Recognizing built-in OS safety behaviors. Students often jump to complex solutions (tethering to a PC) rather than addressing the basic power constraint explicitly mentioned in the prompt."
+  },
+  {
+    id: "Q008",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "A user attempts to pay for lunch using their smartphone's contactless payment wallet. They tap the phone to the point-of-sale reader multiple times, but the transaction refuses to process. The user verified earlier that the device's NFC is toggled ON, airplane mode is off, and their payment method is currently valid.",
+    prompt: "What is the MOST likely reason the payment is failing?",
+    choices: [
+      { key: "A", text: "The device's screen is currently locked." },
+      { key: "B", text: "The device is connected to a 5 GHz Wi-Fi network rather than 2.4 GHz." },
+      { key: "C", text: "The user needs to clear the digital wallet application's cache." },
+      { key: "D", text: "The device's Bluetooth radio is actively pairing with another accessory." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"verified earlier... tap the phone to the point-of-sale reader multiple times\".",
+    explanationCorrect: "The selected answer is correct because modern mobile operating systems utilize security features that require a device to be unlocked (via biometrics or PIN) to authorize Near-Field Communication (NFC) contactless payments. If the user is simply tapping a locked phone to the reader, the NFC hardware may be functional, but the OS wallet app will suppress the transaction until explicit user authentication is provided.",
+    explanationIncorrect: {
+      A: "",
+      B: "Network compatibility issues often involve 2.4 GHz vs. 5 GHz limitations. However, this is entirely incorrect because NFC is a close-proximity peer-to-peer radio technology that operates entirely independently of standard 802.11 Wi-Fi networks.",
+      C: "Clearing the cache is a standard step for an application that is crashing or freezing. However, it is incorrect here because there is no indication the wallet app has crashed; the transaction is simply not initiating, which is standard behavior for an unauthenticated, locked device attempting an NFC payment.",
+      D: "Bluetooth is a distinct wireless protocol used for pairing accessories like headphones or transferring files via features like AirDrop. It is incorrect because Bluetooth activity does not interfere with the separate, short-range 13.56 MHz frequency used by NFC hardware."
+    },
+    examTrap: "Overlooking simple security prerequisites. The question gives you all the technical green lights (NFC on, Airplane mode off), testing your knowledge that basic biometric/PIN authentication is the final gate for payment processing."
+  },
+  {
+    id: "Q009",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "An employee's Android smartphone has started randomly rebooting several times throughout the workday. The employee suspects a recently downloaded widget app is causing the instability, but they are not entirely sure. The device has 50% storage available and is not overheating.",
+    prompt: "What is the MOST appropriate troubleshooting step to verify if a third-party app is the root cause?",
+    choices: [
+      { key: "A", text: "Boot the device into Safe Mode." },
+      { key: "B", text: "Perform a full device factory reset." },
+      { key: "C", text: "Review the Battery Health menu in Settings." },
+      { key: "D", text: "Force stop the Google Play Store application." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"verify if a third-party app is the root cause\".",
+    explanationCorrect: "The selected answer is correct because booting an Android device into Safe Mode temporarily disables all third-party applications while keeping the core OS services running. This makes it the perfect diagnostic step: if the random reboots stop occurring while the device is in Safe Mode, the administrator can definitively conclude that a recently installed third-party app (like the suspected widget) is causing the instability rather than a hardware or base OS fault.",
+    explanationIncorrect: {
+      A: "",
+      B: "A factory reset will absolutely eliminate any rogue third-party apps and likely fix the issue. However, it is incorrect as a diagnostic step because it is highly destructive, wiping all user data and settings; it should not be used merely to \"verify\" a theory without isolating the app first.",
+      C: "Reviewing the Battery Health menu or using third-party diagnostic apps is an excellent step for identifying faulty hardware that causes random power loss. However, it is incorrect here because the prompt specifically asks how to verify if a third-party app is the root cause, which battery diagnostics cannot determine.",
+      D: "Force stopping an app is a valid step to halt a specific process. However, force stopping the Google Play Store is incorrect because the Play Store manages updates and installations, but it is not the background widget actively running and crashing the device; randomly force-stopping apps is less efficient than a clean Safe Mode boot."
+    },
+    examTrap: "Understanding specific OS boot modes. Safe Mode is specifically designed for isolating third-party software issues from core OS/hardware issues."
+  },
+  {
+    id: "Q010",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "hard",
+    scenario: "An employee complains that their corporate smartphone has a severely degraded response time, and the battery dies within three hours of a full charge. A technician checks the device and notices an unapproved \"Free VPN\" application consuming massive amounts of background data and network bandwidth. The employee admits they installed it to bypass the corporate content filter.",
+    prompt: "Based on these symptoms, what is the MOST likely security issue occurring on this device?",
+    choices: [
+      { key: "A", text: "The device is performing unauthorized cryptomining or participating in a DDoS attack." },
+      { key: "B", text: "The device has been jailbroken using a tethered custom firmware payload." },
+      { key: "C", text: "The VPN app is legitimately functioning as a background network scanner." },
+      { key: "D", text: "The mobile OS is failing to properly transition apps to a suspended state." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"unapproved 'Free VPN' application consuming massive amounts of background data... severely degraded response time... battery dies within three hours\".",
+    explanationCorrect: "The selected answer is correct because applications masquerading as \"Free VPNs\" are notoriously common targets for spoofing and Trojan malware. When malware covertly runs intense background processes—such as participating in Distributed Denial of Service (DDoS) attacks or cryptomining—it manifests precisely as excessive bandwidth consumption, extreme power drain, and severely degraded system response times due to maxed-out resource utilization.",
+    explanationIncorrect: {
+      A: "",
+      B: "Jailbreaking a device does remove security restrictions and allows the installation of unapproved apps. However, it is incorrect as the primary diagnosis because jailbreaking itself does not natively cause severe battery drain and massive background data consumption; those are symptoms of an active malware payload, not the jailbreak exploit itself.",
+      C: "It is plausible that network scanning tools use bandwidth. However, it is highly incorrect to assume a spoofed \"Free VPN\" is acting \"legitimately\" when it is exhibiting classic malicious symptoms of extreme power drain and system degradation, which indicates covert, non-legitimate activity.",
+      D: "Mobile operating systems do manage memory by transitioning apps between active, background, and suspended states. While a failing suspended state could cause slight battery drain, it is incorrect here because it does not account for the massive, active consumption of network bandwidth, which clearly points to a malicious data payload."
+    },
+    examTrap: "Recognizing the triad of mobile malware symptoms. High data usage + fast battery drain + sluggish performance almost always equates to Trojans operating botnets or cryptominers."
+  },
+   {
+    id: "Q011",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "medium",
+    scenario: "A corporate security policy mandates that all mobile devices must encrypt user data at rest. The company is evaluating deploying a mixed fleet of modern Android devices (Android 10+) and iOS 15 devices. A junior administrator asks how to manually trigger Full-Disk Encryption (FDE) on both platforms before assigning them to users.",
+    prompt: "How should the senior administrator correctly explain the encryption behavior of these modern mobile operating systems?",
+    choices: [
+      { key: "A", text: "In iOS, user data is encrypted by default; in modern Android, file-level encryption occurs automatically when a secure screen lock is configured." },
+      { key: "B", text: "Both operating systems require the administrator to manually enable Full Disk Encryption (FDE) from the Security Settings menu prior to deployment." },
+      { key: "C", text: "iOS requires \"Data Protection\" to be enabled via iCloud sync, while Android encrypts all user data by default out-of-the-box." },
+      { key: "D", text: "Android devices require a third-party MDM profile to trigger FDE, whereas iOS devices utilize hardware-backed FDE automatically." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"manually trigger Full-Disk Encryption (FDE)... modern Android devices (Android 10+) and iOS 15\".",
+    explanationCorrect: "The selected answer is correct because modern mobile OS architectures have shifted away from manual Full-Disk Encryption. In iOS, all user data is encrypted by default, utilizing a hardware key stored directly on the device. In modern Android versions (Android 10 and later), Full Disk Encryption is no longer used due to performance concerns; instead, the OS automatically utilizes file-level encryption for user data as soon as a secure screen lock (like a PIN or biometric) is configured.",
+    explanationIncorrect: {
+      A: "",
+      B: "Manual configuration of FDE was common on much older mobile OS versions or traditional desktop operating systems. It is incorrect here because modern iOS handles basic encryption by default, and modern Android abandoned FDE entirely in favor of automated file-level encryption tied to the screen lock.",
+      C: "It is true that iOS uses a feature called \"Data Protection\" for enhanced encryption linked to user credentials. However, this option is incorrect because Data Protection is enabled locally when a passcode is set, not via iCloud sync, and Android does not encrypt user data by default out-of-the-box until a secure lock screen is actually established.",
+      D: "MDM profiles are frequently used to strictly enforce encryption policies across a fleet. However, this is incorrect because Android natively supports file-level encryption without needing a third-party MDM, and iOS relies on file-level Data Protection tied to passcodes, rather than traditional FDE."
+    },
+    examTrap: "Outdated vs. Modern Standards. The exam tests if you know that FDE is largely deprecated in modern Android in favor of file-level encryption tied to the screen lock."
+  },
+  {
+    id: "Q012",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "Two coworkers are sitting next to each other in a conference room trying to share a large PDF file directly between their corporate iOS devices using AirDrop. Coworker A can see Coworker B's device on their screen, but Coworker B cannot see Coworker A's device. Both devices have Wi-Fi and Bluetooth toggled on.",
+    prompt: "What is the MOST likely configuration error on Coworker A's device?",
+    choices: [
+      { key: "A", text: "Coworker A's AirDrop is set to \"Contacts Only,\" and Coworker B is not saved in their address book." },
+      { key: "B", text: "Coworker A has the Android \"Nearby Share\" feature enabled instead of iOS AirDrop." },
+      { key: "C", text: "Coworker A's device is physically out of Bluetooth range from Coworker B's device." },
+      { key: "D", text: "Coworker A's device is currently connected to a 2.4 GHz network while Coworker B is on a 5 GHz network." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Coworker A can see Coworker B's device... Coworker B cannot see Coworker A's device.\"",
+    explanationCorrect: "The selected answer is correct because AirDrop discoverability on iOS devices is strictly controlled by privacy settings located in Settings > General > AirDrop. If discoverability is restricted to \"Contacts Only\" (the default secure setting) and the sender's Apple ID/phone number is not saved in the recipient's contact list, the device will remain entirely invisible to the sender. To resolve this, Coworker A must either add B to their contacts or temporarily change their AirDrop receiving setting to \"Everyone\".",
+    explanationIncorrect: {
+      A: "",
+      B: "\"Nearby Share\" is indeed a peer-to-peer file sharing protocol. However, it is incorrect because Nearby Share is an Android-specific feature, and the scenario explicitly states both coworkers are using corporate iOS devices.",
+      C: "AirDrop requires Bluetooth to establish the initial peer-to-peer connection, meaning range is a limiting factor. However, this is incorrect because the scenario states they are \"sitting next to each other in a conference room,\" placing them well within standard Bluetooth range, and Coworker A can successfully see B, proving the radios can reach each other.",
+      D: "Being on different network frequency bands (2.4 GHz vs 5 GHz) can affect infrastructure Wi-Fi routing. However, this is incorrect for AirDrop, as AirDrop creates an ad-hoc, peer-to-peer Wi-Fi connection directly between the two devices and does not rely on the building's underlying Wi-Fi infrastructure network to route the file."
+    },
+    examTrap: "One-way visibility troubleshooting. If one device sees the other but not vice versa, it's almost always a permissions/contacts issue, not a hardware radio failure."
+  },
+  {
+    id: "Q013",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "medium",
+    scenario: "A hospital wants to issue smartphones to its nursing staff for accessing patient records securely via a custom medical app. The hospital will purchase and own the devices to ensure strict hardware standardization and compliance. However, to boost employee morale, the IT director wants to allow the nurses to use the devices for personal email, web browsing, and social media during their breaks.",
+    prompt: "Which mobile device deployment model BEST describes this policy?",
+    choices: [
+      { key: "A", text: "Bring Your Own Device (BYOD)" },
+      { key: "B", text: "Corporate Owned, Business Only (COBO)" },
+      { key: "C", text: "Choose Your Own Device (CYOD)" },
+      { key: "D", text: "Corporate Owned, Personally Enabled (COPE)" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"hospital will purchase and own the devices... allow the nurses to use the devices for personal email\"",
+    explanationCorrect: "The selected answer is correct because the Corporate Owned, Personally Enabled (COPE) model specifically describes a scenario where the enterprise procures and retains ownership of the hardware, but explicitly permits employees to engage in personal activities like social media and personal email. This model balances the organization's need for strict hardware control and security standardization with the user's desire for personal device utility.",
+    explanationIncorrect: {
+      A: "BYOD allows personal use, but it is incorrect here because BYOD requires the employee to own and provide the hardware. The scenario explicitly states the hospital purchases and owns the devices.",
+      B: "COBO ensures the hospital owns the devices, which matches the purchasing requirement. However, it is incorrect because COBO strictly prohibits personal activities like social media or personal email, which the IT director explicitly wants to allow.",
+      C: "CYOD is similar to COPE in allowing personal use on corporate devices. However, it is incorrect because CYOD requires employees to choose their device from a pre-approved list, whereas the scenario implies strict hardware standardization chosen by the hospital rather than employee selection.",
+      D: ""
+    },
+    examTrap: "The \"Deployment Model Nuance\" trap. Candidates often confuse BYOD (user-owned) with COPE (corporate-owned but personal-use allowed) when they see personal email mentioned."
+  },
+  {
+    id: "Q014",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues. (Integrates Networking & Security)",
+    difficulty: "hard",
+    scenario: "A sales executive reports that their corporate Android device has suddenly lost access to several legitimate client websites, displaying certificate errors instead. Additionally, when attempting to use a standard search engine, they are repeatedly redirected to a spoofed, ad-heavy webpage. The issue persists regardless of whether the device is connected to the corporate Wi-Fi or cellular data.",
+    prompt: "What is the MOST likely cause of this persistent redirection and connectivity failure?",
+    choices: [
+      { key: "A", text: "The corporate Wi-Fi network's router has been compromised by an evil twin attack." },
+      { key: "B", text: "Malware has corrupted the device's local DNS settings or search providers." },
+      { key: "C", text: "The device's browser cache is full, causing legitimate sites to timeout." },
+      { key: "D", text: "An unauthorized VPN application is legitimately functioning as a background network scanner." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"redirected to a spoofed, ad-heavy webpage. The issue persists regardless of whether the device is connected to the corporate Wi-Fi or cellular data.\"",
+    explanationCorrect: "The selected answer is correct because malicious applications often hijack a mobile device's network traffic by corrupting its local DNS settings or default search providers. When this happens, DNS requests for legitimate sites are redirected to malicious IP addresses, triggering certificate warnings and spoofed site redirection. Because the symptom occurs across completely different network interfaces (both Wi-Fi and cellular), the root cause must be localized to the device's internal OS or malware configuration rather than external network infrastructure.",
+    explanationIncorrect: {
+      A: "An evil twin attack on the corporate Wi-Fi could definitely intercept traffic and cause redirects or certificate errors. However, this is incorrect in this scenario because the trigger phrase notes the problem continues when the user switches to cellular data, ruling out a localized Wi-Fi infrastructure attack.",
+      B: "",
+      C: "A full browser cache might cause sluggish performance or page loading errors. However, it is incorrect because a full cache does not actively rewrite URLs or hijack search queries to redirect users to ad-heavy, spoofed domains, which is a classic symptom of a redirection attack.",
+      D: "A legitimate background network scanner might consume bandwidth or drain the battery. However, it is incorrect because a \"legitimate\" scanner would not deliberately break DNS resolution or force the user to visit spoofed advertising websites."
+    },
+    examTrap: "Isolating network vs. local issues. By stating the issue persists on cellular data, the scenario forces you to rule out Wi-Fi infrastructure problems and focus on device-level malware."
+  },
+  {
+    id: "Q015",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "A delivery driver uses a custom Android application to log package drop-offs. Halfway through their route, the app suddenly freezes, closes unexpectedly, and refuses to launch when tapped. All other applications on the tablet, including GPS and the web browser, are functioning perfectly. The device has plenty of battery and storage available.",
+    prompt: "What is the BEST first step to resolve this specific software issue?",
+    choices: [
+      { key: "A", text: "Perform a soft reset by powering the device off and on again." },
+      { key: "B", text: "Go to Settings > Apps, select the application, and tap Force Stop." },
+      { key: "C", text: "Perform a factory reset via Settings > System > Advanced." },
+      { key: "D", text: "Boot the device into Safe Mode to isolate third-party interference." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"the app suddenly freezes... All other applications... are functioning perfectly.\"",
+    explanationCorrect: "The selected answer is correct because when a single, specific application crashes or fails to launch while the rest of the OS remains stable, the most direct and efficient remediation is to force-stop the misbehaving app. In Android, navigating to Settings > Apps and tapping \"Force Stop\" completely halts the app's background processes and memory allocation, allowing it to initialize cleanly upon the next launch without affecting the rest of the device.",
+    explanationIncorrect: {
+      A: "A soft reset (reboot) would indeed close the app and clear the RAM. However, while technically valid, it is not the best first step for a single isolated app failure because it disrupts the user's entire workflow by shutting down the whole device, whereas a targeted force-stop is faster and more efficient.",
+      B: "",
+      C: "A factory reset wipes all user data and restores the OS to default. This is vastly incorrect as a first step for a single crashing app, as it is a highly destructive last resort.",
+      D: "Safe Mode is a great diagnostic tool for identifying if a third-party app is causing systemic OS instability or random reboots. It is incorrect here because we already know exactly which third-party app is failing, and booting to Safe Mode would actually disable the delivery app entirely, preventing the driver from working."
+    },
+    examTrap: "Scope of remediation. If only one app is broken, fix that one app (Force Stop) before applying system-wide fixes (Reboot/Safe Mode)."
+  },
+  {
+    id: "Q016",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "hard",
+    scenario: "An employee brings a five-year-old Android smartphone to the IT desk. They are trying to install a critical, newly released OS update to comply with corporate security policies. The device is connected to the fast corporate Wi-Fi and is plugged into a wall charger. The user has verified that 15 GB of internal storage is free. Despite multiple attempts and device restarts, the OS update repeatedly fails to download or install.",
+    prompt: "What is the MOST likely cause of this update failure?",
+    choices: [
+      { key: "A", text: "The device is experiencing thermal throttling, pausing the installation." },
+      { key: "B", text: "The corporate Wi-Fi is configured as a metered network." },
+      { key: "C", text: "The device has reached the end of its vendor support lifecycle." },
+      { key: "D", text: "The device's Mobile Device Management (MDM) profile is blocking iCloud sync." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"five-year-old Android smartphone... critical, newly released OS update... verified that 15 GB of internal storage is free.\"",
+    explanationCorrect: "The selected answer is correct because mobile device vendors only provide OS updates and security patches for a specific duration, known as the device lifecycle. If a user is attempting to force a newly released OS update onto a five-year-old Android device that lacks the hardware capability to support it, the update will consistently fail because the vendor no longer supports that specific model. When common constraints like battery, Wi-Fi, and storage are eliminated, end-of-life status is the primary blocker.",
+    explanationIncorrect: {
+      A: "Thermal throttling can slow a device down if it overheats. While technically true that extreme heat might interrupt a process, there is no evidence in the scenario of overheating, making end-of-lifecycle a far more systemic and likely reason for a 5-year-old device failing a brand-new OS update.",
+      B: "Metered networks can block large OS updates to save data. However, this is incorrect because the scenario explicitly states the device is connected to the \"fast corporate Wi-Fi,\" which is highly unlikely to be configured or treated as a metered cellular connection by the OS.",
+      C: "",
+      D: "MDM profiles can block updates or syncs. However, this is incorrect because the scenario specifically identifies the device as an Android smartphone, whereas iCloud is an Apple-exclusive cloud service."
+    },
+    examTrap: "Troubleshooting methodology and hardware limitations. The question purposefully eliminates standard update failures (low battery, low storage, no Wi-Fi) to test your knowledge of vendor lifecycle support for legacy hardware."
+  },
+  {
+    id: "Q017",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues. (Integrates Security & OS configuration)",
+    difficulty: "medium",
+    scenario: "A high-profile company executive goes on a two-week business trip, which is heavily publicized. During the trip, their home is burglarized. Police discover that the burglars determined the executive was away, and exactly where they lived, by analyzing pictures the executive posted to social media showing their dog playing in their home's backyard.",
+    prompt: "What security configuration should the IT department implement on the executive's mobile device to prevent this specific vulnerability in the future?",
+    choices: [
+      { key: "A", text: "Disable the device's native GPS receiver entirely in Settings." },
+      { key: "B", text: "Remove the Camera app's permission to access Location Services." },
+      { key: "C", text: "Implement a no-root firewall to block outgoing traffic to social media sites." },
+      { key: "D", text: "Configure an MDM policy to prevent the sideloading of third-party camera apps." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"analyzing pictures the executive posted... showing their dog playing in their home's backyard.\"",
+    explanationCorrect: "The selected answer is correct because mobile device cameras often embed geographical coordinates into the metadata of photos, a process known as geotagging. Threat actors can extract this location information from online photos to track a user's residence and daily habits. By revoking the Camera app's specific permission to access Location Services, the device can no longer append GPS metadata to the image files, mitigating the risk of inadvertent location tracking while maintaining the camera's core functionality.",
+    explanationIncorrect: {
+      A: "Disabling the GPS receiver entirely would technically stop geotagging. However, this is an over-scoped, incorrect solution because it would also cripple legitimate, necessary device functions like mapping apps, ride-sharing, and critical locator features (Find My Device). Granular app permissions should be used instead.",
+      B: "",
+      C: "A no-root firewall restricts app network connections. While blocking social media prevents posting, it is incorrect because it is a draconian policy violation of executive privileges, and it doesn't solve the underlying data leakage issue: the photos themselves still contain the sensitive location metadata.",
+      D: "Sideloading refers to installing unapproved apps outside the official store. This is incorrect because the issue stems from the legitimate, native Camera app embedding metadata, not the presence of a malicious third-party camera app."
+    },
+    examTrap: "Scope of remediation. You must fix the vulnerability (geotagging) without destroying the device's functionality (disabling GPS globally)."
+  },
+  {
+    id: "Q018",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices. (Integrates Policy & MDM)",
+    difficulty: "hard",
+    scenario: "An enterprise software team has developed a proprietary, highly confidential inventory application. The IT director needs to deploy this application to 500 corporate-owned iOS tablets used by warehouse staff. Strict security policies dictate that the app cannot be published to the public App Store, and the iOS devices absolutely cannot be jailbroken.",
+    prompt: "How should the IT administrator securely deploy this application to the iOS fleet?",
+    choices: [
+      { key: "A", text: "Enable \"Install unknown apps\" in Settings and sideload the .APK file." },
+      { key: "B", text: "Utilize Apple Business Manager and push the enterprise app via the MDM suite." },
+      { key: "C", text: "Place the devices into Developer Mode and install the app using a patched kernel." },
+      { key: "D", text: "Upload the app to Managed Google Play and deploy it via configuration profiles." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"proprietary, highly confidential... corporate-owned iOS tablets... cannot be published to the public App Store, and the iOS devices absolutely cannot be jailbroken.\"",
+    explanationCorrect: "The selected answer is correct because Apple provides strict, authorized pathways for enterprises to distribute internal, custom applications without relying on the public App Store or subverting device security. By utilizing Apple's enterprise developer programs (like Apple Business Manager), an organization can privately sign their proprietary app and use their Mobile Device Management (MDM) software to push it directly to their fleet of enrolled iOS devices over private channels. This complies with all security policies without requiring a jailbreak.",
+    explanationIncorrect: {
+      A: "Sideloading via \"Install unknown apps\" is a valid method for bypassing public stores. However, it is fundamentally incorrect here because .APK files are exclusive to the Android operating system, whereas the scenario specifically requires deploying to iOS tablets.",
+      B: "",
+      C: "Developer mode and patched kernels can bypass application restrictions. However, booting an iOS device with a patched kernel is the literal definition of jailbreaking, which directly violates the strict security policy explicitly stated in the scenario.",
+      D: "Managed Google Play is an excellent tool for distributing private corporate apps. However, it is incorrect because it is the Google-managed ecosystem designed exclusively for Android devices, not Apple iOS devices."
+    },
+    examTrap: "Cross-platform terminology. You must correctly map the proprietary app deployment method (Apple Business Manager) to the correct operating system (iOS) while avoiding Android-specific terms (.APK, Google Play)."
+  },
+  {
+    id: "Q019",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "easy",
+    scenario: "A user's Android smartphone rebooted unexpectedly during a software update. Upon restarting, the device asks for the user's complex 6-digit PIN to unlock the screen. The user complains to the helpdesk, stating they usually just use the fingerprint scanner to unlock their phone and have forgotten their PIN. The fingerprint scanner refuses to activate.",
+    prompt: "What is the MOST likely reason the fingerprint scanner is not functioning?",
+    choices: [
+      { key: "A", text: "The software update corrupted the biometric sensor's firmware." },
+      { key: "B", text: "Biometric authentication requires a PIN or password for the initial unlock after a restart." },
+      { key: "C", text: "The device's MDM profile has automatically wiped the fingerprint template during the reboot." },
+      { key: "D", text: "The user must re-enroll their fingerprint via the Settings menu after every OS update." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"rebooted unexpectedly... asks for the user's complex 6-digit PIN... fingerprint scanner refuses to activate.\"",
+    explanationCorrect: "The selected answer is correct because mobile operating systems utilize biometric authentication (like fingerprints or facial recognition) as a convenience feature, but they fundamentally rely on a PIN, pattern, or password as the cryptographic foundation. By design, if a biometric method is used, the device will always require the PIN or password as a backup mechanism, specifically for high-privilege tasks or the initial unlock after a device is powered on or restarted. The scanner is not broken; the OS is enforcing standard security protocols.",
+    explanationIncorrect: {
+      A: "Firmware corruption is technically possible during an update. However, it is incorrect to jump to hardware/firmware failure when the device is exhibiting the standard, by-design security behavior of requiring a PIN on first boot.",
+      B: "",
+      C: "MDM profiles enforce security policies. While an MDM could theoretically block biometrics entirely, it is highly incorrect to assume an MDM \"automatically wipes\" secure templates merely because a device rebooted.",
+      D: "Re-enrolling fingerprints is occasionally required if a device is factory reset. However, standard OS updates and reboots do not erase locally stored biometric templates, so requiring re-enrollment after every update is factually incorrect."
+    },
+    examTrap: "Understanding biometric limitations. Users (and test-takers) often think biometrics replace passwords entirely, but CompTIA wants you to know the PIN is always required after a boot cycle."
+  },
+  {
+    id: "Q020",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "medium",
+    scenario: "A corporate security policy mandates that administrators can restrict which specific IP addresses and ports mobile applications are allowed to connect to. The fleet consists of stock Android devices that cannot be rooted due to warranty restrictions.",
+    prompt: "How can the IT administrator enforce this network restriction on these mobile devices?",
+    choices: [
+      { key: "A", text: "Modify the local iptables routing file via a secure shell (SSH) connection." },
+      { key: "B", text: "Deploy a \"no-root\" firewall application that utilizes a local VPN interface." },
+      { key: "C", text: "Enable the built-in Google Play Protect content filter." },
+      { key: "D", text: "Change the Wi-Fi compatibility mode on the corporate access points." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"restrict which specific IP addresses and ports... stock Android devices that cannot be rooted\".",
+    explanationCorrect: "The selected answer is correct because traditional firewall applications that control inter-app network traffic on mobile devices generally require root access to function at the system level. Because the policy forbids rooting, the administrator must deploy a \"no-root\" firewall; these specialized apps work by creating a local virtual private network (VPN) interface on the device itself, effectively routing and filtering all app access and port connections through the VPN without requiring administrative escalation.",
+    explanationIncorrect: {
+      A: "Modifying core OS routing files like iptables is a valid Linux networking concept. However, this is incorrect here because accessing and modifying these core system-level files on an Android device fundamentally requires the device to be rooted, which violates the scenario's constraints.",
+      B: "",
+      C: "Google Play Protect is an enabled-by-default feature. However, it is incorrect because it acts as a malware and app behavior scanner; it is not a configurable network firewall capable of blocking user-defined IP addresses or specific ports.",
+      D: "Changing Wi-Fi compatibility mode (e.g., supporting 802.11n vs 802.11ac) is used to ensure legacy devices can connect to modern networks. It is incorrect because it dictates wireless radio standards, not Layer 3/Layer 4 IP and port filtering for local applications."
+    },
+    examTrap: "\"Appropriate tool selection\" based on permission constraints. Firewalls usually need root, so you must know the specific workaround (\"no-root\" VPN interface) for unrooted Android devices."
+  },
+  {
+    id: "Q021",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "hard",
+    scenario: "A user downloaded a \"Free Wi-Fi Booster\" app from a third-party tech forum. A few days later, they report their phone's battery dies within two hours, the device feels excessively hot to the touch, and other applications take several seconds to open. The user's data usage monitor shows a massive spike in outbound network traffic, despite the user barely using the internet.",
+    prompt: "Based on these symptoms, what is the MOST likely cause of the device's behavior?",
+    choices: [
+      { key: "A", text: "The app is generating excessive fake security warnings to deploy scareware." },
+      { key: "B", text: "The device is experiencing hardware failure in its Wi-Fi radio antenna." },
+      { key: "C", text: "The app is a Trojan utilizing the device's resources for cryptomining or a DDoS attack." },
+      { key: "D", text: "The app has legitimately corrupted the local DNS settings, causing a loop." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"downloaded a 'Free Wi-Fi Booster' app from a third-party tech forum... battery dies within two hours, the device feels excessively hot... massive spike in outbound network traffic\".",
+    explanationCorrect: "The selected answer is correct because sideloaded utility apps (like \"boosters\" or VPNs) from unverified sources are common vectors for Trojan malware. The combination of severe battery drain, high thermal output (heat), sluggish OS performance, and massive unexplained outbound data traffic are classic symptoms of malware secretly running intense background processes. In mobile environments, this triad of symptoms almost universally indicates the device has been compromised and co-opted for resource-heavy tasks like cryptomining or participating in a botnet/DDoS attack.",
+    explanationIncorrect: {
+      A: "Scareware apps do generate fake security warnings to trick users. However, while a spoofed app could be scareware, this is incorrect because generating pop-ups does not typically cause massive outbound network data spikes, extreme heat, and severe system lag compared to intensive cryptomining workloads.",
+      B: "A failing hardware antenna might cause poor signal. However, it is incorrect to blame hardware when a third-party app was just sideloaded immediately prior to a massive spike in data usage and performance throttling, which points definitively to a software malware payload rather than physical degradation.",
+      C: "",
+      D: "Corrupting DNS settings is a common malware tactic for redirection attacks. However, DNS queries are extremely small data packets; corrupting them would cause browsing errors, but it is incorrect to attribute a \"massive spike in outbound network traffic\" and extreme hardware heat to a DNS loop."
+    },
+    examTrap: "Recognizing the triad of mobile malware symptoms. The exam tests if you can correlate heat, slow performance, and high data usage specifically to botnets/cryptominers rather than just generic \"viruses.\""
+  },
+  {
+    id: "Q022",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues. (Integrates Troubleshooting Methodology)",
+    difficulty: "medium",
+    scenario: "A user complains that their smartphone's battery drains from 100% to 15% by noon every day, even when they are just sitting at their desk. They have already turned down the screen brightness and ensured the device is not exposed to extreme temperatures. They ask the helpdesk to replace the battery immediately.",
+    prompt: "What is the BEST next step the technician should take to troubleshoot this issue?",
+    choices: [
+      { key: "A", text: "Perform a factory reset to eliminate any OS corruption." },
+      { key: "B", text: "Check the Battery settings menu to identify which background apps are consuming power." },
+      { key: "C", text: "Replace the battery as requested, as the device is likely experiencing chemical degradation." },
+      { key: "D", text: "Boot the device into Safe Mode and leave it there for the rest of the day." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"BEST next step... battery drains from 100% to 15% by noon... They ask the helpdesk to replace the battery immediately.\"",
+    explanationCorrect: "The selected answer is correct because CompTIA troubleshooting methodology requires establishing a theory of probable cause by checking simple, non-destructive issues first. Battery drain is frequently caused by rogue applications running intense background processes. Accessing the OS's native Battery settings menu (e.g., Settings > Battery > Battery Health) allows the technician to view detailed utilization information and pinpoint exactly which app is consuming the most resources, before assuming hardware failure.",
+    explanationIncorrect: {
+      A: "A factory reset would likely stop any rogue background apps. However, it is fundamentally incorrect as a \"next step\" because it is a highly destructive action that deletes all user data; diagnostics must be performed before wiping a device.",
+      B: "",
+      C: "Batteries do degrade over time. However, blindly replacing hardware based on a user's request without first verifying software-level power consumption in the settings menu violates the troubleshooting methodology of testing the easiest, cheapest fixes first.",
+      D: "Safe Mode disables third-party apps and is a good diagnostic tool. However, telling a user to leave their phone in Safe Mode \"for the rest of the day\" is an incorrect and impractical troubleshooting step, as it prevents them from using any third-party apps required for their job; checking the battery monitor is far less intrusive."
+    },
+    examTrap: "Remediation vs. Diagnostics. The user demands hardware replacement, but the technician must rely on OS software diagnostics (Battery menu) before escalating to hardware."
+  },
+  {
+    id: "Q023",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "hard",
+    scenario: "A company employs a strict Bring Your Own Device (BYOD) policy. To access the corporate workspace container on their personal smartphones, employees are required to use Two-Factor Authentication (2FA). An employee enters their correct Active Directory password into the workspace portal, but access is denied. They check their SMS messages and personal email, but no verification code has arrived.",
+    prompt: "What is the MOST likely reason the employee cannot complete the authentication process?",
+    choices: [
+      { key: "A", text: "The MDM software has detected a jailbroken device and wiped the workspace container." },
+      { key: "B", text: "The employee needs to generate a code from their registered trusted authenticator app." },
+      { key: "C", text: "The employee has not scanned their fingerprint, which natively acts as the second factor." },
+      { key: "D", text: "The device's location services are disabled, preventing geolocation authentication." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"required to use Two-Factor Authentication (2FA)... enters their correct Active Directory password... checks SMS... no verification code has arrived.\"",
+    explanationCorrect: "The selected answer is correct because Two-Factor Authentication (2FA) requires two distinct methods of credentials. When a corporate workspace policy mandates 2FA, the second factor must be securely delivered or generated. If the user is not receiving SMS or email codes, the corporate policy is highly likely configured to use a registered, trusted authenticator app (like Google Authenticator or Microsoft Authenticator) to generate the Time-based One-Time Password (TOTP) code locally on the device.",
+    explanationIncorrect: {
+      A: "An MDM will block access if it detects a jailbreak. However, this is an incorrect assumption here because the prompt specifically describes a failure at the 2FA credential stage (waiting for a code), not an MDM compliance lockout error.",
+      B: "",
+      C: "Biometrics (fingerprints) can be used as a form of authentication. However, it is incorrect to assume it natively acts as the second factor for the corporate workspace without explicit configuration; furthermore, the prompt indicates the user is actively waiting for a \"code,\" pointing to a token-based system rather than biometric input.",
+      D: "Geolocation can be used for contextual conditional access policies. However, it is incorrect in this scenario because standard 2FA mechanisms rely on \"something you have\" (a token, SMS, or authenticator app code) rather than GPS location services to satisfy the second credential requirement."
+    },
+    examTrap: "Understanding 2FA delivery methods. If SMS and email are ruled out, the candidate must recognize that authenticator applications are the primary alternative for token generation."
+  },
+  {
+    id: "Q024",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "A user is viewing a wide landscape photograph on their Android smartphone. When they turn the device horizontally, the image remains in a vertical portrait orientation. The user verifies in the quick-settings notification drawer that the \"Autorotate\" toggle is currently disabled.",
+    prompt: "How can the user reorient the specific photograph to landscape mode WITHOUT enabling system-wide autorotate?",
+    choices: [
+      { key: "A", text: "Enable AssistiveTouch in the Accessibility settings menu." },
+      { key: "B", text: "Tap the manual orientation icon that appears in the navigation bar when the device is turned." },
+      { key: "C", text: "Boot the device into Safe Mode to override the orientation lock." },
+      { key: "D", text: "Clear the cache of the photo gallery application." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Android smartphone... 'Autorotate' toggle is currently disabled... WITHOUT enabling system-wide autorotate\"",
+    explanationCorrect: "The selected answer is correct because Android operating systems feature a specific usability shortcut for this exact scenario. When system-wide autorotate is disabled and the physical device is turned horizontally, a small manual orientation icon temporarily appears in the bottom navigation bar. Tapping this specific icon allows the user to reorient the current application to landscape mode dynamically, without having to dive into the settings and enable global autorotate across the entire OS.",
+    explanationIncorrect: {
+      A: "AssistiveTouch is a highly valid accessibility feature that allows for manual screen orientation control. However, this is entirely incorrect for this scenario because AssistiveTouch is an exclusive feature of Apple's iOS platform, whereas the user is explicitly operating an Android smartphone.",
+      B: "",
+      C: "Safe Mode disables third-party apps for troubleshooting. It is incorrect here because viewing a photo is a basic usability task, not an OS instability issue, and booting to Safe Mode would not natively override the user's explicit choice to keep autorotate disabled.",
+      D: "Clearing the app cache resolves crashing or corrupted software. It is incorrect because the app is functioning exactly as intended (obeying the system-wide rotation lock); clearing the cache will not suddenly allow the photo to rotate against OS policy."
+    },
+    examTrap: "OS-specific UI features. The exam tests if you know the subtle difference between Android's navigation bar rotation icon and iOS's AssistiveTouch workaround."
+  },
+  {
+    id: "Q025",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "medium",
+    scenario: "A corporate IT department is configuring security profiles for a newly purchased fleet of Android tablets. The administrator wants to ensure that a threat actor cannot repeatedly guess the screen lock PIN, but they also want to avoid completely wiping the device after a single mistaken entry by a legitimate employee.",
+    prompt: "Which security configuration provides the MOST appropriate balance between deterrence and usability in this scenario?",
+    choices: [
+      { key: "A", text: "Implement an automatic remote wipe after the first failed attempt." },
+      { key: "B", text: "Configure the screen lock for escalating lockout times." },
+      { key: "C", text: "Disable hardware-backed credential storage." },
+      { key: "D", text: "Switch the authentication method to a pattern lock." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"deter repeatedly guessing... avoid completely wiping the device after a single mistaken entry\"",
+    explanationCorrect: "The selected answer is correct because screen locks can be configured to restrict failed login attempts by applying escalating lockout times to deter unauthorized access. For example, the first incorrect attempt might lock the device for 30 seconds, while subsequent attempts progressively increase the penalty duration, effectively neutralizing rapid brute-force attacks without punishing a legitimate user for a simple typo. This perfectly satisfies the requirement to balance security with usability.",
+    explanationIncorrect: {
+      A: "Implementing an automatic wipe is a technically valid MDM policy for extreme high-security environments. However, this is incorrect here because the scenario explicitly states the administrator wants to avoid completely wiping the device after a single mistaken entry by an employee.",
+      B: "",
+      C: "Hardware-backed credential storage safely manages cryptographic keys and trusted certificates. Disabling this feature is incorrect because it would severely weaken the device's overall cryptographic security and does absolutely nothing to prevent a user from repeatedly guessing a screen lock PIN.",
+      D: "A pattern lock involves swiping a \"join-the-dots\" shape on the screen. This is incorrect because pattern locks are actually weaker than PINs due to predictable user shapes and screen smudges, and merely changing the input method does not inherently limit the number of incorrect guesses an attacker can make."
+    },
+    examTrap: "The \"Extreme vs. Balanced Security\" trap. Test takers might jump to a remote wipe for maximum security, missing the explicit constraint to avoid punishing users for a single mistake."
+  },
+  {
+    id: "Q026",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices. (Integrates Security & Hardware)",
+    difficulty: "easy",
+    scenario: "An employee leaves their Android smartphone unattended on a conference room table. The device's screen is locked with a complex \"join-the-dots\" swipe pattern. A malicious coworker approaches the device, observes the screen under a bright light, and successfully unlocks the phone on their first try without having seen the employee enter the code.",
+    prompt: "How was the coworker MOST likely able to bypass the screen lock?",
+    choices: [
+      { key: "A", text: "The coworker exploited a vulnerability in the biometric sensor's template." },
+      { key: "B", text: "The coworker initiated a forced reboot to bypass the lock screen entirely." },
+      { key: "C", text: "The coworker traced the pattern from finger smudges left on the glass." },
+      { key: "D", text: "The coworker used a nearby Bluetooth beacon to spoof a trusted location." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"complex 'join-the-dots' swipe pattern... observes the screen under a bright light... successfully unlocks\"",
+    explanationCorrect: "The selected answer is correct because pattern locks involve dragging a finger across the screen, which inherently leaves a continuous physical trail of oil and residue. It is a well-documented weakness that pattern locks are easy to observe and can often be traced directly from screen smudges, especially under bright lighting. This makes them less secure than randomized PIN inputs, which distribute finger taps across the screen.",
+    explanationIncorrect: {
+      A: "Biometric sensors use unique physiological traits (fingerprints or facial maps) for authentication. This is incorrect because the scenario explicitly states the lock was secured via a \"swipe pattern,\" meaning the bypass was completely unrelated to exploiting stored biometric templates.",
+      B: "A forced reboot (soft reset) is used to resolve unresponsive systems. This is incorrect because modern mobile OSs actually enforce security more strictly after a reboot; biometric methods will fail, and a PIN, password, or pattern is mandatorily required for the initial unlock after the device restarts.",
+      C: "",
+      D: "Smart Lock features can bypass screen locks when near a trusted Bluetooth device. However, this is incorrect because there is no indication the attacker owned a paired trusted device, and the trigger phrase (observing the screen under a bright light) directly points to a physical visual compromise."
+    },
+    examTrap: "Recognizing physical vulnerabilities of digital security methods. The exam tests if you understand that physical screen residue is the primary flaw of the pattern lock."
+  },
+  {
+    id: "Q027",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "A warehouse worker receives a newly deployed corporate smartphone that has been outfitted with a heavy-duty, metallic ruggedized case to protect against drops. Shortly after, the worker reports that the device constantly drops its Wi-Fi connection when moving to the back of the warehouse, a problem the previous un-cased phone never had. The battery is fully charged.",
+    prompt: "What is the BEST first step to troubleshoot this weak signal issue?",
+    choices: [
+      { key: "A", text: "Verify that the access point is configured for 802.11ac compatibility mode." },
+      { key: "B", text: "Remove the heavy-duty device case and test the signal reception." },
+      { key: "C", text: "Forget the Wi-Fi network in Settings and re-authenticate to the access point." },
+      { key: "D", text: "Perform a soft reset by powering the device off and on again." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"outfitted with a heavy-duty, metallic ruggedized case... constantly drops its Wi-Fi connection\"",
+    explanationCorrect: "The selected answer is correct because radio signals on mobile devices are inherently weaker than those on computers and can easily be weakened by physical barriers. Removing a thick or metallic device case is the standard immediate troubleshooting step to verify if the physical accessory is causing radio wave interference and reducing signal strength reception.",
+    explanationIncorrect: {
+      A: "Verifying 802.11 compatibility is crucial if a device completely fails to connect to a specific access point. However, this is incorrect here because the device is connecting but subsequently dropping the connection at a distance, pointing to signal strength degradation rather than a strict standard incompatibility.",
+      B: "",
+      C: "Forgetting a network is a valid step for resolving authentication failures or corrupted network profiles. However, this is incorrect because the device is successfully authenticating but dropping the connection based on physical location/distance, making physical interference the more likely culprit.",
+      D: "A soft reset is an excellent first step for unresponsive or freezing software. However, it is not the best first step for poor radio signal reception that started exactly after a metallic barrier was placed over the device's internal antennas."
+    },
+    examTrap: "Best First Step logic. The trap is jumping to software or network configurations before eliminating the obvious physical barrier explicitly introduced in the prompt."
+  },
+  {
+    id: "Q028",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices. (Integrates MDM & Hardware Control)",
+    difficulty: "hard",
+    scenario: "A defense contractor utilizes a Bring Your Own Device (BYOD) model. Employees are allowed to use their personal smartphones for daily work, but strict federal regulations dictate that any camera-enabled device is strictly prohibited on the manufacturing floor. The company wants to enforce this without banning personal devices outright.",
+    prompt: "How can the enterprise mobility administrator automatically enforce this policy?",
+    choices: [
+      { key: "A", text: "Revoke the \"Install unknown apps\" permission to prevent sideloading third-party camera apps." },
+      { key: "B", text: "Deploy a \"no-root\" firewall to block outgoing image transfers on the corporate Wi-Fi." },
+      { key: "C", text: "Use an MDM configuration profile to disable the smartphone camera hardware based on the device's location." },
+      { key: "D", text: "Instruct users to manually disable Location Services for the native Camera app." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"camera-enabled device is strictly prohibited on the manufacturing floor... automatically enforce this\"",
+    explanationCorrect: "The selected answer is correct because Mobile Device Management (MDM) software uses configuration profiles to strictly define and enforce security requirements. One of the primary capabilities of an MDM is managing built-in hardware functions; administrators can apply selective policies that automatically disable hardware like smartphone cameras when the device enters a high-risk location (geofencing). This ensures automatic compliance without banning the BYOD hardware entirely.",
+    explanationIncorrect: {
+      A: "Preventing sideloading stops users from installing unapproved apps. This is incorrect because the issue is the physical presence of any camera hardware (including the native, pre-installed camera app), not just the installation of third-party camera software.",
+      B: "A no-root firewall restricts app access to specific IPs or ports via a local VPN interface. This is incorrect because preventing an image upload over Wi-Fi does not stop an employee from taking offline photographs of classified hardware on the manufacturing floor, which is the actual policy violation.",
+      C: "",
+      D: "Disabling Location Services for the Camera app removes geographical coordinates (geotagging) from photo metadata. This is incorrect because it does not stop the camera from functioning and taking illicit photos; it merely strips the GPS data from the pictures."
+    },
+    examTrap: "Recognizing advanced MDM capabilities. Candidates often forget that MDMs can dynamically disable native hardware features (like the camera or microphone) based on contextual triggers like location."
+  },
+  {
+    id: "Q029",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "A traveling sales representative is trying to install a critical iOS update while riding in a train. They have tethered their iOS tablet to their smartphone's cellular hotspot. The tablet has 50 GB of free storage, 100% battery life, and the device model is fully supported by the vendor. Despite having a strong internet connection, the OS update refuses to initiate.",
+    prompt: "What is the MOST likely reason the OS update is failing?",
+    choices: [
+      { key: "A", text: "The tablet is suffering from thermal throttling due to a high battery level." },
+      { key: "B", text: "The cellular hotspot is being recognized as a metered network connection." },
+      { key: "C", text: "The iOS device must be connected to iTunes via a Lightning cable to update." },
+      { key: "D", text: "The user needs to clear the App Store cache to refresh the update prompt." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"tethered their iOS tablet to their smartphone's cellular hotspot... OS update refuses to initiate.\"",
+    explanationCorrect: "The selected answer is correct because mobile operating systems are designed to protect users from excessive cellular data charges. When an OS update fails to install despite adequate storage, battery, and lifecycle support, it is often because the update is being blocked by a metered network. When a device is tethered to a cellular hotspot, the OS generally flags that Wi-Fi connection as metered, suppressing massive background downloads like OS updates until a standard broadband Wi-Fi connection is established.",
+    explanationIncorrect: {
+      A: "Random reboots or slow performance can occur due to overheating. However, this is incorrect because there is no indication the device is overheating; a 100% battery charge does not inherently cause thermal throttling, and throttling would slow a device down, not explicitly block an OS update button.",
+      B: "",
+      C: "Updating via a macOS Finder or Windows iTunes connection using a Lightning cable is a valid backup method if wireless updates fail. However, it is incorrect to state that an iOS device must be connected to iTunes, as Over-The-Air (OTA) updates are the standard mechanism.",
+      D: "Clearing the App Store cache (by tapping a bottom icon 10 times) is a valid step for resolving stuck App Store app installations. However, this is incorrect because iOS updates are managed through the Settings app (Settings > General > Software Update), completely independently of the App Store."
+    },
+    examTrap: "Eliminating common variables to find the nuanced constraint. The prompt gives you plenty of battery, storage, and lifecycle support, forcing you to identify network type (metered cellular hotspot) as the blocking factor."
+  },
+  {
+    id: "Q030",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "hard",
+    scenario: "An enterprise relies heavily on an Android fleet. The IT department has noticed several helpdesk tickets where standard users have accidentally altered advanced diagnostic data and deep system configurations, causing device instability. The users admit they tapped the OS build number repeatedly to unlock a hidden menu.",
+    prompt: "How should the IT administrator secure the fleet to prevent this behavior while maintaining standard app functionality?",
+    choices: [
+      { key: "A", text: "Implement an MDM policy that blocks devices with developer mode enabled." },
+      { key: "B", text: "Deploy a corporate proxy to block access to bootleg app stores." },
+      { key: "C", text: "Revoke root access privileges using a custom Android ROM." },
+      { key: "D", text: "Enforce a strictly corporate-owned, business-only (COBO) deployment model." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"altered advanced diagnostic data... tapped the OS build number repeatedly to unlock a hidden menu.\"",
+    explanationCorrect: "The selected answer is correct because tapping the Android OS build number repeatedly is the specific mechanism used to place a device into Developer Mode. This mode grants access to advanced configuration settings and diagnostic data intended strictly for app development. Because users are inadvertently causing system instability by accessing this hidden menu, the administrator should use their Mobile Device Management (MDM) system to enforce a policy that blocks network or workspace access for any device that has developer mode enabled, effectively deterring its use.",
+    explanationIncorrect: {
+      A: "",
+      B: "Bootleg app stores provide unauthorized, often malicious apps. While blocking them is good security practice, it is incorrect here because the users are accessing a native, hidden OS menu (developer mode), not downloading third-party software from unauthorized stores.",
+      C: "Root access grants administrative control over the entire device, which is a major security concern. However, this is incorrect because entering developer mode does not inherently grant root access; furthermore, installing a custom ROM is a severe security violation that compromises OS integrity, completely contradictory to an enterprise security solution.",
+      D: "COBO is a deployment model where the device is used solely for business purposes. This is incorrect because changing the deployment policy (who owns the phone and what they can use it for) does not technically disable the OS-level capability of tapping the build number to open the developer menu."
+    },
+    examTrap: "Knowing how hidden features are accessed and managed. Tapping the build number unlocks Developer Mode, which is managed and blocked via MDM compliance policies."
+  },
+    {
+    id: "Q031",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "medium",
+    scenario: "A user receives a pop-up alert while browsing the internet on their mobile device. The alert flashes red, claiming \"Device Infected: 13 Viruses Found!\" and prompts the user to immediately download a specific anti-virus cleaner application to fix the issue. A few days after downloading the app, the user's battery begins draining rapidly, and the device runs extremely slowly.",
+    prompt: "What mobile security threat has the user MOST likely fallen victim to?",
+    choices: [
+      { key: "A", text: "A tethered jailbreak payload." },
+      { key: "B", text: "A DNS redirection attack." },
+      { key: "C", text: "Scareware leading to a Trojan installation." },
+      { key: "D", text: "An evil twin Wi-Fi attack." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"claiming 'Device Infected... prompts the user to immediately download... battery begins draining rapidly, and the device runs extremely slowly.\"",
+    explanationCorrect: "The selected answer is correct because \"Scareware\" specifically uses fake security warnings and alerts to panic users into installing applications. In mobile environments, these supposedly \"helpful\" antivirus cleaner apps are frequently Trojans in disguise; once installed, they run malicious background processes (like cryptomining or data harvesting), which manifests precisely as rapid battery drain and degraded system response times.",
+    explanationIncorrect: {
+      A: "A jailbreak bypasses Apple's iOS security restrictions, often requiring a tethered connection to a computer by booting with a patched kernel. This is incorrect because the user simply downloaded an app via a web prompt, which does not constitute a tethered kernel patch.",
+      B: "DNS redirection attacks corrupt DNS settings to route users to spoofed websites, causing certificate errors and connectivity issues. While the initial pop-up occurred on the web, the subsequent symptoms (rapid battery drain, sluggish performance) are classic signs of a local malware installation, not just DNS misrouting.",
+      C: "",
+      D: "An evil twin is a rogue Wi-Fi access point designed to intercept wireless traffic. This is incorrect because the symptoms point entirely to local device resource exhaustion caused by the downloaded Trojan application, not a man-in-the-middle network interception."
+    },
+    examTrap: "Understanding the social engineering vector of malware. The exam wants you to connect the fake alert (Scareware) directly to the resulting malware symptoms (Trojan resource exhaustion)."
+  },
+  {
+    id: "Q032",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "medium",
+    scenario: "An employee accidentally leaves their corporate smartphone at a busy coffee shop. They immediately notify the IT desk. The employee is relatively sure the phone is safe but wants to prevent anyone from accessing it until they can drive back to retrieve it. They specifically ask the helpdesk NOT to delete any of their localized data yet.",
+    prompt: "What is the MOST appropriate action the helpdesk should execute using their Mobile Device Management (MDM) software?",
+    choices: [
+      { key: "A", text: "Perform an enterprise wipe to remove corporate accounts." },
+      { key: "B", text: "Use the locator app to securely lock the device and display a \"Please return\" message." },
+      { key: "C", text: "Initiate a remote wipe to perform a factory reset." },
+      { key: "D", text: "Place the device in Developer Mode to quarantine the network interface." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"prevent anyone from accessing it until they can drive back... NOT to delete any of their localized data yet.\"",
+    explanationCorrect: "The selected answer is correct because locator applications and MDM software have the capability to remotely secure a lost device without destroying data. The administrator can remotely lock the device, disable features like digital wallets, and display a custom \"Please return\" message with contact information directly on the lock screen. This completely fulfills the user's request to secure the device temporarily without deleting any localized data.",
+    explanationIncorrect: {
+      A: "An enterprise wipe removes corporate accounts and files while leaving personal data intact. However, this is incorrect because it actually deletes localized corporate data, which directly violates the employee's request to not delete data yet.",
+      B: "",
+      C: "A remote wipe protects data by performing a full factory reset, clearing all apps and settings. This is used when a device is irretrievably lost. It is highly incorrect here because the employee specifically asked not to delete localized data while they attempt recovery.",
+      D: "Developer mode grants access to diagnostic data and advanced configuration settings. It is completely incorrect because it is an app development setting, not a security quarantine or device-locking feature."
+    },
+    examTrap: "Escalation of remediation. Wipes (Enterprise or Remote) are destructive. You must apply the non-destructive security feature (Remote Lock/Message) when recovery is still probable."
+  },
+  {
+    id: "Q033",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "A user reports that their company's proprietary logistics app crashes immediately every time they try to open it. The helpdesk technician navigates to the device's Settings menu, selects the app, and successfully taps \"Force Stop,\" but the app continues to crash upon the next launch. The device has plenty of available storage.",
+    prompt: "What is the NEXT logical step the technician should take to resolve this specific application issue before resorting to an uninstallation?",
+    choices: [
+      { key: "A", text: "Boot the device into Safe Mode." },
+      { key: "B", text: "Clear the application's cache." },
+      { key: "C", text: "Perform a soft reset of the device." },
+      { key: "D", text: "Perform a full device factory reset." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"taps 'Force Stop,' but the app continues to crash... NEXT logical step... before resorting to an uninstallation\"",
+    explanationCorrect: "The selected answer is correct because troubleshooting mobile app issues follows a specific hierarchy of steps. If an app crashes or fails to launch, the first step is to force-stop it. If the issue persists after a force-stop, the very next prescribed remediation step is to clear the application's cache, which removes potentially corrupted temporary files that may be causing the crash loop.",
+    explanationIncorrect: {
+      A: "Safe Mode disables third-party apps to isolate systemic OS problems. This is incorrect because booting into Safe Mode would completely disable the proprietary logistics app, preventing the technician from actually testing or fixing it.",
+      B: "",
+      C: "A soft reset (rebooting) clears RAM and closes background tasks. While a generally good step, clearing the specific, corrupted app cache is the more targeted and immediate next step for a single persistent app crash after a force stop fails.",
+      D: "A factory reset erases all user data, apps, and settings. This is vastly incorrect as it is a destructive measure of last resort, not the next logical step for a single crashing application."
+    },
+    examTrap: "Troubleshooting app hierarchy. The sequence is: Force Stop -> Clear Cache -> Reboot/Update -> Reinstall."
+  },
+  {
+    id: "Q034",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "hard",
+    scenario: "A manager uses their personal smartphone for work. Over the weekend, the manager receives three unexpected SMS text messages containing one-time password (OTP) codes for their corporate email account. The manager did not attempt to log into their email during this time, and their smartphone has not left their physical possession.",
+    prompt: "What security concept does this symptom MOST likely indicate?",
+    choices: [
+      { key: "A", text: "The smartphone's baseband processor has been compromised by a fake cell tower." },
+      { key: "B", text: "The corporate MDM server is pushing an unauthorized enterprise wipe." },
+      { key: "C", text: "A threat actor has compromised the user's primary password but lacks the secondary authentication factor." },
+      { key: "D", text: "The device's local authenticator app has fallen out of time-sync with the server." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"receives three unexpected SMS text messages containing one-time password (OTP) codes... did not attempt to log into their email\"",
+    explanationCorrect: "The selected answer is correct because receiving unexpected 2-step verification alerts (like SMS OTPs) is a primary symptom of a compromised primary credential. In a two-factor authentication (2FA) system, the SMS code is only generated after the correct username and password have been successfully submitted to the server. Therefore, receiving these texts without prompting means a hacker already has the manager's password, but the account is currently being protected because the hacker cannot access the second factor (the physical smartphone).",
+    explanationIncorrect: {
+      A: "A baseband processor compromise (via a stingray/fake tower) intercepts cellular traffic. This is incorrect because if the attacker had compromised the baseband processor, they would intercept the SMS messages invisibly to bypass the security, rather than triggering alerts to the user's phone.",
+      B: "An enterprise wipe removes corporate accounts from an MDM-enrolled device. This is incorrect because MDM commands do not trigger standard OTP login text messages to the user; they communicate directly via the MDM agent software.",
+      C: "",
+      D: "Authenticator apps generate time-based codes locally on the device (TOTP). This is incorrect because an out-of-sync authenticator app causes login failures when the user types the code in; it does not cause the server to actively push unexpected SMS text messages to the device."
+    },
+    examTrap: "Understanding the sequence of 2FA. Students often think an OTP text means the phone is hacked. In reality, it means the password is hacked, and the phone is doing its job stopping the breach."
+  },
+  {
+    id: "Q035",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues. (Integrates Troubleshooting Methodology)",
+    difficulty: "easy",
+    scenario: "A user's Android smartphone has begun randomly rebooting multiple times a day. The user recently replaced the battery, so they know it is not a power degradation issue. The device is not overheating. A technician checks the device settings and notices the phone has 128 GB of total storage, with only 50 MB of free space remaining.",
+    prompt: "What is the BEST first step to resolve this instability issue?",
+    choices: [
+      { key: "A", text: "Boot the device into Safe Mode to isolate background processes." },
+      { key: "B", text: "Perform a soft reset by forcing the device to power cycle." },
+      { key: "C", text: "Free up space by removing unnecessary data, media, or applications." },
+      { key: "D", text: "Check the battery health menu to verify the new battery's voltage." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"only 50 MB of free space remaining... BEST first step\"",
+    explanationCorrect: "The selected answer is correct because mobile operating systems require adequate free storage space to allocate virtual memory, manage cache, and perform routine background operations. When a device's storage is completely exhausted (e.g., only 50 MB free), it severely constrains system resources, leading to freezing, extreme slowness, and random reboots. The most direct and necessary remediation is to delete unnecessary files to restore breathing room to the OS.",
+    explanationIncorrect: {
+      A: "Safe mode disables third-party apps to see if one is causing crashes. However, this is incorrect because the technician has already identified a glaring systemic constraint (critical lack of storage), which must be addressed before troubleshooting individual application behavior.",
+      B: "A soft reset clears RAM and closes apps. While helpful for frozen screens, it is incorrect here because it does not fix the root cause; once the device boots back up, the non-volatile storage will still be full, and the random reboots will quickly resume.",
+      C: "",
+      D: "Checking battery health is a great step for random reboots caused by faulty hardware. However, this is incorrect because the scenario explicitly states the battery is brand new, pointing the technician away from a power issue and directly toward the massive storage constraint."
+    },
+    examTrap: "Best First Step based on evidence. Don't jump to complex diagnostic boot modes (Safe Mode) when the prompt hands you a critical system constraint (no storage)."
+  },
+  {
+    id: "Q036",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices. (Integrates OS Configuration & Backup)",
+    difficulty: "medium",
+    scenario: "A user complains that their iOS smartphone has not performed an automatic iCloud backup in over a week. The user states they use the phone extensively during the day on cellular data. Every night, they unplug the device, turn off the screen, and place it under their pillow to monitor their sleep. The corporate Wi-Fi at the office is fully functional.",
+    prompt: "What is the MOST likely reason the automatic remote backup is failing to trigger?",
+    choices: [
+      { key: "A", text: "The device is not connected to a power source overnight." },
+      { key: "B", text: "The corporate MDM profile is blocking the backup process." },
+      { key: "C", text: "The device must be manually connected to macOS via a Lightning cable to back up." },
+      { key: "D", text: "The device is utilizing cellular data instead of a metered connection." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Every night, they unplug the device... place it under their pillow\"",
+    explanationCorrect: "The selected answer is correct because mobile operating systems (like iOS and Android) are strictly designed to conserve resources. By default, vendor cloud services (like iCloud or Google Sync) will only automatically back up a device over Wi-Fi after it has been completely idle and actively charging for a specific duration. Because the user unplugs the device every night to use it for sleep monitoring, it never meets the strict prerequisite of being connected to a power source, thus preventing the automatic backup from ever initiating.",
+    explanationIncorrect: {
+      A: "",
+      B: "MDM software can be configured to manage automatic backups of specific workspaces. However, there is no indication an MDM is blocking the function, whereas the user's explicit behavior (unplugging the device) definitively violates the OS's native backup prerequisites.",
+      C: "iOS supports manual local backups to macOS via Finder or Windows via iTunes. However, this is incorrect because it is an alternative manual backup method, not a requirement; automatic wireless cloud backups are native and standard, provided the device is charging.",
+      D: "Cellular data is generally avoided for massive background backups to save user costs. However, this is incorrect because the issue isn't that they are only on cellular (they have corporate Wi-Fi access); the primary blocker is the lack of a continuous power source while the device is idle."
+    },
+    examTrap: "Recognizing native OS automation triggers. Test takers must know that automated background maintenance tasks (OS updates, cloud backups) almost universally require the device to be actively charging."
+  },
+  {
+    id: "Q037",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "A user complains that their Android smartphone is experiencing severe battery drain and constant pop-up notifications from a discount shopping application. The user claims they deleted the app three days ago to stop the notifications. When asked to demonstrate how they deleted it, the user long-presses a different app icon on the home screen and drags it to the \"Remove\" text at the top of the display.",
+    prompt: "What is the MOST likely cause of the persistent battery drain and notifications?",
+    choices: [
+      { key: "A", text: "The app was merely hidden from the home screen, not actually uninstalled from the operating system." },
+      { key: "B", text: "The application's background cache was not cleared prior to deletion, leaving orphaned processes running." },
+      { key: "C", text: "The device has been infected with a Trojan that is silently reinstalling the deleted application." },
+      { key: "D", text: "The user must boot into Safe Mode to fully commit the deletion of the application's registry keys." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"drags it to the 'Remove' text at the top of the display\"",
+    explanationCorrect: "The selected answer is correct because the Android operating system distinguishes between removing a shortcut and uninstalling an application. Dragging an app icon from the home screen to the \"Remove\" option simply deletes the visual shortcut, leaving the application fully installed and actively running in the background. To actually uninstall the app and stop its background battery drain and notifications, the user must either drag it to \"Uninstall\" or navigate to Settings > Apps to disable or uninstall the software completely.",
+    explanationIncorrect: {
+      A: "",
+      B: "Clearing cache is a valid troubleshooting step for a crashing app. However, this is incorrect because an uninstalled app does not leave active, background-running processes that generate pop-up notifications; the app is still fully installed due to user error.",
+      C: "Trojans can indeed reinstall malicious payloads. However, this is an incorrect jump in logic because the scenario explicitly outlines the user performing an incorrect deletion action (dragging to \"Remove\"), making user error the definitive root cause rather than a complex malware infection.",
+      D: "Safe Mode is a diagnostic environment used to disable third-party apps temporarily. This is incorrect because Android does not use a Windows-style registry, and Safe Mode is not required to uninstall standard third-party shopping applications."
+    },
+    examTrap: "Misinterpreting user actions. The trap is assuming the user correctly executed an uninstallation when their described action clearly only hid the icon."
+  },
+  {
+    id: "Q038",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices. (Integrates OS Configuration & Security)",
+    difficulty: "hard",
+    scenario: "A legal firm issues corporate iOS smartphones to its attorneys. The IT director dictates that all local email data and specific third-party client apps must be encrypted with a unique key derived from the attorney's credentials, providing a secondary layer of \"Data Protection\" beyond the iOS default hardware key in case the device is stolen.",
+    prompt: "What is the MOST efficient way for the IT administrator to ensure this specific \"Data Protection\" level is applied across the fleet?",
+    choices: [
+      { key: "A", text: "Require the deployment of a third-party MDM agent to encrypt local storage via a hidden VPN interface." },
+      { key: "B", text: "Enforce an MDM configuration profile that mandates a passcode lock on every device." },
+      { key: "C", text: "Instruct users to manually toggle the \"Encrypt Local Data\" feature within the native Mail app settings." },
+      { key: "D", text: "Implement a policy requiring the use of two-factor authentication (2FA) for the iCloud account." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"encrypted with a unique key derived from the attorney's credentials... 'Data Protection'\"",
+    explanationCorrect: "The selected answer is correct because Apple's iOS platform natively features a security mechanism called \"Data Protection,\" which encrypts email and supported app data using a key derived specifically from the user's credentials. This feature does not require complex third-party software; it is automatically enabled by the operating system the moment a passcode lock is configured on the device. Therefore, enforcing a passcode requirement via an MDM profile automatically fulfills the IT director's requirement.",
+    explanationIncorrect: {
+      A: "Third-party MDM agents are powerful, and VPNs can encrypt network transit. However, this is incorrect because \"Data Protection\" is a native iOS file-level encryption feature; it does not rely on third-party VPN interfaces to encrypt locally stored email data at rest.",
+      B: "",
+      C: "Manual configurations are prone to user error and non-compliance. Furthermore, this is technically incorrect because there is no native \"Encrypt Local Data\" toggle in the iOS Mail app; the encryption is handled system-wide by the OS when a passcode is set.",
+      D: "Two-Factor Authentication (2FA) is excellent for securing cloud account logins. However, this is incorrect in this context because 2FA secures the remote iCloud authentication session, but it does not dictate the local cryptographic state of the data stored physically on the mobile hardware."
+    },
+    examTrap: "Understanding native OS security triggers. Test takers often think complex encryption requires third-party tools, but CompTIA tests your knowledge that basic passcodes trigger advanced native encryption (Data Protection)."
+  },
+  {
+    id: "Q039",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "easy",
+    scenario: "A user is attempting to make a contactless payment at a grocery store using their smartphone's digital wallet. The device is unlocked, Near-field communication (NFC) is toggled on, and Airplane Mode is disabled. However, the transaction repeatedly fails when the user swiftly taps the top of their phone against the payment reader and immediately pulls it away.",
+    prompt: "What is the BEST immediate action the user should take to successfully process the payment?",
+    choices: [
+      { key: "A", text: "Restart the device to reset the NFC baseband radio." },
+      { key: "B", text: "Forget the saved payment card and re-authenticate to the wallet app." },
+      { key: "C", text: "Hold the device closer to the card reader and maintain contact for a longer duration." },
+      { key: "D", text: "Switch the device from a 5 GHz Wi-Fi network to a 2.4 GHz network." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"swiftly taps the top of their phone against the payment reader and immediately pulls it away.\"",
+    explanationCorrect: "The selected answer is correct because Near-field communication (NFC) requires extremely close proximity (usually within a few centimeters) and a brief moment of continuous connection to securely handshake and transmit cryptographic payment tokens. If a user is tapping the device too swiftly or pulling it away prematurely, the transaction will timeout or fail to initiate. The most immediate and practical troubleshooting step, assuming all settings are correct, is simply altering the physical interaction by holding it closer for a longer duration.",
+    explanationIncorrect: {
+      A: "Restarting the device is a valid step for a completely frozen or disabled radio component. However, this is not the best immediate action because the prompt's physical description strongly implies user error (pulling away too fast) rather than a software or hardware crash.",
+      B: "Re-authenticating a card is valid if the token is corrupted. However, it is an overly complex step to take before simply adjusting how the phone is physically held against the reader.",
+      C: "",
+      D: "Wi-Fi frequency bands (2.4 GHz vs 5 GHz) govern standard wireless network connectivity. This is entirely incorrect because NFC is an independent, short-range radio protocol operating at 13.56 MHz, completely separate from the device's Wi-Fi adapter."
+    },
+    examTrap: "Over-troubleshooting. When all the software settings are correct (unlocked, NFC on), the issue is almost always physical execution."
+  },
+  {
+    id: "Q040",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues.",
+    difficulty: "medium",
+    scenario: "A corporate Android user reports an unusually high monthly cellular bill. Upon review, the IT technician notices the device has made several unauthorized premium-rate phone calls and sent an excessive amount of SMS traffic to international numbers in the background. The device's storage, network settings, and battery health appear normal, though the battery drains slightly faster than usual.",
+    prompt: "Which of the following is the MOST likely cause of these specific symptoms?",
+    choices: [
+      { key: "A", text: "An unauthorized jailbreak payload was installed via a patched kernel." },
+      { key: "B", text: "The built-in Google Play Protect feature is malfunctioning and looping authentication requests." },
+      { key: "C", text: "The device's baseband processor is failing to connect to the local 4G tower, causing rerouted traffic." },
+      { key: "D", text: "A spoofed application was installed that is secretly operating as a Trojan." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"unauthorized premium-rate phone calls and sent an excessive amount of SMS traffic\"",
+    explanationCorrect: "The selected answer is correct because applications masquerading as legitimate tools (spoofed apps) are frequently Trojans designed to harvest data or generate revenue for attackers. In mobile environments, a classic symptom of a Trojan infection is the unauthorized use of premium-rate call services or the silent transmission of mass SMS messages in the background, which directly results in unexpectedly high cellular billing for the victim.",
+    explanationIncorrect: {
+      A: "Gaining root access to subvert OS security via a tethered patched kernel is a severe security risk. However, this is highly incorrect because the term \"jailbreaking\" applies exclusively to Apple's iOS devices, whereas the scenario explicitly identifies the device as an Android.",
+      B: "Google Play Protect is a native anti-malware scanner. If it were malfunctioning, it might drain the battery or cause sluggish performance, but it is fundamentally incorrect to suggest a native Google security service would autonomously initiate premium-rate international phone calls.",
+      C: "Baseband processor failures cause dropped calls, complete loss of cellular signal, or \"No SIM\" errors. Hardware failures do not autonomously generate outbound SMS messages to international numbers, pointing definitively to a software malware payload instead.",
+      D: ""
+    },
+    examTrap: "Recognizing specific mobile malware behaviors. The exam tests your ability to map \"high billing/premium calls\" directly to Trojan/Spyware activity."
+  },
+   {
+    id: "Q041",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "hard",
+    scenario: "An iOS user is unable to install a new, approved enterprise application from the App Store. The device is connected to a stable corporate Wi-Fi network, has 20 GB of free internal storage, and is currently running the latest iOS version. The user taps the download icon, but the installation wheel simply spins endlessly without any progress or error message.",
+    prompt: "What is the BEST next step the technician should recommend to resolve this app installation failure?",
+    choices: [
+      { key: "A", text: "Delete unused default iOS applications to free up additional RAM allocation." },
+      { key: "B", text: "Sign out and back into the Apple ID to refresh the session and verify the payment method." },
+      { key: "C", text: "Connect the device to a macOS computer and force the installation via Finder." },
+      { key: "D", text: "Perform a soft reset, then verify the access point is using 802.11ac compatibility mode." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"installation wheel simply spins endlessly... 20 GB of free internal storage... latest iOS version\"",
+    explanationCorrect: "The selected answer is correct because application installations on mobile platforms are heavily reliant on account authentication. When storage, network connectivity, and OS compatibility have been ruled out, a stuck or endlessly spinning download in the App Store is almost always caused by a stalled authentication session or an expired/invalid payment method attached to the user's account. Signing out and back into the Apple ID refreshes the authentication token and clears the account-side block, allowing the download to proceed.",
+    explanationIncorrect: {
+      A: "Freeing up storage is a primary step for failed installations. However, this is incorrect here because the scenario explicitly states the device already has 20 GB of free storage, which is more than enough. Furthermore, default iOS applications generally cannot be completely deleted, only hidden.",
+      B: "",
+      C: "Forcing an installation or OS update via a wired macOS/Finder connection is a valid backup method for completely failed Over-The-Air (OTA) updates. However, this is not the best next step for a simple app store stall, as refreshing the local account session is significantly faster and less intrusive.",
+      D: "Wireless network compatibility issues would prevent the device from joining the Wi-Fi entirely. Since the scenario states the device is connected to a \"stable corporate Wi-Fi network,\" troubleshooting the router's 802.11 standards is a waste of time and technically incorrect for this specific symptom."
+    },
+    examTrap: "Troubleshooting methodology. Once physical constraints (storage/network) are eliminated, the technician must look at logical constraints (account authentication/payment methods)."
+  },
+  {
+    id: "Q042",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "medium",
+    scenario: "A logistics company is updating its mobile deployment policy to improve driver morale while maintaining strict security. The new policy states that drivers must select their work smartphone from a specific list of three approved, company-purchased hardware models. Drivers are permitted to use these devices for personal email, social media, and web browsing during their downtime.",
+    prompt: "Which mobile device deployment model is the company implementing?",
+    choices: [
+      { key: "A", text: "Corporate Owned, Business Only (COBO)" },
+      { key: "B", text: "Bring Your Own Device (BYOD)" },
+      { key: "C", text: "Choose Your Own Device (CYOD)" },
+      { key: "D", text: "Corporate Owned, Personally Enabled (COPE)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"must select their work smartphone from a specific list of three approved, company-purchased hardware models. Drivers are permitted to use these devices for personal email\"",
+    explanationCorrect: "The selected answer is correct because the \"Choose Your Own Device\" (CYOD) model is specifically defined by the enterprise providing a curated list of approved devices for the employee to select from. The company purchases and owns the hardware (ensuring standardization and security compliance), but the model inherently allows the employee to use the device for personal activities, blending enterprise control with user choice and convenience.",
+    explanationIncorrect: {
+      A: "COBO ensures the company purchases and strictly controls the hardware. However, this is incorrect because COBO explicitly forbids personal use (like social media or personal email), which the prompt states is allowed.",
+      B: "BYOD allows personal use and is highly flexible. However, it is incorrect because BYOD relies on the employee purchasing and owning their own hardware, whereas the scenario explicitly states these are \"company-purchased hardware models.\"",
+      C: "",
+      D: "COPE is extremely similar to CYOD, as the company buys the device and allows personal use. However, it is incorrect because COPE implies the company selects and issues a standardized device, whereas the key differentiator here is the user \"selecting from a specific list,\" which strictly defines CYOD."
+    },
+    examTrap: "Differentiating nuanced deployment models. COPE and CYOD both allow personal use on corporate hardware, but the \"list of approved options\" makes it CYOD."
+  },
+  {
+    id: "Q043",
+    topic: "3.3 Given a scenario, troubleshoot common mobile OS and application security issues. (Integrates App Management & Security)",
+    difficulty: "hard",
+    scenario: "An IT administrator is auditing corporate iOS devices. They discover that a user has successfully installed a bootleg, unapproved application from outside the official Apple App Store. A security scan confirms the device has NOT been jailbroken, and the user did not use the company's Apple Business Manager portal to push the app.",
+    prompt: "How was the user MOST likely able to sideload this application onto an un-jailbroken iOS device?",
+    choices: [
+      { key: "A", text: "By extracting an .APK file from an email attachment and executing it locally." },
+      { key: "B", text: "By toggling the \"Install unknown apps\" slider in the iOS General Settings menu." },
+      { key: "C", text: "By utilizing developer tools to sign and install the app outside the App Store." },
+      { key: "D", text: "By booting into Safe Mode to bypass the native App Store sandbox restrictions." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"iOS devices... outside the official Apple App Store... device has NOT been jailbroken\"",
+    explanationCorrect: "The selected answer is correct because while Apple's iOS is a highly restrictive ecosystem, there is a legitimate pathway to install apps outside the App Store without resorting to a jailbreak. Users can utilize Apple developer tools (like Xcode on a Mac) to locally compile, sign, and provision an application directly onto a connected iOS device. Threat actors and rogue users often exploit this developer loophole to sideload bootleg apps, bypassing official store security checks while maintaining the un-jailbroken state of the OS.",
+    explanationIncorrect: {
+      A: "Sideloading via an email attachment is possible on some operating systems. However, this is incorrect because the .APK (Android Package Kit) file format is entirely incompatible with Apple's iOS; an .APK simply cannot be executed on an iPhone or iPad.",
+      B: "Toggling \"Install unknown apps\" is the standard method for sideloading on the Android operating system. This is incorrect because iOS does not have a native, user-facing toggle to globally allow unknown apps; it relies on strict cryptographic provisioning profiles.",
+      C: "",
+      D: "Booting into Safe Mode disables third-party apps for troubleshooting purposes. It is completely incorrect to state that Safe Mode magically removes OS-level cryptographic signing requirements or bypasses the App Store sandbox."
+    },
+    examTrap: "Cross-platform security knowledge. Sideloading on iOS without a jailbreak requires developer tools, unlike Android which merely requires a settings toggle. The exam tests your ability to reject Android-specific concepts (.APK, unknown apps toggle) in an iOS scenario."
+  },
+  {
+    id: "Q044",
+    topic: "3.2 Given a scenario, troubleshoot common mobile OS and application issues.",
+    difficulty: "medium",
+    scenario: "A delivery driver's tablet randomly reboots in the middle of their shift. A technician checks the device and verifies that it has 50 GB of available storage, the proprietary delivery app is up to date, and the battery health monitor indicates 95% capacity. The driver notes the tablet was sitting on the truck's dashboard in direct, intense sunlight for three hours prior to the reboot.",
+    prompt: "What is the MOST likely cause of these random reboots?",
+    choices: [
+      { key: "A", text: "The device is attempting to install a major OS update over a metered cellular connection." },
+      { key: "B", text: "The battery's chemical composition has permanently degraded, causing voltage drops." },
+      { key: "C", text: "The device's internal components are overheating, triggering a thermal shutdown." },
+      { key: "D", text: "The device's GPS locator app is consuming excessive background memory, causing a kernel panic." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"randomly reboots... sitting on the truck's dashboard in direct, intense sunlight for three hours\"",
+    explanationCorrect: "The selected answer is correct because mobile operating systems have built-in safety mechanisms that monitor the internal temperature of the hardware. If a device is exposed to extreme temperatures (such as sitting in direct sunlight on a dashboard), it will experience thermal throttling to reduce heat. If the temperature continues to climb, the OS will trigger a random reboot or a complete thermal shutdown to prevent physical damage to the CPU and battery.",
+    explanationIncorrect: {
+      A: "Metered cellular connections will actively block OS updates to prevent excessive data charges, not force them. Furthermore, OS updates prompt the user before initiating a reboot, rather than randomly restarting the device mid-use.",
+      B: "Degraded batteries are a massive cause of random reboots due to unstable voltage. However, this is incorrect in this specific context because the prompt explicitly states the technician verified the battery health is at an excellent 95% capacity, ruling out chemical degradation.",
+      C: "",
+      D: "A memory leak in a GPS app could eventually cause an app to crash or freeze. However, modern OS memory management usually force-closes rogue apps before the entire OS reboots; additionally, the environmental clue (direct sunlight) is a far stronger and more definitive root cause for a systemic hardware reboot."
+    },
+    examTrap: "Environmental factors vs. software factors. The prompt rules out common software/hardware issues (storage, updates, battery health) to force you to rely on the environmental clue (extreme heat)."
+  },
+  {
+    id: "Q045",
+    topic: "2.8 Given a scenario, apply common methods for securing mobile devices.",
+    difficulty: "easy",
+    scenario: "A pharmaceutical executive's corporate-owned, business-only (COBO) smartphone is reported stolen while traveling abroad. The device contains highly sensitive, unencrypted trade secrets. The IT department confirms via their locator app that the device is currently powered on and connected to a cellular network in a foreign country, making physical retrieval impossible.",
+    prompt: "What is the BEST immediate action the IT administrator should take to mitigate the risk of data exposure?",
+    choices: [
+      { key: "A", text: "Change the executive's Active Directory password to secure the cloud workspace." },
+      { key: "B", text: "Issue an enterprise wipe command via the Mobile Device Management (MDM) console." },
+      { key: "C", text: "Issue a remote wipe command via the Mobile Device Management (MDM) console." },
+      { key: "D", text: "Enable \"Data Protection\" via the remote iCloud portal." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"corporate-owned, business-only (COBO)... highly sensitive, unencrypted trade secrets... physical retrieval impossible.\"",
+    explanationCorrect: "The selected answer is correct because a remote wipe (also known as a device wipe or factory reset) is the ultimate security measure for a device that is irretrievably lost or stolen. It completely clears all data, apps, and settings, returning the device to a factory state. Because the device is Corporate Owned, Business Only (COBO) and contains unencrypted trade secrets, destroying all data on the hardware is the most appropriate and secure action to prevent corporate espionage.",
+    explanationIncorrect: {
+      A: "Changing the Active Directory password is a very good secondary step to protect cloud resources. However, it is not the best immediate action because it does absolutely nothing to protect the unencrypted trade secrets currently stored on the physical local storage of the stolen device.",
+      B: "An enterprise wipe removes only the corporate workspace container and leaves personal apps, settings, and files completely intact. This is the correct action for a BYOD device, but incorrect for a strictly COBO device where the company owns the entire hardware and wants to ensure all data is irretrievably destroyed.",
+      C: "",
+      D: "Data Protection is an iOS encryption feature. However, this is incorrect because Data Protection is enabled locally when a passcode is set on the device; it cannot be retroactively toggled on via a remote web portal after the unencrypted device has already been stolen."
+    },
+    examTrap: "Remote Wipe vs. Enterprise Wipe. You must match the destructive wipe type to the deployment model. COBO requires full remote wipes; BYOD requires enterprise wipes."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
