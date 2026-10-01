@@ -1,0 +1,2563 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+/* =========================
+   Question Bank (Embedded) - Part 1 of 3
+   ========================= */
+
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Printer Troubleshooting",
+    difficulty: "medium",
+    scenario: "A technician is troubleshooting a shared network laser printer that is suddenly outputting pages covered entirely in black ink. The user mentions that the printer had a minor paper jam earlier, which was cleared by forcibly pulling the paper through the rollers. The fuser unit is also emitting a faint grinding noise, prompting the user to suspect a paper feed mechanism failure.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of the completely black pages?",
+    choices: [
+      { key: "A", text: "A damaged fuser unit that is failing to apply heat and pressure." },
+      { key: "B", text: "A faulty static eliminator failing to remove the charge from the paper." },
+      { key: "C", text: "A malfunctioning primary charge roller (PCR) or high-voltage power supply." },
+      { key: "D", text: "A damaged photosensitive drum that was scratched during the paper jam." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "outputting pages covered entirely in black ink",
+    explanationCorrect: "A completely black page or heavy black stripes strongly indicates a failure in the charging stage of the laser printing process. If the primary charge roller (PCR) is dirty, damaged, or experiencing a power supply failure, it cannot apply the uniform negative charge to the photosensitive drum, causing toner to attract to the entire drum surface. This directly results in the page being entirely coated in black toner regardless of the intended print job.",
+    explanationIncorrect: {
+      A: "The fuser unit uses heat and pressure to permanently bond the toner to the paper. While a damaged fuser could cause toner to smudge or fail to adhere properly, it would not cause the printer to dispense toner across the entire page.",
+      B: "The static eliminator is responsible for removing the high static charge from the paper as it leaves the transfer unit. If this part fails, the paper might stick to the drum or curl, causing jams before fusing, but it does not cause the page to print entirely black.",
+      C: "",
+      D: "A scratched photosensitive drum typically results in repeating vertical or horizontal lines, or repetitive marks on the output. It will not cause the entire page to be coated in black toner, making this incorrect for this specific symptom."
+    },
+    examTrap: "Misleading physical symptom (grinding fuser) versus the actual output defect (black page)."
+  },
+  {
+    id: "Q002",
+    topic: "Printer Configuration",
+    difficulty: "hard",
+    scenario: "A systems administrator is deploying 50 new multifunction devices (MFDs) across a corporate campus. The MFDs utilize network scanning to send documents to users as email attachments. During testing on the first configured unit, the scan-to-email function fails with a timeout error. However, the administrator confirms that the MFD can successfully ping local workstations and print network jobs without delay.",
+    prompt: "What is the BEST first step to resolve the scan-to-email connectivity issue?",
+    choices: [
+      { key: "A", text: "Configure the MFD with the correct IP address of the SMTP server." },
+      { key: "B", text: "Switch the MFD connection from infrastructure mode to Wi-Fi Direct." },
+      { key: "C", text: "Update the MFD firmware before deploying it to the remaining units." },
+      { key: "D", text: "Configure the MFD with the path to a file server and shared folder." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "scan-to-email function fails... MFD can successfully ping local workstations",
+    explanationCorrect: "To utilize a scan-to-email function, an MFD must be properly configured to communicate with the mail server responsible for routing the messages. This specifically requires configuring the MFD with the correct IP address of an SMTP server, which usually handles the outgoing email and authenticates the user. Since local network communication (pinging and printing) is functional, the network connection is fine, pointing to a missing or incorrect mail routing configuration.",
+    explanationIncorrect: {
+      A: "",
+      B: "Wi-Fi Direct is a feature that allows client devices to connect directly to the printer's software-implemented access point, bypassing the corporate network. This would isolate the printer from the network mail server and would entirely break the scan-to-email functionality rather than fix it.",
+      C: "Updating firmware is a best practice for security and performance, and testing on a single device first is recommended. However, without configuring the baseline SMTP parameters, a firmware update will not magically resolve a mail routing issue.",
+      D: "Configuring a path to a file server and shared folder is the correct remediation for Server Message Block (SMB) scanning issues. This action does not route outbound email traffic and will not fix a scan-to-email failure."
+    },
+    examTrap: "Confusing different network scan service protocols (SMTP vs SMB)."
+  },
+  {
+    id: "Q003",
+    topic: "Printer Troubleshooting",
+    difficulty: "medium",
+    scenario: "A design firm reports that their shared Windows print server queue is completely frozen. Multiple users are trying to print, but no jobs are processing. The technician attempts to manually delete the pending jobs from the queue via the Windows Settings interface, but the jobs remain stuck in a \"Deleting...\" status. Local printing directly via a USB connection to a similar printer works perfectly.",
+    prompt: "What should the technician do NEXT to resolve the stalled print queue?",
+    choices: [
+      { key: "A", text: "Navigate to %SystemRoot%\\System32\\Spool\\Printers\\ and delete the spool folder." },
+      { key: "B", text: "Stop and restart the Print Spooler service on the print server." },
+      { key: "C", text: "Reflash the printer's firmware via its web interface." },
+      { key: "D", text: "Cancel the print jobs from the printer's local LCD control panel." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "jobs remain stuck in a 'Deleting...' status",
+    explanationCorrect: "When a print queue is completely backed-up or stalled and jobs cannot be deleted through the standard graphical interface, the underlying Windows service managing the queue has likely crashed or hung. The technician must stop and restart the Print Spooler service to forcibly refresh the queue management system. This is a fundamental Windows troubleshooting step for stalled queues before attempting destructive file removal.",
+    explanationIncorrect: {
+      A: "Deleting the files inside the %SystemRoot%\\System32\\Spool\\Printers\\ directory is a valid step for clearing a severely corrupted spooler cache. However, you must first stop the Print Spooler service to release the file locks before you can delete these files, making this step sequentially incorrect as a first action.",
+      B: "",
+      C: "Reflashing the firmware is a risky procedure that updates the core operating software of the physical print device. Because the local USB printer works and the issue is specifically within the Windows print queue software environment, flashing the hardware firmware is an unnecessary and potentially dangerous step.",
+      D: "While you can sometimes cancel active jobs on the local printer's LCD panel, this only clears the hardware's internal memory. It will not resolve a frozen queue residing on the Windows Print Server software level, which will simply attempt to re-send the corrupted job once the printer is ready."
+    },
+    examTrap: "Identifying the correct sequencing in clearing a Windows print spooler."
+  },
+  {
+    id: "Q004",
+    topic: "Printer Maintenance",
+    difficulty: "easy",
+    scenario: "A retail store relies heavily on a direct thermal printer to generate customer receipts. Recently, the printed text on the receipts has become faint and illegible in certain spots. The cashier recently replaced the paper roll and mentions that a sticky substance from a promotional sticker was accidentally pulled into the feed mechanism.",
+    prompt: "Which of the following is the BEST method to resolve the print quality issue?",
+    choices: [
+      { key: "A", text: "Run a calibration routine from the printer's control panel." },
+      { key: "B", text: "Replace the ink ribbon cartridge and adjust the platen gap." },
+      { key: "C", text: "Use a swab with 99% isopropyl alcohol (IPA) to clean the print head." },
+      { key: "D", text: "Run the automatic print head alignment utility from the device driver." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "direct thermal printer... sticky substance... faint and illegible",
+    explanationCorrect: "Direct thermal printers use a heating element to activate chemicals on specially treated paper, and they are highly susceptible to sticky residues from labels or foreign objects. To restore print quality, the technician must safely remove this residue by using a swab with isopropyl alcohol (IPA) or specialized cleaning cards on the print head. This ensures the thermal elements can properly transfer heat to the paper.",
+    explanationIncorrect: {
+      A: "Calibration routines are used in laser printers to adjust print density or color balance. Direct thermal printers do not use toner or calibration routines in this manner, as they rely on direct heat application.",
+      B: "Replacing an ink ribbon cartridge and adjusting the platen gap are maintenance tasks specifically required for impact (dot matrix) printers. Direct thermal printers do not use ink ribbons or platen gap adjustments.",
+      C: "",
+      D: "Running an automatic print head alignment utility is a standard maintenance task for inkjet printers when lines are skewed. Thermal printers have fixed print heads and do not utilize carriage alignment utilities."
+    },
+    examTrap: "Confusing maintenance tools and techniques across different printer technologies (Thermal vs Inkjet vs Impact)."
+  },
+  {
+    id: "Q005",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "An office is using a shared 802.11n wireless inkjet printer connected via infrastructure mode. Users report that the printer frequently drops offline. A technician checks the printer's control panel and notes the IP address is 192.168.1.247, but it is currently connected to a neighboring office's guest network with the SSID \"Guest_Free\". The office router is located on the other side of a concrete wall.",
+    prompt: "What is the MOST likely cause of the connectivity loss?",
+    choices: [
+      { key: "A", text: "The printer is configured for Wi-Fi Direct and is bypassing the access point." },
+      { key: "B", text: "The printer is experiencing interference and automatically connecting to an unintended network." },
+      { key: "C", text: "The printer is attempting to use a 64-bit driver on a 32-bit operating system." },
+      { key: "D", text: "The print head carriage is jammed, causing the network adapter to fault." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "connected to a neighboring office's guest network... concrete wall",
+    explanationCorrect: "Wireless printers connected in infrastructure mode can lose their connection if the signal from the primary access point is weak or obstructed by obstacles like concrete walls. When this happens, the printer may automatically attempt to connect to other available, open networks within range, such as a neighboring guest network, taking it off the corporate subnet. This results in the printer appearing \"offline\" to local users.",
+    explanationIncorrect: {
+      A: "Wi-Fi direct is a software-implemented access point created by the printer to allow direct connections from clients. If this were happening, the printer would be broadcasting its own SSID, not connecting as a client to a neighboring network's SSID.",
+      B: "",
+      C: "A driver architecture mismatch (64-bit vs 32-bit) will prevent a user from installing the printer or rendering print jobs successfully. It will not cause the printer's hardware network adapter to roam and associate with a completely different wireless SSID.",
+      D: "A jammed print head carriage will cause a mechanical error and a flashing LED or error message. It will halt printing operations, but it does not cause the device's wireless network interface card to change network associations."
+    },
+    examTrap: "Environmental wireless networking concepts overlapping with printer troubleshooting."
+  },
+  {
+    id: "Q006",
+    topic: "Printer Security",
+    difficulty: "medium",
+    scenario: "A human resources department frequently prints confidential employee records to a shared network laser MFD located in a busy hallway. The HR manager is concerned that unauthorized employees might read these documents while they are sitting in the output tray before the HR staff can retrieve them. Network segmentation is already in place.",
+    prompt: "Which of the following configurations provides the BEST solution to secure the physical output of these documents?",
+    choices: [
+      { key: "A", text: "Configure an audit log to track exactly who printed the documents and when." },
+      { key: "B", text: "Enable Secured Print to hold the job until the user authenticates at the device." },
+      { key: "C", text: "Implement user authentication via the Security tab to restrict who can submit jobs." },
+      { key: "D", text: "Assign the printer to a hidden SSID using Wi-Fi Direct for HR use only." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "unauthorized employees might read these documents while they are sitting in the output tray",
+    explanationCorrect: "Secured Print is a specific security feature designed to hold a print job in the device's memory rather than printing it immediately. The physical document is not released to the output tray until the user walks up to the device and authenticates using a PIN, password, or smart card badge. This completely eliminates the risk of sensitive documents sitting unattended in a public area.",
+    explanationIncorrect: {
+      A: "Audit logs are excellent for post-incident investigation to track missing documents or trace unauthorized information releases. However, logging is a detective control; it does not prevent someone from walking by and reading a document currently sitting in the tray.",
+      B: "",
+      C: "User authentication configured via the Security tab ensures that only authorized accounts can submit jobs to the print queue. While this prevents random users from sending jobs, it does not stop authorized HR jobs from printing immediately and sitting unattended in the tray.",
+      D: "Moving the printer to a hidden SSID or using Wi-Fi Direct changes how the data is transmitted wirelessly to the printer. It does absolutely nothing to control the physical release of the paper once the document reaches the printer."
+    },
+    examTrap: "Distinguishing between digital access control (who can print) and physical output control (Secured Print)."
+  },
+  {
+    id: "Q007",
+    topic: "Laser Printing Process",
+    difficulty: "easy",
+    scenario: "An office administrator submits a large report to a color laser printer. The printer successfully processes the job, but upon inspection, the administrator notices faint \"ghost images\" (double/echo images) of the text appearing further down the page. A \"low toner\" warning was dismissed earlier that morning.",
+    prompt: "Which stage of the laser printing process is MOST likely failing?",
+    choices: [
+      { key: "A", text: "Developing" },
+      { key: "B", text: "Transferring" },
+      { key: "C", text: "Fusing" },
+      { key: "D", text: "Cleaning" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "ghost images' (double/echo images)",
+    explanationCorrect: "In the laser printing cycle, the cleaning stage is responsible for removing residual toner and electrical charge from the photosensitive drum before the next revolution. If this stage fails, residual toner from the previous rotation remains on the drum and is incorrectly transferred to the paper again, resulting in faint double or echo images. Resolving this usually requires replacing the drum or the entire toner cartridge.",
+    explanationIncorrect: {
+      A: "The developing stage is where toner is attracted to the neutralized areas of the drum to form the initial image. If this failed, the page would likely be blank or very faint, but it would not cause echo images from a previous rotation.",
+      B: "The transferring stage moves the toner from the drum onto the positively charged paper. A failure here typically results in blank pages or severely patchy prints, not a repeating ghost image.",
+      C: "The fusing stage uses heat and pressure to bond the toner to the paper. A failure here results in toner that smears or easily rubs off the paper when touched, rather than cleanly printed echo images.",
+      D: ""
+    },
+    examTrap: "Memorization of the laser printing process mapped to specific visual defects."
+  },
+  {
+    id: "Q008",
+    topic: "Printer Maintenance",
+    difficulty: "medium",
+    scenario: "A technician has been tasked with performing scheduled maintenance on an older workgroup laser printer. The printer interface shows a \"Maintenance Kit Replace\" message based on its internal page count. The technician unboxes the new kit to begin the replacement.",
+    prompt: "Which of the following components are typically replaced during this specific procedure? (Select the BEST answer)",
+    choices: [
+      { key: "A", text: "The print head carriage, platen gap assembly, and ink reservoirs." },
+      { key: "B", text: "The fuser unit, transfer roller, and paper feed rollers." },
+      { key: "C", text: "The primary charge roller, photosensitive drum, and developer roller." },
+      { key: "D", text: "The stepper motor, separation roller, and static eliminator." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "'Maintenance Kit Replace' message",
+    explanationCorrect: "A standard laser printer maintenance kit is designed to replace the mechanical components that suffer the most wear and tear from friction and heat over tens of thousands of pages. According to manufacturer specifications, these kits typically include replacement paper feed rollers, a new transfer roller, and a new fuser unit. After replacing these specific items, the technician must reset the internal page count to clear the message.",
+    explanationIncorrect: {
+      A: "The print head carriage, platen gap assembly, and ink reservoirs are components found in inkjet or impact printers. Laser printer maintenance kits do not include these components.",
+      B: "",
+      C: "The primary charge roller, photosensitive drum, and developer roller are core components of the image formation process. However, these are typically integrated into and replaced alongside the consumable toner cartridge, not the long-term maintenance kit.",
+      D: "While the separation roller is sometimes included in maintenance kits to prevent multi-page misfeeds, the stepper motor and static eliminator are internal electronic/mechanical assemblies. They are generally replaced only when they individually fail, not as part of a routine maintenance kit."
+    },
+    examTrap: "Differentiating between consumable toner cartridge components and routine maintenance kit components."
+  },
+  {
+    id: "Q009",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "A marketing manager attempts to print a complex, graphics-heavy brochure to an HP color laser printer. The printer successfully spools the job, but outputs multiple pages containing only a few random, strange characters at the top of each page. The technician cancels the job, clears the queue, and leaves the printer off for 30 seconds. A test page generated from the printer's local LCD panel prints perfectly.",
+    prompt: "What is the MOST appropriate next step to resolve the garbled print issue?",
+    choices: [
+      { key: "A", text: "Replace the formatting board on the printer hardware." },
+      { key: "B", text: "Run the print head alignment and cleaning utility." },
+      { key: "C", text: "Verify the application is using a supported Page Description Language (PDL) driver like PostScript." },
+      { key: "D", text: "Replace the data cable connecting the printer to the network switch." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "outputs multiple pages containing only a few random, strange characters... test page generated from the printer's local LCD panel prints perfectly",
+    explanationCorrect: "Garbled output consisting of strange characters across multiple pages is a classic symptom of a communication and rendering failure between the OS and the printer. Because the printer successfully printed a self-test page locally, the hardware itself is functioning correctly. The technician must verify the application and OS are using a supported Page Description Language (PDL) driver, such as PCL or PostScript, to ensure the print commands are translated correctly.",
+    explanationIncorrect: {
+      A: "Replacing the formatting board is a drastic hardware repair. Because the local hardware test page printed perfectly, the physical rendering hardware on the printer is proven to be operational, making a hardware swap incorrect.",
+      B: "Print head alignment and cleaning utilities are specific to inkjet printers to resolve missing lines or skewed output. This scenario involves a laser printer generating software rendering errors, making inkjet maintenance utilities irrelevant.",
+      C: "",
+      D: "While a faulty cable can sometimes cause data corruption, the symptom of continuous garbled characters is overwhelmingly a driver/PDL mismatch. Replacing physical cables before checking software drivers for garbled text is inefficient troubleshooting."
+    },
+    examTrap: "Recognizing PDL driver failures through the symptom of garbled text, combined with hardware elimination via local test pages."
+  },
+  {
+    id: "Q010",
+    topic: "Printer Configuration",
+    difficulty: "medium",
+    scenario: "A graphic design team relies on a high-end color printer for client proofs. They frequently print from Adobe Illustrator and require exact color consistency and precise vector graphic scaling across multiple devices. Speed is not a primary concern, but exact \"what you see is what you get\" (WYSIWYG) translation is critical.",
+    prompt: "Which Page Description Language (PDL) and driver configuration should the IT administrator prioritize installing for this team?",
+    choices: [
+      { key: "A", text: "Adobe PostScript" },
+      { key: "B", text: "HP Printer Control Language (PCL)" },
+      { key: "C", text: "Microsoft XML Paper Specification (XPS)" },
+      { key: "D", text: "Line Printer Remote (LPR)" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "exact color consistency and precise vector graphic scaling... Speed is not a primary concern",
+    explanationCorrect: "Adobe PostScript is a device-independent Page Description Language that is the industry standard for professional desktop publishing and graphic design. It ensures absolute consistency, precision, and accurate color output across different devices, which perfectly matches the designers' requirements. While it processes slower than other PDLs, the scenario explicitly states speed is not the primary concern.",
+    explanationIncorrect: {
+      A: "",
+      B: "HP Printer Control Language (PCL) is faster than PostScript and excellent for high-volume text printing. However, it is closely tied to specific printer models and its output can vary slightly depending on the device, making it unsuitable for a designer needing strict consistency across devices.",
+      C: "Microsoft XPS offers great integration with Microsoft Office applications and decent speed. However, it lacks the widespread cross-vendor compatibility and professional precision of PostScript for graphic design workflows like Adobe Illustrator.",
+      D: "LPR is an older network printing protocol used to send print jobs over a TCP/IP network, not a Page Description Language (PDL). It does not format the vector graphics or handle the color model translation."
+    },
+    examTrap: "Differentiating between the use cases of common PDLs (PostScript for quality/graphics vs PCL for speed/text)."
+  },
+  {
+    id: "Q011",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "A financial controller sends a 50-page invoice batch to a centralized MFD configured with a finisher unit. The user selected the option to staple the documents into 5-page booklets. The printer prints the first 15 pages correctly, but then jams. A technician opens the finisher unit and discovers a crumpled mass of staples jammed inside the punch mechanism.",
+    prompt: "After removing the stuck staples, what is the MOST likely cause of this recurring issue that the technician should address?",
+    choices: [
+      { key: "A", text: "The booklet layout orientation was set to Landscape instead of Portrait." },
+      { key: "B", text: "The maximum sheet count capacity for the stapling finisher was exceeded." },
+      { key: "C", text: "The paper being used is specifically designed for thermal printers, not laser." },
+      { key: "D", text: "The user forgot to enable manual duplexing in the Printer Properties." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "crumpled mass of staples jammed inside the punch mechanism",
+    explanationCorrect: "Finisher units on laser printers apply physical staples to printed packets, but they have strict hardware limitations on the maximum number of sheets they can penetrate at one time. If users send print jobs that exceed this maximum sheet count (which varies by paper weight), the staple will fail to pierce the stack, bending and jamming within the punch mechanism. The technician must educate the user to send print jobs in batches within the permissible sheet count.",
+    explanationIncorrect: {
+      A: "Setting the orientation to Landscape instead of Portrait might cause the staple to be applied to the wrong edge of the paper (e.g., the top instead of the side). However, incorrect orientation alone will not cause the physical staple mechanism to buckle and jam.",
+      B: "",
+      C: "Thermal paper is chemically treated to react to heat and should not be used in laser printers, as it would likely turn completely black in the fuser. While it would cause output issues, it does not physically cause staple jams in the finisher.",
+      D: "Manual duplexing requires the user to physically take the printed pages and reload them into the tray to print the second side. Forgetting this step would result in 50 single-sided pages, but it has no mechanical bearing on why the stapler mechanism jammed."
+    },
+    examTrap: "Understanding the physical limitations of mechanical finisher units."
+  },
+  {
+    id: "Q012",
+    topic: "Printer Maintenance",
+    difficulty: "medium",
+    scenario: "An accounting office uses a dot matrix printer to print continuous, multi-part carbon invoices. The users complain that the printer frequently skews the paper, causing the text to print diagonally across the pre-printed invoice boxes. The paper currently relies entirely on the rotating platen roller for friction feeding.",
+    prompt: "What is the BEST hardware adjustment to prevent the paper from skewing?",
+    choices: [
+      { key: "A", text: "Adjust the platen gap to be narrower so it holds the paper tighter." },
+      { key: "B", text: "Use the perforated side strips and engage the tractor-feed studs." },
+      { key: "C", text: "Install a cut sheet feeder to automate the feeding process." },
+      { key: "D", text: "Replace the continuous multi-part paper with single-sheet laser paper." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "frequently skews the paper... relies entirely on the rotating platen roller for friction feeding",
+    explanationCorrect: "Impact printers often use continuous, multi-part stationary that is heavy and prone to slipping or skewing if fed only by friction. To resolve this, the technician should utilize the tractor-fed mechanism, which uses studded rollers that fit perfectly into the perforated holes on the side strips of the paper. Engaging the tractor feed mechanically aligns the paper and drastically reduces slippage and skewing during long print runs.",
+    explanationIncorrect: {
+      A: "The platen gap adjusts the distance between the print head and the paper to accommodate different thicknesses. If the gap is too narrow, it will cause smudging and potentially tear the paper; it does not reliably fix lateral skewing.",
+      B: "",
+      C: "A cut sheet feeder is an accessory used to automate the feeding of individual, non-continuous sheets of paper. Because the office is using continuous, multi-part invoices, a cut sheet feeder is incompatible with their workflow.",
+      D: "Replacing the multi-part carbon paper with single-sheet laser paper completely ruins the accounting office's requirement to print duplicate/triplicate invoice copies in a single pass. It removes their required functionality rather than fixing the hardware feed issue."
+    },
+    examTrap: "Understanding the specific feed mechanisms unique to impact printers."
+  },
+  {
+    id: "Q013",
+    topic: "Printer Troubleshooting",
+    difficulty: "easy",
+    scenario: "A user complains that every time they print from tray 2 of their laser printer, two or three sheets of paper are pulled into the print path simultaneously, causing a multipage misfeed jam. The user confirms they are using standard 20lb laser paper and the media guides are snug.",
+    prompt: "Which of the following is the BEST step to resolve this specific misfeed issue?",
+    choices: [
+      { key: "A", text: "Clean the photosensitive drum with isopropyl alcohol." },
+      { key: "B", text: "Fan the edge of the paper stack before loading it." },
+      { key: "C", text: "Increase the heat setting on the fuser unit." },
+      { key: "D", text: "Replace the primary charge roller." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "two or three sheets of paper are pulled into the print path simultaneously",
+    explanationCorrect: "A multipage misfeed occurs when the separation roller fails to isolate a single sheet, often because the sheets of paper in the tray are sticking together due to static or manufacturing cuts. The simplest and most effective first step to prevent this is to fan the edge of the paper stack with your thumb before loading it into the tray. This introduces a tiny layer of air between the sheets, allowing the pickup and separation rollers to function correctly.",
+    explanationIncorrect: {
+      A: "Cleaning the photosensitive drum might help with print quality defects like lines or marks. The drum is part of the image transfer process, located far past the pickup rollers, and has no impact on paper pulling from the tray.",
+      B: "",
+      C: "The fuser unit bonds the toner to the paper at the very end of the printing process. Altering fuser temperature will not fix an issue happening at the input tray where paper is initially picked up.",
+      D: "The primary charge roller (PCR) prepares the drum with a negative charge. It is an electrical component related to imaging, entirely unrelated to the mechanical rollers pulling paper from the input tray."
+    },
+    examTrap: "Applying simple, physical remedies to mechanical feed issues before attempting hardware replacement."
+  },
+  {
+    id: "Q014",
+    topic: "Printer Configuration",
+    difficulty: "hard",
+    scenario: "A Windows 10 client is trying to connect to a shared printer hosted on a Windows Print Server. The server uses an older laser printer that does not have Type 4 driver support. The client is running a 64-bit OS, but the server was originally configured by an administrator using a 32-bit OS. When the client attempts to connect via File Explorer, they are prompted for a driver and the installation fails.",
+    prompt: "What is the correct configuration required on the Print Server to resolve this issue silently for the user?",
+    choices: [
+      { key: "A", text: "The server administrator must manually install the Type 3 x64 (64-bit) driver in the Additional Drivers menu." },
+      { key: "B", text: "The server administrator must enable bidirectional support in the Ports tab." },
+      { key: "C", text: "The user must map the printer using an LPT1 virtual port instead of a network share." },
+      { key: "D", text: "The user must update their local Windows 10 machine to utilize the Type 2 framework." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Type 4 driver support... client is running a 64-bit OS, but the server... 32-bit OS",
+    explanationCorrect: "In a mixed OS environment where Type 4 (universal) class drivers are unavailable, networked printers rely on Type 3 drivers. For a 64-bit client to seamlessly connect and download the driver from a print server initially configured with 32-bit (x86) drivers, the server administrator must go to the Sharing tab and use the \"Additional Drivers\" button. There, they must manually upload and check the box for the x64 architecture driver so it is available for client deployment.",
+    explanationIncorrect: {
+      A: "",
+      B: "Enabling bidirectional support in the Ports tab allows the printer to send status messages (like ink levels or error codes) back to the print spooler. It does not magically supply a missing 64-bit driver to a client attempting to connect to the share.",
+      C: "Mapping to an LPT1 virtual port is an archaic method used for legacy DOS applications that require local parallel port emulation. Connecting to a modern Windows print share is done via File Explorer (SMB/RPC), and changing the port mapping won't solve a missing driver architecture issue.",
+      D: "Type 2 drivers are older and require specific versions for each Windows release. Downgrading to a Type 2 framework is not a standard or supported feature in Windows 10, which relies on Type 3 or Type 4 drivers."
+    },
+    examTrap: "Understanding print server driver distribution in mixed-architecture (32-bit/64-bit) environments."
+  },
+  {
+    id: "Q015",
+    topic: "Printer Troubleshooting",
+    difficulty: "medium",
+    scenario: "A user reports that their Windows 10 workstation will not print to a newly installed USB laser printer. The user physically connected the Type B to Type A USB cable, and the printer is powered on. However, when the user opens the \"Printers & scanners\" menu, the printer is listed but the status reads \"Unavailable.\"",
+    prompt: "What is the BEST first step the technician should take to troubleshoot this local connectivity issue?",
+    choices: [
+      { key: "A", text: "Delete the spool file from %SystemRoot%\\System32\\Spool\\Printers\\." },
+      { key: "B", text: "Access the printer's web interface to verify its DHCP lease." },
+      { key: "C", text: "Check the Printer Properties \"Ports\" tab to ensure USB001 (Virtual printer port) is selected." },
+      { key: "D", text: "Run the automatic print head alignment utility." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "physically connected the Type B to Type A USB cable... status reads 'Unavailable.'",
+    explanationCorrect: "When a local USB printer shows as unavailable despite being physically connected, the logical printer object in Windows may be pointing to the wrong communication port. The technician must access the Printer Properties and view the \"Ports\" tab to ensure that the \"USB001 Virtual printer port for USB\" is checked, rather than an LPT, COM, or FILE port. If the OS driver is attempting to send data to a non-existent parallel or serial port, it will mark the USB device as unavailable.",
+    explanationIncorrect: {
+      A: "Deleting the spool file is a destructive step used to clear a frozen print queue. If the printer itself is showing as \"Unavailable\" before a job is even processed, the issue is at the port/connectivity level, not a corrupted file in the spooler cache.",
+      B: "Accessing a web interface to check a DHCP lease is a troubleshooting step for network-attached (Ethernet or Wi-Fi) printers. This printer is explicitly stated to be connected via a local USB cable, so it will not have an IP address or web interface.",
+      C: "",
+      D: "The print head alignment utility is a maintenance task for inkjet printers to correct skewed lines or blurry output. It has absolutely nothing to do with resolving OS-level port connectivity issues for a laser printer."
+    },
+    examTrap: "Recognizing the difference between logical port assignments in Windows versus physical cable connections."
+  },
+  {
+    id: "Q016",
+    topic: "Printer Deployment",
+    difficulty: "medium",
+    scenario: "A hospital IT technician is unboxing a brand-new high-capacity laser printer that was just delivered from a freezing warehouse. The department manager wants the printer powered on and connected to the network immediately to handle an influx of patient records. The technician notes the printer feels physically cold to the touch.",
+    prompt: "What is the BEST first step the technician should take before powering on the device?",
+    choices: [
+      { key: "A", text: "Connect the printer to an isolated VLAN to verify network security compliance." },
+      { key: "B", text: "Leave the printer powered off for several hours to acclimate to room temperature." },
+      { key: "C", text: "Remove all packing materials and immediately run a print head calibration routine." },
+      { key: "D", text: "Flash the device's firmware via a USB drive before connecting it to the network." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "delivered from a freezing warehouse... feels physically cold",
+    explanationCorrect: "Electronic devices and print engines moved from a cold environment to a warm environment are highly susceptible to internal condensation, which can cause electrical shorts or paper jams. Allowing the printer to sit unpowered for several hours ensures it acclimates to the new temperature and humidity levels safely. This physical environmental precaution must precede any digital configuration or hardware initialization.",
+    explanationIncorrect: {
+      A: "Connecting the printer to an isolated VLAN is a solid security practice for a new network deployment. However, applying power to a cold, potentially condensing electronic device risks immediate hardware failure, making security secondary at this exact moment.",
+      B: "",
+      C: "Removing packing materials is required, but running a calibration routine requires powering the device on immediately. Applying power before the device acclimates risks severe condensation damage to the internal fusing and high-voltage mechanisms.",
+      D: "Flashing firmware is a necessary security and performance step for new devices. But again, this requires turning the cold printer on, which violates the physical safety guidelines for acclimating new hardware."
+    },
+    examTrap: "Ignoring physical/environmental hardware constraints in favor of immediate IT configuration."
+  },
+  {
+    id: "Q017",
+    topic: "Printer Firmware Management",
+    difficulty: "hard",
+    scenario: "A university library deploys a new network multifunction device (MFD). The IT team needs to ensure that the MFD receives the latest security patches to fix a known vulnerability. After downloading the update file from the vendor, the administrator attempts to update the MFD via its web interface. The upload process begins but stalls midway through.",
+    prompt: "Which of the following is the MOST appropriate policy-compliant solution to prevent widespread downtime when updating MFD firmware?",
+    choices: [
+      { key: "A", text: "Use a USB drive to force the firmware update directly through the control panel." },
+      { key: "B", text: "Test the new firmware on a single device before deploying it across multiple devices." },
+      { key: "C", text: "Configure the MFD to pull updates automatically via a BootP server." },
+      { key: "D", text: "Perform a factory reset from the Maintenance menu to clear the stalled upload." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "prevent widespread downtime when updating MFD firmware",
+    explanationCorrect: "Applying firmware updates introduces a risk of corruption or incompatibility that can render a device completely inoperable. To adhere to strict change-management policies, administrators must test new firmware on a single, isolated device to ensure stability and compatibility before a mass rollout. This prevents a bad patch from simultaneously taking down every MFD on the campus network.",
+    explanationIncorrect: {
+      A: "Forcing an update via a USB drive is a valid method for applying a local patch if the network interface fails. However, this action does not address the policy requirement of preventing widespread downtime across the entire fleet of printers.",
+      B: "",
+      C: "BootP is an older protocol used for assigning IP addresses, not for distributing firmware updates. Setting up a BootP server will not automate firmware patching or protect the network from a flawed update.",
+      D: "A factory reset will clear current settings and may un-stall a frozen web interface. It is a reactive troubleshooting step for a single device, not a preventative policy strategy for fleet management."
+    },
+    examTrap: "Distinguishing between immediate troubleshooting actions and long-term administrative best practices."
+  },
+  {
+    id: "Q018",
+    topic: "Printer Configuration",
+    difficulty: "medium",
+    scenario: "A remote worker connects an older Epson inkjet printer to their new Windows 10 laptop using a USB-B to USB-C adapter. The OS detects the device via Plug and Play, but when the user attempts to print a PDF, the job fails instantly. The user navigates to the \"Ports\" tab in the Printer Properties menu to investigate.",
+    prompt: "Which port configuration MUST be selected for this printer to function properly?",
+    choices: [
+      { key: "A", text: "COM1" },
+      { key: "B", text: "LPT1" },
+      { key: "C", text: "USB001" },
+      { key: "D", text: "FILE" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "connects an older Epson inkjet printer... using a USB-B to USB-C adapter",
+    explanationCorrect: "When a local printer is physically attached to a client machine via a Universal Serial Bus (USB) connection, the Windows operating system maps this to a specific virtual port for communication. The technician must ensure that the \"USB001 Virtual printer port for USB\" is checked in the Properties menu. If an older default port like LPT1 is checked instead, the OS will attempt to route the print data to a non-existent parallel interface.",
+    explanationIncorrect: {
+      A: "COM1 designates a hardware serial port, which is an ancient interface used for very old plotters or modems. A modern inkjet printer connected via a USB adapter will not communicate over a serial COM port.",
+      B: "LPT1 is the legacy designation for a parallel printer port. Even though this is an \"older\" printer, it is physically connected via USB, so routing traffic to a parallel port will result in a failed job.",
+      C: "",
+      D: "The FILE port is utilized when a user wants to intercept a print job and save the raw spool data (usually as a .prn file) to the hard drive instead of outputting it physically. This will prevent the physical printer from ever receiving the job."
+    },
+    examTrap: "Recognizing the correct logical port mapping for modern local connections in Windows."
+  },
+  {
+    id: "Q019",
+    topic: "Printer Networking",
+    difficulty: "medium",
+    scenario: "A large enterprise is installing a new departmental laser printer. The network administrator configures the printer with a static IP address via its front LCD panel. Users report that they can add the printer by typing its IP address, but they cannot find it by searching for its designated hostname, \"HR-PRT-01\".",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The printer was connected via Wi-Fi Direct instead of infrastructure mode." },
+      { key: "B", text: "The printer's IP address has not been registered on the DNS server." },
+      { key: "C", text: "The printer is configured to use an IPv4 address instead of an IPv6 FQDN." },
+      { key: "D", text: "The Windows client needs a Type 4 print driver installed via Windows Update." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "can add the printer by typing its IP address, but they cannot find it by searching for its designated hostname",
+    explanationCorrect: "For network clients to resolve a user-friendly hostname (like \"HR-PRT-01\") into an actionable IP address, a Domain Name System (DNS) server must possess a record linking the two. If the administrator manually assigned a static IP address to the printer but forgot to manually create an A-record in the DNS server, hostname resolution will fail. Users will be forced to connect via the raw IP address until the DNS record is established.",
+    explanationIncorrect: {
+      A: "Wi-Fi Direct creates a localized access point directly on the printer, which would remove the printer from the corporate network entirely. Since users can successfully reach the printer via its IP address, it is clearly connected to the proper infrastructure network.",
+      B: "",
+      C: "A Fully Qualified Domain Name (FQDN) functions with both IPv4 and IPv6 protocols via A and AAAA records, respectively. The use of an IPv4 address does not inherently break hostname resolution.",
+      D: "A Type 4 print driver dictates how the OS formats print jobs and communicates with the print hardware. Driver types have absolutely no bearing on how the network resolves hostnames to IP addresses."
+    },
+    examTrap: "Identifying the reliance on foundational networking services (DNS) for device discovery."
+  },
+  {
+    id: "Q020",
+    topic: "Printer Networking & Mobile",
+    difficulty: "hard",
+    scenario: "A consulting firm frequently hosts guest auditors who need to print documents from their personal laptops and mobile devices. Due to strict corporate security policies, these guests cannot be granted access to the internal Wi-Fi infrastructure. The firm purchases a new wireless MFD to accommodate these guests.",
+    prompt: "Which of the following is the BEST configuration to securely allow guest printing without breaching network policies?",
+    choices: [
+      { key: "A", text: "Configure the MFD to connect to the internal network via Infrastructure mode and share it over SMB." },
+      { key: "B", text: "Set up a software-implemented access point on the MFD using Wi-Fi Direct." },
+      { key: "C", text: "Register the MFD on a DNS server so guests can connect via a Fully Qualified Domain Name." },
+      { key: "D", text: "Connect the MFD to the corporate network and require smart card badging for all print jobs." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "guests cannot be granted access to the internal Wi-Fi infrastructure",
+    explanationCorrect: "Wi-Fi Direct allows a printer to act as its own software-implemented access point. This enables guest devices to form a peer-to-peer wireless connection directly with the printer without ever touching the company's secure infrastructure network. This perfectly satisfies the requirement for mobile guest printing while maintaining strict network isolation.",
+    explanationIncorrect: {
+      A: "Infrastructure mode requires the printer to connect to a central corporate wireless access point. Doing this and sharing it via Server Message Block (SMB) would require guests to be on the internal network, explicitly violating the security policy.",
+      B: "",
+      C: "Registering the MFD on a DNS server allows users to find the printer via a hostname. However, the guests still need physical or wireless access to the network holding that DNS server to resolve the name, which they are denied.",
+      D: "Smart card badging is an excellent physical security control to prevent unauthorized users from picking up printed documents. However, connecting the printer to the corporate network still violates the mandate that guest devices cannot interact with internal infrastructure."
+    },
+    examTrap: "Understanding the network isolation benefits of Wi-Fi Direct versus Infrastructure mode."
+  },
+  {
+    id: "Q021",
+    topic: "Printer Configuration",
+    difficulty: "medium",
+    scenario: "A Windows Server 2019 print server is configured to share a high-volume laser printer. The server runs a 64-bit OS. Users with older 32-bit Windows 10 laptops complain that they are prompted to manually provide a driver when attempting to map the shared printer via File Explorer. Users with 64-bit laptops connect seamlessly.",
+    prompt: "What must the administrator configure in the printer's Properties dialog to resolve this issue?",
+    choices: [
+      { key: "A", text: "Enable \"Render print jobs on client computers\" in the Sharing tab." },
+      { key: "B", text: "Select the \"Additional Drivers\" button and install the Type 3 x86 drivers." },
+      { key: "C", text: "Navigate to the Advanced tab and configure a Type 4 print class driver framework." },
+      { key: "D", text: "Enable bidirectional support in the Ports tab to force driver synchronization." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Users with older 32-bit Windows 10 laptops complain... Users with 64-bit laptops connect seamlessly.",
+    explanationCorrect: "In a shared printing environment, the print server can automatically deploy the correct drivers to clients upon connection. Because the server is 64-bit, it natively provides 64-bit (x64) drivers. To support the older laptops, the administrator must navigate to the Sharing tab, click \"Additional Drivers,\" and explicitly load the x86 (32-bit) Type 3 drivers so they are available for distribution.",
+    explanationIncorrect: {
+      A: "\"Render print jobs on client computers\" offloads the processing of the spool file from the server to the client's CPU. This is a performance setting and will not fix a missing hardware driver architectural mismatch.",
+      B: "",
+      C: "Type 4 drivers utilize a universal framework where drivers are often pulled from Windows Update rather than the print server. While useful, manually changing the entire server architecture to Type 4 is far more disruptive than simply adding the missing Type 3 x86 driver to the existing share.",
+      D: "Bidirectional support allows the printer to send hardware status updates (like ink levels or paper jams) back to the operating system. It does not synchronize or distribute OS driver files to connecting network clients."
+    },
+    examTrap: "Recognizing the need for mixed-architecture driver distribution on a Windows print server."
+  },
+  {
+    id: "Q022",
+    topic: "Printer Configuration",
+    difficulty: "hard",
+    scenario: "A high-end architectural firm uses Adobe Illustrator to create highly detailed, scalable vector graphics for client blueprints. They recently purchased a new color MFD. While speed is largely irrelevant, the architects demand absolute color accuracy and identical formatting regardless of which workstation submits the print job.",
+    prompt: "Which Page Description Language (PDL) should the IT department install as the default driver for this department?",
+    choices: [
+      { key: "A", text: "Microsoft XML Paper Specification (XPS)" },
+      { key: "B", text: "HP Printer Control Language (PCL)" },
+      { key: "C", text: "Line Printer Daemon (LPD)" },
+      { key: "D", text: "Adobe PostScript" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "highly detailed, scalable vector graphics... absolute color accuracy... speed is largely irrelevant",
+    explanationCorrect: "Adobe PostScript is a device-independent Page Description Language (PDL) that is the industry standard for professional graphic design and desktop publishing. It handles complex vector graphics and CMYK color translations with exact precision across different devices. While it processes slower than other PDLs, its superior consistency meets the strict demands of an architectural firm.",
+    explanationIncorrect: {
+      A: "Microsoft XPS is an excellent PDL for integrating with standard Office applications and offers fast performance. However, it lacks the specialized, cross-vendor color precision and vector handling required by high-end Adobe software workflows.",
+      B: "HP Printer Control Language (PCL) is incredibly fast and highly efficient for text-heavy, high-volume office printing. However, it is closely tied to specific printer hardware, meaning the output can vary slightly between different models, making it unsuitable for exact WYSIWYG proofs.",
+      C: "Line Printer Daemon (LPD) is a network printing protocol used to transport the print job across a TCP/IP network. It is not a Page Description Language and has no role in rendering vector graphics or processing color models.",
+      D: ""
+    },
+    examTrap: "Understanding the distinct use-case differences between PCL (speed/text) and PostScript (quality/graphics)."
+  },
+  {
+    id: "Q023",
+    topic: "Printer Configuration",
+    difficulty: "easy",
+    scenario: "A user complains that every document they print from their Windows 10 machine defaults to printing on both sides of the page (duplex), wasting time. They want all documents to print single-sided by default, but still want the option to manually select double-sided for specific long reports.",
+    prompt: "Where is the BEST place for the technician to change this default behavior?",
+    choices: [
+      { key: "A", text: "The \"Device Settings\" tab under Printer Properties." },
+      { key: "B", text: "The \"Finishing\" tab under Printing Preferences." },
+      { key: "C", text: "The \"Ports\" tab under Printer Properties." },
+      { key: "D", text: "The local web interface of the print device." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "defaults to printing on both sides... want all documents to print single-sided by default",
+    explanationCorrect: "The Printing Preferences dialog in Windows controls the default layout and formatting options for print jobs submitted by that specific user. The technician must navigate to the \"Finishing\" tab within Printing Preferences to uncheck the \"print on both sides\" option. This changes the default behavior while allowing the user to override it on a per-job basis.",
+    explanationIncorrect: {
+      A: "The \"Device Settings\" tab within Printer Properties is used to configure hardware-level options, such as telling the OS that a duplexer unit is physically installed. You do not set per-job layout defaults in this menu.",
+      B: "",
+      C: "The \"Ports\" tab within Printer Properties is strictly used to define the communication path between the OS and the hardware (e.g., USB001, TCP/IP). It contains no settings related to page layout or duplexing.",
+      D: "Adjusting settings on the printer's local web interface will change the global defaults for the entire hardware device. This could inadvertently disrupt the workflow of other users who rely on the device for different tasks."
+    },
+    examTrap: "Differentiating between Printer Properties (hardware/global configuration) and Printing Preferences (user/job layout defaults)."
+  },
+  {
+    id: "Q024",
+    topic: "Printer Security",
+    difficulty: "medium",
+    scenario: "A legal firm prints sensitive contracts to a shared MFD in a common area. Recently, a confidential contract was found sitting unattended in the printer's output tray. The IT department needs to implement a solution that holds the document in the printer's memory until the user physically stands in front of the device to claim it.",
+    prompt: "Which of the following is the MOST appropriate security feature to configure?",
+    choices: [
+      { key: "A", text: "Enable Print Spooler caching on the server." },
+      { key: "B", text: "Implement Active Directory user authentication on the print share." },
+      { key: "C", text: "Configure Secured Print requiring smart card badging." },
+      { key: "D", text: "Enable comprehensive Audit Logging via a remote Syslog server." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "holds the document... until the user physically stands in front of the device",
+    explanationCorrect: "Secured Print is a feature specifically designed to protect confidential documents by preventing them from printing immediately. The job is encrypted and cached in the MFD's memory until the user walks up and authenticates locally using a PIN or a smart card badge. This completely mitigates the risk of sensitive documents sitting exposed in a public output tray.",
+    explanationIncorrect: {
+      A: "Print Spooler caching simply holds the raw print data on the server's hard drive while it is being transmitted to the printer to free up the application. It does not stop the physical printer from immediately outputting the pages once the data arrives.",
+      B: "Active Directory user authentication ensures that only authorized employees have the right to submit jobs to the printer queue. However, once an authorized user submits a job, it will still print immediately and sit in the tray unattended.",
+      C: "",
+      D: "Audit Logging tracks who printed what, when, and from which device. It is an excellent detective control for post-incident investigations, but it is not a preventative control that holds the physical paper output."
+    },
+    examTrap: "Confusing digital access controls (who can print) with physical output controls (Secured Print)."
+  },
+  {
+    id: "Q025",
+    topic: "Printer Scanning Configuration",
+    difficulty: "hard",
+    scenario: "A corporate MFD is heavily utilized for digitizing paper records. Users select \"Scan to Folder\" on the touchscreen, and the digitized PDFs are saved directly to a Windows Server 2022 shared directory. Following a weekend server migration, users report the scan function immediately fails with an \"Access Denied\" error on the MFD panel.",
+    prompt: "What is the MOST likely cause of this failure?",
+    choices: [
+      { key: "A", text: "The MFD's SMTP server IP address was not updated after the migration." },
+      { key: "B", text: "The user account associated with the MFD lacks Write permissions to the new SMB share." },
+      { key: "C", text: "The MFD requires an updated TWAIN driver installed on the Windows server." },
+      { key: "D", text: "The internal optical character recognition (OCR) software has crashed." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Scan to Folder... fails with an 'Access Denied' error",
+    explanationCorrect: "\"Scan to Folder\" relies on the Server Message Block (SMB) protocol to transfer files across the network to a designated file server. For the MFD to successfully drop a newly created PDF into a shared directory, the service account configured on the MFD must possess explicit network Write permissions to that SMB share. An \"Access Denied\" error strongly indicates that these permissions were lost or misconfigured during the server migration.",
+    explanationIncorrect: {
+      A: "The SMTP (Simple Mail Transfer Protocol) server configuration is exclusively used for the \"Scan to Email\" function. A misconfigured SMTP IP address would break email routing, but it has no impact on scanning documents to a local SMB folder.",
+      B: "",
+      C: "TWAIN drivers are used when a local application (like Photoshop) initiates a scan from a physically attached scanner. In this scenario, the MFD is pushing the scan over the network via SMB independently, meaning local server TWAIN drivers are irrelevant.",
+      D: "Optical Character Recognition (OCR) translates image pixels into editable text. If this software crashed, the output file might be a flat image instead of searchable text, but it would not generate an SMB network \"Access Denied\" error."
+    },
+    examTrap: "Mapping specific network protocols and permissions to their respective MFD scan services."
+  },
+  {
+    id: "Q026",
+    topic: "Printer Troubleshooting",
+    difficulty: "medium",
+    scenario: "A graphic design team relies on a high-end color laser printer. Recently, users have complained that every page has a distinct, repeating vertical line running down the right margin. A technician verifies the paper trays are clean and the media is supported.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of this defect?",
+    choices: [
+      { key: "A", text: "A completely blocked nozzle on the magenta print head." },
+      { key: "B", text: "A damaged or scratched photosensitive imaging drum." },
+      { key: "C", text: "A malfunctioning primary charge roller (PCR) applying excessive voltage." },
+      { key: "D", text: "A failing stepper motor in the friction-feed assembly." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "repeating vertical line running down the right margin",
+    explanationCorrect: "In the laser printing process, the photosensitive drum holds the electrostatic image before it transfers to the paper. Because the drum rotates multiple times to print a single page, a physical scratch or speck of baked-on toner on the drum's surface will leave a repeating vertical line or repetitive marks at regular intervals down the page. Resolving this requires replacing the drum, which is often integrated into the toner cartridge.",
+    explanationIncorrect: {
+      A: "A blocked nozzle on a print head is a common issue that causes missing lines or banding, but it is specific to inkjet printers. The scenario explicitly identifies the device as a color laser printer, making this technology incorrect.",
+      B: "",
+      C: "The primary charge roller (PCR) applies a uniform negative charge to the entire drum. If it malfunctions, it usually results in a completely black page or heavy black background shading, not a single, sharp vertical line.",
+      D: "The stepper motor drives the rollers that move the paper. A failing motor would cause paper jams, overlapping text, or severe physical skewing, rather than a clean, repeating vertical print defect."
+    },
+    examTrap: "Matching specific visual laser print defects to their mechanical causes."
+  },
+  {
+    id: "Q027",
+    topic: "Laser Printing Process",
+    difficulty: "medium",
+    scenario: "An office manager complains that documents retrieved from a shared laser printer look fine initially, but the text easily smudges and rubs off the paper when touched. The printer has not displayed any error codes and the toner cartridge was replaced yesterday.",
+    prompt: "Which stage of the laser printing process is currently failing?",
+    choices: [
+      { key: "A", text: "Charging" },
+      { key: "B", text: "Exposing" },
+      { key: "C", text: "Fusing" },
+      { key: "D", text: "Transferring" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "text easily smudges and rubs off the paper when touched",
+    explanationCorrect: "In the laser printing cycle, the fusing stage is the final step where the paper passes through a pair of heated, pressurized rollers. This intense heat melts the toner particles, permanently bonding them to the paper fibers. If the fuser unit fails to reach the required temperature, the toner simply sits as loose powder on the paper, resulting in immediate smudging when touched.",
+    explanationIncorrect: {
+      A: "The charging stage involves the primary charge roller applying a negative charge to the drum. If this fails, the page will likely print entirely black, but the toner would still be fused to the page properly.",
+      B: "The exposing stage uses a laser to neutralize areas on the drum to form the latent image. Failure here results in blank pages or missing text, not poorly adhered toner.",
+      C: "",
+      D: "The transferring stage involves giving the paper a positive charge to attract the toner off the drum. If this failed, the toner would never reach the paper, resulting in blank pages, not smudged pages."
+    },
+    examTrap: "Recognizing the mechanical purpose of the fuser via physical output symptoms."
+  },
+  {
+    id: "Q028",
+    topic: "Printer Maintenance",
+    difficulty: "hard",
+    scenario: "A technician is performing scheduled maintenance on an enterprise laser printer. The printer interface generated a \"Maintenance Kit Replace\" alert based on the 100,000-page count. The technician unboxes the new kit, unplugs the printer, and allows it to cool for an hour before beginning the procedure.",
+    prompt: "Which of the following components MUST the technician replace, and what is the final step to clear the alert?",
+    choices: [
+      { key: "A", text: "Replace the toner hopper and developer roller; manually run the print head alignment utility." },
+      { key: "B", text: "Replace the fuser unit and paper feed rollers; reset the internal page count." },
+      { key: "C", text: "Replace the photosensitive drum and primary charge roller; reflash the device firmware." },
+      { key: "D", text: "Replace the static eliminator and duplexing assembly; adjust the platen gap." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "'Maintenance Kit Replace' alert based on the 100,000-page count",
+    explanationCorrect: "A standard laser printer maintenance kit is designed to replace parts that suffer extreme mechanical wear and thermal stress over a specific page lifecycle. These kits universally contain a new fuser unit, transfer roller, and various paper pickup/feed rollers. After physically installing these parts, the technician must enter the maintenance menu and reset the internal page count to zero, which officially clears the alert message.",
+    explanationIncorrect: {
+      A: "The toner hopper and developer roller are internal components of the consumable toner cartridge, not the long-term maintenance kit. Furthermore, print head alignment is a utility for inkjet printers, not laser printers.",
+      B: "",
+      C: "The photosensitive drum and primary charge roller are crucial imaging components, but they are typically integrated into the standard toner cartridge and replaced frequently. Reflashing firmware is a software update procedure, not a mechanical reset for a maintenance kit.",
+      D: "The static eliminator and duplexing assembly are distinct hardware parts replaced only when broken, not as part of scheduled routine maintenance. Adjusting the platen gap is a procedure unique to impact (dot matrix) printers."
+    },
+    examTrap: "Differentiating between standard consumable replacements (toner/drum) and long-term maintenance kit components (fuser/rollers)."
+  },
+  {
+    id: "Q029",
+    topic: "Printer Maintenance",
+    difficulty: "easy",
+    scenario: "A law firm relies on a direct thermal printer to generate visitor name badges. Recently, the printed text on the badges has become very faint and patchy. The receptionist mentions that some blank badge stickers occasionally peel off inside the machine.",
+    prompt: "What is the BEST method to remediate this specific print quality issue?",
+    choices: [
+      { key: "A", text: "Use a swab with 99% isopropyl alcohol to clean the heating element." },
+      { key: "B", text: "Use a toner-safe vacuum to remove debris from the primary charge roller." },
+      { key: "C", text: "Run the automated print head cleaning cycle from the device menu." },
+      { key: "D", text: "Adjust the platen gap to accommodate the thickness of the badge paper." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "direct thermal printer... blank badge stickers occasionally peel off",
+    explanationCorrect: "Direct thermal printers use a fixed heating element to activate chemically treated paper, and they are highly vulnerable to sticky residue from peeling labels. To restore print quality, the technician must safely dissolve and remove this built-up adhesive. Using a lint-free swab with 99% isopropyl alcohol (IPA) or a specialized cleaning card is the vendor-approved method to clean the thermal print head.",
+    explanationIncorrect: {
+      A: "",
+      B: "A toner-safe vacuum and primary charge roller are components and tools specific to laser printing technology. Direct thermal printers do not use toner or electrostatic charging mechanisms.",
+      C: "Automated print head cleaning cycles are used by inkjet printers to flush clogged ink nozzles. Direct thermal printers use dry heat transfer and do not possess liquid ink nozzles or automated cleaning cycles.",
+      D: "Adjusting the platen gap is a maintenance technique used for impact (dot matrix) printers to change the strike distance for different paper thicknesses. Thermal printers do not utilize striking pins or adjustable platen gaps."
+    },
+    examTrap: "Selecting the correct cleaning methodology based strictly on the print technology in use."
+  },
+  {
+    id: "Q030",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "An accounting department uses an older dot matrix printer to generate multi-part continuous carbon invoices. Users complain that the paper frequently slips, causing the text to print diagonally across the pre-printed invoice boxes. A technician notices the paper relies solely on the rubber platen roller for friction.",
+    prompt: "Which of the following is the BEST hardware adjustment to resolve the skewing issue?",
+    choices: [
+      { key: "A", text: "Adjust the platen gap to grip the paper more tightly." },
+      { key: "B", text: "Clean the print head pins with isopropyl alcohol." },
+      { key: "C", text: "Engage the tractor-feed studs into the perforated side strips." },
+      { key: "D", text: "Install an automated cut sheet feeder to replace the manual feed." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "multi-part continuous carbon invoices... paper frequently slips... relies solely on the rubber platen roller",
+    explanationCorrect: "Impact printers often use heavy, continuous multi-part stationary that is prone to severe slippage and skewing if fed only by friction against the platen roller. To ensure perfect alignment, the technician must utilize the tractor-feed mechanism, which features studded rollers that interlock with the perforated holes on the side strips of the paper. This mechanical engagement physically prevents the paper from slipping laterally during long print runs.",
+    explanationIncorrect: {
+      A: "The platen gap adjusts the distance between the print head pins and the paper to accommodate form thickness. While an improper gap causes faint text or smudging, tightening it will not reliably prevent continuous feed paper from skewing.",
+      B: "Cleaning the print head pins with alcohol resolves issues with missing lines caused by stuck pins or ink buildup. It has absolutely no mechanical effect on how the paper is fed through the device.",
+      C: "",
+      D: "A cut sheet feeder is an accessory designed to feed individual, separated sheets of plain paper into the printer automatically. It is entirely incompatible with the continuous, connected multi-part forms required by the accounting department."
+    },
+    examTrap: "Understanding the specific hardware mechanisms (tractor feed) designed to solve media handling issues in impact printers."
+  },
+  {
+    id: "Q031",
+    topic: "Printer Maintenance",
+    difficulty: "easy",
+    scenario: "A graphic designer using an Epson inkjet printer notices that vertical lines in their architectural proofs appear slightly misaligned and jagged. The user recently replaced the ink cartridges and verified that there are no missing colors or blank gaps in the test image.",
+    prompt: "Which of the following maintenance utilities should the technician run to resolve this specific issue?",
+    choices: [
+      { key: "A", text: "Print Head Cleaning" },
+      { key: "B", text: "Print Head Alignment" },
+      { key: "C", text: "Platen Gap Adjustment" },
+      { key: "D", text: "Nozzle Check" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "vertical lines... appear slightly misaligned and jagged",
+    explanationCorrect: "Inkjet printers build images line by line using a carriage system that moves back and forth over the paper. If the print head becomes physically misaligned—often occurring after the physical disturbance of replacing an ink cartridge—the bidirectional spraying of ink will cause straight vertical lines to appear skewed or jagged. Running the Print Head Alignment utility from the driver's maintenance tab recalibrates the carriage timing to ensure the ink droplets land in perfect vertical registration.",
+    explanationIncorrect: {
+      A: "The Print Head Cleaning utility flushes ink through the nozzles to clear dried blockages. It is used when a nozzle is blocked, which results in missing horizontal lines or gaps, not skewed vertical lines.",
+      B: "",
+      C: "The platen gap adjustment changes the physical distance between the print head and the paper to accommodate thicker media like cardstock. While an incorrect gap can cause smudging, it does not correct horizontal carriage misalignment causing jagged vertical lines.",
+      D: "A Nozzle Check prints a specific diagnostic pattern designed to help the user identify if there are gaps or faint areas caused by clogged print heads. It is a diagnostic step for missing ink, not a remediation step for misaligned vector lines."
+    },
+    examTrap: "Differentiating between the specific visual symptoms of a clogged nozzle (gaps) versus an unaligned carriage (skewed lines)."
+  },
+  {
+    id: "Q032",
+    topic: "Printer Security & Networking",
+    difficulty: "medium",
+    scenario: "A corporate compliance officer needs to track exactly which employees are printing sensitive financial documents on the department's shared network MFD. The officer does not want to implement features that slow down the physical retrieval of the documents, but requires a centralized historical record of all print activity to investigate potential unauthorized information releases.",
+    prompt: "Which configuration provides the MOST policy-compliant solution?",
+    choices: [
+      { key: "A", text: "Configure Secured Print and require users to authenticate with an ID badge at the MFD." },
+      { key: "B", text: "Configure Active Directory user authentication on the print share's Security tab." },
+      { key: "C", text: "Configure the print device to generate Audit Logs and transmit them via a syslog server." },
+      { key: "D", text: "Configure the MFD to save a copy of all printed documents to an SMB network share." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "does not want to implement features that slow down the physical retrieval... requires a centralized historical record",
+    explanationCorrect: "Audit logs act as a detective security control by recording the details of every job processed, including the submitting user and the device used. By configuring the MFD to transmit these logs to a centralized syslog server, the compliance officer gains a secure, historical record to trace unauthorized information releases without interrupting the users' normal printing workflow.",
+    explanationIncorrect: {
+      A: "Secured Print holds the job in memory until the user physically authenticates at the printer to release it. While highly secure, this violates the scenario's strict requirement to not slow down or alter the physical retrieval process for the users.",
+      B: "Active Directory user authentication dictates who has permission to submit a print job to the device. It is a preventative access control, but it does not inherently generate a centralized, historical tracking log of the documents that authorized users successfully printed.",
+      C: "",
+      D: "Server Message Block (SMB) network shares are used by the MFD's scanning service to drop digitized flatbed scans into a folder. SMB is not used to silently intercept and duplicate outbound print jobs for auditing purposes."
+    },
+    examTrap: "Distinguishing between preventative physical controls (Secured Print) and detective administrative controls (Audit Logging via syslog)."
+  },
+  {
+    id: "Q033",
+    topic: "Printer Troubleshooting",
+    difficulty: "easy",
+    scenario: "A user reports that their laser printer was producing faint prints, so they installed a brand-new toner cartridge from the supply closet. Now, the printer is outputting pages that are completely blank. The technician verifies that the printer sounds normal during operation and the OS confirms the print jobs are spooling successfully.",
+    prompt: "What is the MOST likely cause of the completely blank pages?",
+    choices: [
+      { key: "A", text: "The primary charge roller (PCR) is applying too much negative voltage." },
+      { key: "B", text: "The user failed to remove the packing seals from the new toner cartridge." },
+      { key: "C", text: "The fuser unit has failed to reach the required temperature to melt the toner." },
+      { key: "D", text: "The transfer roller has been heavily damaged and cannot hold a charge." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "installed a brand-new toner cartridge... completely blank",
+    explanationCorrect: "New toner cartridges are shipped with plastic packing strips and seals that prevent the toner powder from spilling during transit. If a user installs a new cartridge without removing these protective seals, the toner remains trapped in the hopper and cannot be transferred to the developer roller or the imaging drum. This results in the paper passing through the entire imaging process without receiving any toner, yielding a perfectly blank page.",
+    explanationIncorrect: {
+      A: "The primary charge roller (PCR) applies a uniform negative charge to the drum. If it malfunctions or applies incorrect voltage, the laser cannot properly neutralize the image areas, which typically results in a completely black page or heavy background shading, not a blank page.",
+      B: "",
+      C: "The fuser uses heat and pressure to permanently bond the toner to the paper. If the fuser fails to heat, the image will still be transferred to the paper, but the toner will easily smudge and rub off when touched, rather than being blank.",
+      D: "While a damaged transfer roller can fail to pull toner from the drum to the paper (causing a blank page), it is highly improbable that the transfer roller suffered catastrophic failure at the exact moment a new cartridge was installed. The untouched packing seal is the most common and likely user error in this specific context."
+    },
+    examTrap: "Identifying user-induced installation errors (unremoved seals) versus sudden mechanical hardware failures."
+  },
+  {
+    id: "Q034",
+    topic: "Printer Configuration & Troubleshooting",
+    difficulty: "hard",
+    scenario: "A departmental HP laser printer is equipped with three paper trays. Tray 3 is a high-capacity add-on holding 500 sheets of Letter paper. Users complain that when they attempt to print large jobs, the printer halts, displays an \"Out of Paper\" message, and asks them to load Tray 1, even though Tray 3 is completely full and physically seated correctly.",
+    prompt: "What is the MOST appropriate configuration step the technician should take to resolve this issue?",
+    choices: [
+      { key: "A", text: "Stop the Print Spooler service, delete the cache, and restart the service." },
+      { key: "B", text: "Open the printer's Device Settings tab and verify Tray 3 is configured as an Installable Option." },
+      { key: "C", text: "Replace the pickup and separation rollers inside the Tray 3 assembly." },
+      { key: "D", text: "Adjust the media guides inside Tray 3 so the printer can detect the paper size." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Tray 3 is a high-capacity add-on... halts, displays an 'Out of Paper' message",
+    explanationCorrect: "When hardware accessories like high-capacity trays or duplexers are added to a printer, the Windows operating system does not always auto-detect them. The technician must open the Printer Properties dialog, navigate to the Device Settings tab, and manually configure the \"Installable Options\" to inform the driver that Tray 3 exists. If the driver does not recognize the installed tray, it cannot assign print jobs to it, causing the printer to default to an empty Tray 1 and halt the job.",
+    explanationIncorrect: {
+      A: "Clearing the print spooler cache is a troubleshooting step for a frozen or corrupted print queue where jobs refuse to process at all. In this scenario, the jobs are processing fine, but the OS is routing them to the wrong physical paper source due to a configuration mismatch.",
+      B: "",
+      C: "Replacing the pickup rollers is required when a tray experiences frequent paper jams or misfeeds (pulling multiple sheets at once). If the printer is simply asking for paper in Tray 1 and ignoring Tray 3 entirely, it is a logical recognition issue, not a mechanical roller failure.",
+      D: "While media guides do help the printer detect paper size, adjusting them is a physical hardware step. Because Tray 3 is an external add-on, the primary failure point is the OS driver lacking the configuration data to even attempt pulling from that source."
+    },
+    examTrap: "Recognizing the reliance on OS-level driver configuration to utilize modular physical hardware upgrades."
+  },
+  {
+    id: "Q035",
+    topic: "Printer Maintenance",
+    difficulty: "medium",
+    scenario: "While replacing a faulty toner cartridge, a junior technician accidentally drops it, causing a significant amount of black toner powder to spill into the interior chassis of the laser printer. The technician immediately unplugs the printer and prepares to clean the spill.",
+    prompt: "Which of the following is the BEST tool for the technician to use to safely remove the bulk of the spilled toner?",
+    choices: [
+      { key: "A", text: "A domestic vacuum cleaner with a HEPA filter." },
+      { key: "B", text: "A can of compressed air." },
+      { key: "C", text: "A specially designed toner-safe vacuum." },
+      { key: "D", text: "A damp cloth soaked in hot water." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "significant amount of black toner powder to spill... safely remove",
+    explanationCorrect: "Toner consists of microscopic plastic and metal particles that carry electrical charges. To safely clean a large spill inside a printer chassis, a technician must use a specially designed toner-safe vacuum. These specialized vacuums use static-dissipative hoses and ultra-fine filters to safely capture the fine powder without causing an electrical short or passing the dust through the exhaust.",
+    explanationIncorrect: {
+      A: "A domestic or standard office vacuum cleaner should never be used for toner spills. Toner particles are so fine that they can pass right through a standard dust collection bag and be blown into the air, while the static charge of the toner can actually damage or ignite the vacuum's motor.",
+      B: "Using compressed air on a toner spill is extremely dangerous and explicitly advised against. The high pressure will violently disperse the microscopic toner dust into the air, creating a severe respiratory health hazard for everyone in the office and coating the room in black powder.",
+      C: "",
+      D: "Toner is designed to melt under heat. Using a cloth soaked in hot water will cause the toner particles to clump and begin bonding to the printer's interior surfaces, making it impossible to remove and permanently damaging the device."
+    },
+    examTrap: "Understanding the severe environmental and hardware hazards associated with improper toner cleanup."
+  },
+  {
+    id: "Q036",
+    topic: "Printer Troubleshooting",
+    difficulty: "easy",
+    scenario: "A user reports a paper jam in a departmental laser printer. The LCD control panel indicates the jam is located near the rear door. Upon opening the rear access panel, the technician sees the middle of a page firmly stuck between the heavy, heated rollers.",
+    prompt: "What is the BEST first step to safely remove the jammed paper?",
+    choices: [
+      { key: "A", text: "Pull the paper firmly in the reverse direction of the feed path." },
+      { key: "B", text: "Wait for the components to cool, then engage the fuser release levers." },
+      { key: "C", text: "Use a can of compressed air to push the paper through the rollers." },
+      { key: "D", text: "Run the automatic print head alignment utility to reverse the stepper motor." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "firmly stuck between the heavy, heated rollers",
+    explanationCorrect: "The heavy, heated rollers at the rear of a laser printer constitute the fuser unit, which operates under high physical pressure and extreme heat to melt the toner. To safely clear a jam in this area, the technician must allow the unit to cool to prevent burns, and then utilize the mechanical release levers specifically designed to separate the rollers. This allows the paper to be removed gently without tearing or leaving debris behind.",
+    explanationIncorrect: {
+      A: "Forcibly pulling paper through the fuser unit while the rollers are engaged is highly destructive. It will likely tear the paper, leaving fragments burned onto the rollers, and can severely damage the delicate pressure mechanisms of the fuser itself.",
+      B: "",
+      C: "Compressed air is a tool for removing loose dust, not for dislodging a piece of paper clamped tightly between mechanical pressure rollers. Furthermore, using compressed air inside a laser printer risks dispersing hazardous toner dust into the air.",
+      D: "A print head alignment utility is a software function used for correcting skewed lines on an inkjet printer. It has no mechanical capability to reverse the stepper motors or release the fuser pressure on a laser printer."
+    },
+    examTrap: "Identifying the correct physical intervention (release levers) required to prevent secondary damage during jam clearance."
+  },
+  {
+    id: "Q037",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "An executive attempts to print a heavily stylized PDF report to a network laser printer. The printer rapidly outputs 30 pages, but each page contains only a few random, strange characters and smiley faces instead of the actual text. A test page generated directly from the printer's local LCD control panel prints perfectly. The technician confirms the driver is using the correct Page Description Language (PDL).",
+    prompt: "What is the MOST likely cause of this garbled output?",
+    choices: [
+      { key: "A", text: "The local Windows Print Spooler cache has become fragmented." },
+      { key: "B", text: "The specific fonts used in the document are unavailable to the PC or printer." },
+      { key: "C", text: "The printer was assigned an IPv4 address instead of an IPv6 FQDN." },
+      { key: "D", text: "The transfer roller is applying an inconsistent electrical charge." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "contains only a few random, strange characters and smiley faces... driver is using the correct Page Description Language (PDL)",
+    explanationCorrect: "Garbled prints featuring strange characters or smiley faces occur when the printer cannot properly interpret the formatting commands sent by the operating system. Because the PDL has been verified as correct, the most likely remaining software cause is a font substitution failure. If a highly stylized document utilizes fonts that are not installed on the local PC or cached in the printer's memory, the rendering engine replaces them with incorrect ASCII mapping, resulting in pages of random symbols.",
+    explanationIncorrect: {
+      A: "A fragmented or corrupt Windows Print Spooler cache typically results in a frozen queue where jobs simply refuse to process or delete. It does not actively mistranslate vector fonts into garbled smiley faces across dozens of printed pages.",
+      B: "",
+      C: "IP addressing and FQDNs dictate network transport layer connectivity. If the printer had the wrong IP address, it would not receive the print job at all; it would not successfully receive the job and then render it as garbled text.",
+      D: "The transfer roller is a mechanical hardware component responsible for pulling toner off the drum onto the paper via an electrical charge. Hardware failures result in physical symptoms like blank pages, smudges, or stripes, not the rendering of incorrect typographical characters."
+    },
+    examTrap: "Diagnosing software rendering failures (fonts/PDLs) through the specific visual symptom of garbled characters."
+  },
+  {
+    id: "Q038",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "A marketing department uses a high-end, single-pass color laser printer. Recently, all color images have begun printing with a distinct magenta shadow slightly offset from the main image, making photos look blurry. The technician verifies that the toner cartridges are full and installed in their correct, respective color slots.",
+    prompt: "What is the BEST remediation step to resolve this specific color shadow defect?",
+    choices: [
+      { key: "A", text: "Replace the fuser unit to ensure the toner melts uniformly." },
+      { key: "B", text: "Clean the primary charge roller (PCR) with isopropyl alcohol." },
+      { key: "C", text: "Reseat the transfer belt and run the calibration utility." },
+      { key: "D", text: "Switch the print driver from PostScript to PCL format." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "distinct magenta shadow slightly offset from the main image",
+    explanationCorrect: "In a color laser printer, the transfer belt (or transfer roller system) is responsible for precisely aligning the cyan, magenta, yellow, and black toner layers before transferring them to the paper. If the belt is physically misaligned or out of calibration, one of the color layers (like magenta) will be applied slightly off-center, creating a colored shadow or color cast effect. The technician must reseat the components and run the printer's built-in calibration utility to realign the color registration.",
+    explanationIncorrect: {
+      A: "The fuser unit applies heat and pressure at the very end of the process to bond the already-assembled image to the paper. A failing fuser causes the toner to smudge and wipe off, it does not cause individual color layers to shift out of alignment.",
+      B: "The primary charge roller (PCR) prepares the photosensitive drum with a uniform negative charge. A dirty PCR causes a loss of charge resulting in entirely black pages or heavy vertical stripes, not a perfectly formed, offset color shadow.",
+      C: "",
+      D: "PostScript and PCL are Page Description Languages that dictate how the OS formats the job for the printer hardware. While swapping them might fix software rendering errors (like garbled text), it will not fix a physical, mechanical misalignment of the hardware transfer belt."
+    },
+    examTrap: "Recognizing the mechanical role of the transfer belt in single-pass color registration."
+  },
+  {
+    id: "Q039",
+    topic: "Printer Maintenance",
+    difficulty: "medium",
+    scenario: "A logistics warehouse uses a dot matrix impact printer to generate multi-part carbon shipping manifests. The users report that the top copy prints perfectly, but the carbon copies underneath are extremely faint and illegible. The technician verifies that the inked ribbon is brand new and the continuous feed paper is correctly loaded onto the tractor studs.",
+    prompt: "What mechanical adjustment should the technician make to resolve the faint carbon copies?",
+    choices: [
+      { key: "A", text: "Adjust the platen gap to be narrower." },
+      { key: "B", text: "Disengage the tractor feed and use friction feed." },
+      { key: "C", text: "Clean the print head pins with isopropyl alcohol." },
+      { key: "D", text: "Replace the primary charge roller." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "top copy prints perfectly, but the carbon copies underneath are extremely faint",
+    explanationCorrect: "Dot matrix printers rely on physical force; the print head pins strike the inked ribbon against the paper, transferring the force through the layers of multi-part carbon forms to create the duplicate copies. The platen gap lever controls the physical distance between the print head and the paper roller. If this gap is set too wide for the thickness of the forms being used, the pins will lack the force required to penetrate to the bottom carbon layers, resulting in faint copies.",
+    explanationIncorrect: {
+      A: "",
+      B: "The tractor feed uses studded rollers to ensure continuous multi-part stationary feeds straight without skewing laterally. Disengaging it to rely solely on friction feed will cause the heavy carbon paper to slip and skew diagonally; it will not increase the strike force of the print head.",
+      C: "Cleaning the print head pins with alcohol is a valid remediation if the pins are stuck due to ink buildup, which would result in horizontal white lines missing entirely from the text. It does not solve uniformly faint printing on the bottom layers of a multi-part form.",
+      D: "A primary charge roller (PCR) is an electrostatic component found inside a laser printer's toner cartridge. Impact dot matrix printers are purely mechanical and do not contain electrostatic charge rollers."
+    },
+    examTrap: "Understanding the physical mechanisms (platen gap) unique to impact printing technologies."
+  },
+  {
+    id: "Q040",
+    topic: "Printer Configuration",
+    difficulty: "medium",
+    scenario: "An office deploys a new multifunction device (MFD) to allow employees to scan documents directly to their clients via email. Users select the \"Scan to Email\" function on the touchscreen, but the process immediately times out and fails. The technician confirms the MFD has automatically pulled a valid DHCP IP address and can successfully download firmware updates from the internet.",
+    prompt: "What must the technician configure on the MFD to restore the scan service functionality?",
+    choices: [
+      { key: "A", text: "Configure the MFD with the correct path to a file server and shared folder." },
+      { key: "B", text: "Configure the MFD with the IP address and credentials of an SMTP server." },
+      { key: "C", text: "Configure the MFD to establish a software-implemented access point using Wi-Fi Direct." },
+      { key: "D", text: "Configure the MFD to utilize Adobe PostScript instead of HP PCL." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Scan to Email... process immediately times out... MFD has automatically pulled a valid DHCP IP address",
+    explanationCorrect: "For an MFD to successfully execute a \"Scan to Email\" function, it must be configured to communicate with a mail routing server to handle the outbound message. This specifically requires the technician to manually input the IP address of an Simple Mail Transfer Protocol (SMTP) server into the MFD's settings, along with any necessary user authentication credentials. Since the device is successfully pulling IP addresses and hitting the internet for firmware, local network connectivity is proven working, isolating the issue to the missing mail routing configuration.",
+    explanationIncorrect: {
+      A: "Configuring the path to a file server and shared folder is the exact requirement for the Server Message Block (SMB) \"Scan to Folder\" function. It has no bearing on routing emails across the internet.",
+      B: "",
+      C: "Wi-Fi direct creates a localized, peer-to-peer software access point on the printer for mobile devices to connect to. Implementing this would isolate the printer from the primary network and break its existing internet connection entirely.",
+      D: "Adobe PostScript and HP PCL are Page Description Languages (PDLs) that tell the printer hardware how to render incoming print jobs onto paper. They are completely unrelated to the protocols used by the scanner module to transmit digitized files outbound over the network."
+    },
+    examTrap: "Mapping network application protocols (SMTP) to their correct MFD functions (Scan to Email)."
+  },
+  {
+    id: "Q041",
+    topic: "Printer Troubleshooting",
+    difficulty: "hard",
+    scenario: "A department is unable to print to a shared Windows Server print queue. The technician investigates and finds that the print queue is completely frozen with several corrupted jobs. The technician attempts to manually delete the problematic print job via the Windows GUI, but it refuses to clear. The technician then stops and restarts the Print Spooler service, but the queue immediately freezes again upon restarting, preventing any new jobs from processing.",
+    prompt: "What is the BEST first step to permanently clear this severe spooler hang?",
+    choices: [
+      { key: "A", text: "Delete the active cache files located directly within the %SystemRoot%\\System32\\Spool\\Printers\\ directory, then stop and restart the Print Spooler service." },
+      { key: "B", text: "Navigate to the Advanced tab in Printer Properties and switch the driver from a Type 3 framework to a Type 4 framework." },
+      { key: "C", text: "Stop the Print Spooler service, navigate to %SystemRoot%\\System32\\Spool\\Printers\\, delete all files inside the folder, and restart the service." },
+      { key: "D", text: "Power cycle the physical print device, leaving it unplugged for at least 30 seconds to clear its internal memory buffer." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "queue immediately freezes again upon restarting... attempts to manually delete... refuses to clear",
+    explanationCorrect: "When a print queue is severely frozen due to a corrupted print job, simply restarting the service may not work because the corrupted spool files remain cached on the hard drive and reload when the service starts. To completely clear a frozen print queue, the technician must first stop the Print Spooler service to release the file locks, manually navigate to the spool folder (%SystemRoot%\\System32\\Spool\\Printers\\), delete the offending raw data files, and then restart the service. This guarantees a completely fresh queue state.",
+    explanationIncorrect: {
+      A: "Attempting to delete the raw spool cache files before stopping the Print Spooler service will result in a Windows \"File in Use\" error. The service actively locks these files while running, making this sequential step technically impossible.",
+      B: "Changing the driver framework from Type 3 to Type 4 dictates how clients download and interact with the driver software. It will not clear a corrupted spool file that is currently choking the Windows rendering subsystem.",
+      C: "",
+      D: "Power cycling the physical printer will clear the printer's onboard RAM, which is useful for garbled prints caused by bad rendering. However, the frozen queue is located on the Windows Print Server software, meaning a physical hardware reset will not delete the stalled OS-level software jobs."
+    },
+    examTrap: "Recognizing the exact, necessary sequence of operations required to forcefully clear a corrupted OS spool folder."
+  },
+  {
+    id: "Q042",
+    topic: "Printer Troubleshooting",
+    difficulty: "medium",
+    scenario: "An office worker reports that their laser printer is producing pages with tiny, random black speckles scattered across the entire sheet of paper. The technician confirms that the text itself is sharp, but the background looks dirty. The toner cartridge was recently replaced by the user after a minor spill.",
+    prompt: "What is the MOST likely cause of this print defect, and how should it be resolved?",
+    choices: [
+      { key: "A", text: "A scratched photosensitive drum; the technician must replace the toner cartridge assembly." },
+      { key: "B", text: "Loose toner is contaminating the paper path; the technician must clean the interior with a toner-safe vacuum." },
+      { key: "C", text: "The fuser unit is failing to reach the required temperature; the technician must replace the maintenance kit." },
+      { key: "D", text: "The primary charge roller (PCR) is applying an uneven charge; the technician must wipe the PCR with isopropyl alcohol." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "tiny, random black speckles scattered across the entire sheet... after a minor spill",
+    explanationCorrect: "Speckling on printed output is a specific defect indicating that loose toner powder is floating inside the printer chassis and physically falling onto the paper as it travels through the feed path. Because the user recently had a minor spill during a cartridge replacement, this loose toner must be carefully removed. The technician should use an approved, static-dissipative toner-safe vacuum to clean the printer's interior and clear the ambient contamination.",
+    explanationIncorrect: {
+      A: "A scratched or damaged photosensitive drum causes a repetitive, distinct mark or a solid vertical/horizontal line at regular intervals down the page. It does not cause random, unstructured speckling across the entire sheet.",
+      B: "",
+      C: "If a fuser unit fails to reach the proper temperature, the toner will not bond to the paper, resulting in text that smears or easily rubs off when touched. The text in this scenario is described as sharp and properly adhered, making a fuser issue incorrect.",
+      D: "A failing primary charge roller (PCR) results in a failure to neutralize the drum, which typically creates a completely black page or heavy, solid vertical stripes. Furthermore, you should rarely clean a PCR directly with liquid, as it can strip its sensitive conductive coating."
+    },
+    examTrap: "Distinguishing between specific visual print defects (speckling vs. lines vs. smudging) and mapping them to their precise physical causes."
+  },
+  {
+    id: "Q043",
+    topic: "Printer Driver Installation",
+    difficulty: "hard",
+    scenario: "A company has a highly specialized legacy wide-format printer that they are connecting to a new Windows 10 64-bit workstation via USB. Plug and Play (PnP) fails to identify the device. The technician downloads the official 64-bit driver from the vendor's archival website, but the download is a compressed .zip archive containing only .inf and .sys files, rather than an executable .exe installer.",
+    prompt: "How must the technician proceed to successfully install the driver for this logical printer?",
+    choices: [
+      { key: "A", text: "Place the .inf and .sys files directly into the %SystemRoot%\\System32\\Spool\\Printers\\ directory and restart the PC." },
+      { key: "B", text: "Use the Add Printer Wizard, select the \"Have Disk\" option, and browse to the extracted folder containing the .inf file." },
+      { key: "C", text: "Open the Windows Update utility and force a scan to convert the .inf files into a universally supported Type 4 print class driver." },
+      { key: "D", text: "Configure the logical printer to use a Generic / Text Only driver to bypass the missing executable installer." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "archive containing only .inf and .sys files, rather than an executable .exe installer",
+    explanationCorrect: "When a vendor does not provide an executable setup file for a print driver, the technician must manually point the operating system to the raw driver configuration files. This is accomplished by extracting the archive, opening the Windows \"Add Printer Wizard,\" and utilizing the \"Have Disk\" button. This prompts the technician to navigate to the specific folder holding the extracted .inf file, allowing Windows to read the hardware instructions and install the logical printer correctly.",
+    explanationIncorrect: {
+      A: "The %SystemRoot%\\System32\\Spool\\Printers\\ directory is a temporary cache used exclusively for holding active print jobs (spool files) before they are sent to the printer. Manually pasting raw driver files into this active cache folder will not install the driver and may crash the spooler service.",
+      B: "",
+      C: "Windows Update can sometimes find and install missing Type 4 universal drivers over the internet automatically. However, it cannot be forced to ingest raw .inf files from a local download folder and convert them into a Type 4 framework; the OS requires the \"Have Disk\" manual installation method for localized raw files.",
+      D: "While the Generic / Text Only driver will allow basic ASCII text printing, it strips away all advanced formatting, vector graphics, and specific hardware controls. For a specialized wide-format printer, this ruins its functionality, making it an unacceptable workaround when the actual driver files are physically available."
+    },
+    examTrap: "Knowing how to manually deploy raw driver files when automated executable installers or PnP fails."
+  },
+  {
+    id: "Q044",
+    topic: "Printer Troubleshooting",
+    difficulty: "medium",
+    scenario: "A photography studio utilizes a high-end Epson piezoelectric inkjet printer for glossy proofs. Recently, the printer began making a loud, violent grinding noise during operation. A technician inspects the device and notes that the paper feed rollers are pulling paper smoothly, but the print head carriage appears to stall and judder across the guide rail.",
+    prompt: "Based on the symptoms, what is the MOST appropriate mechanical remediation?",
+    choices: [
+      { key: "A", text: "Replace the fuser unit's drive gears, which have likely been stripped." },
+      { key: "B", text: "Run the automatic print head alignment utility from the Maintenance tab." },
+      { key: "C", text: "Consult the vendor documentation to re-engage the clutch mechanism with the carriage gear." },
+      { key: "D", text: "Adjust the platen gap lever to ensure the print head clears the thick glossy paper." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "inkjet printer... loud, violent grinding noise... print head carriage appears to stall and judder",
+    explanationCorrect: "In an inkjet printer, a severe grinding noise combined with a stalling carriage mechanism strongly points to a physical disconnect or fault in the carriage drive system. According to vendor troubleshooting procedures, this typically means the stepper motor's gear has slipped or the clutch mechanism has disengaged. The technician must consult the specific vendor documentation to physically realign and re-engage the clutch mechanism with the gear that moves the cartridge assembly.",
+    explanationIncorrect: {
+      A: "The fuser unit and its associated heavy drive gears are exclusive to laser printing technology. An inkjet printer uses liquid ink and does not contain a fuser unit.",
+      B: "The print head alignment utility is a software calibration tool used to fix skewed or jagged vertical lines on the printed output. A software utility cannot fix a physical, mechanical grinding fault where the hardware carriage is actively stalling on its rails.",
+      C: "",
+      D: "The platen gap adjusts the distance between the print head and the paper to prevent smudging on thicker media. While an incorrect gap might cause the print head to slightly scuff the paper, it would not cause a violent mechanical grinding and stalling of the entire carriage assembly."
+    },
+    examTrap: "Differentiating between mechanical failures specific to inkjet architecture (carriage gears) versus laser architecture (fuser gears)."
+  },
+  {
+    id: "Q045",
+    topic: "Printer Security",
+    difficulty: "easy",
+    scenario: "A government facility installs a standalone multifunction device (MFD) in an isolated, secure room. The printer is purposefully not connected to the main corporate network and therefore does not have access to the Active Directory directory server. The security officer requires that usage of this specific printer be restricted strictly to three authorized researchers.",
+    prompt: "Which of the following configurations provides the MOST policy-compliant solution to restrict access?",
+    choices: [
+      { key: "A", text: "Configure Network Authentication on the MFD to challenge users against the directory server." },
+      { key: "B", text: "Configure Local Authentication on the MFD to store the three valid usernames and passwords directly on the device." },
+      { key: "C", text: "Implement Secured Print and configure the MFD to require an RFID badge swipe to release jobs." },
+      { key: "D", text: "Configure Audit Logs on the MFD to transmit job history via syslog to a centralized security server." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "not connected to the main corporate network... does not have access to the Active Directory... restrict strictly to three",
+    explanationCorrect: "Print devices support different forms of authentication to restrict access to authorized users. Because this MFD is physically isolated from the network and cannot reach a central directory server, it must rely on Local Authentication. This involves the administrator manually creating and storing the valid usernames and passwords directly within the printer's onboard memory, ensuring only those three researchers can unlock and use the device.",
+    explanationIncorrect: {
+      A: "Network Authentication inherently requires the printer to communicate over a network to a central directory server (like Active Directory) to verify credentials. Since the device is explicitly isolated from the network, this configuration would immediately fail.",
+      B: "",
+      C: "Secured Print holds a job in memory until the user authenticates locally to release the paper. However, without an initial access control barrier (like Local Authentication), any user who gains physical access to the room could still potentially interact with the machine or submit local copies. Furthermore, enterprise badge readers often require network directory access to validate the RFID hex codes.",
+      D: "Transmitting Audit Logs via syslog requires an active network connection to route the traffic to a centralized server, which this isolated printer lacks. Additionally, logging is a detective control that records what happened after the fact; it does not prevent unauthorized users from using the printer in the first place."
+    },
+    examTrap: "Recognizing environmental network limitations when applying security controls (Local vs Network authentication)."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
