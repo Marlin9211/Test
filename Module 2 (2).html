@@ -1,0 +1,2517 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A user upgrades their older PC with a new CPU to extend its life. After installation, the system boots normally, but during heavy software use, the system crashes and randomly shuts down. The user notes that the CPU fan is spinning rapidly and loudly before each crash.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of these sudden shutdowns?",
+    choices: [
+      { key: "A", text: "The CPU was inserted backward into the socket, bending the pins." },
+      { key: "B", text: "An improper amount of thermal paste was applied, causing thermal throttling." },
+      { key: "C", text: "The CPU fan header was not plugged into the motherboard." },
+      { key: "D", text: "The power supply does not provide enough wattage for the new CPU." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "fan is spinning rapidly and loudly before each crash",
+    explanationCorrect: "The selected answer is correct because using too much or too little thermal paste prevents efficient heat transfer from the processor to the heat sink, leading to overheating, thermal throttling, and eventual system crashes. The spinning fan indicates the system is desperately trying to cool a rapidly heating component, which is a classic symptom of poor thermal contact rather than a total cooling failure.",
+    explanationIncorrect: {
+      A: "If a CPU is forced backward into the socket and bends pins, the system generally will not boot at all, or it will fail immediately at POST. This scenario explicitly states the system boots normally and only crashes under heavy load.",
+      B: "",
+      C: "If the CPU fan header was completely unplugged, the motherboard would likely issue a fan error at boot, or shut down immediately to prevent damage. Furthermore, the scenario explicitly states the user can hear the fan spinning loudly, rendering this impossible.",
+      D: "While a PSU lacking adequate wattage can cause shutdowns under load, it does not typically cause the CPU fan to ramp up aggressively before failing. Overheating due to improper cooling installation is the much more direct and common cause for these specific symptoms based on the provided hardware installation steps."
+    },
+    examTrap: "Misleading symptom trap. The \"loud fan\" makes candidates think the fan is broken or unplugged, when in reality, the fan is working perfectly but failing to cool the CPU due to a thermal paste/heatsink seating issue."
+  },
+  {
+    id: "Q002",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A technician uses an adapter to connect a new desktop computer's HDMI port to an older monitor's DVI input. The video displays flawlessly at the correct resolution, but the user complains that no sound is coming from the monitor's built-in speakers. The Windows volume icon shows no errors.",
+    prompt: "What is the most likely reason for the lack of audio?",
+    choices: [
+      { key: "A", text: "The adapter is passive and requires an active converter to transmit sound." },
+      { key: "B", text: "The DVI standard does not carry audio signals." },
+      { key: "C", text: "The HDMI cable is a non-certified, low-quality cable causing signal dropouts." },
+      { key: "D", text: "The audio is defaulting to the wrong output device in the operating system." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "HDMI port to an older monitor's DVI input",
+    explanationCorrect: "The correct answer is B because the DVI connection standard is designed strictly for video transmission and fundamentally lacks the pinout or bandwidth allocation to carry audio signals. Even though the source device is HDMI (which supports audio), adapting the signal to DVI strips the audio capability entirely, confusing users who expect sound.",
+    explanationIncorrect: {
+      A: "Active and passive adapters deal with signal conversion (e.g., analog to digital), not the injection of audio into a standard that doesn't support it. Changing to an active HDMI-to-DVI adapter will not magically grant DVI the ability to transmit audio to the monitor.",
+      B: "",
+      C: "A low-quality cable might cause flickering or image artifacts, but it would not selectively filter out audio while leaving flawless video. Furthermore, the video is described as flawless, eliminating cable dropout as the root cause.",
+      D: "While audio defaulting to the wrong output is a valid troubleshooting step for missing sound, it is not the root cause in this specific hardware configuration. No matter what OS settings are changed, sound will never travel over a DVI cable."
+    },
+    examTrap: "Technically valid but contextually incorrect distractor. Distractor D is a highly common helpdesk solution for missing audio, but it fails here due to the hardware limitation of DVI."
+  },
+  {
+    id: "Q003",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A user expands the ports on their thin-and-light laptop by connecting a 4-port USB hub. They plug in a mouse, a keyboard, an external spinning hard disk drive (HDD), and an iPad using a certified Lightning cable. The mouse and keyboard work fine, but the iPad displays \"Not Charging\" and the HDD randomly disconnects. The laptop battery is fully charged and plugged into the wall.",
+    prompt: "What is the BEST first step to resolve these peripheral issues?",
+    choices: [
+      { key: "A", text: "Accept the \"Trust this Computer\" prompt on the iPad screen." },
+      { key: "B", text: "Replace the unpowered USB hub with a powered USB hub." },
+      { key: "C", text: "Reseat the USB hub to ensure the connections are not loose." },
+      { key: "D", text: "Upgrade the laptop's power supply to provide more wattage to the USB ports." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "iPad displays \"Not Charging\" and the HDD randomly disconnects",
+    explanationCorrect: "Replacing the unpowered hub with a powered one is correct because PC USB ports supply a strictly limited amount of electrical power. Connecting multiple high-draw devices—like an external spinning HDD that needs power to spin up, and an iPad that requires high wattage to charge—exceeds the port's power limits, causing devices to randomly disconnect or fail to charge.",
+    explanationIncorrect: {
+      A: "Accepting the \"Trust this Computer\" prompt is required for data transfer between an iOS device and a PC. However, it does not resolve the physical power deficiency causing the external hard drive to randomly disconnect.",
+      C: "Loose cables can indeed cause intermittent signal loss or random disconnections. However, loose connections would not specifically trigger a \"Not Charging\" state while leaving low-power devices (mouse/keyboard) fully functional.",
+      D: "A laptop's power supply charges the laptop battery and powers the internal motherboard, but the motherboard's USB headers still have a hardcoded maximum power output. Upgrading the laptop charger will not bypass the inherent power limitations of a single USB port driving an unpowered hub."
+    },
+    examTrap: "Distractor A is a required step for Apple devices, but it tests the candidate's ability to recognize that the entire ecosystem of the hub (HDD + iPad) is suffering from a hardware power deficit, not a software permissions issue."
+  },
+  {
+    id: "Q004",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A technician is reassembling a full-size ATX workstation after replacing the motherboard. Upon pressing the power button, the system boots immediately into the OS without issue. However, the hard drive activity LED on the front of the case never blinks, even when transferring large files.",
+    prompt: "What is the most likely cause of this specific symptom?",
+    choices: [
+      { key: "A", text: "The SATA data cable is completely disconnected from the motherboard." },
+      { key: "B", text: "The technician installed the ATX motherboard into an incompatible smaller case." },
+      { key: "C", text: "The HDD activity LED front-panel connector was installed with reversed polarity." },
+      { key: "D", text: "The motherboard does not support the chipset features required for this HDD." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "system boots immediately into the OS... hard drive activity LED... never blinks",
+    explanationCorrect: "The correct answer is C because Light Emitting Diodes (LEDs) are polarized, meaning electrical current must flow through them in a specific direction to emit light. If the positive and negative pins of the front-panel HDD LED connector are attached to the motherboard header backward, the light will simply fail to function while having no negative impact on the computer's actual performance.",
+    explanationIncorrect: {
+      A: "If the SATA data cable were completely disconnected, the system would not be able to load the operating system or transfer large files. The scenario states the OS boots and files transfer perfectly, ruling this out.",
+      B: "While installing an ATX board into a smaller case causes physical incompatibility, the scenario notes the technician has already completed reassembly and booted the machine. This physical impossibility cannot be the cause of a minor LED failure.",
+      D: "Overlooking chipset limitations can restrict hardware support, but if the chipset did not support the HDD, the drive would not boot the OS or allow file transfers. The drive is fully functional; only the indicator light is failing."
+    },
+    examTrap: "Differentiating between a critical system failure and a superficial front-panel wiring error. The OS working perfectly narrows the scope purely to the motherboard headers."
+  },
+  {
+    id: "Q005",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A technician installs a brand new SATA solid-state drive (SSD) into a file server to expand persistent storage. The technician securely connects the SATA data and SATA power cables. Upon booting up, the system firmware (BIOS/UEFI) detects the new SSD, but when the technician opens the OS file explorer, the drive is missing.",
+    prompt: "Which of the following is the best FIRST step to resolve this issue?",
+    choices: [
+      { key: "A", text: "Check the SATA cables for loose connections or vibration damage." },
+      { key: "B", text: "Use Disk Management to initialize and format the new drive." },
+      { key: "C", text: "Move the SATA data cable to a different, enabled port on the motherboard." },
+      { key: "D", text: "Ensure the power supply has enough wattage to support the extra drive." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "firmware (BIOS/UEFI) detects the new SSD, but... OS file explorer, the drive is missing",
+    explanationCorrect: "The correct answer is B because brand new drives are shipped completely blank and do not possess a file system that the operating system can read. Even if the hardware is perfectly installed and recognized by the BIOS, the technician must use an OS utility to initialize the disk, create a partition, and format it before it becomes usable in the file explorer.",
+    explanationIncorrect: {
+      A: "If the SATA data or power cables were loose or damaged, the drive would likely not be detected by the system firmware at all. Because the BIOS sees the drive, the physical layer is verified as functional.",
+      C: "Connecting a cable to a disabled SATA port would prevent the BIOS from detecting the drive during POST. Since the firmware explicitly sees the drive, the port is clearly enabled and working.",
+      D: "While insufficient power can cause devices to fail, an SSD draws very little power, and a lack of power would prevent the drive from being detected by the BIOS. The issue is logically rooted in software configuration, not hardware power."
+    },
+    examTrap: "Premature hardware troubleshooting. Candidates might jump to physical layer fixes (cables, ports) when the scenario explicitly states the BIOS sees the drive, shifting the troubleshooting phase directly to the OS layer."
+  },
+  {
+    id: "Q006",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A user wants to upgrade their workstation's memory to improve multitasking. The motherboard has four DIMM slots, sequentially labeled and colored: A1 (Black), A2 (Black), B1 (Blue), B2 (Blue). The user purchases a matched pair of RAM modules and installs them into slots A1 and A2. The system boots successfully but runs slower than expected during benchmarks.",
+    prompt: "What configuration change should the technician make to optimize performance?",
+    choices: [
+      { key: "A", text: "Move the modules so they are installed in A1 and B1 to utilize dual-channel memory." },
+      { key: "B", text: "Flip the RAM modules backward in slots A1 and A2 so the notches align correctly." },
+      { key: "C", text: "Press firmly on the modules until the retention clips lock automatically to fully seat them." },
+      { key: "D", text: "Replace the matched pair with compatible DDR types, as incompatible RAM is causing the slowdown." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "installs them into slots A1 and A2... motherboard has four DIMM slots... colored",
+    explanationCorrect: "Answer A is correct because modern motherboards utilize color-coded DIMM slots to indicate which slots should be populated together to enable multi-channel memory architectures. By placing the RAM in matching colored slots (typically alternating slots like A1 and B1), the system can access both sticks simultaneously via dual-channel configurations, vastly improving overall performance.",
+    explanationIncorrect: {
+      B: "RAM modules are physically keyed with a notch to prevent backward installation. If the user had inserted them backward, they would not have fit into the slot, and the system absolutely would not have booted.",
+      C: "If RAM is not fully seated and locked by the retention clips, the system will typically fail to pass POST, resulting in no display or immediate beep codes. Since the system booted successfully, the seating is adequate.",
+      D: "Installing fundamentally incompatible RAM (e.g., wrong DDR type) prevents the system from booting entirely. The system would not boot into the OS just to run slowly; it would fail at the hardware level."
+    },
+    examTrap: "Validating proper configuration vs. hardware failure. The modules work perfectly, but the user failed to leverage the dual-channel architecture by ignoring the color-coding."
+  },
+  {
+    id: "Q007",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A server administrator is installing a new fiber-optic Network Interface Card (NIC) into an available PCIe slot on a workstation to achieve higher network speeds. After securing the card and booting the system, the administrator notices there are no link lights on the NIC. Furthermore, the OS Device Manager displays a yellow exclamation mark next to the hardware.",
+    prompt: "What is the MOST appropriate next step to establish network connectivity?",
+    choices: [
+      { key: "A", text: "Move the NIC to a different PCIe slot, as the current one is disabled." },
+      { key: "B", text: "Download and install the appropriate manufacturer drivers for the NIC." },
+      { key: "C", text: "Ensure the system's airflow is not blocked by poorly placed expansion cards." },
+      { key: "D", text: "Replace the fiber-optic cable, as a lack of link lights indicates a physical cable break." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Device Manager displays a yellow exclamation mark",
+    explanationCorrect: "Installing the correct drivers is the appropriate next step because a yellow exclamation mark in the OS Device Manager explicitly indicates that the hardware is detected but the operating system does not know how to communicate with it. Without the proper manufacturer drivers, the NIC cannot initialize its ports, which explains the lack of link lights despite a potentially working physical connection.",
+    explanationIncorrect: {
+      A: "If the PCIe slot were disabled or physically incompatible, the motherboard would not detect the card at all, meaning it would not show up in Device Manager with an exclamation mark. The presence of the device in the OS proves the slot is functioning.",
+      C: "Poorly placed cards blocking airflow will increase system temperatures and could cause eventual thermal throttling. However, bad airflow will not cause a driver error (yellow exclamation mark) or instantly prevent network connectivity upon boot.",
+      D: "While no link lights often point to a bad cable, the presence of the Device Manager error supersedes the physical layer. The NIC hardware cannot turn on its link lights if the OS hasn't loaded the software instructions (drivers) to power the interface."
+    },
+    examTrap: "Misleading symptom trap. \"No link lights\" usually triggers candidates to pick a cable replacement, but the Device Manager symptom demands a software/driver remediation first."
+  },
+  {
+    id: "Q008",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A corporate network goes down completely. A technician attempts to configure the main switch using an out-of-band management method. They connect a USB-to-RS-232 serial adapter to their laptop, run a straight-through serial cable to the switch's console port, and open a terminal emulator program. However, the output on the screen is entirely unreadable, displaying random, garbled characters.",
+    prompt: "What configuration error is the technician MOST likely encountering?",
+    choices: [
+      { key: "A", text: "The technician forgot to install the drivers for the USB-to-serial adapter." },
+      { key: "B", text: "The serial cable must be a rollover cable, not a straight-through cable." },
+      { key: "C", text: "The terminal emulator's baud rate is mismatched with the switch's settings." },
+      { key: "D", text: "The RS-232 serial connection is loose, causing intermittent signal drops." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "output on the screen is entirely unreadable, displaying random, garbled characters",
+    explanationCorrect: "The correct answer is C because serial communication relies on perfectly matched transmission speeds, known as the baud rate. If the terminal emulator is set to a different speed (e.g., 9600 bps) than the network equipment is expecting (e.g., 115200 bps), the devices cannot correctly interpret the timing of the bits, resulting in unreadable, garbled output on the screen.",
+    explanationIncorrect: {
+      A: "If the USB-to-serial adapter drivers were missing, the laptop would not assign a COM port, and the terminal emulator would completely fail to open a connection. Since the technician is receiving data (even if garbled), the adapter itself is functioning.",
+      B: "If the wrong cable type (straight-through instead of rollover) is used on Cisco-style console ports, the transmit and receive pins will not align, resulting in a completely blank screen and zero communication. Garbled text proves a physical connection exists.",
+      D: "A loose serial connection usually results in a sudden freeze of the terminal session or an interrupted configuration session. It does not typically cause a continuous stream of perfectly garbled text upon initial connection."
+    },
+    examTrap: "Recognizing the difference between a total lack of communication (wrong cable/no drivers) and a protocol mismatch (wrong baud rate)."
+  },
+  {
+    id: "Q009",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A company needs to retrieve critical archival data from a retired Windows 98 system. A technician removes the old IDE hard drive and connects it to a modern Windows 11 workstation using a powered IDE-to-USB adapter. The adapter's power light turns on, and the drive spins up smoothly, but the Windows 11 operating system does not detect the drive at all.",
+    prompt: "What should the technician verify FIRST to ensure the legacy drive can be detected?",
+    choices: [
+      { key: "A", text: "Ensure the drive is installed temporarily inside a system that natively supports IDE." },
+      { key: "B", text: "Check that the IDE jumper pins on the back of the drive are configured correctly." },
+      { key: "C", text: "Ensure the SATA power connector is properly attached to the IDE drive." },
+      { key: "D", text: "Verify that the modern OS has initialized and formatted the new disk via Disk Management." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "old IDE hard drive... adapter's power light turns on... OS does not detect",
+    explanationCorrect: "The correct answer is B because older IDE (PATA) drives rely on physical jumper pins on the back of the drive to dictate their role on the cable (e.g., Master, Slave, or Cable Select). If these jumpers are set incorrectly—especially when adapting a single drive to a USB interface—the storage controller will be unable to detect the drive's presence, rendering it invisible to the modern OS.",
+    explanationIncorrect: {
+      A: "While installing the drive in an older, native IDE system is a valid secondary option, it is not the first step because IDE-to-USB adapters are explicitly designed to perform this task on modern systems. The adapter is failing due to configuration, not inherent impossibility.",
+      C: "IDE drives do not use SATA power connectors; they use legacy Molex power connectors. Suggesting a SATA power connector for an IDE drive is technically invalid hardware matching.",
+      D: "Initializing and formatting the disk is a catastrophic error in this scenario. Formatting overwrites the file system, which would immediately destroy the \"critical archival data\" the technician was hired to retrieve."
+    },
+    examTrap: "Remediation vs. Data Destruction. Distractor D is a valid troubleshooting step for new drives (as seen in Q5), but applying it to legacy data recovery will result in total data loss."
+  },
+  {
+    id: "Q010",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "An IT support specialist mounts a new 4K display in an executive conference room. They run a modern HDMI cable from the display to a presenter's laptop. When a video is played, the visual quality is a flawless 4K resolution on the wall display, but the movie's audio is quietly playing out of the laptop's internal speakers.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the best immediate remediation?",
+    choices: [
+      { key: "A", text: "Replace the HDMI cable with a newer version that supports 4K audio bandwidth." },
+      { key: "B", text: "Manually select the 4K display as the active input source using the display's physical buttons." },
+      { key: "C", text: "Open the OS settings and manually change the default audio output device." },
+      { key: "D", text: "Install an active HDMI adapter, as passive cables drop audio signals." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "visual quality is a flawless 4K... audio is quietly playing out of the laptop's internal speakers",
+    explanationCorrect: "The correct answer is C because operating systems will often default to the previously used audio output device, even when a new, fully capable audio-video cable like HDMI is plugged in. To fix this, the technician simply needs to navigate to the sound settings in the OS and redirect the audio stream from the internal speakers to the HDMI output.",
+    explanationIncorrect: {
+      A: "HDMI inherently carries both audio and video. If the cable was an older standard lacking bandwidth, it would limit the video resolution or refresh rate before dropping audio entirely. The flawless 4K video proves the cable is highly capable.",
+      B: "If the display required manual input selection and was set to the wrong input, there would be no video shown on the screen at all. Since the 4K video is actively playing on the display, the input is already correctly selected.",
+      D: "HDMI to HDMI connections do not require active or passive adapters, as there is no signal conversion taking place. Active adapters are only necessary when converting between fundamentally different signal types, like digital to analog."
+    },
+    examTrap: "Over-complicating a simple software configuration. The hardware is working perfectly; the OS simply hasn't realized it needs to route the audio down the newly connected pipe."
+  },
+  {
+    id: "Q011",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A server technician is installing a specialized SCSI Host Bus Adapter (HBA) into a new workstation to access an archived tape drive. The technician powers off the system, uses an ESD strap, and securely seats the HBA into an available PCIe slot. Upon booting, the operating system loads, but the HBA is completely unresponsive and the attached tape drive cannot be accessed.",
+    prompt: "Which of the following is the MOST likely cause of this failure?",
+    choices: [
+      { key: "A", text: "The technician failed to install the required device drivers for the HBA." },
+      { key: "B", text: "The HBA was installed without applying a fresh layer of thermal paste." },
+      { key: "C", text: "The SCSI adapter was inserted into a slot configured for dual-channel memory." },
+      { key: "D", text: "The workstation does not possess enough expansion slots to run the card." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "securely seats the HBA... booting, the operating system loads, but the HBA is completely unresponsive",
+    explanationCorrect: "The correct answer is A because expansion cards like a SCSI Host Bus Adapter require specific software instructions—drivers—so the modern operating system can communicate with the legacy hardware. If the correct drivers are missing or incorrect, the OS cannot interface with the card, leaving the adapter appearing completely nonfunctional and connected devices inaccessible.",
+    explanationIncorrect: {
+      B: "Thermal paste is applied strictly between a CPU (or high-heat processor) and a heat sink. Expansion cards like SCSI HBAs do not require manual application of thermal paste during a standard PCIe installation.",
+      C: "PCIe expansion slots and DIMM memory slots are physically distinct, differently sized, and serve completely different functions on the motherboard. It is physically impossible to insert a PCIe SCSI adapter into a RAM slot.",
+      D: "The scenario explicitly states the technician securely seated the HBA into \"an available PCIe slot\". Therefore, the workstation clearly has enough expansion slots physically available to accommodate the card."
+    },
+    examTrap: "Sequence of installation. Candidates must remember that physical hardware installation (seating the card) is only half the job; the software configuration (drivers) must immediately follow."
+  },
+  {
+    id: "Q012",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A business wants to recycle an older point-of-sale computer that only has a blue VGA video output. The technician connects it to a brand-new monitor that only accepts HDMI. To make the connection, the technician uses a standard, inexpensive adapter cable that simply changes the connector shape. When powered on, the monitor displays \"No Signal.\"",
+    prompt: "Why is the monitor failing to display an image?",
+    choices: [
+      { key: "A", text: "The technician used a passive adapter when an active adapter is strictly required." },
+      { key: "B", text: "VGA cables require an external power supply to transmit video over long distances." },
+      { key: "C", text: "The monitor's refresh rate is too high for the older computer's graphics card." },
+      { key: "D", text: "The VGA connection is missing the locking screws, causing intermittent signal loss." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "blue VGA video output... monitor that only accepts HDMI... standard, inexpensive adapter cable that simply changes the connector shape",
+    explanationCorrect: "Answer A is correct because VGA is a purely analog video signal, whereas HDMI is a purely digital video signal. An inexpensive \"passive\" adapter that merely changes the physical connector shape cannot translate analog waves into digital zeroes and ones; an \"active\" adapter featuring an internal conversion chip is absolutely required to perform this translation and restore the display.",
+    explanationIncorrect: {
+      B: "While signal degradation over long distances is a real concept, VGA cables do not inherently require an external power supply to function in a standard setup. The problem here is signal format (analog vs. digital), not signal strength.",
+      C: "If a monitor's refresh rate or resolution is mismatched, it might display a degraded image or an \"Out of Range\" error. However, the fundamental barrier here is that the monitor is receiving an unintelligible analog signal on a digital port, resulting in a total \"No Signal\" state.",
+      D: "While loose VGA or DVI locking screws can cause flickering or intermittent display loss, the scenario states the monitor displays a hard \"No Signal.\" Furthermore, tightening screws will not magically convert an analog signal to digital."
+    },
+    examTrap: "Passive vs. Active conversion principles. Candidates must recognize when an adapter only changes form factor (passive) versus when it must actively compute and translate the electrical signal (active)."
+  },
+  {
+    id: "Q013",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A technician is upgrading an older desktop by adding a second memory module to extend the system's life. They align the notch on the new RAM with the key in the DIMM slot and push it down. They close the case, reconnect the power, and turn on the PC. The internal fans spin up normally, but the monitor displays absolutely nothing, and the system fails to boot.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The technician installed the RAM backward, destroying the module." },
+      { key: "B", text: "The new RAM module was not fully seated until the retention clips locked automatically." },
+      { key: "C", text: "The motherboard's chipset does not support expanding the memory." },
+      { key: "D", text: "The power supply does not have enough wattage to support the additional memory module." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "monitor displays absolutely nothing, and the system fails to boot",
+    explanationCorrect: "The selected answer is correct because failing to press firmly enough for the retention clips to lock means the RAM contacts are not properly connecting with the motherboard slot. RAM that is not fully seated is a highly common physical installation error that directly results in a \"no display\" state or an immediate failure to boot at startup.",
+    explanationIncorrect: {
+      A: "RAM slots and modules are physically keyed with an offset notch specifically to prevent backward installation. It is physically impossible to push a backward module far enough into the slot to close the case without actively breaking the motherboard, which the scenario does not indicate.",
+      C: "While overlooking chipset limitations can restrict RAM support, motherboards with open DIMM slots are designed to be populated. A simple memory expansion on an older PC is a standard procedure and would not fundamentally violate chipset maximums unless an unusually massive capacity was chosen.",
+      D: "RAM modules draw an incredibly small amount of electrical power compared to components like CPUs or GPUs. Adding a single stick of memory will never exceed the wattage limits of a functioning power supply that already successfully powers the rest of the system."
+    },
+    examTrap: "Jumping to severe incompatibility conclusions (chipset/power) when a simple physical layer error (improper seating) perfectly explains the symptom."
+  },
+  {
+    id: "Q014",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "An IT administrator installs a new high-capacity SATA hard disk drive (HDD) into a file server to expand persistent storage. Because the specific mounting screws were missing, the admin balanced the drive securely inside an oversized drive bay and connected the SATA data and power cables. A month later, users report that retrieving files from the server is extremely slow, and the admin hears a loud clicking sound coming from the tower.",
+    prompt: "What is the root cause of this hardware failure?",
+    choices: [
+      { key: "A", text: "The SATA data cable is loose, causing intermittent signal drops and file corruption." },
+      { key: "B", text: "The admin forgot to initialize and format the drive, making it unusable in the OS." },
+      { key: "C", text: "Improper mounting allowed the drive to vibrate, leading to premature mechanical failure." },
+      { key: "D", text: "The server's power supply caused an electrical short by providing too much voltage." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "balanced the drive securely inside an oversized drive bay... loud clicking sound",
+    explanationCorrect: "The correct answer is C because traditional Hard Disk Drives (HDDs) contain spinning magnetic platters and delicate moving actuator arms. Improper mounting inside the tower case allows the rotational force of the drive to cause excessive vibration. This vibration disrupts the read/write heads, inevitably leading to mechanical failure, which is classically indicated by a loud clicking noise.",
+    explanationIncorrect: {
+      A: "A loose SATA data cable can indeed cause drives to randomly disappear from the OS or cause data corruption. However, a loose cable is a purely electronic disconnect and cannot cause a mechanical \"clicking\" sound to emanate from the drive's internal chassis.",
+      B: "If the admin had forgotten to initialize or format the drive, the drive would have appeared completely unusable in the operating system from day one. The scenario states the drive worked for a month before users reported slowdowns, proving it was properly formatted.",
+      D: "Failing to power down a system during installation can cause electrical damage, but SATA power cables are standardized. A standard power supply will not arbitrarily inject too much voltage into a single properly-connected drive just because it lacks mounting screws."
+    },
+    examTrap: "Distinguishing between electrical/software failures and physical/mechanical failures. The \"clicking\" symptom points exclusively to moving parts."
+  },
+  {
+    id: "Q015",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A user borrows a very inexpensive Lightning-to-USB cable from a coworker to transfer a large video file from their iPhone to a company PC. The user connects the cable, accepts the \"Trust this Computer\" prompt on the phone screen, and begins the transfer. Halfway through, the transfer unexpectedly aborts, and the phone rapidly switches between charging and not charging.",
+    prompt: "What is the MOST likely cause of this disruption?",
+    choices: [
+      { key: "A", text: "The PC's USB port is heavily limiting the power supplied to the phone." },
+      { key: "B", text: "The user is utilizing a non-certified cable that is failing to maintain a stable connection." },
+      { key: "C", text: "The iPhone is missing the required manufacturer USB drivers on the PC." },
+      { key: "D", text: "The \"Trust this Computer\" permission timed out and requires re-authentication." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "very inexpensive Lightning-to-USB cable... rapidly switches between charging and not charging",
+    explanationCorrect: "The selected answer is B because Apple's mobile devices require specific authentication chips inside their cables (MFi certification) to guarantee stable data and power delivery. Using non-certified, low-quality cables is a primary cause of unreliable charging states and suddenly aborted data transfers. The rapid cycling between power states is a classic symptom of the phone's hardware rejecting the unverified cable's inconsistent electrical delivery.",
+    explanationIncorrect: {
+      A: "While USB ports provide limited power that can slow down charging, a low-power port provides a steady low current. It would not cause the phone to rapidly drop and re-establish the connection, nor would it cause an active data transfer to crash halfway through.",
+      C: "Modern operating systems typically have generic drivers to interact with smartphones, or they install them automatically upon the first connection. If drivers were entirely missing, the PC would never have initiated the file transfer in the first place.",
+      D: "Once the \"Trust this Computer\" prompt is accepted, that cryptographic trust is maintained for the duration of the physical connection. The OS does not arbitrarily time out the trust permission in the middle of an active file transfer."
+    },
+    examTrap: "Recognizing the specific hardware requirements of the Apple ecosystem. A generic \"cheap cable\" works fine for some devices but triggers specific safeguard failures in Apple products."
+  },
+  {
+    id: "Q016",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A network technician needs to perform initial configuration on a newly unboxed corporate switch because network access is currently unavailable. They connect a USB-to-RS-232 serial adapter to their laptop, verify the drivers are installed, and connect a standard straight-through Ethernet patch cable between the adapter and the switch's console port. When they open their terminal emulator, the screen is completely blank and unresponsive.",
+    prompt: "What is the fundamental configuration error in this setup?",
+    choices: [
+      { key: "A", text: "The terminal emulator is set to an incorrect baud rate." },
+      { key: "B", text: "The USB-to-serial adapter requires an active signal converter." },
+      { key: "C", text: "A straight-through cable cannot be used for console connections." },
+      { key: "D", text: "The switch's console port is disabled by default out of the box." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "standard straight-through Ethernet patch cable between the adapter and the switch's console port... completely blank",
+    explanationCorrect: "The correct answer is C because connecting to a network switch's console port via an RS-232 serial adapter specifically requires a rollover cable, not a standard networking straight-through cable. A straight-through cable aligns identical pins on both ends, meaning the transmit pin on the laptop connects to the transmit pin on the switch, resulting in a physical failure to communicate and a completely blank terminal screen.",
+    explanationIncorrect: {
+      A: "If the terminal emulator was set to an incorrect serial setting, such as a mismatched baud rate, the screen would display a continuous stream of unreadable, garbled characters. A completely blank screen indicates no data is reaching the terminal at all.",
+      B: "RS-232 serial communication is an established standard that does not require active signal conversion when using standard USB adapters. The adapter relies entirely on proper drivers, which the scenario explicitly states are verified and working.",
+      D: "By strict definition, out-of-band management console ports exist specifically to configure a device when network access is unavailable. Therefore, console ports are completely open and enabled by default out of the box on enterprise hardware."
+    },
+    examTrap: "Validating proper cable pinouts for legacy connections. Candidates often mistake serial configuration symptoms (baud rate = garbled) for physical layer failures (wrong cable = blank)."
+  },
+  {
+    id: "Q017",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A technician installs a replacement ATX motherboard into a user's workstation. They seat the CPU and RAM, connect the 24-pin main power and 8-pin CPU power from the power supply, and plug the system into the wall. When the technician presses the power button on the front of the case, absolutely nothing happens—no fans spin, and no lights turn on.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the BEST first step to identify the problem?",
+    choices: [
+      { key: "A", text: "Verify that the front-panel power button connector is attached to the correct motherboard header pins." },
+      { key: "B", text: "Replace the ATX power supply, as it is failing to deliver voltage to the motherboard." },
+      { key: "C", text: "Ensure the ATX motherboard is physically compatible with the case's standoffs." },
+      { key: "D", text: "Check if the front USB connectors were accidentally plugged into a fan header." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "presses the power button on the front of the case, absolutely nothing happens",
+    explanationCorrect: "The correct answer is A because the physical power button on the outside of a computer case must be wired directly to a specific set of small pins on the motherboard, known as the front-panel headers. If the technician incorrectly wired these extremely small connectors during reassembly, pressing the button will not complete the electrical circuit, entirely preventing the system from powering on. Checking this minor connection is the fastest and most direct troubleshooting step.",
+    explanationIncorrect: {
+      B: "While a completely dead power supply would result in a lack of power, replacing it immediately violates the troubleshooting methodology's principle of checking simple, low-cost solutions first. The front-panel headers were actively disconnected and reconnected during the motherboard swap, making them the prime suspect.",
+      C: "Installing an ATX motherboard into a case that is too small will result in physical incompatibility during the mounting process. Since the technician has already completed the internal wiring and closed the case, physical fitment is not the issue.",
+      D: "Plugging a front USB connector into the wrong header can severely damage the USB ports. However, it does not typically break the power circuit. The power button relies strictly on its own dedicated 2-pin header to initiate boot."
+    },
+    examTrap: "Differentiating between a catastrophic hardware failure (dead PSU) and a routine human installation error (misplaced header pins) immediately following a component swap."
+  },
+  {
+    id: "Q018",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A PC builder is assembling a new rig. They carefully align the CPU in the socket, apply a pea-sized amount of thermal paste, and securely screw down the heat sink. Upon pressing the power button, the system powers on, but roughly two seconds later, it shuts down completely before displaying the POST screen.",
+    prompt: "What is the MOST likely cause of this immediate shutdown?",
+    choices: [
+      { key: "A", text: "The CPU was forced into the socket, causing bent pins." },
+      { key: "B", text: "The technician used too little thermal paste, causing instantaneous thermal throttling." },
+      { key: "C", text: "The builder forgot to plug the heat sink's cable into the motherboard's CPU fan header." },
+      { key: "D", text: "The system requires an active video adapter to display the POST screen." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "shuts down completely before displaying the POST screen",
+    explanationCorrect: "The correct answer is C because modern motherboards employ aggressive hardware-level protection mechanisms to prevent processors from destroying themselves. If the motherboard detects that nothing is plugged into the dedicated CPU fan header, it assumes there is no cooling present and will shut down the system almost immediately to prevent catastrophic heat damage.",
+    explanationIncorrect: {
+      A: "If a CPU is forced into a socket and its delicate pins are bent or contacts damaged, the system typically fails to power on at all, or it will power on but fail to pass POST while remaining powered, displaying a CPU error LED. It does not typically boot and then immediately shut itself off.",
+      B: "Applying too little thermal paste is poor practice and will eventually cause overheating and system crashes. However, even with no thermal paste, a massive metal heatsink absorbs enough initial heat to allow the system to run for a few minutes before thermal limits are breached; it does not cause a two-second instant shutdown.",
+      D: "If the system lacked a compatible video adapter, the motherboard would sound a beep code or display a VGA error light, but the internal components (fans, drives) would remain powered on. It would not force an immediate power cut."
+    },
+    examTrap: "Understanding the difference between a time-delayed thermal failure (thermal paste) and an instant hardware-protection trigger (unplugged fan header)."
+  },
+  {
+    id: "Q019",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A gamer installs a dedicated PCIe Network Interface Card (NIC) to achieve stable fiber network speeds. To keep cables organized, they install the NIC into the PCIe slot situated less than an inch directly in front of the graphics card's (GPU) cooling fans. After booting up, the network performs flawlessly, but the system's graphics severely lag during gaming, and the GPU fans scream at maximum RPM.",
+    prompt: "What is the most appropriate long-term prevention strategy for this issue?",
+    choices: [
+      { key: "A", text: "Download and install updated graphics drivers to override the thermal limits." },
+      { key: "B", text: "Move the NIC to a lower, available PCIe slot to prevent it from blocking airflow." },
+      { key: "C", text: "Ensure the NIC is fully seated to stop intermittent PCIe lane disconnections." },
+      { key: "D", text: "Replace the NIC, as it is aggressively stealing processing power from the GPU." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "situated less than an inch directly in front of the graphics card's (GPU) cooling fans... GPU fans scream",
+    explanationCorrect: "The correct answer is B because high-performance components like GPUs rely on heavy, unobstructed air intake to maintain stable operating temperatures. Placing an expansion card directly against the intake fans severely blocks the required airflow, causing the GPU's temperature to spike. The GPU responds by ramping its fans to maximum speed and aggressively thermal-throttling its performance to avoid self-destruction. Moving the card restores necessary airflow.",
+    explanationIncorrect: {
+      A: "Installing software updates or drivers cannot fix a fundamental physical layer issue. Furthermore, overriding hardware thermal limits using software is extremely dangerous and can permanently destroy the silicon.",
+      C: "If the NIC was improperly seated and suffering intermittent disconnections, the user would experience sudden network drops. The scenario explicitly states the network performs flawlessly, proving the NIC is seated correctly.",
+      D: "A Network Interface Card is an independent processor that manages its own traffic. It does not steal or drain mathematical processing power from a graphics card. The issue is strictly thermal, not computational."
+    },
+    examTrap: "Missing the physical environmental impact of an upgrade. Candidates must remember that adding a card affects the case's entire ecosystem (airflow), not just data flow."
+  },
+  {
+    id: "Q020",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "An office worker reports that their older DVI monitor intermittently loses its picture, briefly displaying a black screen before the image returns. The worker notes this usually happens when they type aggressively or accidentally bump their desk. The IT technician verifies the correct HDMI-to-DVI adapter is being used.",
+    prompt: "What is the BEST first step to resolve this display issue?",
+    choices: [
+      { key: "A", text: "Replace the DVI monitor, as the internal backlight inverter is failing." },
+      { key: "B", text: "Ensure the locking screws on the DVI connector are tightened firmly into the port." },
+      { key: "C", text: "Change the HDMI-to-DVI adapter from a passive type to an active type." },
+      { key: "D", text: "Configure the display settings in the operating system to lower the refresh rate." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "intermittently loses its picture... happens when they type aggressively or accidentally bump",
+    explanationCorrect: "The correct answer is B because legacy video cables like DVI and VGA are heavy and prone to sagging or shifting, which is why they are designed with locking screws on the connector head. If these screws are loose or entirely unfastened, any physical vibration (like bumping a desk) can cause the pins to temporarily lose contact, resulting in flickering or intermittent display loss. Securing the screws is the fastest, easiest physical remediation.",
+    explanationIncorrect: {
+      A: "While a failing backlight inverter causes a screen to go dark, it typically fails permanently or dims significantly; it is rarely triggered simply by bumping a desk. Replacing expensive hardware should never be the first step when a physical cable check is available.",
+      C: "If the wrong type of adapter (passive instead of active) was used, the monitor would permanently display \"no signal\" and would never work. Since the image displays properly until bumped, the adapter type is correct.",
+      D: "A mismatched refresh rate would result in consistent image artifacts or an \"Out of Range\" error. Software configuration cannot fix a problem triggered exclusively by physical desk vibration."
+    },
+    examTrap: "Ignoring the mechanical design of legacy cables. Modern cables (HDMI/DP) rely on friction or simple clips, whereas legacy cables fundamentally require their thumbscrews tightened to maintain signal integrity."
+  },
+  {
+    id: "Q021",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A content creator connects a high-quality, powered USB hub to their laptop to expand connectivity. They plug in a mechanical keyboard, a gaming mouse, an uncompressed 4K webcam, and a high-speed external solid-state drive (SSD). Everything powers on. However, when they attempt to stream 4K video while simultaneously rendering a massive file directly to the SSD, the webcam feed violently stutters and the file transfer slows to a crawl.",
+    prompt: "What technical limitation is causing this system behavior?",
+    choices: [
+      { key: "A", text: "The powered USB hub is failing to supply enough electrical wattage to the SSD." },
+      { key: "B", text: "The total data bandwidth of the single laptop USB port has been exceeded." },
+      { key: "C", text: "The USB hub lacks the necessary drivers to support simultaneous video and storage processing." },
+      { key: "D", text: "The external SSD requires a dedicated PCIe slot, not a USB connection." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "uncompressed 4K webcam, and a high-speed external solid-state drive... simultaneously",
+    explanationCorrect: "The correct answer is B because a USB hub acts as a data funnel; it routes the data of multiple devices through a single physical USB port on the host laptop. Uncompressed 4K video and massive SSD file transfers both require tremendous amounts of data throughput. When operated simultaneously, they easily saturate the maximum data bandwidth limit of that single host port, forcing the devices to throttle their performance and causing stuttering.",
+    explanationIncorrect: {
+      A: "The scenario explicitly states the user purchased a \"powered USB hub\" and that \"everything powers on.\" Powered hubs draw electricity directly from a wall outlet, negating power draw issues. The limitation here is data speed, not electrical wattage.",
+      C: "Standard USB hubs do not process video or storage; they are merely transparent physical layer bridges. The host laptop's operating system manages the drivers for the webcam and SSD independently.",
+      D: "While internal SSDs use PCIe or SATA interfaces, external SSDs are specifically manufactured to operate flawlessly over USB protocols. Claiming an external SSD requires a motherboard PCIe slot is technically invalid."
+    },
+    examTrap: "Distinguishing between electrical bottlenecks and data bottlenecks. Candidates often assume hubs only fail due to power limits, ignoring the hard ceiling on data bandwidth."
+  },
+  {
+    id: "Q022",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A user wants to drastically upgrade their pre-built, compact media center PC by installing a new processor and a high-end graphics card. They purchase a feature-rich ATX motherboard that boasts seven expansion slots. During installation, the user realizes the motherboard's mounting holes do not align with the case standoffs, and the edge of the board physically collides with the power supply housing.",
+    prompt: "What is the most appropriate, policy-compliant solution to this problem?",
+    choices: [
+      { key: "A", text: "Drill new standoff holes into the case chassis to accommodate the motherboard." },
+      { key: "B", text: "Remove the power supply housing to allow the motherboard to lay flat." },
+      { key: "C", text: "Procure a full-size computer case that natively supports the ATX form factor." },
+      { key: "D", text: "Use a PCIe riser cable to mount the graphics card outside the compact case." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "compact media center PC... purchase a feature-rich ATX motherboard",
+    explanationCorrect: "The correct answer is C because motherboard form factors strictly dictate physical dimensions and standoff alignments. An ATX motherboard is a full-size board designed for mid-to-full tower cases. Attempting to install it into a small form factor (compact) case results in total physical incompatibility. The only professional, standardized solution is to migrate the build to a larger case that officially supports the ATX footprint.",
+    explanationIncorrect: {
+      A: "Drilling new holes into a metal chassis introduces conductive metal shavings into the environment, risking catastrophic electrical shorts. It also voids warranties and does not solve the issue of the board colliding with the PSU housing.",
+      B: "Removing a power supply housing compromises the structural integrity of the case and leaves dangerous, high-voltage electrical components exposed. This is an extreme safety hazard and violates all professional IT repair policies.",
+      D: "While a PCIe riser cable allows a graphics card to be mounted creatively, it does absolutely nothing to solve the root problem: the ATX motherboard is physically too large to fit inside the case."
+    },
+    examTrap: "Recognizing when a hardware limitation is absolute. Candidates must identify that form factor mismatches cannot be solved with workarounds; the physical chassis must be replaced."
+  },
+  {
+    id: "Q023",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A novice user attempts to upgrade their computer's processor. They drop the new CPU into the socket without checking the alignment markers on the corners. The CPU sits slightly unevenly, but the user pushes down hard on the socket lever until it forcefully clicks into place. The computer subsequently fails to power on.",
+    prompt: "What is the most likely outcome of the user's actions?",
+    choices: [
+      { key: "A", text: "The motherboard will sound a beep code indicating a missing CPU fan." },
+      { key: "B", text: "The CPU pins or socket contacts have been severely bent or damaged." },
+      { key: "C", text: "The CPU is installed securely, but requires a BIOS update to be recognized." },
+      { key: "D", text: "The thermal paste was squeezed out unevenly, causing immediate overheating." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "without checking the alignment markers... slightly unevenly, but the user pushes down hard",
+    explanationCorrect: "The correct answer is B because a CPU must perfectly align with the socket using designated markers (like a golden triangle) before it will drop smoothly into place via Zero Insertion Force (ZIF). If it is misaligned and the user forces the heavy metal retention lever down, the immense mechanical pressure will instantly crush and bend the delicate pins on the CPU (PGA) or the contacts in the socket (LGA), destroying the hardware and preventing boot.",
+    explanationIncorrect: {
+      A: "A beep code for a fan error only occurs if the system successfully passes the initial power-on phase but fails a sub-check. With destroyed socket pins, the motherboard cannot communicate with the CPU at all, resulting in a completely dead system.",
+      C: "While dropping a new CPU into an older motherboard often requires a BIOS update, the violent physical installation described in the scenario supersedes software compatibility. The CPU is not \"installed securely\"; it is physically broken.",
+      D: "Applying thermal paste unevenly leads to gradual overheating under load. However, thermal issues do not prevent a system from initially receiving power, whereas crushing the electrical contacts absolutely does."
+    },
+    examTrap: "Identifying catastrophic physical handling errors. If the prompt explicitly mentions \"forcing\" delicate hardware, the answer always relates to physical destruction, not software configuration."
+  },
+  {
+    id: "Q024",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "An IT support technician opens a workstation to install a secondary SATA solid-state drive (SSD). They connect a known-good SATA data cable and properly attach the SATA power connector. However, when the technician boots the system and enters the motherboard firmware (BIOS/UEFI), the new drive is completely missing from the storage device list.",
+    prompt: "What should the technician verify FIRST to resolve this hardware detection issue?",
+    choices: [
+      { key: "A", text: "Verify that the specific SATA port being used is enabled within the BIOS settings." },
+      { key: "B", text: "Open the OS Disk Management utility to initialize and format the partition." },
+      { key: "C", text: "Replace the SATA data cable with a newer version to prevent signal loss." },
+      { key: "D", text: "Ensure the SATA drive jumper pins are set to the \"Slave\" position." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "known-good SATA data cable... enters the motherboard firmware (BIOS/UEFI), the new drive is completely missing",
+    explanationCorrect: "The correct answer is A because motherboard manufacturers often allow administrators to manually disable specific SATA ports at the hardware level for security or configuration reasons. If a properly powered and cabled drive is entirely invisible to the low-level system firmware (BIOS), the most logical configuration error is that the port it is plugged into has simply been turned off.",
+    explanationIncorrect: {
+      B: "A drive must be detected by the system firmware before the operating system can interact with it. Trying to use OS Disk Management to format a drive that the BIOS cannot even see is impossible.",
+      C: "The scenario explicitly states the technician used a \"known-good SATA data cable.\" Replacing a cable that is already verified to be functioning violates efficient troubleshooting methodology.",
+      D: "Setting jumper pins to dictate Master/Slave relationships is a requirement for legacy IDE (PATA) drives. Modern SATA drives use dedicated point-to-point cables and do not require or possess Master/Slave jumper pins."
+    },
+    examTrap: "Differentiating between firmware detection and OS detection. If a drive isn't in Disk Management, it's unformatted; if it isn't in the BIOS, it's a port, cable, or power issue."
+  },
+  {
+    id: "Q025",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A user decides to upgrade their aging desktop computer to improve multitasking performance. They purchase a new 16GB DDR4 RAM module and install it directly next to their existing 8GB DDR4 module in the corresponding color-coded DIMM slots. The system boots successfully, but the user begins experiencing random system crashes and blue screens shortly after opening memory-intensive applications.",
+    prompt: "What is the MOST likely cause of this system instability?",
+    choices: [
+      { key: "A", text: "The RAM module was installed backward, shorting the motherboard pins." },
+      { key: "B", text: "The user mixed incompatible RAM types or speeds during the upgrade." },
+      { key: "C", text: "The CPU heat sink was unseated during the upgrade, causing thermal throttling." },
+      { key: "D", text: "The motherboard's color-coded DIMM slots do not support DDR4 memory." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "new 16GB DDR4... next to their existing 8GB... random system crashes",
+    explanationCorrect: "The selected answer is correct because operating multiple RAM modules simultaneously requires synchronization. If a user mixes unmatched RAM modules with different capacities, timings, or speeds, the motherboard struggles to bridge the communication gap, which frequently leads to severe system instability or crashes under load. Buying matched kits is required to ensure seamless dual-channel operation without timing conflicts.",
+    explanationIncorrect: {
+      A: "RAM modules are physically keyed with a notch to prevent backward installation. If the user had attempted to insert the RAM backward, it would not have fit, and the system would never have booted into the OS to experience crashes in the first place.",
+      C: "While an unseated CPU cooler will cause thermal throttling and eventual shutdowns, it is not the most likely cause here. The scenario explicitly links the crashes directly to the installation of a secondary, mismatched memory stick, making memory incompatibility the primary suspect over accidental collateral damage to the CPU cooler.",
+      D: "Color-coded DIMM slots merely indicate the correct channels for multi-channel memory architectures; they do not dictate the DDR generation. If the motherboard did not support DDR4, the notches would not align, and the sticks physically could not have been inserted."
+    },
+    examTrap: "Ignoring the technical requirements of hardware pairing. Just because two components share the same physical generation (DDR4) does not mean their individual performance metrics are compatible."
+  },
+ {
+    id: "Q026",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A user mounts a brand-new 4K monitor in their office. Their modern PC only possesses DisplayPort outputs, while the monitor only accepts HDMI inputs. The user connects the devices using a generic, inexpensive DisplayPort-to-HDMI adapter found in a supply closet. When configuring the display settings in the operating system, the maximum allowable resolution is 1920x1080, and the 4K option is entirely missing.",
+    prompt: "What is the MOST likely cause of this resolution limitation?",
+    choices: [
+      { key: "A", text: "The display requires a manual input selection via hardware buttons to unlock 4K." },
+      { key: "B", text: "The OS requires a dedicated, third-party driver to unlock 4K resolutions over DisplayPort." },
+      { key: "C", text: "The unbranded, low-quality adapter is incapable of transmitting high-bandwidth 4K signals." },
+      { key: "D", text: "The 4K monitor does not possess an internal power supply strong enough to render high resolutions." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "generic, inexpensive DisplayPort-to-HDMI adapter... maximum allowable resolution is 1920x1080",
+    explanationCorrect: "Answer C is correct because video adapters are responsible for translating signals between different port standards. Low-quality or older adapters lack the internal bandwidth and active conversion chips required to handle the massive data throughput of a 4K resolution. Consequently, the hardware bottleneck forces the system to default to a lower, supported resolution like 1080p.",
+    explanationIncorrect: {
+      A: "Manual input selection is used to switch between active display ports (e.g., HDMI 1 vs. DisplayPort) if the monitor receives no signal. It is not used as a software toggle to magically unlock higher resolutions on an active, working image.",
+      B: "Modern operating systems utilize universally standardized display drivers (like WDDM in Windows) that natively support 4K resolutions. You do not need a specialized third-party driver simply to unlock 4K capabilities on a standard output like DisplayPort.",
+      D: "Monitors draw power directly from a wall outlet, and a certified 4K monitor is inherently built with an adequate power supply to drive its own panel. A lack of monitor power would result in the display shutting off entirely, not selectively dropping resolution."
+    },
+    examTrap: "Blaming software or major hardware components for a limitation caused entirely by a cheap, intermediate physical layer bridge (the adapter)."
+  },
+  {
+    id: "Q027",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A technician connects a company-issued iPad to a Windows workstation using a certified Lightning-to-USB cable to perform a manual data backup. Upon connection, the iPad screen lights up and the battery icon indicates it is successfully receiving a charge. However, when the technician opens the Windows File Explorer, the device is completely absent from the drives list.",
+    prompt: "What is the BEST first step to resolve this issue?",
+    choices: [
+      { key: "A", text: "Ensure the workstation's USB port supplies enough power to handle data transfers." },
+      { key: "B", text: "Unlock the iPad screen and accept the cryptographic \"Trust this Computer\" permission prompt." },
+      { key: "C", text: "Replace the Lightning cable with a non-certified cable to bypass Apple's hardware locks." },
+      { key: "D", text: "Initialize the iPad partition using the Windows Disk Management utility." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "indicates it is successfully receiving a charge... device is completely absent from the drives list",
+    explanationCorrect: "The correct answer is B because Apple's iOS ecosystem utilizes strict cryptographic security measures to prevent unauthorized data access when plugged into foreign devices. Even when using a certified cable that successfully initiates charging, the OS will actively block the PC from seeing or transferring any files until the user physically unlocks the mobile device and accepts the \"Trust this Computer\" prompt. This is the mandatory first step for establishing a data connection.",
+    explanationIncorrect: {
+      A: "While USB power limitations can cause a device to charge slowly or fail to charge, data transfer utilizes entirely different pins inside the USB cable and requires minimal wattage. Since the device is already successfully charging, power delivery is not the barrier to data visibility.",
+      C: "Non-certified Lightning cables are notorious for causing unreliable charging and preventing data transfers altogether due to missing MFi chips. Swapping a working, certified cable for an unverified one will actively create new hardware problems.",
+      D: "An iPad does not act as a raw, unformatted hard drive; it uses a proprietary mobile file system. Attempting to initialize or format an iPad via Windows Disk Management would permanently destroy all the user data the technician is trying to back up."
+    },
+    examTrap: "Recognizing the separation between hardware connectivity (charging) and software security permissions (data access) in mobile ecosystems."
+  },
+  {
+    id: "Q028",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A junior technician is tasked with expanding the persistent storage of an aging, standard file server. To save time, the technician leaves the server running, opens the tower case, slots a new internal SATA hard disk drive (HDD) into the bay, and connects the SATA data and power cables. The drive fails to spin up, and the technician notices a faint burning smell coming from the drive PCB.",
+    prompt: "What procedural failure directly caused this hardware destruction?",
+    choices: [
+      { key: "A", text: "The technician forgot to initialize the drive in the operating system prior to installation." },
+      { key: "B", text: "The SATA standard requires older drives to be configured with Master/Slave jumper pins first." },
+      { key: "C", text: "The technician failed to power down the system before attaching internal components." },
+      { key: "D", text: "The SATA data cable was plugged into a disabled motherboard port, causing a data collision." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "leaves the server running... faint burning smell coming from the drive PCB",
+    explanationCorrect: "The correct answer is C because standard internal SATA connections and ATX power supplies on basic motherboards are generally not designed for live hot-swapping. Connecting raw electrical power pins to an ungrounded, live circuit often results in voltage spikes or electrical arcing. Failing to completely power down and unplug the system before physical installation causes severe electrical damage, as evidenced by the burning smell.",
+    explanationIncorrect: {
+      A: "Initializing a drive is a software-layer task performed after the hardware is safely installed and detected by the OS. Failing to initialize a drive makes it invisible in the file explorer, but it will absolutely not cause the hardware to burn.",
+      B: "Master and Slave jumper pins were a strict requirement for legacy IDE (PATA) ribbon cables. Modern SATA drives use dedicated, point-to-point connections and do not require jumpers to determine cable hierarchy.",
+      D: "If a SATA data cable is connected to a disabled motherboard port, the BIOS simply ignores the connection and fails to detect the drive. A disabled data port carries no voltage and cannot cause an electrical fire or burning smell on a storage drive."
+    },
+    examTrap: "Differentiating between safe hot-swappable external interfaces (USB) and internal hardware installation procedures that strictly mandate powering down the machine."
+  },
+  {
+    id: "Q029",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A user plugs their mobile phone into a front-panel USB port on an older workstation. The phone's battery icon shows the lightning bolt symbol, indicating it is connected to a power source. However, while the user participates in a heavy, hour-long video conference on the phone, the battery percentage continues to slowly drop until the device powers off entirely.",
+    prompt: "What is the fundamental cause of this battery drain?",
+    choices: [
+      { key: "A", text: "The front-panel USB header on the motherboard is wired backward, actively draining the battery." },
+      { key: "B", text: "The phone was not granted \"Trust\" permissions, which permanently disables the charging pins." },
+      { key: "C", text: "The older USB port provides limited electrical wattage that is being outpaced by the phone's power consumption." },
+      { key: "D", text: "The user is utilizing an unpowered USB hub that is dropping the connection intermittently." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "older workstation... shows the lightning bolt... battery percentage continues to slowly drop",
+    explanationCorrect: "The correct answer is C because standard USB ports (especially on older PCs using USB 1.1 or 2.0 standards) provide a strictly limited amount of electrical current (typically 500mA or 2.5 Watts). A heavy, computationally intense task like video conferencing consumes far more wattage than the old USB port can deliver. Therefore, the device slowly drains its internal battery to make up the energy deficit, even though it is technically \"charging.\"",
+    explanationIncorrect: {
+      A: "If the front-panel USB header were wired backward or incorrectly to the motherboard, it would likely short circuit the port or immediately destroy the phone. It would not display a stable charging icon while slowly dropping in percentage.",
+      B: "The \"Trust this Computer\" prompt is exclusively for authorizing data transfers between the mobile OS and the workstation. Denying this prompt does not disable the physical 5-volt power pins transmitting electricity across the cable.",
+      D: "The scenario explicitly states the user plugged the phone directly into a \"front-panel USB port,\" making the mention of an unpowered USB hub completely irrelevant to the context provided."
+    },
+    examTrap: "Recognizing that \"charging\" is not a binary state. Candidates must understand the concept of power delivery limits versus active power draw."
+  },
+  {
+    id: "Q030",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A technician is tasked with rescuing critical data from an older, retired workstation. They remove two legacy IDE hard drives from the old machine and connect both of them to a single IDE ribbon cable inside a modern test bench system. Upon booting, the BIOS successfully detects the first drive, but the second drive is completely missing from the boot menu and the operating system.",
+    prompt: "What is the MOST appropriate configuration change to resolve this detection failure?",
+    choices: [
+      { key: "A", text: "Verify the SATA power connector is supplying the correct voltage to both drives." },
+      { key: "B", text: "Modify the physical jumper pins on the back of the drives to assign one as Master and one as Slave." },
+      { key: "C", text: "Initialize the second drive in Disk Management so the modern motherboard can read its file system." },
+      { key: "D", text: "Ensure both drives are connected to an active IDE-to-USB adapter to enable dual-channel access." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "two legacy IDE hard drives... connect both of them to a single IDE ribbon cable... second drive is completely missing",
+    explanationCorrect: "The correct answer is B because IDE (PATA) technology utilizes a shared bus architecture on a single ribbon cable. To prevent data collisions, the hardware strictly requires the technician to manually configure the small jumper pins on the back of the drives, designating one as the \"Master\" device and the other as the \"Slave.\" If both drives possess the same default jumper setting, a conflict occurs, and the system will only detect one drive.",
+    explanationIncorrect: {
+      A: "IDE hard drives utilize legacy 4-pin Molex power connectors, not SATA power connectors. Furthermore, if power was the issue, the drive wouldn't spin at all, which is a physical layer issue, not a configuration issue.",
+      C: "Initializing a drive in Disk Management is an action performed on brand-new, unformatted drives. Initializing this legacy drive would overwrite its partition table, permanently destroying the \"critical data\" the technician was hired to rescue.",
+      D: "While an IDE-to-USB adapter is a valid tool for reading a single legacy drive on a modern PC, the scenario explicitly states they are already using an internal ribbon cable on a test bench. An adapter is not strictly required to fix a bus conflict caused by jumpers."
+    },
+    examTrap: "Remembering obsolete, specific hardware configurations (Master/Slave jumpers) that are completely automated or absent in modern (SATA) hardware."
+  },
+  {
+    id: "Q031",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A user transfers their working motherboard into a new computer chassis. They consult the motherboard manual and attach the front-panel power buttons, reset switches, and LED activity cables to the appropriate header. They also attach a loose front-panel connector cable to an identically sized 9-pin header located nearby on the board. Upon booting the PC and inserting a USB flash drive into the front port, the flash drive immediately overheats, smokes, and is destroyed.",
+    prompt: "What assembly error caused this catastrophic failure?",
+    choices: [
+      { key: "A", text: "The front-panel HDD activity LED was installed with reversed electrical polarity." },
+      { key: "B", text: "The ATX power supply is providing excessive wattage to the motherboard's 24-pin connector." },
+      { key: "C", text: "The user neglected to install the motherboard standoffs, causing a chassis short circuit." },
+      { key: "D", text: "The user plugged a front-panel USB cable into the wrong motherboard header, crossing voltages." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "attach a loose front-panel connector... identically sized 9-pin header... immediately overheats, smokes",
+    explanationCorrect: "The correct answer is D because motherboards often feature multiple headers that look physically identical (such as 9-pin USB 2.0 headers, 1394/Firewire headers, or front panel audio headers). If a user incorrectly forces a USB front-panel connector onto an incompatible header, the standard 5-volt USB pins will receive entirely wrong electrical voltages. This instantly causes severe shorts, frying any peripheral plugged into that miswired port.",
+    explanationIncorrect: {
+      A: "LED indicators are polarized, meaning if they are installed backward, the electrical current simply won't flow, and the light won't turn on. A reversed LED will not cause an electrical fire or short out a completely separate USB port.",
+      B: "A standard ATX power supply regulates the voltage it provides. Even a massively overpowered 1000W PSU only delivers what the components request; it does not arbitrarily push destructive voltage into the 24-pin connector to fry USB drives.",
+      C: "If a user forgets motherboard standoffs, the entire back of the motherboard touches the metal case, causing a massive short circuit. In this scenario, the PC would immediately shut down to protect itself, or fail to boot entirely, long before the user had time to insert a flash drive."
+    },
+    examTrap: "Assuming physical compatibility dictates electronic compatibility. Just because a header has the correct number of pins does not mean it is electrically safe for that specific cable."
+  },
+  {
+    id: "Q032",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A PC builder is upgrading an older desktop by installing a new ATX motherboard designed to support heavy processing loads and up to seven expansion slots. After securing the board, they attempt to connect the old power supply but realize the PSU only possesses a 4-pin CPU power connector, whereas the new ATX motherboard requires an 8-pin EPS connector to supply the CPU.",
+    prompt: "What is the most appropriate, policy-compliant solution to this hardware mismatch?",
+    choices: [
+      { key: "A", text: "Force the 4-pin connector into the center of the 8-pin slot, as it will provide exactly half the required power." },
+      { key: "B", text: "Upgrade the power supply to a model that natively supports the matched motherboard connectors." },
+      { key: "C", text: "Install the ATX motherboard into a smaller micro-ATX case to physically reduce the overall system power draw." },
+      { key: "D", text: "Splice the old power supply wires together with electrical tape to manually create an 8-pin connection." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "PSU only possesses a 4-pin CPU power connector... motherboard requires an 8-pin EPS connector",
+    explanationCorrect: "The correct answer is B because matching motherboard and power supply form factors is a strict requirement for system stability. High-end ATX motherboards require 8-pin EPS connections because modern processors draw significantly more wattage. An older PSU lacking these connections is structurally incapable of safely providing that power, meaning the only compliant and safe solution is procuring a new, compatible power supply.",
+    explanationIncorrect: {
+      A: "While some motherboards may technically boot with only 4 pins inserted into an 8-pin slot, it is highly unstable, risks melting the connector due to current overload under heavy processing, and is absolutely not a professional or policy-compliant solution.",
+      C: "Installing an ATX motherboard into a smaller case is physically impossible due to form factor dimensions. Additionally, the size of a case has absolutely zero impact on the electrical power draw of a CPU.",
+      D: "Manually splicing live electrical wires from a power supply is incredibly dangerous, poses a severe fire hazard, violates all manufacturer warranties, and goes against every fundamental IT safety policy."
+    },
+    examTrap: "Recognizing when aging hardware has reached a hard upgrade limit. Attempting risky workarounds to save a cheap, incompatible power supply is never the correct administrative choice."
+  },
+  {
+    id: "Q033",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A network technician installs a dedicated PCIe Network Interface Card (NIC) into an office workstation to provide a faster fiber-optic connection. The network connection is established successfully and speeds are verified. However, whenever the user accidentally kicks or nudges the PC tower under their desk, the network connection drops entirely for several seconds, and the OS Device Manager rapidly refreshes before the connection returns.",
+    prompt: "What is the BEST immediate remediation to permanently stabilize this connection?",
+    choices: [
+      { key: "A", text: "Power down the system and ensure the NIC is fully seated in the slot and secured with a chassis screw." },
+      { key: "B", text: "Download and install the latest manufacturer drivers for the NIC to stop the software from crashing." },
+      { key: "C", text: "Move the NIC to a lower PCIe slot so it does not block the workstation's internal airflow." },
+      { key: "D", text: "Replace the delicate fiber-optic cable, as physical vibration is causing light refraction errors." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "whenever the user accidentally kicks or nudges the PC tower... drops entirely for several seconds",
+    explanationCorrect: "The correct answer is A because expansion cards rely on dozens of tiny physical gold contacts touching the PCIe slot simultaneously. If a card is improperly seated or left unsecured without a mounting screw, any physical vibration (like kicking the desk) causes the card to wiggle, breaking the electrical connection and forcing the operating system to suddenly lose and then rediscover the hardware.",
+    explanationIncorrect: {
+      B: "A software driver dictates how the OS communicates with the hardware. A corrupted driver might cause random crashes, but it is utterly incapable of timing those crashes perfectly with the physical action of a user kicking their desk.",
+      C: "Poor placement of a card can block airflow and cause thermal throttling over prolonged use. However, thermal limits do not cause instant, temporary hardware disconnections triggered exclusively by physical movement.",
+      D: "While fiber-optic cables can be delicate, the symptom described is the OS Device Manager rapidly refreshing. This indicates the OS is physically losing sight of the NIC hardware itself, not just dropping the network signal from a bad cable."
+    },
+    examTrap: "Linking environmental triggers to physical layer failures. The physical nudge proves the failure is a loose physical component, completely ruling out software or cable logic."
+  },
+  {
+    id: "Q034",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "An IT administrator urgently needs to access a legacy tape backup system. In a dry, heavily carpeted server room, the administrator quickly unboxes a legacy SCSI Host Bus Adapter (HBA). Without putting on a grounding strap, they slide the HBA directly into an available PCIe slot on a running server. The system immediately crashes, and the HBA is permanently damaged and undetectable.",
+    prompt: "Which two procedural errors directly caused this catastrophic hardware destruction?",
+    choices: [
+      { key: "A", text: "Missing the required SCSI drivers and installing the card into a disabled PCIe slot." },
+      { key: "B", text: "Reversing the SCSI cable polarity and using an unpowered, non-compliant USB hub." },
+      { key: "C", text: "Blocking the system airflow with the card and forcing it into a physically incompatible slot." },
+      { key: "D", text: "Failing to power down the server and neglecting proper Electrostatic Discharge (ESD) handling." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "dry, heavily carpeted server room... Without putting on a grounding strap... into an available PCIe slot on a running server",
+    explanationCorrect: "The correct answer is D because the administrator committed two fatal physical layer errors. First, walking on a carpet in a dry environment builds massive amounts of static electricity; handling a bare circuit board (the HBA) without an ESD strap discharges that static, instantly frying delicate silicon. Second, PCIe slots on standard servers are not meant for hot-plugging; inserting a card into a running system causes electrical arcing and system crashes.",
+    explanationIncorrect: {
+      A: "Installing a card into a disabled PCIe slot simply means the BIOS won't read it; it will not permanently destroy the card. Likewise, missing drivers only prevent the OS from utilizing the card, not from frying the hardware on contact.",
+      B: "SCSI HBAs are internal PCIe cards, making the mention of an unpowered USB hub completely irrelevant to this hardware scenario. Furthermore, cable polarity issues do not instantly destroy a card upon slot insertion.",
+      C: "While blocking airflow is poor practice, it causes slow thermal degradation over hours, not an instantaneous system crash. Additionally, the scenario states the card was slid into an \"available PCIe slot,\" meaning it was not forced into an incompatible one."
+    },
+    examTrap: "Combining multiple fundamental safety violations (ESD and hot-swapping) into a single scenario to test strict adherence to physical installation methodologies."
+  },
+  {
+    id: "Q035",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A technician mounts a 4K display in a busy corporate conference room. A few days later, executives complain that the display frequently and randomly loses power entirely during critical meetings, resulting in a black screen. The technician inspects the room and notes the display's thick power cable is routed tightly across a high-traffic walkway to reach the nearest wall outlet.",
+    prompt: "What is the MOST likely cause of the intermittent power loss?",
+    choices: [
+      { key: "A", text: "The 4K display requires a dedicated, active power conditioner to maintain a consistent electrical draw." },
+      { key: "B", text: "The HDMI-to-DisplayPort adapter is passively dropping the power signal due to distance limitations." },
+      { key: "C", text: "The poor routing of the power cable has created a trip hazard, causing physical, accidental power disconnections." },
+      { key: "D", text: "The wall mount does not support the display's weight, causing internal electrical stress on the panel." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "frequently and randomly loses power... power cable is routed tightly across a high-traffic walkway",
+    explanationCorrect: "The correct answer is C because basic physical security and cable management are paramount when installing heavy office equipment. Routing a taut power cable across a walkway practically guarantees that people walking through the room will snag or trip on the cord. This physical disturbance partially unseats the plug from the wall or the monitor, resulting in the sudden and total power losses reported during meetings.",
+    explanationIncorrect: {
+      A: "While power conditioners filter electrical noise for highly sensitive audio/video gear, standard 4K office displays are designed to plug directly into standard wall outlets without requiring expensive intermediate power conditioning equipment.",
+      B: "Video adapters (like HDMI-to-DP) strictly handle the transmission of low-voltage video and audio data signals between the PC and the monitor. They have absolutely nothing to do with supplying the 120V mains power required to actually turn the display on.",
+      D: "If a wall mount cannot support the weight of a display, the entire unit will sag, bend, or crash to the floor. It will not simply sit on the wall and exhibit intermittent power failures without obvious physical damage."
+    },
+    examTrap: "Overthinking environmental issues. Candidates often look for complex technical failures (adapters, power conditioning) when the scenario explicitly describes a gross physical hazard (trip wire)."
+  },
+  {
+    id: "Q036",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A forensics analyst uses an IDE-to-USB adapter to connect a suspect's legacy IDE hard drive to a modern Windows 11 workstation to extract potential evidence. As soon as the adapter's power is turned on and the drive spins up, the Windows operating system immediately displays a prompt stating, \"You need to format the disk in drive E: before you can use it.\"",
+    prompt: "What is the MOST critical action the analyst must take?",
+    choices: [
+      { key: "A", text: "Accept the prompt to format the disk so the modern OS can rebuild the file system and access the files." },
+      { key: "B", text: "Check the physical IDE jumper settings to ensure the drive is set to Master instead of Slave." },
+      { key: "C", text: "Cancel the prompt, as formatting the drive will cause accidental overwriting and deletion of the critical evidence." },
+      { key: "D", text: "Switch to a powered USB hub, as the prompt definitively indicates the drive is receiving insufficient electrical voltage." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "extract potential evidence... prompts 'You need to format the disk'",
+    explanationCorrect: "Answer C is correct because the Windows operating system cannot natively read certain obsolete or proprietary file systems (like those from very old OS versions or Linux distributions) that might exist on a legacy IDE drive. If Windows doesn't recognize the file system, it assumes the drive is blank and helpfully offers to format it. Formatting a drive permanently overwrites the partition table and destroys the exact data/evidence the analyst is attempting to rescue.",
+    explanationIncorrect: {
+      A: "Accepting the format prompt is a catastrophic error in data recovery. Formatting actively erases the existing file structure. While it would make the drive usable for new data in Windows 11, it would permanently destroy the historical evidence on the drive.",
+      B: "The Master/Slave jumper pins dictate hardware-level detection. Because Windows has already assigned the drive a letter (\"drive E:\") and is prompting for an OS-level format, the hardware detection phase is already completely successful, making jumper settings irrelevant.",
+      D: "An unpowered USB hub causing low voltage would result in the drive failing to spin up or randomly disconnecting. It would not cause the operating system to successfully establish a connection and ask permission to format the volume."
+    },
+    examTrap: "Recognizing the destructive nature of automated OS prompts. Candidates must know that Disk Management/Formatting is strictly for new storage provisioning, never for data recovery."
+  },
+  {
+    id: "Q037",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "A technician upgrades a desktop CPU. They carefully align the triangle marker, apply a pea-sized amount of thermal paste, and securely mount the heat sink. Upon pressing the power button, the system powers on, but then shuts down entirely after only two seconds, well before the POST screen appears.",
+    prompt: "What is the BEST first step to diagnose this immediate shutdown?",
+    choices: [
+      { key: "A", text: "Reapply the thermal paste, as too little was used causing instantaneous thermal throttling." },
+      { key: "B", text: "Inspect the CPU socket for bent pins caused by forcing the processor." },
+      { key: "C", text: "Verify that the CPU cooling fan is plugged into the motherboard header." },
+      { key: "D", text: "Replace the power supply, as it cannot support the wattage of the new CPU." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "shuts down entirely after only two seconds, well before the POST screen appears",
+    explanationCorrect: "Checking the CPU fan header is correct because modern motherboards have built-in hardware protection mechanisms. Forgetting to plug in the CPU fan can cause the system to shut down immediately to prevent damage. This is a simple, non-invasive first step that directly addresses the specific symptom of an instant, two-second shutdown.",
+    explanationIncorrect: {
+      A: "Reapplying thermal paste is a valid remediation, as using too much or too little thermal paste can cause overheating. However, even with zero thermal paste, a massive metal heatsink will absorb enough heat to let the system POST before crashing; it will not cause a two-second instant shutdown.",
+      B: "Forcing the CPU into the socket can bend pins or damage contacts. However, the scenario explicitly states the technician carefully aligned the markers and did not force the CPU, making physical damage highly unlikely in this specific context.",
+      D: "Upgrading a component that the motherboard or power supply does not support can lead to instability or failure. However, replacing an expensive component is never the best first step according to troubleshooting methodology, and the system wouldn't typically draw maximum wattage during the initial two seconds of boot."
+    },
+    examTrap: "Misleading symptom trap. Candidates often blame thermal paste for any CPU-related shutdown, missing the distinction between gradual thermal throttling and an instant hardware-protection power cut."
+  },
+  {
+    id: "Q038",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A company installs a new 4K display in a conference room. To save money, the IT technician reuses the thick, perfectly routed HDMI cable that was previously connected to the room's old 1080p projector. When a modern PC is connected, the image displays flawlessly, but the operating system only allows a maximum resolution of 1920x1080, and the 4K option is missing entirely.",
+    prompt: "What is the MOST likely cause of this resolution limitation?",
+    choices: [
+      { key: "A", text: "The display requires the user to manually select the 4K input source via physical buttons." },
+      { key: "B", text: "The older HDMI cable lacks the bandwidth to support a 4K resolution." },
+      { key: "C", text: "The PC's video drivers must be manually updated to unlock 4K capabilities." },
+      { key: "D", text: "The 4K display is plugged into a power source that delivers insufficient voltage." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "reuses the thick, perfectly routed HDMI cable that was previously connected... old 1080p projector",
+    explanationCorrect: "The selected answer is correct because HDMI cables have evolved through various generations, and using older HDMI cables may limit resolution or refresh rate. When a high-resolution 4K display detects a low-bandwidth legacy cable, the hardware automatically negotiates down to a supported resolution, such as 1080p, to maintain a stable image.",
+    explanationIncorrect: {
+      A: "Some displays require manual input selection, which can be overlooked and result in no signal. Since the image is already displaying flawlessly at 1080p, the input source is definitively correct, making this action useless.",
+      C: "Choosing the correct adapter or driver ensures the display works at the correct resolution and refresh rate. However, modern OS drivers natively support 4K; the hardware bottleneck of an old cable physically prevents the OS from even offering the higher resolution option.",
+      D: "The display must be connected to a reliable power source. However, if the power source was insufficient, the display would fail to turn on entirely or would power cycle randomly, not selectively limit its resolution."
+    },
+    examTrap: "Blaming software or the monitor for a limitation caused entirely by an obsolete physical layer component (the cable)."
+  },
+  {
+    id: "Q039",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A user decides to upgrade their computer's memory to improve multitasking. They purchase a high-speed 16GB DDR4 RAM module on sale and install it into the matching color-coded DIMM slot next to their existing, slower 8GB DDR4 module. The system boots into Windows successfully, but the user experiences severe blue screen crashes whenever they open memory-intensive applications.",
+    prompt: "Based on CompTIA troubleshooting methodology, what is the MOST likely root cause of the system instability?",
+    choices: [
+      { key: "A", text: "The new RAM module was installed backward, shorting out the DIMM slot." },
+      { key: "B", text: "The motherboard's color-coded DIMM slots do not support DDR4 technology." },
+      { key: "C", text: "The user mixed incompatible RAM speeds and capacities, causing timing errors." },
+      { key: "D", text: "The RAM was not fully seated, preventing the system from booting properly." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "high-speed 16GB DDR4... next to their existing, slower 8GB DDR4",
+    explanationCorrect: "This is the correct answer because multi-channel memory architectures require RAM modules to communicate in perfect synchronization. Mixing incompatible RAM types or speeds can cause instability or crashes. To prevent this, RAM should always be installed in perfectly matched kits with identical timings and capacities.",
+    explanationIncorrect: {
+      A: "Inserting RAM backward or unevenly can prevent the system from booting. If the user had attempted this, the module would not have fit into the keyed slot, and the system would never have successfully booted into Windows in the first place.",
+      B: "Color-coded slots indicate which slots should be used together for dual-channel or quad-channel memory configurations. These colors exist universally on motherboards regardless of the DDR generation supported by the board.",
+      D: "RAM that is not fully seated may cause intermittent failures or no display at startup. Since the system booted successfully into the OS, the physical seating is adequate; the crash is caused by the unmatched hardware specs."
+    },
+    examTrap: "Ignoring the technical requirements of hardware pairing. Just because two components share the same physical generation (DDR4) does not mean their individual performance metrics are compatible."
+  },
+  {
+    id: "Q040",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A technician connects a laptop with a digital HDMI output to an older conference room projector that only accepts an analog VGA input. They use a standard, single-piece adapter plug to connect the two cables. Upon powering both devices, the projector immediately displays a \"No Signal\" error.",
+    prompt: "What is the fundamental hardware configuration error in this setup?",
+    choices: [
+      { key: "A", text: "The HDMI connection requires a dedicated audio cable to activate the video feed." },
+      { key: "B", text: "The technician used a passive adapter when an active adapter is explicitly required." },
+      { key: "C", text: "The adapter's locking screws were left loose, causing a complete signal drop." },
+      { key: "D", text: "The projector's internal power supply is failing to draw enough wattage." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "single-piece adapter plug... HDMI output to an older conference room projector that only accepts an analog VGA input",
+    explanationCorrect: "The correct answer is B because converting a purely digital signal (HDMI) to a purely analog signal (VGA) requires an internal processing chip to translate the data formats. Using a passive adapter when an active adapter is required (such as HDMI to VGA) can result in no display. A single-piece, inexpensive passive adapter simply reroutes pins and cannot perform this electrical translation.",
+    explanationIncorrect: {
+      A: "Some adapters do not support audio, even if the cable type normally does. However, an audio connection is never a prerequisite for a video signal to successfully transmit across a display cable.",
+      C: "Loose DVI or VGA screws can cause flickering or intermittent display loss. However, they do not typically cause a permanent, immediate \"No Signal\" state on a fully plugged-in stationary cable.",
+      D: "Using the wrong adapter can result in no video signal. If a projector's power supply was failing, the device would shut down or fail to turn on the bulb entirely; it would not power up normally just to display a clear \"No Signal\" error message."
+    },
+    examTrap: "Differentiating between active and passive conversion. Candidates must recognize when an adapter only changes form factor (passive) versus when it must actively compute and translate the electrical signal (active)."
+  },
+  {
+    id: "Q041",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A network administrator installs a dedicated PCIe Network Interface Card (NIC) to provide fiber connectivity to a server. To keep the server interior neat, they place the NIC in the PCIe slot situated less than an inch directly in front of the primary graphics card's (GPU) cooling fans. The network functions flawlessly, but the server begins experiencing severe thermal throttling during graphics-intensive tasks.",
+    prompt: "What is the most appropriate long-term prevention strategy for this issue?",
+    choices: [
+      { key: "A", text: "Ensure the PCIe NIC is fully seated to stop intermittent electrical shorts." },
+      { key: "B", text: "Download and install updated graphics drivers to override the GPU's thermal limits." },
+      { key: "C", text: "Move the NIC to a lower, available PCIe slot to restore unobstructed airflow." },
+      { key: "D", text: "Replace the NIC entirely, as it is drawing excessive power from the motherboard." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "situated less than an inch directly in front of the primary graphics card's (GPU) cooling fans",
+    explanationCorrect: "The selected answer is correct because high-performance components like GPUs rely heavily on intake fans to pull cool air across their heat sinks. Blocking airflow with poorly placed cards can increase system temperature. Moving the NIC to an empty, distant slot physically resolves the environmental bottleneck and stops the thermal throttling.",
+    explanationIncorrect: {
+      A: "Improper seating can cause intermittent disconnections. However, the scenario explicitly states the network functions flawlessly, meaning the card is seated perfectly; the issue is purely environmental.",
+      B: "Improperly seated heat sinks or blocked airflow can lead to thermal throttling or system crashes. Attempting to use software or drivers to override hardcoded hardware thermal limits is extremely dangerous and will likely cause permanent physical destruction of the silicon.",
+      D: "Installing a dedicated NIC may be necessary for higher speeds. A standard NIC operates on very low wattage and does not steal processing power or significant electricity from a GPU; the throttling is caused by air starvation, not an electrical deficit."
+    },
+    examTrap: "Missing the physical environmental impact of an upgrade. Candidates must remember that adding a card affects the case's entire ecosystem (airflow), not just data flow."
+  },
+  {
+    id: "Q042",
+    topic: "Example",
+    difficulty: "easy",
+    scenario: "An employee is traveling and purchases an inexpensive, unbranded Lightning-to-USB cable from a gas station to connect their iPhone to a laptop. When connected, the laptop repeatedly prompts the user to \"Trust this Computer,\" but the file transfer connection drops randomly every few seconds, and the phone cycles rapidly between charging and not charging.",
+    prompt: "What is the MOST likely root cause of this unstable connection?",
+    choices: [
+      { key: "A", text: "The laptop's USB port does not supply enough power to charge the battery." },
+      { key: "B", text: "The user failed to accept the \"Trust this Computer\" permission prompt on the phone." },
+      { key: "C", text: "The non-certified cable lacks the required MFi chip to maintain a stable hardware handshake." },
+      { key: "D", text: "The iPhone is attempting to draw high-bandwidth data that exceeds the USB protocol." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "inexpensive, unbranded Lightning-to-USB cable... drops randomly every few seconds",
+    explanationCorrect: "Answer C is correct because the Apple hardware ecosystem relies heavily on proprietary authentication chips built directly into the cables to regulate power delivery and data synchronization. Using non-certified cables can cause unreliable charging or data transfer. This manifests physically as rapid cycling and constantly aborted data transfers.",
+    explanationIncorrect: {
+      A: "USB power limitations may slow charging if the port does not supply enough power. However, low power provides a steady low current; it does not cause the rapid physical dropping and reconnecting of the data link described in the scenario.",
+      B: "The device may not appear on the PC if trust permissions are not accepted. However, if the permission was simply denied, the phone would continue to charge steadily without dropping; the rapid cycling indicates a deeper physical layer failure.",
+      D: "Connecting too many high-bandwidth devices (such as webcams and external drives) to one hub can reduce performance. However, standard file transfers over a direct connection do not exceed the inherent bandwidth of a USB port to the point of causing physical disconnections."
+    },
+    examTrap: "Recognizing the specific hardware requirements of the Apple ecosystem. A generic \"cheap cable\" works fine for some devices but triggers specific safeguard failures in Apple products."
+  },
+  {
+    id: "Q043",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A user wants to expand the connectivity of their thin-and-light laptop. They purchase a basic, unpowered 4-port USB hub and connect a mouse, a keyboard, and a mechanical external hard disk drive (HDD). The mouse and keyboard function perfectly, but the external HDD refuses to spin up, and the operating system reports that the file system is corrupted.",
+    prompt: "What is the BEST remediation to ensure the external HDD operates reliably?",
+    choices: [
+      { key: "A", text: "Replace the unpowered USB hub with a powered USB hub." },
+      { key: "B", text: "Use the Disk Management tool to initialize and reformat the external HDD." },
+      { key: "C", text: "Re-route the USB hub cable to prevent accidental physical disconnections." },
+      { key: "D", text: "Upgrade the laptop's internal power supply to deliver more wattage." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "unpowered 4-port USB hub... mechanical external hard disk drive (HDD)... refuses to spin up",
+    explanationCorrect: "The correct answer is A because a single USB port on a laptop provides a strictly limited amount of electrical current. A powered USB hub has its own power supply and is necessary when connecting multiple devices that draw significant power, such as external hard drives. Without it, external drives may not spin up or may corrupt data due to insufficient power.",
+    explanationIncorrect: {
+      B: "Forgetting to initialize or format a new drive can make it appear unusable in the OS. Reformatting would overwrite the corrupted file system, but it does absolutely nothing to fix the underlying hardware power deficit, meaning the drive will simply corrupt again.",
+      C: "Poor cable management can lead to accidental disconnections. However, the mouse and keyboard are functioning perfectly without interruption, proving the hub is securely plugged in; the issue is strictly electrical capacity.",
+      D: "USB ports on a PC can only provide a limited amount of power. Upgrading the laptop charger powers the motherboard, but the motherboard's USB controllers still have hardcoded maximum output limits per port that cannot be exceeded."
+    },
+    examTrap: "Distinguishing between electrical bottlenecks and data bottlenecks. Candidates often assume hubs only fail due to data limits, ignoring the hard ceiling on electrical power delivery."
+  },
+  {
+    id: "Q044",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A network technician needs to configure a newly unboxed enterprise network switch via its console port because network access is currently unavailable. They connect a USB-to-RS-232 serial adapter to their laptop and run a standard straight-through Ethernet patch cord from the adapter to the switch. When they open their terminal emulator, the screen remains completely blank, and no communication occurs.",
+    prompt: "What configuration error is the technician MOST likely encountering?",
+    choices: [
+      { key: "A", text: "The terminal emulator is set to an incorrect baud rate." },
+      { key: "B", text: "The USB-to-serial adapter requires missing manufacturer drivers." },
+      { key: "C", text: "The switch's console port is disabled by default for security." },
+      { key: "D", text: "The technician used the wrong cable type for a console connection." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "standard straight-through Ethernet patch cord... screen remains completely blank",
+    explanationCorrect: "The correct answer is D because out-of-band management via a console port specifically requires a rollover cable. Using the wrong cable type (straight-through vs. rollover) can prevent communication. A straight-through cable aligns identical pins on both ends (transmit to transmit), resulting in a complete physical failure to communicate, which explains the completely blank terminal screen.",
+    explanationIncorrect: {
+      A: "Incorrect serial settings can result in unreadable output. However, a wrong baud rate typically results in a continuous stream of garbled characters on the screen, not a completely blank terminal.",
+      B: "Modern systems may require drivers for USB-to-serial adapters. If drivers were missing, the operating system would not assign a COM port, and the terminal emulator software would throw a hard error refusing to open the connection at all, rather than opening to a blank screen.",
+      C: "Serial console access is often the only way to configure or recover network devices, especially during initial setup or when network access is unavailable. Therefore, console ports are explicitly enabled by default out of the box; they are never disabled by default."
+    },
+    examTrap: "Validating proper cable pinouts for legacy connections. Candidates often mistake serial configuration symptoms (baud rate = garbled) for physical layer failures (wrong cable = blank)."
+  },
+  {
+    id: "Q045",
+    topic: "Example",
+    difficulty: "medium",
+    scenario: "A custom PC builder completes a new system assembly. They connect the 24-pin motherboard power, seat the RAM, and plug in the front-panel case connectors. When they press the power button, the system boots immediately, the OS loads, and the front USB ports function perfectly. However, the hard drive activity LED on the front of the case never blinks, even during massive file transfers.",
+    prompt: "Based on CompTIA troubleshooting methodology, what is the most likely cause of this specific symptom?",
+    choices: [
+      { key: "A", text: "The SATA data cable is completely disconnected from the motherboard." },
+      { key: "B", text: "The front-panel HDD activity LED was installed with reversed polarity." },
+      { key: "C", text: "The front-panel USB cable was accidentally plugged into the LED header." },
+      { key: "D", text: "The motherboard's chipset does not support the installed storage drive." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "system boots immediately, the OS loads... hard drive activity LED... never blinks",
+    explanationCorrect: "Answer B is correct because Light Emitting Diodes (LEDs) are polarized components, meaning electrical current must flow through them in a specific direction to produce light. Reversed LED polarity can cause lights not to function. If the tiny front-panel HDD LED connector is attached backward, the system will run flawlessly, but the light will simply fail to turn on.",
+    explanationIncorrect: {
+      A: "Loose SATA cables can cause drives to disappear or data corruption. If the cable was completely disconnected, the system would not have a boot device, preventing the OS from loading entirely.",
+      C: "Plugging USB connectors into the wrong header can damage ports. Since the scenario explicitly notes the front USB ports function perfectly, they are definitively plugged into the correct header.",
+      D: "Overlooking chipset limitations can restrict CPU or RAM support. However, if the chipset didn't support the storage drive, the OS wouldn't load from it. The drive works perfectly; only the cosmetic indicator light is failing."
+    },
+    examTrap: "Differentiating between a critical system failure and a superficial front-panel wiring error. The OS working perfectly narrows the scope purely to the motherboard headers."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
