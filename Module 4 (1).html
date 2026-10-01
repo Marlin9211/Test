@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Integration (Hardware + Security Management)",
+    difficulty: "Hard",
+    scenario: "A systems administrator is configuring a new monitoring workstation in a secure server room. The workstation must autonomously restart and resume monitoring software after patching, without requiring interactive user logon. However, corporate policy mandates that all local storage must be fully encrypted and hardware encryption keys must be isolated from the OS. A junior technician suggests enabling the User/System Password in the UEFI setup to fulfill the security requirement.",
+    prompt: "Why is the junior technician's suggestion inappropriate, and what is the correct configuration to meet both requirements?",
+    choices: [
+      { key: "A", text: "The User Password only restricts access to the UEFI setup program; a Supervisor Password should be used alongside a Hardware Security Module (HSM)." },
+      { key: "B", text: "The User Password prevents the firmware from initializing the system until authenticated; the technician should enable the Trusted Platform Module (TPM) to securely store keys while allowing autonomous boots." },
+      { key: "C", text: "The User Password requires an HSM thumb drive to be inserted for autonomous booting; the technician should disable Secure Boot instead." },
+      { key: "D", text: "The User Password encrypts the Master Boot Record (MBR); the technician should configure a GUID Partition Table (GPT) to allow the OS to bypass the lock." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "must autonomously restart... without requiring interactive user logon and keys must be isolated from the OS.",
+    explanationCorrect: "The User/System Password locks the entire system at the firmware level until authentication is provided, meaning the computer cannot autonomously boot and load the operating system without manual intervention. To satisfy the requirement of securing cryptographic keys while allowing automated reboots, the Trusted Platform Module (TPM) must be used. The TPM is a tamper-resistant hardware chip that isolates keys from the OS and seamlessly integrates with the boot process to verify system integrity without requiring an interactive pre-boot password.",
+    explanationIncorrect: {
+      A: "A Supervisor/Administrator password restricts access to the BIOS/UEFI setup program, not the entire system boot process. While an HSM is a valid tool, it requires physical USB authentication (like a PIN or fingerprint), which violates the requirement for autonomous, non-interactive restarts.",
+      B: "",
+      C: "The User Password does not require an HSM to function, as they are separate security mechanisms. Furthermore, disabling Secure Boot would weaken system security by allowing unverified bootloaders to run, directly contradicting the corporate mandate for lockdown.",
+      D: "A User Password does not encrypt the MBR; it stops the firmware from handing off the boot process to any partition. Furthermore, switching from MBR to GPT changes how partitions are structured, but it does not bypass a firmware-level hardware password or natively provide encryption key storage."
+    },
+    examTrap: "Misunderstanding the scope of firmware passwords versus hardware-backed encryption (TPM)."
+  },
+  {
+    id: "Q002",
+    topic: "Troubleshooting Methodology (Power Issues)",
+    difficulty: "Easy",
+    scenario: "A user submits an urgent ticket stating their desktop computer \"is completely dead.\" Upon arrival, you observe that pressing the power button yields no fan spin, no LED lights on the front panel, and no POST beeps. The user mentions they just moved their desk to a different wall in the office.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the BEST first step to isolate the cause of this issue?",
+    choices: [
+      { key: "A", text: "Open the case and test the power supply unit (PSU) voltages using a multimeter." },
+      { key: "B", text: "Verify the PSU connections to the motherboard and test the 5V supply line." },
+      { key: "C", text: "Check if other electrical devices in the immediate area are functioning properly." },
+      { key: "D", text: "Remove all non-essential peripheral devices and attempt to power on the system." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "just moved their desk to a different wall and BEST first step",
+    explanationCorrect: "When diagnosing a \"no power\" symptom where no LEDs are lit and no fans spin, the very first step in isolating the cause is to ensure the external power source is functional. Checking other equipment in the area easily rules out a tripped circuit breaker, a dead wall socket, or a localized blackout before spending time disassembling the computer.",
+    explanationIncorrect: {
+      A: "Opening the case to test the PSU with a multimeter is a highly invasive and potentially dangerous step. This should only be done after verifying that the wall socket and external power cables are actually providing electricity.",
+      B: "Verifying internal motherboard PSU connections is a valid troubleshooting step if the system isn't receiving power. However, it is not the first step, as the problem is highly likely external given the recent desk move.",
+      C: "",
+      D: "Removing non-essential devices helps diagnose an underpowered or short-circuiting PSU. While technically valid later in the troubleshooting process, it ignores the immediate external environmental clues and wastes time if the wall socket is simply dead."
+    },
+    examTrap: "Jumping to invasive internal hardware diagnostics before verifying basic external environmental factors (Layer 1 physical power)."
+  },
+  {
+    id: "Q003",
+    topic: "Drive and Boot Troubleshooting",
+    difficulty: "Medium",
+    scenario: "Following an unexpected power outage, a Windows 10 workstation powers on but halts during the boot process. The screen displays the error message: \"Invalid drive specification.\" The technician accesses the UEFI setup and confirms that the primary SATA Solid State Drive (SSD) is successfully detected and is listed first in the boot sequence.",
+    prompt: "What is the most likely cause of this error?",
+    choices: [
+      { key: "A", text: "The drive's SATA data cable is severely crimped and needs replacement." },
+      { key: "B", text: "The Master Boot Record (MBR) or GUID Partition Table (GPT) has been corrupted." },
+      { key: "C", text: "The SSD has exhausted its read/write lifespan and has bad memory blocks." },
+      { key: "D", text: "The SATA mode in the UEFI has been incorrectly changed to RAID." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Invalid drive specification\" and \"successfully detected\" in UEFI.",
+    explanationCorrect: "The error message \"Invalid drive specification\" (along with \"Boot device not found\" or \"OS not found\") specifically indicates that the system firmware cannot locate valid partition information or boot loader code. Because power failures can interrupt write operations and corrupt the device's boot sector (MBR or GPT), this is the most logical cause when the physical drive is still recognized by the motherboard.",
+    explanationIncorrect: {
+      A: "If the SATA data cable were severely damaged or crimped, the drive would likely not be detected in the UEFI setup program at all. Since the UEFI successfully identifies the SSD, physical data connectivity is currently established.",
+      B: "",
+      C: "While SSDs have a limited lifespan and can develop bad blocks, this typically manifests as extended read/write times, application crashes, or specific read errors. A total failure to recognize drive specifications points directly to partition table corruption rather than gradual cell wear.",
+      D: "Changing the SATA mode to RAID or AHCI improperly usually results in a Blue Screen of Death (BSOD) as the OS begins to load but lacks the correct storage controller drivers. It does not typically generate a legacy \"Invalid drive specification\" firmware error before the OS loads."
+    },
+    examTrap: "Differentiating between a physically undetected drive (hardware/cable fault) and a logically corrupted drive (MBR/GPT fault)."
+  },
+  {
+    id: "Q004",
+    topic: "Display and Peripheral Diagnostics",
+    difficulty: "Hard",
+    scenario: "An executive is using a ceiling-mounted DLP projector for a lengthy presentation. One hour into the meeting, the projector suddenly shuts down. After 15 minutes, it can be powered back on, but it shuts down again 30 minutes later. The executive notes there were no popping sounds, the image color was accurate before shutting off, and the bulb was replaced by IT just last week.",
+    prompt: "What is the most likely cause of this intermittent shutdown, and what is the appropriate remediation?",
+    choices: [
+      { key: "A", text: "A burned-out bulb; remediate by replacing the bulb and resetting the bulb timer." },
+      { key: "B", text: "A mismatched native resolution; remediate by adjusting the OS display settings to match the projector." },
+      { key: "C", text: "Overheating; remediate by clearing dust from the ventilation system and ensuring fans are operational." },
+      { key: "D", text: "A failing HDMI cable; remediate by swapping the cable with a High-Speed rated HDMI cord." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"shuts down again 30 minutes later\" and \"no popping sounds.\"",
+    explanationCorrect: "Intermittent projector shutdowns, especially those that allow the device to turn back on only after a period of rest, are classic symptoms of thermal protection circuits tripping due to overheating. To resolve this, the technician must verify that the internal cooling fans are functioning and that the projector's ventilation system is completely clear of dust, debris, or physical blockages.",
+    explanationIncorrect: {
+      A: "A burned-out projector bulb usually fails permanently, often accompanied by a popping sound, visible scorch marks, or a broken filament. Because the projector can be powered back on after resting, the bulb itself is still functional.",
+      B: "Supplying a mismatched resolution to a projector or monitor typically results in a blurry or fuzzy image. It does not cause the hardware to intermittently completely power down after extended use.",
+      C: "",
+      D: "A failing or low-quality HDMI cable can cause a flashing screen, artifacts, or a \"no signal\" message. It will not cause the physical projector unit to power itself off intermittently due to thermal stress."
+    },
+    examTrap: "Recognizing the difference between a failing consumable (the bulb) and an environmental hardware issue (overheating/ventilation)."
+  },
+  {
+    id: "Q005",
+    topic: "Hardware and POST Diagnostics",
+    difficulty: "Medium",
+    scenario: "A user returns from vacation and turns on their desktop PC. The system fans spin up loudly, but the monitor remains completely blank. The internal motherboard speaker emits 1 long beep followed immediately by 2 short beeps. The pattern does not repeat.",
+    prompt: "Based on standard diagnostic indicators, which component is causing the POST to halt, and what should be checked first?",
+    choices: [
+      { key: "A", text: "The system memory; check that the RAM modules are securely seated in their slots." },
+      { key: "B", text: "The video adapter; check that the dedicated graphics card is properly seated and powered." },
+      { key: "C", text: "The keyboard; check that no keys are physically stuck or depressed." },
+      { key: "D", text: "The power supply; check that the PSU is providing a stable power good signal to the CPU." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"1 long beep followed immediately by 2 short beeps.\"",
+    explanationCorrect: "During the Power-On Self-Test (POST), errors that occur before the video adapter is initialized must be communicated audibly via beep codes. According to standard IBM PC beep codes, a sequence of 1 long and 2 (or 3) short beeps specifically indicates a video adapter error.",
+    explanationIncorrect: {
+      A: "A problem with system memory modules or the memory controller typically generates a continuous beep code, not a combination of long and short beeps.",
+      B: "",
+      C: "A keyboard issue, such as a depressed key preventing the computer from booting, is generally indicated by 3 long beeps.",
+      D: "Power supply faults or generalized motherboard issues are usually indicated by no beep at all, or a continuous repeating pattern of short beeps."
+    },
+    examTrap: "Memorization and application of standard legacy beep codes to isolate hardware failures before video initializes."
+  },
+  {
+    id: "Q006",
+    topic: "Storage and RAID Management",
+    difficulty: "Hard",
+    scenario: "A graphic designer's workstation utilizes a hardware-based RAID 1 array for local OS and data storage. Upon booting, the RAID controller configuration utility displays a warning that the volume is \"degraded\" and one of the disks has a status of \"Missing.\" The OS continues to boot normally, but the designer is terrified of losing their project files.",
+    prompt: "What is the actual state of the data, and what is the BEST first step the technician should take?",
+    choices: [
+      { key: "A", text: "The data is completely lost because RAID 1 has no redundancy; the technician must immediately attempt file recovery software." },
+      { key: "B", text: "The data is intact but striping is disabled; the technician should hot-swap the missing drive and immediately initiate a rebuild to restore performance." },
+      { key: "C", text: "The data is intact because the array mirrors data; the technician must execute a system backup before replacing the faulty disk." },
+      { key: "D", text: "The data is partially corrupted; the technician must run chkdsk to isolate bad sectors before replacing the RAID controller." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"RAID 1 array\", \"volume is degraded\", and \"BEST first step\".",
+    explanationCorrect: "RAID 1 uses mirroring to protect data, meaning the failure of a single drive leaves the data fully intact and accessible, though the array enters a \"degraded\" state. While the failed disk should be replaced and the array rebuilt, the absolute best first step before hot-swapping any hardware or initiating a stressful rebuild process is to perform a full backup of the data to prevent catastrophic loss if the second drive fails during the rebuild.",
+    explanationIncorrect: {
+      A: "RAID 0 is the configuration that utilizes striping with no redundancy, where a single drive failure results in total data loss. This scenario explicitly states the system uses RAID 1, which provides mirroring.",
+      B: "While replacing the missing drive and rebuilding the array is the correct long-term remediation, doing so before backing up the data is extremely risky. The rebuilding process severely affects performance and heavily stresses the remaining healthy disk, which could cause it to fail.",
+      C: "",
+      D: "A missing disk in a RAID array indicates a physical device failure or controller disconnect, not logical file system corruption. Running chkdsk will not recover a missing physical drive and stresses the remaining drive unnecessarily."
+    },
+    examTrap: "Knowing the technical difference between RAID 0 and RAID 1, combined with the golden rule of troubleshooting: always back up data before making structural system changes."
+  },
+  {
+    id: "Q007",
+    topic: "Thermal Management and Configuration",
+    difficulty: "Medium",
+    scenario: "A user complains that their workstation frequently locks up and reboots when running heavy modeling software. A technician notices the system feels excessively hot. The user mentions they recently removed a large, broken internal PCI-e capture card. Thinking it would increase passive airflow, the user decided to leave the rear expansion slot completely open.",
+    prompt: "How did the user's action impact the system, and how should it be corrected?",
+    choices: [
+      { key: "A", text: "The open slot introduced Electrostatic Discharge (ESD) to the motherboard; correct it by replacing the motherboard." },
+      { key: "B", text: "The open slot disrupted the engineered internal airflow and reduced cooling effectiveness; correct it by installing a blanking plate." },
+      { key: "C", text: "The open slot caused chip creep due to temperature fluctuations; correct it by reseating all remaining adapter cards." },
+      { key: "D", text: "The open slot altered the duty cycle settings of the CPU fan; correct it by setting the cooling profile to 'Cool' in the UEFI." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"leave the rear expansion slot completely open.\"",
+    explanationCorrect: "Computer cases are engineered with specific thermodynamics to balance the air entering and exiting the system, ensuring air flows efficiently over hot components like the CPU heat sink. Leaving holes uncovered, such as an open expansion slot, disrupts this airflow path, severely reducing the cooling system's effectiveness and leading to overheating. The correct remediation is to cover the hole with a blanking plate.",
+    explanationIncorrect: {
+      A: "While Electrostatic Discharge (ESD) can damage components, it occurs through the sudden flow of electricity between two objects, not passively from ambient air entering an open slot.",
+      B: "",
+      C: "Chip creep happens when components slowly work themselves out of sockets over long periods due to repeated thermal expansion and contraction. While overheating is happening, chip creep does not directly cause the system to feel physically hot.",
+      D: "Duty cycle settings govern the frequency of power pulses sent to the fan to control its speed, which is managed by the motherboard firmware. Removing a physical piece of metal from the case does not alter the firmware's duty cycle programming."
+    },
+    examTrap: "Understanding that more physical openings in a PC case do not equate to better cooling; proper thermodynamics require sealed channels."
+  },
+  {
+    id: "Q008",
+    topic: "UEFI Configuration Tools",
+    difficulty: "Easy",
+    scenario: "You need to enable Secure Boot on a modern Windows 10 workstation to comply with new security policies. However, the computer utilizes an NVMe SSD and boots so quickly that the vendor logo flashes for less than a second, causing you to repeatedly miss the F2 key prompt to enter the firmware setup.",
+    prompt: "What is the most efficient software tool or method to access the UEFI setup program in this scenario?",
+    choices: [
+      { key: "A", text: "Open Command Prompt and run the bootrec /fixmbr command." },
+      { key: "B", text: "Shift-click the Restart button from the Windows logon screen to access boot options." },
+      { key: "C", text: "Use the Windows Disk Management utility to mark the UEFI partition as active." },
+      { key: "D", text: "Remove the RTC coin-cell battery from the motherboard to clear the NVRAM." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"boots so quickly... causing you to repeatedly miss the F2 key prompt\".",
+    explanationCorrect: "Modern computer systems with fast storage (like NVMe SSDs) often boot too rapidly for a user to press the traditional interrupt keys (F2, Del, Esc). To bypass this issue and reliably access the firmware setup, you can Shift-click the Restart button from the Windows OS logon screen, which signals Windows to reboot directly into the Advanced Startup menu, granting access to UEFI firmware settings.",
+    explanationIncorrect: {
+      A: "The bootrec /fixmbr command is used in the Windows Recovery Environment to repair a corrupted Master Boot Record. It does not provide access to the UEFI firmware setup menus.",
+      B: "",
+      C: "The Disk Management utility configures logical OS partitions. Only one primary partition can be marked as active for booting the OS, but this does not trigger the motherboard to pause at the UEFI setup screen.",
+      D: "Removing the Real-Time Clock (RTC) coin-cell battery will reset the system date/time and clear configuration data stored in volatile memory. This is a destructive troubleshooting step for clearing forgotten BIOS passwords, not an efficient administrative method simply to access a menu."
+    },
+    examTrap: "Knowing OS-level shortcuts to access hardware-level firmware interfaces on modern fast-booting devices."
+  },
+  {
+    id: "Q009",
+    topic: "Display Settings and Hardware",
+    difficulty: "Medium",
+    scenario: "A user working by a large window submits a ticket claiming their TFT/LED flat-panel monitor is failing. They state the display is perfectly bright in the morning, but by late afternoon, the image becomes very dim and barely visible, despite the power LED remaining solid green.",
+    prompt: "What is the most likely cause of this specific symptom, and what is the best first step to resolve it?",
+    choices: [
+      { key: "A", text: "The display's LED backlight is failing; the best step is to replace the monitor under warranty." },
+      { key: "B", text: "The monitor has suffered display burn-in; the best step is to run pixel cycling software." },
+      { key: "C", text: "The monitor's ambient light sensor is triggering a power-saving mode; the best step is to adjust the On-Screen Display (OSD) settings." },
+      { key: "D", text: "The video adapter is overheating during the day; the best step is to connect the monitor to another computer to isolate the issue." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"working by a large window\", \"perfectly bright in the morning\", and \"late afternoon, the image becomes very dim\".",
+    explanationCorrect: "Dimming images that correlate directly with time of day or environmental lighting changes are heavily indicative of software features rather than hardware failure. Modern monitors often include power-saving modes, adaptive brightness, or eye-saving features that are triggered automatically by ambient light sensors or internal clocks. The best first step is to access the monitor's OSD to disable these features before declaring the hardware faulty.",
+    explanationIncorrect: {
+      A: "While a barely visible image can indicate a failed LED backlight, backlights typically fail permanently or flicker uncontrollably. A failure that consistently occurs only in the late afternoon points to an automated setting rather than a broken bulb.",
+      B: "Display burn-in leaves a permanent \"ghost\" image of a static graphic on the screen; it does not cause the entire display to globally dim at specific times of day.",
+      C: "",
+      D: "A failing or overheating video card typically causes the screen to flash, artifact, or present a Blue Screen of Death. It does not smoothly dim the monitor's backlight to a lower state."
+    },
+    examTrap: "Differentiating between a failing hardware component (backlight) and an automated configuration feature (adaptive brightness)."
+  },
+  {
+    id: "Q010",
+    topic: "Storage Hardware Diagnostics",
+    difficulty: "Easy",
+    scenario: "A user reports that their Windows 10 desktop is experiencing extremely long application load times and frequent system freezing. The technician observes continuous, solid LED disk activity on the front panel and hears a distinct, loud clicking sound originating from the computer chassis.",
+    prompt: "Based on the observed symptoms, what is occurring, and what is the required remediation?",
+    choices: [
+      { key: "A", text: "The system is experiencing file fragmentation; remediation requires running the Windows Defragment utility." },
+      { key: "B", text: "The Hard Disk Drive (HDD) is experiencing mechanical failure; remediation requires immediate data backup and drive replacement." },
+      { key: "C", text: "The Solid State Drive (SSD) is experiencing bad blocks; remediation requires running S.M.A.R.T. diagnostics to remap the sectors." },
+      { key: "D", text: "The system lacks sufficient RAM, causing disk thrashing; remediation requires upgrading the memory modules." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"continuous, solid LED disk activity\" and \"distinct, loud clicking sound\".",
+    explanationCorrect: "A healthy Hard Disk Drive (HDD) emits only a low-level humming noise; loud grinding, clicking, or scraping noises are definitive physical symptoms of mechanical failure within the drive's moving parts. When mechanical failure is imminent, the absolute required remediation is to back up data immediately and replace the physical drive to prevent total data loss.",
+    explanationIncorrect: {
+      A: "File fragmentation causes extended read/write times on an HDD, but it does not produce loud clicking or scraping noises, which signify physical, not logical, issues.",
+      B: "",
+      C: "Solid State Drives (SSDs) have no moving parts. Therefore, they cannot physically produce a \"loud clicking sound\".",
+      D: "Insufficient RAM can indeed cause constant LED activity (disk thrashing) as the OS excessively pages virtual memory to the storage drive. However, memory paging does not cause a hard drive to emit loud clicking sounds unless the drive is also mechanically failing."
+    },
+    examTrap: "Recognizing the \"click of death\" as a critical, unrecoverable hardware failure rather than a logical software or performance issue."
+  },
+  {
+    id: "Q011",
+    topic: "OS Troubleshooting and Tool Selection",
+    difficulty: "Medium",
+    scenario: "An employee complains that their computer abruptly crashed, displaying a screen with a sad face and a QR code. However, the system restarted so quickly that they could not read the stop code or scan the QR code to determine the cause.",
+    prompt: "Which administrative tool should the technician use to retrieve the exact hex value of this specific crash event?",
+    choices: [
+      { key: "A", text: "The firmware setup program (UEFI) to check S.M.A.R.T. logs." },
+      { key: "B", text: "The Windows Disk Management utility to check partition health." },
+      { key: "C", text: "The Windows Event Viewer to check the System log for a \"BugCheck\" source." },
+      { key: "D", text: "The Device Manager to scan for hardware changes and yellow exclamation marks." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"sad face and a QR code\" and \"retrieve the exact hex value\".",
+    explanationCorrect: "The screen described by the user is the proprietary Windows Blue Screen of Death (BSOD). When a BSOD occurs, the OS automatically logs the specific crash data and exact stop codes in the Windows Event Viewer, specifically located within the System log under the source name \"BugCheck\".",
+    explanationIncorrect: {
+      A: "S.M.A.R.T. (Self-Monitoring Analysis and Reporting Technology) logs are internal drive diagnostics that report on the health and degradation of physical storage disks. They do not record Windows OS crash dump hex codes.",
+      B: "Windows Disk Management is used to initialize, partition, and format storage drives. It does not contain operating system crash logs or BSOD BugCheck events.",
+      C: "",
+      D: "Device Manager is used to view hardware components and update incompatible device drivers, which can be the root cause of a BSOD. However, Device Manager itself does not store historical event logs or the exact hex value of a past crash."
+    },
+    examTrap: "Knowing exactly where the OS stores historical diagnostic data after a transient crash screen disappears."
+  },
+  {
+    id: "Q012",
+    topic: "Performance Troubleshooting",
+    difficulty: "Hard",
+    scenario: "A user wanted to improve their desktop's compute performance, so they purchased and installed an additional 16GB RAM module, matching the exact speed of their existing 8GB module. After booting the OS successfully, the user runs a benchmark and finds that system performance is actually notably more sluggish than before. Diagnostic tools confirm CPU temperatures are steady at 45°C, and the OS registers 24GB of RAM total.",
+    prompt: "What is the most likely cause of this sluggish performance?",
+    choices: [
+      { key: "A", text: "The CPU is thermally throttling performance to avoid damage from the increased power draw of the new RAM." },
+      { key: "B", text: "The asymmetrical RAM upgrade disabled dual-channel mode on the motherboard, reducing bandwidth." },
+      { key: "C", text: "The new RAM module contains corrupted S.M.A.R.T. blocks, causing application load issues." },
+      { key: "D", text: "The system firmware was not updated prior to installation, causing the POST to fail." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"existing 8GB module\", \"additional 16GB RAM module\", and \"sluggish than before.\"",
+    explanationCorrect: "When sluggish performance occurs immediately after a hardware upgrade, technicians must verify configuration misconfigurations. Installing mis-matched memory capacities (an 8GB stick alongside a 16GB stick) often forces the motherboard out of high-speed dual-channel mode and into slower single-channel mode, which creates a compute bottleneck and reduces overall system performance despite the higher total capacity.",
+    explanationIncorrect: {
+      A: "High temperatures can indeed cause the CPU to throttle performance to prevent hardware damage. However, the scenario explicitly states that the CPU temperature is a steady, safe 45°C, ruling out thermal throttling.",
+      B: "",
+      C: "S.M.A.R.T. (Self-Monitoring Analysis and Reporting Technology) is a self-diagnostic program implemented on fixed disk storage drives (HDDs and SSDs), not on volatile system RAM.",
+      D: "If the system firmware caused the POST (Power-On Self-Test) to fail, the computer would not boot into the OS at all, and the user would not be able to run OS-level benchmark tests. The scenario states the OS booted successfully and recognized the 24GB."
+    },
+    examTrap: "Understanding the \"What has changed?\" troubleshooting principle and recognizing that higher capacity upgrades can cause configuration bottlenecks if architecture rules (like dual-channel matching) are ignored."
+  },
+  {
+    id: "Q013",
+    topic: "Integration (Hardware + Security)",
+    difficulty: "Medium",
+    scenario: "A company places a Windows 10 kiosk in the public lobby for guest registration. The IT department receives multiple tickets stating that the kiosk displays an \"Operating System Not Found\" error every morning. A technician discovers that the overnight cleaning crew has been plugging their smartphones into the kiosk’s front USB ports to charge them while vacuuming. The security team mandates that the USB ports must remain active for charging, but the boot error must be permanently prevented.",
+    prompt: "Which UEFI configuration provides the policy-compliant solution to this problem?",
+    choices: [
+      { key: "A", text: "Access the UEFI Security tab and change the \"USB Interface\" setting to Locked." },
+      { key: "B", text: "Modify the UEFI Boot Sequence to prioritize the internal Fixed Disk over USB devices." },
+      { key: "C", text: "Enable Secure Boot in the UEFI to block the smartphone's unverified OS from loading." },
+      { key: "D", text: "Configure a Setup/BIOS Password to prevent the cleaning crew from accessing the boot menu." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"must remain active for charging\" and \"Operating System Not Found\".",
+    explanationCorrect: "The error occurs because the system firmware searches bootable devices in the order specified in the boot sequence. When the smartphone is plugged in, the UEFI detects it as a USB storage device and attempts to boot from it before the internal hard drive, failing to find a valid OS. By modifying the boot priority to place the Fixed Disk at the top of the sequence, the computer will bypass the USB ports during the boot process, allowing the OS to load normally while preserving the physical USB ports' power delivery for charging.",
+    explanationIncorrect: {
+      A: "Locking the USB Interface in the UEFI security settings disables the ports entirely at the hardware level. While this stops the boot error, it violates the explicit security team mandate that the ports must remain active for charging.",
+      B: "",
+      C: "Secure Boot verifies the digital signature of the bootloader to prevent malware. While it would block an unauthorized OS from running, the firmware would still halt at the USB device and fail to boot the internal drive if the boot order is not corrected, failing to resolve the morning error.",
+      D: "A Setup/BIOS Password prevents unauthorized users from changing firmware settings. It does not stop the system from attempting to boot from a connected USB device if the boot order is already misconfigured."
+    },
+    examTrap: "Confusing USB security lockdowns with basic boot sequence prioritization to meet a dual-requirement scenario."
+  },
+  {
+    id: "Q014",
+    topic: "OS Performance Diagnostics",
+    difficulty: "Hard",
+    scenario: "A user complains that their workstation is suffering from severe application load delays and general sluggishness. The technician confirms there are no unusual sounds coming from the PC chassis. S.M.A.R.T. diagnostics report \"Pass\" with no warnings for seek error rates or reallocated sector counts. However, the system's disk activity LED is solidly lit without blinking.",
+    prompt: "What is the most likely cause of this performance bottleneck, and what is the appropriate remediation?",
+    choices: [
+      { key: "A", text: "The HDD is experiencing mechanical failure; remediation requires immediately backing up data and replacing the drive." },
+      { key: "B", text: "The system has insufficient RAM causing excessive disk paging; remediation requires installing additional memory modules." },
+      { key: "C", text: "The SSD has exhausted its memory cell lifespan; remediation requires running chkdsk to map out the bad blocks." },
+      { key: "D", text: "The CPU is thermally throttling due to a failed heat sink; remediation requires reapplying thermal paste." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"no unusual sounds\", \"S.M.A.R.T. diagnostics report Pass\", and \"disk activity LED is solidly lit\".",
+    explanationCorrect: "A constantly lit disk activity LED (known as disk thrashing) indicates the storage drive is being overworked. Because S.M.A.R.T. tests pass and there are no clicking/grinding noises, mechanical drive failure is ruled out. The most likely cause is that the system lacks sufficient RAM to handle active applications, forcing the operating system to continuously page virtual memory data back and forth to the much slower fixed disk, causing severe sluggishness. Upgrading the system memory directly resolves this bottleneck.",
+    explanationIncorrect: {
+      A: "A mechanical failure of a Hard Disk Drive (HDD) is almost always accompanied by a loud grinding, clicking, or scraping sound. Furthermore, an imminent mechanical failure would likely trigger S.M.A.R.T. warnings, which are absent here.",
+      B: "",
+      C: "When an SSD exhausts its lifespan or develops bad blocks, it generally causes read/write failure errors or BSODs, not continuous disk thrashing. Additionally, S.M.A.R.T. diagnostics would explicitly flag the degradation of memory cells.",
+      D: "While a thermally throttling CPU causes system sluggishness, it does not cause constant, solid disk LED activity (thrashing). A throttling CPU slows compute tasks, independent of storage read/write queues."
+    },
+    examTrap: "Recognizing that a storage symptom (disk thrashing) is frequently caused by a memory deficiency (lack of RAM) rather than a failing storage device."
+  },
+  {
+    id: "Q015",
+    topic: "POST and Hardware Troubleshooting",
+    difficulty: "Easy",
+    scenario: "A user reports that their desktop computer will not boot into Windows. Upon pressing the power button, the fans spin up and the power LEDs illuminate, but the screen remains blank. The internal speaker repeatedly emits a sequence of 3 long beeps. The user mentions they spilled a small amount of soda on their desk yesterday but wiped it up immediately.",
+    prompt: "Based on standard diagnostic beep codes, what is the Most Likely cause of the boot failure?",
+    choices: [
+      { key: "A", text: "The motherboard's memory controller has short-circuited." },
+      { key: "B", text: "A key on the keyboard is physically stuck or depressed." },
+      { key: "C", text: "The video adapter is improperly seated or has failed." },
+      { key: "D", text: "The power supply is failing to send the \"power good\" signal." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"3 long beeps\" and \"spilled a small amount of soda\".",
+    explanationCorrect: "During the Power-On Self-Test (POST), hardware errors that prevent booting are communicated via audible beep codes. According to standard PC beep codes, 3 long beeps specifically indicate a keyboard issue, such as a key being permanently depressed. Given the recent soda spill, a sticky liquid has likely caused a key to physically stick in the down position, halting the boot process.",
+    explanationIncorrect: {
+      A: "A problem with the system memory modules or the motherboard's memory controller typically produces a continuous, unbroken beep, not exactly 3 long beeps.",
+      B: "",
+      C: "A video adapter error, such as a failed GPU or unseated card, is conventionally indicated by 1 long beep followed immediately by 2 or 3 short beeps.",
+      D: "If the power supply fails to send the \"power good\" signal to the CPU, the POST process will not initiate at all. This results in complete silence (no beeps) and a blank screen, despite the fans receiving power."
+    },
+    examTrap: "Direct memorization of standard legacy beep codes combined with practical environmental clues (spilled sticky liquid)."
+  },
+  {
+    id: "Q016",
+    topic: "Motherboard Diagnostics and Components",
+    difficulty: "Medium",
+    scenario: "Following a severe thunderstorm and localized power surge, a desktop workstation begins rebooting continuously after 15 minutes of use. A technician opens the case, removes the dust, and visually inspects the motherboard. The technician notices that several small, cylindrical components near the CPU socket have bulging, rounded tops and a small amount of dried, crusty residue leaking from them.",
+    prompt: "What is the technical term for this physical damage, and what is the best next step?",
+    choices: [
+      { key: "A", text: "Chip creep; the technician should firmly press the components back into their sockets." },
+      { key: "B", text: "Blown fuses; the technician should use a multimeter to test resistance and replace them." },
+      { key: "C", text: "Capacitor swelling; the technician should use diagnostic software to confirm the problem." },
+      { key: "D", text: "Electrostatic discharge (ESD); the technician should replace the entire motherboard." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"cylindrical components... bulging, rounded tops\" and \"crusty residue\".",
+    explanationCorrect: "The cylindrical components that regulate electricity flow on a motherboard are called capacitors. When damaged by electrical spikes or manufacturing defects, they often exhibit \"capacitor swelling,\" where the flat top bulges outward, sometimes leaking dielectric fluid (crusty residue). According to specific hardware troubleshooting procedures, if the motherboard shows physical damage like this, running vendor diagnostic software is essential to confirm the exact scope of the problem before attempting time-consuming manual component testing.",
+    explanationIncorrect: {
+      A: "Chip creep occurs when adapter cards or older socketed chips slowly work themselves loose due to repeated thermal expansion and contraction. Capacitors are soldered directly to the board and do not \"creep.\"",
+      B: "While power surges can blow internal PSU fuses, the cylindrical components described on the motherboard are capacitors, not replaceable inline fuses. Motherboard components are generally not user-serviceable with a multimeter in the field.",
+      C: "",
+      D: "ESD causes invisible, microscopic damage to silicon chips, not massive physical deformations or fluid leaks. While replacing the motherboard will ultimately be necessary, calling it ESD damage is technically incorrect based on the visual evidence."
+    },
+    examTrap: "Recognizing the specific visual symptoms of blown capacitors vs other physical motherboard failures, and knowing the quirky CompTIA/vendor procedure of confirming physical faults with diagnostic software."
+  },
+  {
+    id: "Q017",
+    topic: "RAID Troubleshooting and Methodology",
+    difficulty: "Hard",
+    scenario: "A video production studio utilizes a hardware-based RAID 0 configuration across two 2TB NVMe drives to achieve maximum read/write speeds for scrubbing 8K video files. The editor arrives in the morning to find the OS has halted with a blue screen. Upon rebooting into the RAID configuration utility, Drive 1 shows a red LED status of \"Missing\" and the volume is marked \"Inactive.\"",
+    prompt: "What is the actual state of the volume's data, and what is the required remediation?",
+    choices: [
+      { key: "A", text: "The data is intact but degraded; the technician should hot-swap the missing drive and rebuild the array to restore performance." },
+      { key: "B", text: "The data is completely lost; the technician must replace the failed drive, recreate the array, and restore files from an external backup." },
+      { key: "C", text: "The data is locked by the controller; the technician should import the surviving disk into another system to recover the files." },
+      { key: "D", text: "The data is partially corrupted; the technician should boot to the OS recovery environment and run bootrec to repair the volume." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"RAID 0 configuration\" and \"speed prioritized\".",
+    explanationCorrect: "RAID 0 (Disk Striping) is designed purely for performance and features absolutely zero redundancy. Data is striped equally across all disks in the array. Therefore, if a single disk fails or goes \"Missing,\" the entire volume fails catastrophically, and 100% of the data is lost. The only remediation is to physically replace the dead drive, initialize a brand new RAID 0 array, and restore the working files from a separate, external backup source.",
+    explanationIncorrect: {
+      A: "This describes the behavior and remediation for RAID 1 (Mirroring) or RAID 5 (Parity), which can tolerate a single disk failure, enter a \"degraded\" state, and be rebuilt using a hot-spare. RAID 0 cannot be rebuilt.",
+      B: "",
+      C: "Because data is striped in blocks across both disks, the surviving disk only contains half of the binary data, rendering it completely useless. Importing a single RAID 0 disk to another controller will not yield recoverable files.",
+      D: "Running OS-level commands like bootrec is used for repairing logical MBR/GPT corruption on a healthy physical drive. It cannot fix a broken hardware RAID 0 volume missing half of its physical storage medium."
+    },
+    examTrap: "Understanding the fatal consequence of a RAID 0 drive failure versus fault-tolerant RAID arrays (RAID 1/5/10)."
+  },
+  {
+    id: "Q018",
+    topic: "Display Troubleshooting (Interference vs Hardware)",
+    difficulty: "Medium",
+    scenario: "An industrial warehouse uses an older Cathode Ray Tube (CRT) monitor connected to a legacy inventory system. The user reports that the image looks severely distorted, specifically describing the edges of the screen bowing inward toward the center, making the text look like an hourglass.",
+    prompt: "Which of the following is the most likely cause of this specific geometric warping, and how should it be resolved?",
+    choices: [
+      { key: "A", text: "Display burn-in; resolve it by running pixel cycling software overnight." },
+      { key: "B", text: "Pincushion effect; resolve it by adjusting the geometry settings in the monitor's OSD." },
+      { key: "C", text: "A mismatched native resolution; resolve it by updating the legacy video drivers." },
+      { key: "D", text: "A failing backlight; resolve it by replacing the internal LED array." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"CRT monitor\", \"edges of the screen bowing inward\", and \"hourglass\".",
+    explanationCorrect: "Geometric warping where the edges of the image bow inward toward the center is known as the \"pincushion effect.\" This is a classic symptom unique to analog Cathode Ray Tube (CRT) monitors due to the magnetic deflection of the electron beam. It is not a fatal hardware failure; it is resolved by accessing the monitor's On-Screen Display (OSD) or physical dials and adjusting the pincushion/geometry settings to straighten the image.",
+    explanationIncorrect: {
+      A: "Burn-in leaves a permanent ghosted shadow of a static image on the screen phosphor. It does not cause the active, moving image to physically warp or bow inward.",
+      B: "",
+      C: "A mismatched native resolution on a digital flat-panel display causes the image to look fuzzy, blurred, or stretched. It does not cause the specific hourglass-shaped geometric warping seen in CRTs.",
+      D: "CRTs do not use LED backlights; they use electron guns and phosphor screens. A failing backlight on a modern TFT/LED monitor causes a dim or entirely black screen, not geometric distortion."
+    },
+    examTrap: "Recalling legacy display troubleshooting terms (pincushion) and matching them exclusively to CRT technology rather than flat-panel symptoms."
+  },
+  {
+    id: "Q019",
+    topic: "System Performance Integration (Hardware + Expansion)",
+    difficulty: "Hard",
+    scenario: "A gamer builds a new high-end PC using a premium motherboard. They install a top-tier CPU, ample RAM, and a brand new PCIe 4.0 NVMe Solid State Drive (SSD) in the M.2 slot. After installing the OS, the user runs a benchmark test and discovers the SSD is operating at exactly half of its advertised maximum bandwidth. The user has verified the drive is healthy and the CPU is not overheating.",
+    prompt: "What is the MOST likely cause of this specific performance bottleneck?",
+    choices: [
+      { key: "A", text: "The NVMe drive is installed in a motherboard slot that only supports PCIe 3.0 lanes." },
+      { key: "B", text: "The SATA controller in the UEFI is set to IDE mode instead of AHCI mode." },
+      { key: "C", text: "The system memory is configured in single-channel mode, restricting data throughput." },
+      { key: "D", text: "The SSD contains heavily fragmented files, requiring the Windows Defragment utility." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"PCIe 4.0 NVMe\", \"operating at exactly half\", and \"bottleneck\".",
+    explanationCorrect: "NVMe drives communicate directly with the CPU via PCIe lanes. Each generation of PCIe doubles the bandwidth of the previous one. If a user installs a PCIe 4.0 drive into a motherboard M.2 slot that is physically wired for or limited to PCIe 3.0 speeds, the drive will function normally but will bottleneck at the motherboard's maximum interface speed, effectively cutting the advertised PCIe 4.0 bandwidth exactly in half.",
+    explanationIncorrect: {
+      A: "",
+      B: "NVMe drives use the PCIe interface, completely bypassing the legacy SATA controller. Changing SATA modes (IDE/AHCI/RAID) in the UEFI has zero effect on M.2 NVMe drive performance.",
+      C: "While running RAM in single-channel mode reduces memory bandwidth and can bottleneck CPU compute tasks, it does not directly cut an NVMe storage drive's raw sequential read/write benchmark speeds in half.",
+      D: "Solid State Drives (SSDs) do not suffer from mechanical read/write delays caused by file fragmentation, and running defragmentation utilities on flash memory is actually harmful to the drive's lifespan."
+    },
+    examTrap: "Integrating storage hardware knowledge (NVMe) with motherboard architecture limitations (PCIe lane generations)."
+  },
+  {
+    id: "Q020",
+    topic: "Integration (Networking + Hardware Timekeeping)",
+    difficulty: "Easy",
+    scenario: "A user returns from a month-long leave and powers on their workstation. They are immediately denied logon access to the corporate network domain, receiving a Kerberos authentication error. A local technician logs in with an offline administrator account and notices the Windows taskbar clock is displaying a date from eight years ago.",
+    prompt: "What is the most likely cause of this issue, and what is the required remediation?",
+    choices: [
+      { key: "A", text: "The NTP server is offline; remediate by manually configuring the time zone in Windows." },
+      { key: "B", text: "The CMOS CR2032 battery has failed; remediate by replacing the coin-cell battery on the motherboard." },
+      { key: "C", text: "The CPU's internal clock multiplier has reset; remediate by updating the motherboard firmware." },
+      { key: "D", text: "The Trusted Platform Module (TPM) has lost its hash keys; remediate by clearing the TPM in UEFI." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"denied logon access... Kerberos\", \"month-long leave\", and \"date from eight years ago\".",
+    explanationCorrect: "When a computer is powered off or unplugged for extended periods, it relies on the Real-Time Clock (RTC) coin-cell battery (usually a CR2032 lithium battery) on the motherboard to maintain the system date and time. If this battery dies, the system clock reverts to its factory default date upon boot. Incorrect time settings immediately break time-sensitive network authentication protocols like Kerberos, denying domain access. The fix is replacing the physical battery.",
+    explanationIncorrect: {
+      A: "Network Time Protocol (NTP) servers sync the OS clock to the internet. While a failed NTP sync might cause a minor time drift, it would not cause the system to drop back eight entire years. This massive loss of time indicates a hardware RTC failure.",
+      B: "",
+      C: "The CPU clock multiplier dictates the processing speed (GHz) of the processor by multiplying the front-side bus speed. It has absolutely nothing to do with keeping track of the calendar date or time of day.",
+      D: "The TPM securely stores cryptographic keys for features like Secure Boot and BitLocker. If the TPM fails or is cleared, the system might ask for a BitLocker recovery key, but it would not cause the OS taskbar to display a date from 2015."
+    },
+    examTrap: "Connecting a logical networking symptom (domain auth failure) to a physical hardware failure (dead CR2032 battery)."
+  },
+  {
+    id: "Q021",
+    topic: "Display Troubleshooting and Configuration",
+    difficulty: "Medium",
+    scenario: "A user replaces their old 1080p monitor with a brand new 4K (3840x2160) TFT/LED display. They use the old HDMI cable they found behind their desk to connect it. The monitor powers on and displays the Windows desktop, but the user complains the image is \"soft, blurry, and fuzzy,\" and the Display Settings only allow a maximum resolution of 1920x1080.",
+    prompt: "What is the most likely cause of the fuzzy image, and how should it be resolved?",
+    choices: [
+      { key: "A", text: "The monitor has a dead pixel array; resolve by replacing the display under warranty." },
+      { key: "B", text: "The old HDMI cable lacks the bandwidth for 4K; resolve by using a High-Speed rated cable." },
+      { key: "C", text: "The monitor's ambient light sensor is malfunctioning; resolve by adjusting the OSD gamma settings." },
+      { key: "D", text: "The video card is overheating; resolve by pointing a desk fan at the open PC case." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"old HDMI cable\", \"fuzzy\", and \"maximum resolution of 1920x1080\".",
+    explanationCorrect: "A \"fuzzy\" or soft image on a digital flat-panel display is almost always caused by a mismatch between the OS output resolution and the monitor's physical native resolution (e.g., feeding a 1080p signal to a 4K screen). In this scenario, the OS is restricting the output to 1080p because the legacy/basic HDMI cable lacks the required specification/bandwidth to transmit a 4K signal. Replacing it with a High-Speed rated HDMI cable will allow the OS to output native 4K, clearing the fuzzy scaling issue.",
+    explanationIncorrect: {
+      A: "Dead pixels manifest as tiny, permanent black squares on the screen. They do not cause the entire screen to look generally \"soft, blurry, and fuzzy,\" nor do they restrict the OS resolution options.",
+      B: "",
+      C: "The ambient light sensor controls the backlight brightness based on the room's lighting. A malfunctioning sensor might cause a dim or flickering image, but it does not alter the signal resolution or cause image blurring.",
+      D: "An overheating video card typically causes the system to lock up, produce visual artifacts (colored squares/lines), or trigger a Blue Screen of Death. It does not neatly restrict resolution outputs to 1080p while maintaining a stable, albeit fuzzy, desktop."
+    },
+    examTrap: "Recognizing that cables have generation specifications (bandwidth limits), and when those limits are hit, the resulting native resolution mismatch causes blurring."
+  },
+  {
+    id: "Q022",
+    topic: "Display Troubleshooting (Screen Artifacts)",
+    difficulty: "Easy",
+    scenario: "A user submits a ticket stating their brand new LED flat-panel monitor is defective. They complain that there is a permanent, bright green dot stuck in the upper-right corner of the screen that never goes away, even when viewing a completely black background. They demand a replacement for \"burn-in.\"",
+    prompt: "How should the technician accurately classify this symptom, and what is the best first step to resolve it without hardware replacement?",
+    choices: [
+      { key: "A", text: "It is display burn-in; use the OSD to trigger the display's auto-off function." },
+      { key: "B", text: "It is a dead pixel; run the Windows Display Color Calibration tool." },
+      { key: "C", text: "It is a stuck pixel; attempt to resolve it by running pixel cycling software." },
+      { key: "D", text: "It is an overheated video card; attempt to resolve it by updating the GPU driver." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"permanent, bright green dot\" and \"even when viewing a completely black background\".",
+    explanationCorrect: "A single, constantly bright point of light on an LCD/LED monitor is technically classified as a \"stuck pixel\" (where the sub-pixel remains permanently \"on\" in a red, green, or blue state). Before declaring the monitor defective or replacing it, the best non-invasive first step is to run third-party pixel cycling software, which rapidly flashes colors on the screen in an attempt to unstick the transistor, or to gently tap the area.",
+    explanationIncorrect: {
+      A: "Burn-in occurs when a static image (like a taskbar or logo) is displayed for so long that a faint \"ghost\" image remains permanently shadowed on the screen. A single, distinct, brightly colored dot is a pixel defect, not burn-in.",
+      B: "A \"dead\" pixel is a pixel that receives no power and appears as a permanent black dot on the screen, not a bright green dot. Furthermore, the Color Calibration tool adjusts gamma and color balance; it cannot fix physical pixel defects.",
+      C: "",
+      D: "An overheating video card produces large, geometric visual artifacts, screen tearing, or system crashes. It does not produce a single, perfectly stable, isolated bright pixel on an otherwise perfectly functioning display."
+    },
+    examTrap: "Differentiating between the exact symptoms of a stuck pixel (bright color) vs a dead pixel (black) vs burn-in (ghost image)."
+  },
+  {
+    id: "Q023",
+    topic: "OS Errors and Crash Diagnostics",
+    difficulty: "Medium",
+    scenario: "A user's Windows laptop suddenly crashes to a proprietary blue error screen. The user manages to take a blurry photo of the screen with their phone, but the QR code is illegible, and the text is cut off. They bring the laptop to the IT desk. The technician boots the laptop successfully into Windows and needs to identify the exact cause of the crash.",
+    prompt: "Which administrative tool and specific source should the technician query to find the exact hex value of the error?",
+    choices: [
+      { key: "A", text: "The Performance Monitor, searching for the \"Kernel-Power\" counter." },
+      { key: "B", text: "The Device Manager, searching for devices with a yellow exclamation mark." },
+      { key: "C", text: "The UEFI Firmware setup, searching for S.M.A.R.T. diagnostic logs." },
+      { key: "D", text: "The Event Viewer, searching the System log for the \"BugCheck\" source." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"boots the laptop successfully into Windows\" and \"find the exact hex value\".",
+    explanationCorrect: "When a Windows system experiences a catastrophic failure resulting in a Blue Screen of Death (BSOD), the operating system automatically records the specific error data, including the hex stop code, into the system's event logs before rebooting. To view this historical crash data, the technician must open the Windows Event Viewer, navigate to the System log, and filter for the specific source named \"BugCheck\".",
+    explanationIncorrect: {
+      A: "Performance Monitor is used for real-time tracking of system resource utilization (CPU, memory, disk I/O) against baseline metrics. It does not store historical OS crash dump files or hex stop codes.",
+      B: "Device Manager identifies hardware components and flags failing devices or missing drivers with a yellow exclamation mark. While a bad driver can cause a BSOD, Device Manager does not log the historical event or display the hex code of the crash itself.",
+      C: "S.M.A.R.T. logs are generated by the firmware of fixed disk drives to warn of impending mechanical storage failure. They do not record operating system-level memory faults or BSOD crash codes.",
+      D: ""
+    },
+    examTrap: "Knowing exactly where the OS stores proprietary crash data (Event Viewer -> System Log -> BugCheck) once the physical blue screen is gone."
+  },
+  {
+    id: "Q024",
+    topic: "Boot Sector and OS Integration",
+    difficulty: "Hard",
+    scenario: "A developer is dual-booting Windows 10 and a custom-compiled, legacy Linux distribution on a modern workstation. After configuring the partition tables and installing the Linux bootloader (GRUB) into the active boot sector, the system refuses to boot the Linux OS. The firmware displays an error stating the bootloader has been modified or is unauthorized, and halts the boot process. Windows 10, however, boots perfectly when selected.",
+    prompt: "What is preventing the Linux distribution from booting, and how must the UEFI be configured to resolve it?",
+    choices: [
+      { key: "A", text: "The Trusted Platform Module (TPM) has locked the MBR; the UEFI must be configured to clear the TPM hash keys." },
+      { key: "B", text: "Secure Boot is rejecting the unsigned Linux bootloader; the UEFI must be configured to add the custom keys or disable Secure Boot." },
+      { key: "C", text: "The boot sequence is prioritizing the optical drive over the fixed disk; the UEFI must be configured to place the hard drive first." },
+      { key: "D", text: "The SATA controller is missing the Linux driver; the UEFI must be configured to switch from RAID mode to AHCI mode." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"custom-compiled, legacy Linux\", \"bootloader has been modified or is unauthorized\", and \"firmware displays an error\".",
+    explanationCorrect: "Modern UEFI systems feature \"Secure Boot,\" a security mechanism that prevents malware by checking the operating system's bootloader against pre-loaded cryptographic keys to verify its integrity. While major OSs (like Windows and mainstream Linux distros) have pre-loaded keys, custom-compiled or legacy bootloaders lack these digital signatures. Because it is unsigned, Secure Boot rejects it as \"unauthorized\" and halts the process. The developer must either manually add their custom cryptographic keys into the UEFI or disable Secure Boot entirely to allow the untrusted code to run.",
+    explanationIncorrect: {
+      A: "While the TPM securely stores keys and measures boot integrity, it does not physically \"lock\" the Master Boot Record. Clearing the TPM is a destructive action that would wipe existing BitLocker keys for Windows and would not solve the signature verification issue for the Linux bootloader.",
+      B: "",
+      C: "If the boot sequence were prioritizing an empty optical drive, the system would simply bypass it and move to the next device, eventually finding the hard drive. It would not generate an \"unauthorized bootloader\" signature error.",
+      D: "While SATA controller modes (AHCI vs RAID) can cause an OS to fail to load if it lacks drivers, this typically results in a blue screen or kernel panic after the bootloader executes. It does not cause the motherboard firmware to block the bootloader from executing in the first place due to an \"unauthorized\" status."
+    },
+    examTrap: "Understanding the specific function of Secure Boot (signature verification of bootloaders) and integrating it with multi-OS boot sector troubleshooting."
+  },
+  {
+    id: "Q025",
+    topic: "Integration (Security + Firmware Options)",
+    difficulty: "Hard",
+    scenario: "A corporate compliance mandate requires that all local storage drives on legacy servers must be encrypted using Windows BitLocker. You are tasked with configuring an older server that lacks a built-in Trusted Platform Module (TPM) chip on its motherboard. Management refuses to replace the server but insists the encryption requirement must be met immediately.",
+    prompt: "What is the policy-compliant solution to securely store the cryptographic keys for this system without a TPM?",
+    choices: [
+      { key: "A", text: "Store the keys in a concealed partition on the Master Boot Record (MBR)." },
+      { key: "B", text: "Enable Secure Boot in the UEFI to simulate a root of trust for the keys." },
+      { key: "C", text: "Use a removable USB thumb drive as a Hardware Security Module (HSM)." },
+      { key: "D", text: "Configure a Supervisor Password in the UEFI to lock the encryption keys to the firmware." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"lacks a built-in Trusted Platform Module (TPM)\" and \"securely store the cryptographic keys\".",
+    explanationCorrect: "BitLocker requires a secure location to store its decryption keys, isolated from the operating system. When a motherboard lacks a TPM chip, the officially supported alternative is to use a secure, removable USB thumb drive to act as a Hardware Security Module (HSM). This module requires the user to authenticate (often via a PIN or password) to access the cryptographic material, satisfying the requirement for secure key storage without requiring a motherboard upgrade.",
+    explanationIncorrect: {
+      A: "The MBR (Master Boot Record) contains partition data and bootloader code; it is not a secure, tamper-resistant storage enclave for cryptographic keys. Storing keys on the very drive you are attempting to encrypt defeats the purpose of local encryption.",
+      B: "Secure Boot ensures that only digitally signed and trusted bootloaders can execute during startup. It does not provide storage or management for cryptographic volume encryption keys.",
+      C: "",
+      D: "A Supervisor Password restricts unauthorized users from entering and modifying the BIOS/UEFI setup program. It has absolutely no functionality related to storing or executing BitLocker cryptographic hashes."
+    },
+    examTrap: "Understanding the hardware dependencies of OS-level encryption (BitLocker) and knowing the physical workaround (HSM/USB) when the primary hardware requirement (TPM) is absent."
+  },
+  {
+    id: "Q026",
+    topic: "Integration (Networking + Boot Configuration)",
+    difficulty: "Medium",
+    scenario: "A technician is setting up a newly assembled Windows 10 workstation. Upon turning the system on, the screen bypasses the Windows logo and instead displays a black terminal reading: \"Broadcom NetXtreme Ethernet Boot Agent... Press Ctrl-S to Configure Device.\" After 30 seconds, it throws a \"DHCP timeout\" error and halts. The technician verifies that a healthy NVMe SSD with Windows installed is securely seated on the motherboard.",
+    prompt: "What is the most likely cause of this behavior, and how should it be resolved?",
+    choices: [
+      { key: "A", text: "The NVMe drive lacks an active partition; resolve by running the diskpart utility to assign one." },
+      { key: "B", text: "The boot sequence prioritizes PXE; resolve by moving the Fixed Disk to the top of the UEFI boot order." },
+      { key: "C", text: "The network cable is disconnected; resolve by securing the RJ45 connector to the wall jack." },
+      { key: "D", text: "The Master Boot Record (MBR) is corrupted; resolve by running the Windows Startup Repair tool." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Ethernet Boot Agent\", \"DHCP timeout\", and \"healthy NVMe SSD\".",
+    explanationCorrect: "The \"Ethernet Boot Agent\" message indicates that the system is attempting a Preboot Execution Environment (PXE) boot, which pulls OS installation files or boot instructions from a network server. Because the system is trying to boot from the network rather than the healthy NVMe drive containing Windows, the system firmware's boot sequence is misconfigured. The technician must enter the UEFI and move the Fixed Disk (NVMe) to a higher priority than the Network/PXE option.",
+    explanationIncorrect: {
+      A: "If the drive lacked an active partition, the system would typically throw an \"OS not found\" or \"Invalid drive specification\" error after attempting to boot from the disk. It would not actively initialize a network boot agent as its primary action unless the boot order was configured to do so first.",
+      B: "",
+      C: "While a disconnected cable explains the \"DHCP timeout\" (as it cannot reach the network server), fixing the cable connection would merely allow the network boot to succeed. It would not resolve the root issue, which is that the PC should be booting locally from its NVMe drive.",
+      D: "A corrupted MBR causes the system to fail to load the OS once the drive is queried. The system in this scenario isn't even querying the drive yet; it is stuck trying to boot from the network adapter due to priority settings."
+    },
+    examTrap: "Recognizing the visual symptoms of a PXE boot and attributing it to a simple UEFI boot priority misconfiguration rather than a failed local storage drive."
+  },
+  {
+    id: "Q027",
+    topic: "Peripheral and Display Connectors",
+    difficulty: "Easy",
+    scenario: "A user requests a dual-monitor setup. A technician connects Monitor 1 using a DisplayPort cable and Monitor 2 using a legacy DVI cable they found in a storage closet. Both screens display a crisp 1080p image. However, the user submits a ticket stating that while Monitor 1 plays sound through its built-in speakers perfectly, Monitor 2 produces no audio whatsoever, despite the Windows volume mixer showing active sound levels.",
+    prompt: "What is the definitive cause of the missing audio on Monitor 2?",
+    choices: [
+      { key: "A", text: "The video card's audio driver is incompatible with dual-monitor setups; updating the GPU firmware is required." },
+      { key: "B", text: "The DisplayPort connection is consuming all available audio bandwidth; switch both monitors to HDMI." },
+      { key: "C", text: "The ambient light sensor on Monitor 2 has disabled peripheral power to save energy; adjust the OSD." },
+      { key: "D", text: "The DVI standard does not support audio transmission; a different cable type or a separate audio cable is required." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"legacy DVI cable\" and \"produces no audio whatsoever\".",
+    explanationCorrect: "Cables and connectors have specific standard limitations. While newer digital standards like HDMI and DisplayPort are designed to carry both high-definition video and audio signals simultaneously over a single cable, the older Digital Visual Interface (DVI) standard was engineered exclusively for video. It is physically impossible for a standard DVI cable to transmit an audio signal to the monitor's speakers.",
+    explanationIncorrect: {
+      A: "Modern video cards and OS audio mixers are fully capable of handling multiple audio outputs simultaneously. A firmware update cannot force a video-only DVI cable to transmit an audio signal.",
+      B: "Audio bandwidth is incredibly small compared to video bandwidth, and DisplayPort does not \"monopolize\" or steal bandwidth from other discrete physical ports on a graphics card.",
+      C: "Ambient light sensors adjust the brightness of the display backlight based on the room's lighting conditions. They do not disable audio hardware or speakers.",
+      D: ""
+    },
+    examTrap: "Direct recall of cable standard capabilities, specifically distinguishing between video-only standards (VGA/DVI) and integrated A/V standards (HDMI/DisplayPort)."
+  },
+  {
+    id: "Q028",
+    topic: "Safety and Power Troubleshooting",
+    difficulty: "Easy",
+    scenario: "A workstation frequently reboots on its own and occasionally emits a faint burning smell. A junior technician suspects a faulty power supply unit (PSU). To confirm their diagnosis, the technician gathers a Phillips-head screwdriver and a digital multimeter, stating they plan to remove the metal casing of the PSU to test the internal capacitors and 12V rails directly.",
+    prompt: "Why is the junior technician's proposed action incorrect, and what is the proper methodology?",
+    choices: [
+      { key: "A", text: "Removing the PSU cover voids the manufacturer warranty; they should test the external AC wall socket with the multimeter instead." },
+      { key: "B", text: "PC power supplies are not user-serviceable and contain lethal electrical charges; they should use a dedicated power supply tester on the external cable connectors." },
+      { key: "C", text: "Standard multimeters cannot read DC voltage fluctuations; they should use a toner probe to map the internal wiring faults." },
+      { key: "D", text: "The 12V rail only powers chassis fans; they should open the PSU to test the 5V rail, which powers the motherboard." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"remove the metal casing of the PSU to test the internal capacitors\".",
+    explanationCorrect: "Computer Power Supply Units (PSUs) contain large capacitors that can hold a lethal electrical charge for days or weeks, even after the unit is completely unplugged from the wall. Because of this severe shock hazard, PC power supplies are strictly classified as non-user-serviceable parts; the casing must never be removed in the field. To safely test a PSU, technicians must use a multimeter or a dedicated power supply tester exclusively on the external ATX cables and peripheral connectors.",
+    explanationIncorrect: {
+      A: "While removing the cover does void the warranty, this is entirely secondary to the fact that it is a fatal safety hazard. Furthermore, testing the AC wall socket does not diagnose the faint burning smell originating from the PC itself.",
+      B: "",
+      C: "Digital multimeters are perfectly capable of reading both AC and DC voltages. A toner probe is a networking tool used to trace un-terminated ethernet or telephone cables through walls; it is completely useless for testing power delivery.",
+      D: "Opening the PSU is the exact dangerous action being warned against. Additionally, the 12V rail provides massive power to critical components like the CPU and dedicated graphics cards, not just chassis fans."
+    },
+    examTrap: "Recognizing hard safety boundaries in IT hardware maintenance (never open a PSU or CRT monitor)."
+  },
+  {
+    id: "Q029",
+    topic: "Hardware/Motherboard Configuration",
+    difficulty: "Medium",
+    scenario: "An IT team is tasked with rescuing a specialized legacy workstation that had a corrupted firmware update. The technician successfully flashes the BIOS, cleans the interior, and buttons up the case. However, upon turning the PC back on, the system refuses to boot, the screen remains totally blank, and no POST beeps are emitted. The fans spin normally.",
+    prompt: "Given the recent repair actions, what is the most likely cause of this specific failure?",
+    choices: [
+      { key: "A", text: "The CPU thermal paste was applied too thickly, instantly short-circuiting the motherboard." },
+      { key: "B", text: "The internal S.M.A.R.T. diagnostics triggered a pre-boot lockout due to static discharge." },
+      { key: "C", text: "A motherboard jumper was accidentally left in the firmware recovery position." },
+      { key: "D", text: "The NVRAM coin-cell battery was completely depleted during the cleaning process." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"corrupted firmware update\", \"successfully flashes\", and \"refuses to boot... screen remains totally blank\".",
+    explanationCorrect: "Many motherboards, especially older legacy systems, feature physical pins and jumpers used to configure hardware modes, clear forgotten passwords, or trigger firmware recovery/flashing states. If a technician moves a jumper to flash the BIOS but forgets to return the jumper cap to its standard \"normal operation\" position before powering on the PC, the motherboard will halt, preventing the POST from executing and leaving a blank screen. Always ask, \"What has changed?\"",
+    explanationIncorrect: {
+      A: "While applying too much conductive thermal paste can cause a short, it is an unlikely scenario compared to a missed jumper step immediately following a firmware flash procedure. Furthermore, non-conductive pastes do not cause shorts.",
+      B: "S.M.A.R.T. (Self-Monitoring Analysis and Reporting Technology) monitors hard drive mechanical health. It cannot trigger a hardware \"lockout\" that prevents the system POST from running, nor is it related to static discharge.",
+      C: "",
+      D: "If the NVRAM (CMOS) coin-cell battery is depleted, the system will still successfully POST and display video, but it will halt with a prompt stating the time/date is invalid and require the user to press F1 or F2 to continue."
+    },
+    examTrap: "Connecting a specific maintenance task (firmware flashing) to its legacy physical counterpart (jumpers) to identify the root cause of a silent POST failure."
+  },
+  {
+    id: "Q030",
+    topic: "Boot Sector Troubleshooting and Methodology",
+    difficulty: "Hard",
+    scenario: "A user clicked a suspicious link in an unsolicited email yesterday afternoon. This morning, their Windows PC boots to a black screen displaying the error: \"Boot device not found.\" You access the UEFI and verify that the fixed hard disk is physically detected, powered on, and correctly listed first in the boot sequence.",
+    prompt: "What is the best FIRST step to remediate this logical boot failure while prioritizing the preservation of the user's local data?",
+    choices: [
+      { key: "A", text: "Execute a clean, fresh installation of Windows using a USB recovery drive." },
+      { key: "B", text: "Switch the SATA controller mode from AHCI to RAID to bypass the corrupted partition." },
+      { key: "C", text: "Boot from an antivirus software boot disk to scan for and repair boot sector malware." },
+      { key: "D", text: "Run the Windows Disk Management utility from a secondary PC to reformat the partition." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"suspicious link\", \"fixed hard disk is physically detected\", and \"best FIRST step... prioritizing the preservation of the user's local data\".",
+    explanationCorrect: "The combination of a recent suspicious email link and an \"OS not found\" error on a physically healthy drive strongly points to malware that has infected and corrupted the boot sector (MBR or GPT). Because the priority is to save the user's data, the best first step is to use an external antivirus boot disk. These specialized recovery tools bypass the local OS entirely, detect rootkits or boot-sector viruses, and feature tools to repair the Master Boot Record without destroying the underlying file system.",
+    explanationIncorrect: {
+      A: "Executing a clean installation of Windows involves formatting the primary partition, which will instantly and permanently erase all of the user's local files. This violates the core requirement of the scenario.",
+      B: "The SATA controller dictates how the motherboard communicates with storage hardware. Switching from AHCI to RAID on a single drive will likely cause a BSOD if the OS ever loads, but it will absolutely not bypass logical MBR corruption or repair malware damage.",
+      C: "",
+      D: "Formatting a partition wipes all data on it entirely. While it would clear the malware, it completely destroys the user's local files, violating the scenario's primary directive."
+    },
+    examTrap: "Differentiating between destructive remediation (formatting/reinstalling) and non-destructive remediation (AV boot disks/repair tools) when faced with logical file corruption."
+  },
+  {
+    id: "Q031",
+    topic: "Storage Architecture (RAID Diagnostics)",
+    difficulty: "Medium",
+    scenario: "A department's database server utilizes a hardware-based RAID 5 array. Following an unexpected power surge, the server crashes. Upon rebooting, the operating system cannot locate the storage volume. You reboot the server and attempt to press the designated key combination (Ctrl+R) to enter the RAID configuration utility to investigate the array's health. However, the system completely ignores the keystrokes, bypasses the prompt, and fails to load the utility.",
+    prompt: "Based on this behavior, what is the definitive cause of the failure, and what is the required remediation?",
+    choices: [
+      { key: "A", text: "The RAID configuration utility requires an OS-level driver; remediate by booting into Windows Safe Mode to access it." },
+      { key: "B", text: "The Master Boot Record (MBR) is corrupted; remediate by booting to a Windows repair USB and running bootrec /fixmbr." },
+      { key: "C", text: "Three or more disks have failed simultaneously; remediate by restoring the volume from an external cloud backup." },
+      { key: "D", text: "The hardware RAID controller itself has failed; remediate by installing a replacement controller or importing the disks to a compatible system." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"ignores the keystrokes... fails to load the utility\".",
+    explanationCorrect: "Hardware RAID arrays rely on a dedicated controller card (or embedded motherboard chip) with its own firmware to manage the disks and present them as a single volume to the OS. The pre-boot RAID configuration utility is hosted directly on this controller. If a technician cannot access the configuration utility during boot, it is the definitive symptom that the RAID controller hardware itself has completely failed or died. The remediation is to replace the controller card so it can re-import the existing, healthy disks.",
+    explanationIncorrect: {
+      A: "Hardware RAID configuration utilities operate at the firmware level before the operating system loads. They do not require Windows OS-level drivers to be accessed via pre-boot keystrokes (like Ctrl+R).",
+      B: "MBR corruption prevents the operating system from booting, but it has no effect on the RAID controller's firmware. A corrupted MBR would not stop a user from entering the RAID setup utility during POST.",
+      C: "If multiple disks fail in an array, the controller will still successfully launch the configuration utility, but it will simply report the volume as \"Failed\" or \"Missing.\" The inability to launch the utility points to the controller, not the disks.",
+      D: ""
+    },
+    examTrap: "Understanding the difference between a volume failure (where the utility still works) and a controller failure (where the utility is inaccessible)."
+  },
+  {
+    id: "Q032",
+    topic: "Display Color and Configuration",
+    difficulty: "Easy",
+    scenario: "A marketing department purchases new, high-end IPS flat-panel displays for their graphic designers. Shortly after installation, the lead designer complains that the red and green hues shown on their screen do not accurately match the final physical printouts from their commercial printer, resulting in wasted materials.",
+    prompt: "Which Windows tool and hardware combination should the technician use to resolve this specific color mismatch?",
+    choices: [
+      { key: "A", text: "The Device Manager applet paired with an external USB graphics adapter to bypass the internal GPU." },
+      { key: "B", text: "The Display Color Calibration utility paired with a spectrophotometer to define a precise color profile." },
+      { key: "C", text: "The monitor's On-Screen Display (OSD) paired with a high-speed HDMI cable to increase color bandwidth." },
+      { key: "D", text: "The Windows Event Viewer paired with a digital multimeter to verify the monitor's DC voltage input." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"hues shown on their screen do not accurately match the final physical printouts\".",
+    explanationCorrect: "For professionals working in digital art and print production, on-screen colors must exactly match the physical output. This requires color calibration. Technicians use specialized hardware called a spectrophotometer (or colorimeter) alongside the OS's Color Management/Calibration applets to measure light output and generate a precise software color profile, ensuring uniform color balance between the screen and the printer.",
+    explanationIncorrect: {
+      A: "An external USB graphics adapter provides basic video output for extra monitors, usually at lower performance levels. It does not natively correct or calibrate specific color hues for print matching.",
+      B: "",
+      C: "While a high-speed cable supports higher resolutions and refresh rates, simply swapping a cable or guessing at OSD settings will not mathematically align the screen's color space with a commercial printer's output profile.",
+      D: "Event Viewer logs software errors and crashes. A multimeter tests electrical voltage. Neither of these tools is capable of assessing or altering monitor color accuracy or gamma levels."
+    },
+    examTrap: "Recognizing specialized troubleshooting tools (spectrophotometers / Color Calibration utility) specifically associated with high-end graphic design workflows."
+  },
+  {
+    id: "Q033",
+    topic: "Thermal Management and Firmware",
+    difficulty: "Medium",
+    scenario: "A software developer's workstation frequently throttles its performance and occasionally reboots when compiling massive blocks of code. You inspect the hardware and verify that the heatsink is securely mounted with fresh thermal paste, and the case has excellent, unobstructed airflow. However, you notice that even when the processor temperature climbs to a dangerous 85°C, the CPU fan spins very slowly, keeping the system virtually silent.",
+    prompt: "What is the most likely cause of this thermal throttling, and how should it be resolved?",
+    choices: [
+      { key: "A", text: "The CPU's internal clock multiplier is corrupted; resolve by updating the motherboard firmware." },
+      { key: "B", text: "The ambient light sensor is forcibly reducing power consumption; resolve by disabling it in the Windows Control Panel." },
+      { key: "C", text: "The fan's duty cycle in the UEFI is currently set to the 'Quiet' profile; resolve by changing it to 'Balanced' or 'Cool'." },
+      { key: "D", text: "The Power Supply Unit (PSU) is failing to provide stable 12V power to the fan; resolve by replacing the PSU immediately." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"temperature climbs to a dangerous 85°C\", \"fan spins very slowly\", and \"virtually silent\".",
+    explanationCorrect: "Motherboard firmware (UEFI) controls cooling fans via duty cycles—pulses of power that dictate fan speed based on thermal sensor readings. Many UEFIs offer acoustic profiles. If a system is set to a \"Quiet\" profile, the firmware intentionally runs the fans at a severely reduced speed to eliminate noise, allowing temperatures to rise significantly. If the system is executing heavy workloads (like compiling code), this quiet profile will fail to dissipate the heat, causing the CPU to thermally throttle or crash. Changing the profile to \"Cool\" or \"Balanced\" increases the duty cycle, spinning the fan faster to handle the heat.",
+    explanationIncorrect: {
+      A: "The CPU clock multiplier dictates the processing speed in GHz. While an over-aggressive multiplier (overclocking) can cause heat, a \"corrupted\" multiplier does not cause a fan to intentionally spin slowly while the CPU burns up.",
+      B: "Ambient light sensors detect room lighting to automatically dim or brighten a monitor's backlight. They have absolutely zero connection to CPU thermal management or fan speeds.",
+      C: "",
+      D: "If the PSU were failing to provide 12V power, the system would likely crash instantly under load or the fan wouldn't spin at all. The fact that the fan spins slowly and steadily, maintaining a silent profile, indicates a programmed instruction, not a hardware failure."
+    },
+    examTrap: "Identifying that overheating isn't always a hardware failure (bad paste/broken fan) but can be a direct result of user-configured acoustic firmware profiles."
+  },
+  {
+    id: "Q034",
+    topic: "Performance Methodology and Baselines",
+    difficulty: "Hard",
+    scenario: "The CFO submits an urgent ticket, complaining that opening their massive financial forecasting software from their local Solid State Drive (C:) is \"painfully slow.\" You run a vendor-provided storage diagnostic utility on the drive. The SSD passes all internal S.M.A.R.T. tests without warnings, and the recorded Input/Output Operations Per Second (IOPS) exactly matches the manufacturer's benchmark baseline.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the most logical next step to isolate the cause of this sluggish performance?",
+    choices: [
+      { key: "A", text: "Replace the SSD immediately, as S.M.A.R.T. tests frequently generate false positives for flash memory wear." },
+      { key: "B", text: "Stop troubleshooting the storage hardware and investigate software issues, application resource limits, or configuration scripts." },
+      { key: "C", text: "Run the Windows Defragment utility to consolidate the scattered flash memory blocks on the drive." },
+      { key: "D", text: "Access the UEFI and switch the SATA controller from AHCI mode to legacy IDE mode to maximize software compatibility." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"passes all internal S.M.A.R.T. tests\", \"matches the manufacturer's benchmark\", and \"most logical next step\".",
+    explanationCorrect: "A critical part of the troubleshooting methodology is verifying problems against known baselines. If a user complains of sluggish storage performance, but hardware diagnostics prove the drive is perfectly healthy (passing S.M.A.R.T.) and operating at its maximum engineered speed (matching IOPS baselines), then the hardware subsystem is not the bottleneck. The technician must shift their focus to rule out software/configuration issues, such as the financial application hitting a memory limit, a slow network login script, or OS-level faults.",
+    explanationIncorrect: {
+      A: "S.M.A.R.T. tests and IOPS benchmarks are highly reliable indicators of drive health. Replacing a drive that is mathematically proven to be operating at 100% efficiency is a massive waste of time and budget, and it will not solve the user's problem.",
+      B: "",
+      C: "Running the Windows Defragment utility on a Solid State Drive (SSD) is actively harmful. SSDs do not suffer from mechanical seek times, so defragmenting does not improve performance; it only wastes the drive's limited read/write lifespan.",
+      D: "Switching a modern SATA controller from AHCI (Advanced Host Controller Interface) to legacy IDE mode severely degrades storage performance by disabling modern features like Native Command Queuing (NCQ). It also usually results in an immediate BSOD upon boot."
+    },
+    examTrap: "Preventing tunnel vision. When diagnostic data proves the hardware is flawless, technicians must pivot to software/configuration causes rather than chasing phantom hardware bugs."
+  },
+  {
+    id: "Q035",
+    topic: "OS Errors and Symptoms",
+    difficulty: "Easy",
+    scenario: "An enterprise environment utilizes a diverse mix of operating systems. A backend developer working on a customized, high-performance Linux workstation reports that their system experienced a catastrophic system error, forcing an ungraceful and immediate halt to protect the hardware.",
+    prompt: "How would this specific operating system visually present this catastrophic failure to the developer?",
+    choices: [
+      { key: "A", text: "A blue screen displaying a sad face, a QR code, and a BugCheck hex value." },
+      { key: "B", text: "A black terminal screen displaying a \"Kernel Panic\" or a GUI \"Something has gone wrong\" message." },
+      { key: "C", text: "A graphical spinning pinwheel or a spinning wait cursor that never resolves." },
+      { key: "D", text: "An NMI (Non-Maskable Interrupt) lockup accompanied by an unending, continuous motherboard beep." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Linux workstation\" and \"catastrophic system error\".",
+    explanationCorrect: "Different operating systems have proprietary methods of displaying fatal system errors. In the Linux and UNIX-based ecosystems, a fatal error from which the operating system cannot safely recover is termed a \"Kernel Panic.\" This is typically displayed as a dense block of text on a black terminal screen, or on modern desktop environments, as a white screen stating \"Oh no! Something has gone wrong.\"",
+    explanationIncorrect: {
+      A: "A blue screen with a sad face and a hex code is the proprietary \"Blue Screen of Death\" (BSOD) exclusive to modern Microsoft Windows operating systems.",
+      B: "",
+      C: "A spinning pinwheel (often colloquially called the \"Spinning Beach Ball of Death\") is the proprietary unresponsiveness or crash indicator used by Apple's macOS.",
+      D: "An NMI is a hardware-level interrupt that bypasses standard interrupt masking, often causing a system halt. While a continuous beep indicates a hardware RAM failure during POST, it is not the OS-level visual presentation of a software crash."
+    },
+    examTrap: "Simple vocabulary mapping of fatal error screens to their respective operating systems (Windows = BSOD, macOS = Pinwheel, Linux = Kernel Panic)."
+  },
+  {
+    id: "Q036",
+    topic: "Display Hardware Limitations",
+    difficulty: "Medium",
+    scenario: "A security operations center replaces its older TFT/LED wall monitors with high-end OLED displays to achieve deeper contrast. Because the monitors constantly display security camera grids, technicians notice after six months that the white static grid lines from the software are permanently visible as faint shadows on the screens, even when the software is closed or the monitors are disconnected from the PCs.",
+    prompt: "What is the technical term for this specific symptom, and what is the best prevention strategy for the remaining unaffected screens?",
+    choices: [
+      { key: "A", text: "Display burn-in; prevent it by configuring a dynamic screen saver or enabling the display's auto-off function during inactivity." },
+      { key: "B", text: "A cluster of dead pixels; prevent it by running pixel cycling software continuously in the background." },
+      { key: "C", text: "Pincushion distortion; prevent it by shielding the video cables from external magnetic interference." },
+      { key: "D", text: "Resolution scaling errors; prevent it by lowering the Windows OS output resolution to perfectly match the grid." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"OLED displays\", \"static grid lines\", and \"permanently visible as faint shadows\".",
+    explanationCorrect: "When a static image (like a grid, taskbar, or channel logo) is displayed on an OLED or plasma screen for hundreds of hours, the specific pixels displaying that bright color degrade faster than the surrounding pixels. This leaves a permanent \"ghost\" image or shadow on the screen, known as display burn-in. Because the damage is permanent, the only mitigation is prevention: ensuring static images are not left on screen by utilizing moving screen savers, pixel-shifting technologies, or auto-off power-saving modes.",
+    explanationIncorrect: {
+      A: "",
+      B: "Dead pixels occur when a transistor fails to provide power, resulting in a tiny, permanent black square on the screen. They do not look like faint shadows of previously displayed software interfaces.",
+      C: "Pincushion distortion is an analog geometry issue specific to legacy Cathode Ray Tube (CRT) monitors, where the edges of the image bow inward toward the center due to magnetic field problems. It does not occur on flat-panel OLEDs.",
+      D: "Resolution scaling errors occur when an OS outputs a signal that doesn't match the monitor's native pixel count, resulting in a globally fuzzy or blurry image. It does not leave permanent, burned-in ghost shadows of applications on the hardware."
+    },
+    examTrap: "Recognizing the unique vulnerabilities of different display panel technologies (OLED's susceptibility to burn-in compared to modern LCD/LEDs) and prescribing the correct preventative measure."
+  },
+  {
+    id: "Q037",
+    topic: "Integration (Storage + Network Performance)",
+    difficulty: "Hard",
+    scenario: "An enterprise database server utilizes a hardware-based RAID 5 array. One morning, the RAID configuration utility flags that a single drive has failed, placing the volume in a \"degraded\" state, though the OS continues to boot and function. The technician hot-swaps the failed drive with a healthy disk of the same size. Shortly afterward, the customer service department submits urgent tickets stating that the database software on the server has become incredibly sluggish, with queries timing out over the network.",
+    prompt: "What is the most likely cause of this sudden, severe performance drop?",
+    choices: [
+      { key: "A", text: "The array was inadvertently converted to RAID 0 during the hot-swap; the technician must pause database operations." },
+      { key: "B", text: "The RAID controller is actively rebuilding the array to the new disk; the technician should allow the process to finish." },
+      { key: "C", text: "The replacement drive has mismatched IOPS baselines; the technician must replace it with a vendor-approved disk." },
+      { key: "D", text: "The hot-swap action caused a power supply surge; the technician must reboot the server to clear the memory buffer." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"RAID 5 array\", \"hot-swaps the failed drive\", and \"incredibly sluggish\".",
+    explanationCorrect: "In a RAID 5 array, when a failed disk is replaced via hot-swapping, the RAID controller must reconstruct the missing data using the parity information stored on the remaining healthy drives. This rebuilding process severely affects overall system performance because the controller is actively writing multiple gigabytes of data to the new disk while simultaneously trying to serve standard user requests. The sluggishness is a normal, temporary symptom of the rebuild, and the technician should allow it to finish.",
+    explanationIncorrect: {
+      A: "RAID 0 utilizes striping with no redundancy, meaning a single disk failure would cause the entire volume to stop working immediately, resulting in total data loss. The scenario notes the volume is degraded but still functioning, which aligns with RAID 5, not RAID 0.",
+      B: "",
+      C: "While S.M.A.R.T. tests do measure IOPS to ensure drives meet vendor baselines, mismatched IOPS is not the primary cause of extreme sluggishness immediately following a RAID hot-swap. The intense I/O demand of the RAID rebuild process is the direct cause of the performance drop.",
+      D: "Server RAID arrays are specifically designed to support hot-swapping hardware without causing power surges or requiring system reboots. Rebooting the server during an active array rebuild is dangerous and could cause data corruption."
+    },
+    examTrap: "Understanding the expected operational consequences (severe performance degradation) of routine maintenance tasks (RAID rebuilding) so as not to misdiagnose it as a new fault."
+  },
+  {
+    id: "Q038",
+    topic: "Firmware Security and Configuration",
+    difficulty: "Medium",
+    scenario: "A school library features open-access computer labs. Recently, students have been bypassing the school's web filters by rebooting the machines and booting from their own unauthorized Linux USB drives. The IT director mandates that users must be strictly prevented from altering the boot sequence. However, the computers must still be able to autonomously boot into Windows every morning when powered on remotely, without requiring staff intervention to type passwords.",
+    prompt: "Which UEFI security configuration provides the policy-compliant solution to this problem?",
+    choices: [
+      { key: "A", text: "Configure a User/System Password to lock the firmware." },
+      { key: "B", text: "Configure a Supervisor/Setup Password to restrict the firmware." },
+      { key: "C", text: "Enable Secure Boot with custom vendor keys." },
+      { key: "D", text: "Enable the Trusted Platform Module (TPM) pre-boot measurements." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"prevented from altering the boot sequence\" and \"autonomously boot... without requiring staff intervention\".",
+    explanationCorrect: "A Supervisor (or Administrator/Setup) Password restricts unauthorized users from accessing or modifying the system's BIOS/UEFI setup program. By setting this password, students are locked out of the menus required to change the boot sequence to a USB drive. Importantly, a Supervisor Password still allows the operating system to boot normally without interactive user authentication, satisfying the requirement for autonomous morning boot-ups.",
+    explanationIncorrect: {
+      A: "A User/System Password locks the entire system until authentication is provided, meaning the firmware will not hand off the boot process to the OS. This violates the requirement that the computers must autonomously boot into Windows without staff intervention.",
+      B: "",
+      C: "Secure Boot is designed to protect against malware by ensuring only digitally signed bootloaders can execute. While it might block some custom Linux USBs, it does not lock the firmware interface, meaning students could simply access the UEFI and disable Secure Boot.",
+      D: "The TPM securely stores digital certificates and cryptographic keys, comparing hashes during boot to ensure the OS kernel hasn't been tampered with. It does not prevent a local user from entering the firmware setup program and manually overriding the boot sequence."
+    },
+    examTrap: "Differentiating between the exact operational scopes of a Supervisor password (menu restriction) versus a User password (total system halt)."
+  },
+  {
+    id: "Q039",
+    topic: "POST and Memory Diagnostics",
+    difficulty: "Easy",
+    scenario: "A technician attempts to upgrade a workstation's memory from 8GB to 32GB by populating all four DIMM slots on the motherboard. Upon pressing the power button, the motherboard LEDs illuminate and the chassis fans spin up. However, the display remains entirely blank, and the motherboard's internal speaker emits an unbroken, continuous beep.",
+    prompt: "Based on standard legacy diagnostic indicators, what is the most likely cause of this failure?",
+    choices: [
+      { key: "A", text: "A key on the keyboard is physically stuck or depressed." },
+      { key: "B", text: "The system memory modules or memory controller have a problem." },
+      { key: "C", text: "The dedicated video adapter has failed or is unseated." },
+      { key: "D", text: "The CPU is experiencing an immediate thermal shutdown." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"display remains entirely blank\" and \"unbroken, continuous beep\".",
+    explanationCorrect: "During the Power-On Self-Test (POST), hardware errors that prevent the system from displaying video are communicated audibly via beep codes. According to standard legacy IBM PC beep codes, an unbroken, continuous beep specifically indicates a problem with the system memory modules or the motherboard's memory controller. Given that the technician just installed new RAM, it is highly likely the modules are improperly seated, defective, or incompatible.",
+    explanationIncorrect: {
+      A: "A keyboard issue, such as a key being physically depressed or stuck, is conventionally indicated by 3 long beeps, not a continuous beep.",
+      B: "",
+      C: "If the video adapter fails or is improperly seated, the standard beep code indicator is 1 long beep followed by 2 or 3 short beeps.",
+      D: "If a CPU experiences a rapid thermal shutdown (overheating), the system will simply power off, reboot, or lock up. Overheating does not generate a continuous memory-related POST beep code."
+    },
+    examTrap: "Direct memorization of standard legacy beep codes (continuous = RAM, 1L/2S = Video, 3L = Keyboard)."
+  },
+  {
+    id: "Q040",
+    topic: "Drive and Data Recovery Limitations",
+    difficulty: "Medium",
+    scenario: "An executive accidentally deletes a highly sensitive, unbacked-up folder from their Windows 10 laptop. The laptop uses a modern NVMe PCIe Solid State Drive (SSD) as its primary storage. A junior technician immediately shuts down the laptop, removes the SSD, mounts it in a read-only docking station on a forensic PC, and attempts to run a commercial file recovery software utility.",
+    prompt: "Why is the junior technician's remediation attempt highly likely to fail?",
+    choices: [
+      { key: "A", text: "File recovery utilities only scan legacy MBR partitions, and modern NVMe drives exclusively utilize the GPT format." },
+      { key: "B", text: "SSDs utilize a proprietary file system that standard Windows utilities cannot interpret externally." },
+      { key: "C", text: "File recovery from an SSD is generally not possible without highly specialized tools due to the nature of flash memory." },
+      { key: "D", text: "The UEFI Secure Boot mechanism locks the SSD to the original motherboard, preventing external read operations." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"accidentally deletes\", \"Solid State Drive (SSD)\", and \"file recovery software utility\".",
+    explanationCorrect: "While file recovery software can often successfully scan Hard Disk Drives (HDDs) to recover deleted data or lost sectors, flash memory handles deleted data differently. Because of how SSDs manage wear-leveling and block clearing on flash memory cells, file recovery from an SSD is not usually possible without highly specialized forensic tools. Standard commercial recovery software is unlikely to find the deleted folder.",
+    explanationIncorrect: {
+      A: "While NVMe drives often use the GPT format for robust partitioning, file recovery software is fully capable of scanning both legacy MBR and modern GPT partition tables.",
+      B: "SSDs do not use proprietary file systems; they are formatted using standard operating system file systems (like NTFS or exFAT for Windows) just like mechanical HDDs.",
+      C: "",
+      D: "Secure Boot is a firmware feature that checks the digital signature of the OS bootloader to prevent malware from executing during startup. It does not physically lock the storage drive or prevent external file-read operations when the drive is mounted in a dock."
+    },
+    examTrap: "Understanding the technical hardware limitations of standard software tools (commercial recovery software vs SSD flash memory architecture)."
+  },
+  {
+    id: "Q041",
+    topic: "Troubleshooting Methodology and Diagnostic Tools",
+    difficulty: "Hard",
+    scenario: "A graphic design workstation occasionally locks up and abruptly shuts down completely while rendering 3D scenes. The technician suspects a hardware fault. They verify the wall outlet is functional, use a power supply tester to confirm the PSU is outputting stable voltages, and monitor the OS temperature sensors to ensure the CPU and GPU are running at a cool, safe 45°C under load.",
+    prompt: "Following the CompTIA troubleshooting methodology, what is the most appropriate next step to isolate the hardware fault?",
+    choices: [
+      { key: "A", text: "Boot into the firmware setup utility and run the vendor-provided motherboard and memory diagnostic test programs." },
+      { key: "B", text: "Open the power supply chassis and inspect the internal capacitors for swelling or scorch marks." },
+      { key: "C", text: "Format the fixed disk and perform a clean installation of the operating system to eliminate software faults." },
+      { key: "D", text: "Run the sfc /scannow command to repair the legacy Master Boot Record (MBR)." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"occasionally locks up and abruptly shuts down\", \"PSU is outputting stable voltages\", and \"running at a cool, safe 45°C\".",
+    explanationCorrect: "In this scenario, the technician has systematically ruled out the external power source, the PSU hardware, and thermal overheating. If the power supply and thermals are not the issue, the technician must suspect problems with the memory, CPU, or motherboard. The correct next step is to use the diagnostic test programs provided by the vendor, which are often securely run directly from the firmware setup utility (UEFI) rather than the OS, to isolate the specific failing component.",
+    explanationIncorrect: {
+      A: "",
+      B: "PC power supplies contain lethal electrical charges and are strictly classified as non-user-serviceable parts. A technician must never remove the cover of a power supply to inspect internal components, even if a fault is suspected.",
+      C: "Formatting the fixed disk is a destructive, last-resort measure. While eliminating software causes is part of the methodology, it should be done using non-destructive OS tools or safe mode before erasing all user data.",
+      D: "The Master Boot Record (MBR) contains the active boot sector and code to load the OS. If the MBR were corrupted, the system would fail to boot entirely (e.g., \"OS not found\"), rather than occasionally locking up while rendering active 3D scenes."
+    },
+    examTrap: "Knowing the proper sequencing of hardware isolation (Power -> Thermals -> Firmware Diagnostics) before resorting to destructive software formatting."
+  },
+  {
+    id: "Q042",
+    topic: "Display Technology and Symptoms",
+    difficulty: "Easy",
+    scenario: "During a large corporate presentation, a ceiling-mounted DLP video projector suddenly goes completely dark, accompanied by a distinct \"popping\" sound. The projector's power LED remains on, and the internal cooling fans continue to spin normally. A user in the room suggests the projector has overheated and needs its dust filters cleaned.",
+    prompt: "Why is the user's conclusion incorrect, and what is the actual failed component?",
+    choices: [
+      { key: "A", text: "Overheating causes the projector to shut down its fans entirely; the popping sound indicates a burnt-out high-intensity bulb." },
+      { key: "B", text: "Overheating causes a gradual dimming of the image; the popping sound indicates a failed internal power supply unit." },
+      { key: "C", text: "Overheating produces an audible alarm; the popping sound indicates the display adapter cable has short-circuited." },
+      { key: "D", text: "Overheating triggers a continuous beep code; the popping sound indicates a blown motherboard capacitor." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"goes completely dark\", \"distinct popping sound\", and \"DLP video projector\".",
+    explanationCorrect: "Video projectors rely on high-intensity bulbs to project images, which have a limited lifespan and get extremely hot. A completely failed bulb, known as a \"burnt-out bulb,\" will often produce a popping sound and may show visible scorch marks or a broken filament. Because the projector's power LED is on and the fans are still spinning, the unit has not experienced a thermal shutdown; the bulb itself has simply exploded or failed.",
+    explanationIncorrect: {
+      A: "",
+      B: "While failing bulbs can cause dimming images, an overheating event typically forces the entire projector to shut down intermittently, not pop and leave the fans running. If the power supply had popped/failed, the power LED and fans would immediately die.",
+      C: "Audible alarms are typically generated by enterprise RAID controllers to signal disk failure, not by projectors to signal heat. Display cables do not pop loudly when they fail; they simply drop the signal.",
+      D: "Continuous beep codes indicate RAM failures on computer motherboards, not thermal events on projectors. While a blown capacitor can pop, it is an integrated board component, whereas a bulb pop is the standard, expected failure mode for legacy projector displays."
+    },
+    examTrap: "Recognizing the unique hardware failure symptoms of legacy displays (projector bulbs popping) versus general thermal/power failures."
+  },
+  {
+    id: "Q043",
+    topic: "Power Supply and Load Troubleshooting",
+    difficulty: "Medium",
+    scenario: "A user buys a high-end, dedicated graphics card and installs it into their existing two-year-old budget desktop. Upon pressing the power button, the front panel LEDs briefly flash, but the system immediately goes dead. There are no POST beeps, and the fans do not spin. The user unplugs the new graphics card, and the system powers up and boots into Windows perfectly.",
+    prompt: "What is the MOST likely cause of this behavior?",
+    choices: [
+      { key: "A", text: "The graphics card is experiencing a thermal shutdown due to inadequate chassis airflow." },
+      { key: "B", text: "The new graphics card lacks the appropriate, digitally signed drivers in the OS." },
+      { key: "C", text: "The power supply is underpowered and failing to send a stable power good signal." },
+      { key: "D", text: "The motherboard's PCIe expansion slot is suffering from chip creep." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"budget desktop\", \"high-end, dedicated graphics card\", and \"immediately goes dead... unplugs the new graphics card, and the system powers up\".",
+    explanationCorrect: "Computer components require a constant, stable supply of DC power to run. When the system is turned on, the PSU tests its supplies; if stable, it sends a power good signal to the processor to initiate the POST. If removing an extra device (like a power-hungry plug-in graphics card) solves a \"no power\" issue, it indicates that the power supply is underpowered and cannot handle the heavy electrical load required by the new hardware.",
+    explanationIncorrect: {
+      A: "Thermal shutdowns occur when a component overheats during operation, which takes time. A system dying instantly upon pressing the power button from a cold state is an electrical delivery issue, not a thermal event.",
+      B: "Device drivers are software components loaded by the operating system after the POST and bootloader have executed. Missing drivers will cause poor resolution or OS crashes, but they cannot prevent the physical hardware from powering on.",
+      C: "",
+      D: "Chip creep occurs when an adapter card slowly works itself loose from a socket over time due to repeated temperature changes. It does not occur instantaneously upon installing a brand new component."
+    },
+    examTrap: "Recognizing that adding new, demanding hardware to a budget system will expose an underpowered PSU, preventing the critical \"power good\" signal."
+  },
+  {
+    id: "Q044",
+    topic: "Display Hardware and Physical Damage",
+    difficulty: "Easy",
+    scenario: "A user reports that their desktop monitor occasionally flickers and displays horizontal purple and green lines across the screen. The user fears their expensive graphics adapter is permanently failing. The technician visits the desk and notes the PC is squeezed tightly against a wall, severely bending the display cables at a sharp angle.",
+    prompt: "What is the BEST first step to resolve this issue?",
+    choices: [
+      { key: "A", text: "Access the monitor's OSD to perform a display color calibration using a software profile." },
+      { key: "B", text: "Run pixel cycling software to unstick the internal LED array." },
+      { key: "C", text: "Substitute the video cable with a known-good replacement to rule out connector damage." },
+      { key: "D", text: "Replace the graphics adapter immediately to prevent further motherboard damage." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"purple and green lines\", \"severely bending the display cables\", and \"BEST first step\".",
+    explanationCorrect: "Video quality glitches, specifically purple or green horizontal lines or unexpected color shifts, are very frequently caused by a faulty, loose, or physically damaged cable connector. Because the technician observed severe bending of the cables, the absolute best first step is to use the \"known good\" technique and substitute the video cable. This quickly rules out simple, cheap physical layer damage before diagnosing expensive internal hardware faults.",
+    explanationIncorrect: {
+      A: "Color calibration is used in digital art production to ensure the screen hues perfectly match printer output. It does not fix active visual artifacts, flickering, or horizontal lines caused by signal loss.",
+      B: "Pixel cycling software is used to fix a single \"stuck\" pixel (a constantly bright dot of color) on a flat-panel display. It cannot repair global horizontal lines or flickering signals.",
+      C: "",
+      D: "Replacing an expensive graphics adapter without first checking the $10 severely bent display cable violates basic troubleshooting methodology."
+    },
+    examTrap: "Preventing tunnel vision by ensuring technicians test the cheapest, most obvious physical layer components (cables) before declaring expensive hardware (GPUs) dead."
+  },
+  {
+    id: "Q045",
+    topic: "Boot Configuration and Storage",
+    difficulty: "Medium",
+    scenario: "A user complains that their desktop PC takes over 5 minutes to boot into Windows every morning. A technician observes the boot process and notices the system spends several minutes attempting to read a connected, but unbootable, external USB backup drive before finally timing out and booting from the internal NVMe SSD.",
+    prompt: "Which configuration change is the MOST efficient long-term prevention strategy for this issue?",
+    choices: [
+      { key: "A", text: "Access the UEFI Security settings and configure the USB Interface to 'Locked'." },
+      { key: "B", text: "Access the UEFI Boot Settings and move the Fixed Disk to the top of the Boot Sequence." },
+      { key: "C", text: "Access Windows Disk Management and format the external USB drive with a GPT partition." },
+      { key: "D", text: "Access the UEFI and switch the Boot Mode from Legacy BIOS to UEFI mode." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"spends several minutes attempting to read a connected... USB backup drive\" and \"MOST efficient long-term prevention\".",
+    explanationCorrect: "During startup, the system firmware searches for a bootable device strictly in the order specified by the UEFI boot sequence parameter. If the USB drive is listed higher in priority than the internal SSD, the system will pause and attempt to boot from it, causing severe delays until it times out. The most efficient permanent fix is to access the UEFI and move the Fixed Disk (the NVMe SSD) to the absolute top of the boot sequence, ensuring the system checks it first and ignores the USB drive during startup.",
+    explanationIncorrect: {
+      A: "Locking the USB Interface in the UEFI security settings physically disables the ports. While this stops the boot delay, it also prevents the user from utilizing their external backup drive, breaking core functionality.",
+      B: "",
+      C: "Formatting the USB drive with a GUID Partition Table (GPT) changes how data is organized on the disk, but it does not stop the motherboard firmware from wasting time querying the port during the POST boot sequence.",
+      D: "Switching the Boot Mode to UEFI allows support for 64-bit OSs, modern GUIs, and Secure Boot. However, UEFI systems are still fully capable of booting from USB drives. Changing this mode does not bypass the boot sequence priority check."
+    },
+    examTrap: "Recognizing that boot delays are often caused by improper boot sequence prioritization (checking non-bootable media first) rather than hardware failure."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
