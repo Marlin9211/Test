@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A clinic administrator is attempting an in-place upgrade from Windows 10 Pro to Windows 11 Pro on a workstation equipped with a supported 64-bit CPU, 16 GB of RAM, and a 1 TB SSD. The system recently had its motherboard replaced, and the user occasionally notices a \"legacy compatibility mode\" message during the startup sequence before Windows loads. The Windows 11 setup program immediately blocks the upgrade, stating the PC does not meet minimum system requirements.",
+    prompt: "What is the BEST first step to resolve this deployment issue and allow the upgrade to proceed?",
+    choices: [
+      { key: "A", text: "Perform a clean installation of Windows 11 Pro to bypass the hardware compatibility checks." },
+      { key: "B", text: "Use the mbr2gpt utility to convert the drive, then configure the firmware for UEFI and Secure Boot." },
+      { key: "C", text: "Enable the Trusted Platform Module (TPM) 2.0 setting within the Windows 10 Device Manager." },
+      { key: "D", text: "Upgrade the system to Windows 11 Enterprise first, as it supports legacy boot configurations." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"legacy compatibility mode\" message during the startup sequence.",
+    explanationCorrect: "The \"legacy compatibility mode\" trigger indicates that the system is booting using legacy BIOS rather than UEFI. Windows 11 explicitly requires UEFI firmware with Secure Boot enabled to ensure platform integrity. To switch from legacy BIOS to UEFI without losing data, the drive's partition style must first be converted from Master Boot Record (MBR) to GUID Partition Table (GPT) using the mbr2gpt utility.",
+    explanationIncorrect: {
+      A: "A clean installation is a technically valid way to install an OS, but it is not the best first step because it would destroy all user data and applications, defeating the purpose of the requested in-place upgrade. Furthermore, if the system is still set to legacy BIOS, Windows 11 media will still refuse to install.",
+      B: "",
+      C: "TPM 2.0 is indeed a strict requirement for Windows 11, making this a highly plausible distractor. However, TPM is a hardware-level security chip configured in the system firmware (BIOS/UEFI), not something that can simply be generated or enabled via the Windows 10 Device Manager.",
+      D: "Upgrading to Enterprise is factually incorrect because you cannot perform an in-place upgrade from Pro directly to Enterprise without proper volume licensing, nor does Enterprise bypass the strict UEFI/Secure Boot requirements of Windows 11. It also ignores the core architectural issue preventing the upgrade."
+    },
+    examTrap: "The \"Misleading Symptom vs. Root Cause\" trap. The exam will heavily test your knowledge of Windows 11 hardware requirements (TPM, UEFI, Secure Boot), but hides the solution behind a subtle firmware boot message."
+  },
+  {
+    id: "Q002",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A developer is setting up a multiboot workstation on a single, blank 2 TB SSD to test software compatibility. They intend to allocate 1 TB to Windows 11 Pro and 1 TB to Ubuntu Linux. The developer wants to ensure that a startup menu reliably appears every time the machine is powered on, allowing them to choose which OS to load.",
+    prompt: "Which of the following installation sequences is the MOST appropriate to achieve this configuration?",
+    choices: [
+      { key: "A", text: "Install Ubuntu Linux first, then install Windows 11 Pro, allowing the Windows Boot Manager to automatically detect the Linux partition." },
+      { key: "B", text: "Format the drive as MBR, create two active primary partitions, and install the operating systems simultaneously using a network boot." },
+      { key: "C", text: "Install Windows 11 Pro first, then install Ubuntu Linux, allowing the Linux GRUB boot loader to detect the Windows installation." },
+      { key: "D", text: "Create a shared FAT32 partition first, install Windows 11 Pro, and use the Windows Recovery Environment to mount the Linux image." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"multiboot workstation... ensure that a startup menu reliably appears\".",
+    explanationCorrect: "When setting up a multiboot environment with Windows and Linux, it is a technical best practice to install Windows first. Windows setup is known to aggressively overwrite the system's boot loader, whereas Linux utilizes the GRUB boot loader, which is designed to detect other operating systems (including Windows) and automatically add them to the startup menu.",
+    explanationIncorrect: {
+      A: "Installing Linux first is a common mistake that will result in the Windows installation overwriting the GRUB boot loader. This means the system will boot straight into Windows, and the user will lose the ability to easily select Linux at startup without manual boot repair.",
+      B: "You cannot have two \"active\" primary partitions simultaneously booting an OS on an MBR disk; only one partition can be marked as active and bootable at a time. Additionally, network booting does not install two distinct OS platforms simultaneously.",
+      C: "",
+      D: "While setting up a shared universal file system like FAT32 is great for accessing data between OSes, it is not an installation method. The Windows Recovery Environment (WinRE) cannot be used to mount and execute a Linux image for multiboot deployment."
+    },
+    examTrap: "The \"Sequencing\" trap. Multiboot questions test whether you understand the destructive nature of certain proprietary installers over open-source boot managers."
+  },
+  {
+    id: "Q003",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A clinic's IT manager purchases a new PC from a retail vendor to use at the front reception desk. The PC comes pre-installed with Windows 11 Home. The IT manager attempts to connect the PC to the clinic's centralized Domain Controller so that security policies, such as mandatory password rotations, can be enforced. However, the option to join a domain is missing from the system settings.",
+    prompt: "What is the MOST likely cause of this limitation?",
+    choices: [
+      { key: "A", text: "The Windows 11 Home edition natively lacks the capability to join a Windows domain network." },
+      { key: "B", text: "The retail license restricts domain joining; an OEM license must be applied to unlock it." },
+      { key: "C", text: "The Domain Controller requires Windows Defender Credential Guard, which must be enabled in the local BIOS." },
+      { key: "D", text: "The workstation is currently configured as a workgroup and must be joined to a homegroup first." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"pre-installed with Windows 11 Home... option to join a domain is missing\".",
+    explanationCorrect: "Windows Home edition is purposefully designed for domestic consumers and SOHO environments and natively lacks advanced networking capabilities. The primary distinction between the Home edition and the Pro/Enterprise editions is that Home cannot join a Windows domain network for centralized management.",
+    explanationIncorrect: {
+      A: "",
+      B: "Licensing types (Retail vs. OEM) dictate transferability and support, not the feature set of the OS itself. Both retail and OEM versions of Windows 11 Home will lack domain support.",
+      C: "Windows Defender Credential Guard is an advanced security feature exclusive to Windows Enterprise. It is not a prerequisite for simply joining a domain, nor would it cause the domain-join option to completely disappear from a Home edition menu.",
+      D: "A workgroup is indeed a decentralized network where devices are managed independently, but joining a \"homegroup\" is a deprecated Windows feature that has nothing to do with connecting to a centralized Windows Server Domain Controller."
+    },
+    examTrap: "The \"Feature Limitation vs. Configuration Error\" trap. It tests if you know whether a missing feature is due to a misconfiguration or a hard limitation of the OS edition."
+  },
+  {
+    id: "Q004",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A system administrator is tasked with deploying Windows 10 Enterprise to 100 identical point-of-sale terminals. The terminals have completely blank internal solid-state drives, no optical drives, and the USB ports have been physically disabled for security purposes. The administrator sets up a deployment server with a customized answer file and verified images. When the first batch of terminals is powered on, they immediately display an \"Operating System Not Found\" error.",
+    prompt: "Which of the following must be configured FIRST to ensure the unattended installation can proceed?",
+    choices: [
+      { key: "A", text: "Use Windows System Image Manager to modify the answer file to support zero-touch cloud deployment." },
+      { key: "B", text: "Boot each terminal using an external hot-swappable drive to bypass the disabled USB ports." },
+      { key: "C", text: "Access the firmware setup program on each terminal to set Network (PXE) Boot as the highest priority boot device." },
+      { key: "D", text: "Convert the blank SSDs to GUID Partition Table (GPT) format utilizing the mbr2gpt tool." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"blank internal solid-state drives, no optical drives, and the USB ports have been physically disabled... display an 'Operating System Not Found'\".",
+    explanationCorrect: "Because local media (USB, Optical) are unavailable and the internal drives are blank, the only way to install the OS is via a network boot. The terminals are currently attempting to boot from their empty SSDs. The technician must access the computer's firmware setup (BIOS/UEFI) and prioritize the Preboot Execution Environment (PXE)-compliant network adapter to connect to the deployment server.",
+    explanationIncorrect: {
+      A: "Zero-touch deployment is a valid cloud-based method, but modifying the answer file on the server will not solve the immediate physical issue: the client machines do not know how to contact the network because their boot priority is still aimed at their empty local drives.",
+      B: "Hot-swappable drives are a valid installation medium, but the scenario explicitly states that USB ports are disabled, meaning external drives will likely not mount or boot, making this an inefficient and physically restrictive workaround.",
+      C: "",
+      D: "The mbr2gpt utility requires a functioning OS environment (like Windows 10 version 1703 or later) to run. You cannot execute this utility on a terminal that has a completely blank drive and no operating system loaded."
+    },
+    examTrap: "The \"Blind Spot / Sequence of Operations\" trap. You might have the perfect deployment server configured, but if the endpoint's firmware boot order is wrong, the automated process will never trigger."
+  },
+  {
+    id: "Q005",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A research lab utilizes a legacy application that currently runs perfectly on a workstation equipped with Windows 10 Pro 32-bit. The workstation has 16 GB of physical RAM installed, but the user is experiencing performance bottlenecks because the system properties only indicate 4 GB of usable RAM. The IT department wants to utilize all 16 GB of RAM while keeping the current application configurations intact if possible.",
+    prompt: "What is the required course of action to resolve this memory limitation?",
+    choices: [
+      { key: "A", text: "Perform a clean installation of Windows 10 Pro 64-bit and manually reinstall the required applications." },
+      { key: "B", text: "Perform an in-place upgrade from Windows 10 Pro 32-bit to Windows 10 Pro 64-bit to preserve the applications." },
+      { key: "C", text: "Access the UEFI firmware and enable 4-way multiprocessing to unlock the remaining 12 GB of RAM." },
+      { key: "D", text: "Upgrade the OS edition from Windows 10 Pro to Windows 10 Pro for Workstations using a volume license." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Windows 10 Pro 32-bit... utilize all 16 GB of RAM while keeping the current application configurations intact if possible\".",
+    explanationCorrect: "A 32-bit operating system architecture has a hard limitation and can only address up to 4 GB of RAM. To utilize 16 GB, a 64-bit OS is required. However, you cannot perform an in-place upgrade from a 32-bit OS to a 64-bit OS; it fundamentally requires repartitioning and completely replacing the existing OS via a clean install.",
+    explanationIncorrect: {
+      A: "",
+      B: "This is the exact trap. While an in-place upgrade normally preserves third-party applications and user settings, Microsoft does not support architectural in-place upgrades (32-bit to 64-bit). It will fail.",
+      C: "4-way multiprocessing refers to the number of physical CPU sockets supported (which is a feature of Pro for Workstations/Enterprise), not a firmware setting used to bypass the 4 GB RAM limitation of a 32-bit architecture.",
+      D: "Upgrading to Pro for Workstations does offer massive RAM support (up to 6 TB), but applying a new license to a 32-bit installation will not change the fundamental 32-bit architectural limit of 4 GB. The bit-architecture is the bottleneck, not the edition."
+    },
+    examTrap: "The \"Impossible Upgrade Path\" trap. The prompt strongly desires to \"keep applications intact,\" baiting you into choosing an in-place upgrade, which is technically impossible across architectures."
+  },
+  {
+    id: "Q006",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A technician is provisioning a secondary hard drive on a legacy server to store an extensive archive of medical images. The newly installed mechanical hard drive has a total capacity of 4 TB. The technician initializes the disk using the MBR partition style and attempts to format it as a single NTFS partition, but Windows Disk Management will only allow a maximum partition size of 2 TB. The remaining space shows as \"Unallocated.\"",
+    prompt: "Which of the following is the BEST explanation for this specific limitation?",
+    choices: [
+      { key: "A", text: "The system is utilizing a legacy BIOS boot method, which restricts hard drive capacities to 2 TB globally." },
+      { key: "B", text: "The NTFS file system has a hard capacity limitation of 2 TB per individual partition." },
+      { key: "C", text: "The Master Boot Record (MBR) partition style inherently limits partition sizes to a maximum of 2 TB." },
+      { key: "D", text: "The technician failed to extend the primary partition into multiple logical drives." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"initializes the disk using the MBR partition style... maximum partition size of 2 TB\".",
+    explanationCorrect: "The Master Boot Record (MBR) partitioning scheme is an older standard that has a mathematical limitation: it cannot track addressable space beyond 2 Terabytes. To utilize drive space beyond 2 TB on a single partition, the disk must be initialized using the GUID Partition Table (GPT) style.",
+    explanationIncorrect: {
+      A: "While MBR is associated with legacy BIOS for booting purposes, a legacy BIOS machine can still read a secondary data drive formatted in GPT (and utilize its full 4 TB capacity) as long as the OS supports GPT. The 2 TB limit is a disk partition table limit, not a global BIOS limit.",
+      B: "The NTFS (New Technology File System) is highly scalable and supports volume sizes exponentially larger than 2 TB (up to 256 TB depending on cluster size). The bottleneck here is the partition style, not the file system.",
+      C: "",
+      D: "While you can create an extended partition with multiple logical drives on an MBR disk if you run out of primary partitions (more than 4), this workaround does not bypass the MBR's overall 2 TB ceiling per disk."
+    },
+    examTrap: "The \"File System vs. Partition Scheme\" trap. It evaluates whether you know if storage size limitations belong to the OS file system or the underlying disk initialization style."
+  },
+  {
+    id: "Q007",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A multinational company deploys remote workers in both the European Union and the United States. An American employee's laptop breaks during a business trip to Germany, and they urgently purchase a local replacement pre-installed with Windows 11 Pro N. Upon returning to the US, the employee complains that they cannot preview training videos or join VoIP calls because Skype, Windows Media Player, and the Voice Recorder are missing from the system.",
+    prompt: "What is the most cost-effective and compliant remediation for this issue?",
+    choices: [
+      { key: "A", text: "Use Group Policy Editor (gpedit.msc) to unhide and enable the restricted multimedia applications." },
+      { key: "B", text: "Download and install the Media Feature Pack from the official Microsoft repository." },
+      { key: "C", text: "Perform an in-place upgrade to a standard Windows 11 Pro retail edition using an American IP address." },
+      { key: "D", text: "Switch the user's local account to a Microsoft Account to automatically sync the missing multimedia packages." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"purchased a local replacement pre-installed with Windows 11 Pro N... Skype, Windows Media Player... missing\".",
+    explanationCorrect: "\"N\" versions of Windows are specialized editions created specifically to comply with European Union antitrust regulations, which require Microsoft to unbundle proprietary media applications. The core OS remains unchanged, and users who require these specific multimedia features can easily restore them at no additional cost by downloading the Media Feature Pack from Microsoft.",
+    explanationIncorrect: {
+      A: "The Group Policy Editor is a powerful tool included in Windows Pro for enforcing OS settings, but it cannot \"unhide\" applications that simply do not exist on the hard drive. N editions physically lack these binaries out of the box.",
+      B: "",
+      C: "Attempting an in-place upgrade or purchasing a new retail license is highly inefficient and not cost-effective. The Media Feature Pack brings the N version to absolute feature parity for free without reinstalling the OS.",
+      D: "While Windows 11 setup often requires a Microsoft account, syncing an account only synchronizes user preferences, passwords, and themes. It does not download OS-level architectural feature packs."
+    },
+    examTrap: "The \"Obscure Edition Knowledge\" trap. The exam checks your understanding of geographic/legal OS variants and their specific remediation paths."
+  },
+  {
+    id: "Q008",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A client’s Windows 10 workstation is experiencing severe OS instability and frequent blue screens, with no clear hardware or malware cause. The technician decides that the core operating system files are corrupt. The client explicitly states they do not have the original installation media for a highly specialized, locally installed accounting software, so the application MUST NOT be deleted.",
+    prompt: "Which of the following repair methods is the BEST choice to resolve the OS corruption while meeting the client's strict requirements?",
+    choices: [
+      { key: "A", text: "Boot to the hidden OEM recovery partition and initiate a factory reset." },
+      { key: "B", text: "Use the Windows setup media to perform an in-place upgrade." },
+      { key: "C", text: "Execute the Windows \"Refresh\" option from the Settings menu." },
+      { key: "D", text: "Perform a clean installation and use a cloned image backup to restore the software." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"highly specialized, locally installed accounting software... MUST NOT be deleted\".",
+    explanationCorrect: "An in-place upgrade involves running the Windows setup program from within an existing, booting OS. Its primary design is to replace and upgrade the core OS files while strictly preserving third-party applications, user settings, and data files. This is the only option that directly repairs the OS without wiping the installed desktop applications.",
+    explanationIncorrect: {
+      A: "Booting from the OEM recovery partition will reset the system back to its factory state. This securely wipes all user data, settings, and critically, the specialized third-party accounting application.",
+      B: "",
+      C: "The Windows \"Refresh\" option is a built-in repair tool that reinstalls system files and keeps personalization data, but it explicitly removes installed desktop applications. This violates the client's strict requirement.",
+      D: "A clean installation completely wipes the disk. While a cloned image backup would restore the software, it would also restore the corrupted OS files that caused the blue screens in the first place, leaving the technician back at square one."
+    },
+    examTrap: "The \"Terminology Confusion\" trap. Test-takers often confuse \"Refresh,\" \"Reset,\" and \"In-place upgrade\" regarding which specific user data and applications are retained."
+  },
+  {
+    id: "Q009",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A financial firm is auditing its mobile workforce to ensure data at rest is secure. The fleet consists of 15 laptops running Windows 10 Pro and 5 laptops running Windows 10 Home. The Chief Information Security Officer (CISO) mandates that all laptops must enforce full disk encryption using native OS features, and they must be manageable via Group Policy.",
+    prompt: "What is the most efficient course of action to bring all devices into compliance?",
+    choices: [
+      { key: "A", text: "Use volume licensing to upgrade the 5 Windows 10 Home laptops to Windows 10 Education." },
+      { key: "B", text: "Enable BitLocker natively on all 20 laptops, as it is standard across Windows 10 versions." },
+      { key: "C", text: "Upgrade the 5 Windows 10 Home laptops to Windows 10 Pro, then deploy BitLocker via Group Policy." },
+      { key: "D", text: "Convert the 5 Windows 10 Home laptops to workgroup mode to enable Remote Desktop Protocol encryption." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"full disk encryption using native OS features... manageable via Group Policy... 5 laptops running Windows 10 Home\".",
+    explanationCorrect: "The CISO is requiring the use of BitLocker for encryption and the Group Policy Editor (gpedit.msc) for management. Windows 10 Home explicitly lacks support for both BitLocker and Group Policy. To meet the mandate, the 5 Home laptops must be upgraded to Windows Pro (or Enterprise), which natively supports these required security features.",
+    explanationIncorrect: {
+      A: "Windows 10 Education contains the required features, but it is specialized for educational institutions and licensed through academic volume agreements, making it highly inappropriate and legally problematic for a financial firm.",
+      B: "BitLocker is not standard across all Windows 10 versions. It is definitively not supported in Windows Home.",
+      C: "",
+      D: "Workgroup mode is a decentralized networking standard that does not provide full disk encryption. Furthermore, while Windows Home supports the RDP client, it lacks the RDP host server capabilities found in Pro, and RDP encryption secures network traffic, not data at rest."
+    },
+    examTrap: "The \"Feature Parity\" trap. The exam mixes domains (Security + OS) to ensure you know exactly which OS edition unlocks critical enterprise security tools."
+  },
+  {
+    id: "Q010",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A company is downsizing its IT infrastructure. A user currently possesses a powerful workstation running Windows 10 Enterprise. The IT manager purchases a Windows 10 Pro retail license and instructs a technician to downgrade the workstation so the Enterprise license can be reclaimed, while ensuring the user's apps and desktop settings remain exactly as they are.",
+    prompt: "What will occur when the technician attempts this downgrade process?",
+    choices: [
+      { key: "A", text: "The setup will successfully preserve the user's files, but all desktop applications will be uninstalled." },
+      { key: "B", text: "The downgrade will proceed normally once the system connects to the central Domain Controller." },
+      { key: "C", text: "The setup program will block the operation because downgrading from Enterprise is not supported." },
+      { key: "D", text: "The downgrade will require the technician to wipe the drive using a clean installation first." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"downgrade the workstation... running Windows 10 Enterprise... ensuring the user's apps and desktop settings remain\".",
+    explanationCorrect: "Microsoft establishes strict upgrade paths for its operating systems. While you can upgrade within the same or higher edition, downgrading an OS edition (such as moving from Enterprise to Pro, or Pro to Home) has severe limitations. Specifically, downgrading from the Enterprise edition to any other edition is outright not supported by the Windows setup architecture.",
+    explanationIncorrect: {
+      A: "If you were downgrading from Pro to Home, it is true that personal files are kept but apps and settings are lost. However, because the source OS is Enterprise, the downgrade is entirely blocked.",
+      B: "Connecting to a Domain Controller manages policies and accounts, it does not alter the fundamental OS installation rules or bypass Microsoft's upgrade path restrictions.",
+      C: "",
+      D: "While a clean installation is the only technical way to get Windows 10 Pro onto that machine, a clean install is not a \"downgrade process\" (it's a destructive overwrite). It completely violates the manager's instruction to ensure \"the user's apps and desktop settings remain exactly as they are\"."
+    },
+    examTrap: "The \"Invalid Path\" trap. Candidates often assume that if an OS can be upgraded, it can smoothly be rolled back or downgraded identically."
+  },
+  {
+    id: "Q011",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A hospital IT technician is preparing to perform an in-place upgrade from Windows 10 Pro to Windows 11 Pro on a medical imaging computer. The technician runs the PC Health Check compatibility advisor, which flags a mission-critical third-party DICOM viewer application as incompatible with Windows 11. The vendor's website confirms a newer, Windows 11-compatible version of the DICOM viewer is available for download.",
+    prompt: "According to CompTIA troubleshooting and upgrade methodology, what is the BEST sequence of steps to resolve this?",
+    choices: [
+      { key: "A", text: "Proceed with the in-place upgrade immediately, then use the Windows 11 compatibility troubleshooter to force the old DICOM viewer to run." },
+      { key: "B", text: "Back up user data, perform a clean install of Windows 11 Pro, and then install the new DICOM viewer." },
+      { key: "C", text: "Uninstall the incompatible DICOM application, perform the in-place upgrade, and then install the new version of the application." },
+      { key: "D", text: "Use an unattended installation answer file to bypass the PC Health Check warning and force the upgrade." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"flags a mission-critical third-party DICOM viewer application as incompatible... vendor's website confirms a newer, Windows 11-compatible version\".",
+    explanationCorrect: "When a pre-upgrade compatibility advisor flags incompatible software, leaving the software installed during an in-place upgrade can cause the setup to fail or result in severe system instability post-upgrade. The correct methodology is to uninstall the incompatible software or hardware prior to running the upgrade, complete the OS upgrade, and then install the updated, compatible version provided by the vendor.",
+    explanationIncorrect: {
+      A: "Proceeding with the upgrade while known incompatible software is installed is reckless and goes against best practices, as it can corrupt the upgrade process or cause blue screens. Legacy compatibility modes are not guaranteed to work, especially for complex medical imaging software.",
+      B: "A clean install is unnecessary and destructive. An in-place upgrade is specifically designed to save time by preserving other user data, network settings, and compatible applications. If a path for an in-place upgrade exists, it is preferred over a clean install for single-application issues.",
+      C: "",
+      D: "An answer file automates installation choices; it does not magically resolve underlying kernel-level application incompatibilities. Forcing an upgrade past a hard warning will result in a broken system."
+    },
+    examTrap: "The \"Order of Operations / Remediation vs. Prevention\" trap. It tests if you know how to sequence an upgrade when faced with a software roadblock (Uninstall -> Upgrade -> Reinstall)."
+  },
+  {
+    id: "Q012",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "An enthusiast is building a high-performance video editing rig. They install a specialized hardware RAID controller and configure four NVMe drives into a RAID 10 array. The system's UEFI correctly detects the RAID array. However, when the user boots from a Windows 11 setup USB flash drive to perform a clean installation, the destination drive selection screen is completely blank.",
+    prompt: "What is the MOST likely cause of this issue, and what is the appropriate remediation?",
+    choices: [
+      { key: "A", text: "The Windows setup media does not natively contain the third-party RAID controller driver; the user must provide the driver on a USB drive during setup." },
+      { key: "B", text: "The USB flash drive was created using the FAT32 file system; it must be reformatted to NTFS using the Windows Media Creation Tool." },
+      { key: "C", text: "The RAID array is currently partitioned as MBR; the user must run the mbr2gpt utility in the command prompt before setup can see the disk." },
+      { key: "D", text: "Hardware RAID controllers are not supported in Windows 11; the user must disable the controller and configure Windows Software RAID." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"UEFI correctly detects the RAID array... Windows 11 setup... destination drive selection screen is completely blank\".",
+    explanationCorrect: "The Windows installation environment (WinPE) only contains basic, generic drivers. It frequently lacks the specific third-party drivers required to interface with specialized mass storage devices, such as hardware RAID controllers. If the setup cannot communicate with the RAID controller, it cannot see the logical volume. The solution is to download the driver from the vendor and load it during the Windows setup sequence (often referred to as the \"F6\" or \"Load Driver\" step).",
+    explanationIncorrect: {
+      A: "",
+      B: "The file system of the USB installation media (FAT32 vs NTFS) dictates how the setup files are stored on the thumb drive, not whether the setup environment can detect internal PCI-e storage targets. In fact, UEFI systems often require the bootable USB to be FAT32.",
+      C: "If a drive was initialized as MBR, the Windows installer would still physically see the drive on the selection screen; it would merely give an error saying \"Windows cannot be installed to this disk\" because UEFI requires GPT. Complete invisibility implies a driver issue.",
+      D: "Windows absolutely supports hardware RAID controllers. Software RAID is an alternative, but hardware RAID is standard for high-performance workstations and is fully compatible once the correct driver is supplied."
+    },
+    examTrap: "The \"OS vs. Firmware Visibility\" trap. If the BIOS/UEFI sees the hardware but the OS installer does not, it is almost exclusively a driver omission within the installation media."
+  },
+  {
+    id: "Q013",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A user’s Windows 10 PC has become incredibly slow and unstable due to an unknown software conflict. The user wants to repair the operating system to regain performance. However, they explicitly insist that their downloaded Windows Store apps, desktop wallpaper, and personal documents remain fully intact. They do not care if standard, locally installed desktop programs (like their third-party web browser) are removed during the process.",
+    prompt: "Which built-in Windows repair tool is the MOST appropriate choice to meet these specific requirements?",
+    choices: [
+      { key: "A", text: "Initiate a boot from the hidden factory recovery partition." },
+      { key: "B", text: "Execute the Windows \"Refresh\" option from the repair menu." },
+      { key: "C", text: "Perform a full Windows \"Reset\" from the Settings menu." },
+      { key: "D", text: "Use an in-place upgrade utilizing original Windows 10 installation media." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Windows Store apps, desktop wallpaper, and personal documents remain fully intact. They do not care if standard, locally installed desktop programs... are removed\"",
+    explanationCorrect: "The Windows \"Refresh\" option is specifically designed to reinstall core system files and reset most settings to default while uniquely preserving user personalization, data files, and Windows Store apps. It explicitly removes standard desktop applications, which perfectly aligns with the user's stated requirements and lack of concern for their desktop programs. Choosing this option remediates the OS instability while honoring the data retention boundaries.",
+    explanationIncorrect: {
+      A: "Booting from a factory recovery partition is technically a valid way to fix an OS, but it is incorrect here because it completely resets the system to its out-of-the-box state. This process destructively erases all user data, personal settings, and downloaded Windows Store apps.",
+      B: "",
+      C: "A full Windows Reset deletes the OS, user settings, data files, and apps to prepare for a fresh installation. This violates the strict requirement to keep personal documents and Windows Store apps intact.",
+      D: "An in-place upgrade is a valid repair method, but it is not the best option for this specific scenario because it is designed to strictly preserve all applications, including the third-party desktop apps that might be causing the instability in the first place. The \"Refresh\" option is the intended CompTIA objective for this specific data-retention profile."
+    },
+    examTrap: "The \"Terminology Nuance\" trap. Candidates often conflate \"Refresh,\" \"Reset,\" and \"Restore,\" but CompTIA specifically tests the distinct boundary of what the Refresh feature preserves (Store apps) versus what it destroys (Desktop apps)."
+  },
+  {
+    id: "Q014",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A bioinformatics research laboratory purchases a custom, high-end workstation featuring a quad-socket motherboard (4 physical CPUs) and 4 TB of RAM to handle massive genomic calculations. The IT intern installs a retail copy of Windows 11 Pro. The system boots successfully, but the researchers complain that the software is performing sluggishly. Upon inspection, the Task Manager indicates that only 2 CPUs and 2 TB of RAM are being utilized by the system.",
+    prompt: "What is the MOST likely cause of this severe hardware underutilization?",
+    choices: [
+      { key: "A", text: "The intern accidentally installed the 32-bit architectural version of Windows 11 Pro instead of the 64-bit version." },
+      { key: "B", text: "The system’s UEFI firmware requires a GPT partition style to address memory beyond the 2 TB limit." },
+      { key: "C", text: "Windows 11 Pro is natively restricted to a maximum of 2-way multiprocessing and 2 TB of RAM." },
+      { key: "D", text: "The retail license restricts hardware access; a volume license key must be applied to unlock all hardware." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"quad-socket motherboard (4 physical CPUs) and 4 TB of RAM... retail copy of Windows 11 Pro... only 2 CPUs and 2 TB of RAM are being utilized\"",
+    explanationCorrect: "Microsoft hardcodes hardware support limits based on the specific Windows edition. Windows 11 Pro and Education editions have an architectural cap: they only support up to 2-way multiprocessing (2 physical CPUs) and a maximum of 2 TB of RAM. To utilize a 4-socket system and up to 6 TB of RAM, the system must be upgraded to Windows Pro for Workstations or Windows Enterprise. The OS is simply ignoring the hardware that exceeds its licensed capability.",
+    explanationIncorrect: {
+      A: "A 32-bit architecture limits RAM access to a maximum of 4 GB, not 2 TB. Furthermore, Windows 11 is 64-bit only, meaning a 32-bit version of Windows 11 Pro does not actually exist.",
+      B: "The GUID Partition Table (GPT) and Master Boot Record (MBR) partition styles dictate storage disk size limitations (e.g., the 2 TB disk partition limit of MBR), not physical RAM limits or CPU multiprocessing limits.",
+      C: "",
+      D: "Licensing models (Retail vs. Volume) dictate transferability and enterprise deployment rights, not the intrinsic hardware capability of the OS edition. A Volume license of standard Pro would still have the same 2 CPU / 2 TB limit."
+    },
+    examTrap: "The \"Cross-Domain Variable\" trap (Hardware limits vs Storage limits). The prompt uses \"2 TB,\" baiting candidates into thinking about MBR storage limitations when the question is actually about OS-level volatile memory (RAM) caps."
+  },
+  {
+    id: "Q015",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A developer is setting up a multiboot workstation to test application backward compatibility. They have a newly formatted 2 TB NVMe drive and intend to partition it into two equal volumes. The developer plans to install Windows 10 on one partition and Windows 11 on the other partition, allowing them to choose between the environments during startup using the Windows Boot Manager.",
+    prompt: "What is the correct installation procedure to ensure a stable boot menu without risking configuration corruption?",
+    choices: [
+      { key: "A", text: "Install Windows 11 first, then use the mbr2gpt utility to convert the drive before installing Windows 10." },
+      { key: "B", text: "Install Windows 10 on the first partition, then install Windows 11 on the second partition." },
+      { key: "C", text: "Use the Windows System Image Manager to simultaneously deploy both operating systems via PXE." },
+      { key: "D", text: "Install Windows 11 first, then install Windows 10, allowing the newer boot loader to manage the legacy OS." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"multiboot workstation... Windows 10... and Windows 11... ensure a stable boot menu\"",
+    explanationCorrect: "When configuring a multiboot environment involving multiple versions of Windows, it is a strict technical best practice to install the oldest operating system first. The older OS (Windows 10) installs its boot loader, and when the newer OS (Windows 11) is installed subsequently, its setup program is designed to recognize the older installation, preserve it, and cleanly add it to the updated Windows Boot Manager menu.",
+    explanationIncorrect: {
+      A: "The mbr2gpt utility changes the partition style from MBR to GPT; it has nothing to do with managing the sequence of a multiboot installation. Both OSes require GPT anyway since Windows 11 relies on UEFI.",
+      B: "",
+      C: "The Windows System Image Manager (WSIM) is used to create unattended answer files. Furthermore, you cannot simultaneously execute two different OS installations onto two different partitions via a single PXE boot instance.",
+      D: "This is the exact opposite of the correct procedure. Installing an older Windows OS after a newer one will result in the older OS blindly overwriting the newer boot loader, which frequently breaks the boot configuration and renders the newer OS unbootable without manual repair."
+    },
+    examTrap: "The \"Reverse Sequence\" trap. It tests if you know the cardinal rule of Microsoft multiboot setups: always go from oldest to newest."
+  },
+  {
+    id: "Q016",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A system administrator for a large healthcare clinic needs to deploy Windows 11 Enterprise to 500 identical workstations over the next month. To ensure HIPAA compliance, every machine must have identical security policies, regional settings, and local administrator credentials configured automatically, without any input from local IT technicians during the setup process.",
+    prompt: "Which of the following tools should the administrator use to generate the configuration script required for this massive unattended deployment?",
+    choices: [
+      { key: "A", text: "Group Policy Editor (gpedit.msc)" },
+      { key: "B", text: "Microsoft Desktop Optimization Pack (MDOP)" },
+      { key: "C", text: "Windows System Image Manager (WSIM)" },
+      { key: "D", text: "PC Health Check App" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"configured automatically, without any input from local IT technicians during the setup process... generate the configuration script\"",
+    explanationCorrect: "Unattended installations require a specific configuration script called an \"answer file\" to automate choices and settings during the Windows setup phase (such as setting passwords and regional configurations). The official Microsoft tool used to create, modify, and validate these XML-based answer files is the Windows System Image Manager (WSIM).",
+    explanationIncorrect: {
+      A: "The Group Policy Editor (gpedit.msc) is used to enforce OS and application settings after an operating system is already installed and running. It is not used to create pre-installation answer files.",
+      B: "The Microsoft Desktop Optimization Pack is an advanced management and monitoring feature suite available for Enterprise editions, but it is not the tool used to construct the unattended setup script/answer file.",
+      C: "",
+      D: "The PC Health Check app is a pre-upgrade compatibility advisor used to determine if existing hardware meets Windows 11 requirements; it performs no deployment or scripting functions."
+    },
+    examTrap: "The \"Post-Deployment vs Pre-Deployment Tool\" trap. Distractors like Group Policy are valid configuration tools, but only WSIM creates the pre-boot answer file for an unattended installation."
+  },
+  {
+    id: "Q017",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A manufacturing plant is upgrading an industrial control PC from Windows 10 Pro 32-bit to Windows 10 Pro 64-bit via a clean install. The plant relies on legacy 32-bit proprietary control software, which installs and launches flawlessly on the new 64-bit OS. However, the system fails to interact with the proprietary internal PCI expansion card that physically controls the machinery. Device Manager shows an error code for the expansion card, despite the technician applying the original driver files.",
+    prompt: "What is the fundamental cause of this hardware communication failure?",
+    choices: [
+      { key: "A", text: "The 64-bit version of Windows requires a 64-bit hardware driver that is digitally signed by Microsoft; the legacy 32-bit driver cannot be executed." },
+      { key: "B", text: "The 64-bit operating system architecture natively lacks support for running legacy 32-bit application software." },
+      { key: "C", text: "The UEFI firmware with Secure Boot enabled is actively blocking the legacy PCI expansion card from powering on." },
+      { key: "D", text: "Windows 10 Pro requires a volume licensing agreement to support proprietary industrial PCI expansion devices." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Windows 10 Pro 64-bit... legacy 32-bit proprietary control software... fails to interact with the proprietary internal PCI expansion card... applying the original driver files\"",
+    explanationCorrect: "While a 64-bit Windows OS is highly backward-compatible with 32-bit software applications, hardware operates at the kernel level and has much stricter architectural rules. A 64-bit OS absolutely requires 64-bit hardware drivers, and furthermore, these drivers must be digitally signed by Microsoft to be loaded. The technician is attempting to use a 32-bit driver on a 64-bit OS, which the kernel will reject.",
+    explanationIncorrect: {
+      A: "",
+      B: "This is factually incorrect and directly contradicts the scenario. A 64-bit version of Windows 10 can run most 32-bit applications, which is why the prompt explicitly states the control software installed and launched flawlessly.",
+      C: "Secure Boot verifies the bootloader and core OS files during startup to prevent rootkits; it does not individually block local PCI expansion cards from powering on after the OS has already successfully booted.",
+      D: "Hardware compatibility is dictated by architecture and drivers, not by the licensing model (Retail vs Volume). An Enterprise Volume license will not magically force a 64-bit kernel to accept a 32-bit hardware driver."
+    },
+    examTrap: "The \"Software vs Hardware Architecture\" trap. Candidates often learn that \"64-bit can run 32-bit,\" but forget that this rule only applies to user-space applications, not kernel-space hardware drivers."
+  },
+  {
+    id: "Q018",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A corporate IT department wants to utilize remote zero-touch deployment for its newly hired remote sales team. Brand new laptops are shipped directly from the hardware vendor to the employees' personal residences. The IT department has pre-configured the cloud-based services with the appropriate corporate apps and configurations.",
+    prompt: "What prerequisite MUST be met on the employee's end before this specific deployment strategy can initiate?",
+    choices: [
+      { key: "A", text: "The employee must configure their home router to enable Preboot Execution Environment (PXE) forwarding." },
+      { key: "B", text: "The employee must boot the laptop from a slipstreamed USB drive containing Windows PE." },
+      { key: "C", text: "The employee must connect the laptop to the Internet so the device can reach the cloud-based services." },
+      { key: "D", text: "The employee must log into the local Domain Controller using a temporary local admin account." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"remote zero-touch deployment... shipped directly... to the employees' personal residences\"",
+    explanationCorrect: "Remote zero-touch deployment is a modern provisioning method designed to eliminate IT intervention. It works by having the device connect to a cloud-based management service (like Microsoft Autopilot) during its very first out-of-the-box boot. For this automatic configuration to trigger, the absolute fundamental requirement is that the user must establish an Internet connection so the device can phone home and download its assigned profile.",
+    explanationIncorrect: {
+      A: "PXE boot is used for traditional local network booting (connecting to a local server on the same LAN). Employees cannot and do not need to configure PXE forwarding on consumer home routers for a cloud-based zero-touch deployment.",
+      B: "Booting from a USB drive containing WinPE is a form of attended or traditional imaging. Zero-touch explicitly avoids the need for physical media or USB drives.",
+      C: "",
+      D: "By definition, a remote employee in their home does not have physical access to the on-premise local Domain Controller. Furthermore, logging into a local admin account defeats the \"zero-touch\" automated profile assignment."
+    },
+    examTrap: "The \"Modern vs Legacy Deployment\" trap. CompTIA wants to ensure you know the difference between traditional network imaging (PXE/LAN) and modern zero-touch provisioning (Cloud/Internet)."
+  },
+  {
+    id: "Q019",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "An employee is working from home using a personal desktop running Windows 11 Home. They are experiencing severe issues connecting to the corporate VPN. The corporate IT helpdesk requests to remotely access the user's desktop to troubleshoot the issue using the native Microsoft Remote Desktop Protocol (RDP). The helpdesk can ping the user's public IP address, but the RDP connection is immediately rejected.",
+    prompt: "Which of the following explains why the remote connection is failing?",
+    choices: [
+      { key: "A", text: "Windows Home edition only includes the RDP client software and lacks the RDP server capabilities needed to host an incoming connection." },
+      { key: "B", text: "Native RDP connections require the target machine to be actively joined to a Windows domain, which Home edition does not support." },
+      { key: "C", text: "Windows 11 Home is an N version operating system, meaning all communication and media protocols like RDP are stripped out." },
+      { key: "D", text: "The helpdesk must utilize the gpedit.msc console to enable RDP incoming requests on the target Home machine." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"personal desktop running Windows 11 Home... native Microsoft Remote Desktop Protocol (RDP)... RDP connection is immediately rejected\"",
+    explanationCorrect: "The Remote Desktop Protocol requires two components: a client (to initiate the view) and a host/server (to receive the connection and broadcast the screen). While Windows Home edition comes with the RDP client software (allowing the user to connect to other machines), it fundamentally lacks the RDP host/server feature. Therefore, it is impossible for the IT helpdesk to natively RDP into a Windows Home machine.",
+    explanationIncorrect: {
+      A: "",
+      B: "While Windows Home cannot join a domain, RDP itself does not strictly require a domain environment. You can RDP into a stand-alone Workgroup machine running Windows Pro using local credentials.",
+      C: "\"N versions\" of Windows strip out multimedia applications (like Windows Media Player and Skype) to comply with EU regulations. They do not strip out core remote networking protocols like RDP.",
+      D: "The Group Policy Editor (gpedit.msc) is a valid tool for configuring RDP on enterprise machines, but Windows Home edition does not include the Group Policy Editor feature natively."
+    },
+    examTrap: "The \"Partial Feature\" trap. Students often see \"RDP\" and \"Windows Home\" and think \"Home doesn't have RDP at all.\" It does have RDP, but only the client, not the host."
+  },
+  {
+    id: "Q020",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A healthcare facility is decommissioning a fleet of nursing station laptops. Before recycling them, an IT technician attempts to boot into the hidden factory recovery partitions created by the OEM to reset the OS and wipe patient data. A year prior, these laptops had their primary 500 GB mechanical hard drives replaced with 1 TB aftermarket solid-state drives for better performance. The original drives were securely stored in an IT vault. The technician presses the correct OEM hotkey during startup, but the factory reset fails to initialize.",
+    prompt: "What is the specific limitation preventing this remediation strategy?",
+    choices: [
+      { key: "A", text: "The factory recovery tool only works with the original hard disk that shipped with the device from the manufacturer." },
+      { key: "B", text: "The recovery partition requires the Windows System Image Manager to authenticate the aftermarket SSD." },
+      { key: "C", text: "A factory recovery partition cannot natively perform operations on a drive using the GPT partition style." },
+      { key: "D", text: "The recovery partition was automatically deleted by the system when the RAM was upgraded." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"boot into the hidden factory recovery partitions... primary 500 GB mechanical hard drives replaced with 1 TB aftermarket solid-state drives\"",
+    explanationCorrect: "A factory recovery partition is a specialized, hidden segment of a disk created by the Original Equipment Manufacturer (OEM). Because this partition lives physically on the disk provided by the factory, if a technician removes the original hard drive and replaces it with a completely new, blank aftermarket SSD, the hidden recovery partition is physically gone from the machine. The recovery tool only works if the original disk (containing the hidden partition) is still installed.",
+    explanationIncorrect: {
+      A: "",
+      B: "The Windows System Image Manager (WSIM) is an administrative tool used to create XML answer files for unattended installations, not an authentication tool for hard drives or recovery partitions.",
+      C: "Recovery partitions can absolutely reside on and operate within GPT-styled disks; modern UEFI systems rely entirely on GPT partitions.",
+      D: "Changing volatile memory (RAM) has no impact on non-volatile storage partitions. The partition wasn't deleted by a RAM change; it was physically removed when the old hard drive was swapped out."
+    },
+    examTrap: "The \"Physical vs Logical\" trap. Candidates must remember that hidden partitions aren't magical firmware features; they are physical data sectors on the specific hard drive installed by the factory."
+  },
+  {
+    id: "Q021",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "An enterprise network uses an Internet-based boot setup so satellite office endpoints can pull OS deployment images securely from a central cloud server. A technician at a satellite office configures a target PC's firmware for network booting. The client PC successfully receives a local IP address from the router, but the boot sequence immediately fails because it cannot locate the remote installation server.",
+    prompt: "What network configuration MUST be verified on the local network to resolve this specific deployment failure?",
+    choices: [
+      { key: "A", text: "The local DHCP server must be configured to provide the DNS name of the installation server to the client." },
+      { key: "B", text: "The local router must be configured with a static IP address to support PXE-compliant firmware." },
+      { key: "C", text: "The target PC must have its internal hard drive set as the highest priority boot device." },
+      { key: "D", text: "The client network must be using the Resilient File System (ReFS) to cache the incoming image." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Internet-based boot setup... successfully receives a local IP address... cannot locate the remote installation server\"",
+    explanationCorrect: "In a network or internet-based boot scenario, the client device powers on with a blank drive and uses PXE to broadcast for a DHCP server. While the DHCP server provides a local IP address (which succeeded here), it must also provide the client with the specific DNS name or IP address of the remote installation server. If the DHCP server omits this critical piece of pointer information, the client will have an IP address but nowhere to go to download its OS image.",
+    explanationIncorrect: {
+      A: "",
+      B: "While network booting relies on a PXE-compliant network adapter, a local router having a static IP address is not the missing variable. The client needs the target server's address, not just a static gateway.",
+      C: "If the internal hard drive is set as the highest priority boot device, the machine will attempt to boot from the blank drive and will never initiate the network boot process. Network (PXE) boot must be prioritized first.",
+      D: "ReFS (Resilient File System) is an advanced local file system used for high-availability data storage on Windows Pro for Workstations/Enterprise. It has nothing to do with network boot protocols or caching OS deployments."
+    },
+    examTrap: "The \"Incomplete Networking Setup\" trap. It integrates networking concepts (DHCP options/DNS) with OS installation requirements."
+  },
+  {
+    id: "Q022",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A small business owner purchases a new laptop pre-installed with Windows 11 Home (version 22H2) from a local electronics store. They take the laptop to a newly leased warehouse that does not yet have an active Wi-Fi or Ethernet connection. The owner turns the laptop on and attempts to complete the initial setup using a standard local administrator account.",
+    prompt: "What will occur during the Out-of-Box Experience (OOBE) setup phase?",
+    choices: [
+      { key: "A", text: "The setup will automatically generate a generic local account and bypass the network check." },
+      { key: "B", text: "The setup will permanently downgrade the operating system to Windows 10 Home." },
+      { key: "C", text: "The setup will halt, as this edition requires an Internet connection and a Microsoft account." },
+      { key: "D", text: "The setup will prompt the user to insert a USB drive containing BitLocker recovery keys." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Windows 11 Home (version 22H2)... does not yet have an active Wi-Fi or Ethernet connection... local administrator account\"",
+    explanationCorrect: "Microsoft significantly changed the setup requirements for modern consumer operating systems. As of version 22H2, Windows 11 Home explicitly requires an active Internet connection to complete the initial device setup. Furthermore, it strictly requires the user to sign in with or create a Microsoft account for personal use setup, meaning creating an offline local administrator account out of the box is blocked by default.",
+    explanationIncorrect: {
+      A: "This was possible in early versions of Windows 10, but Windows 11 Home enforces the network/Microsoft account requirement and will halt, not bypass the check.",
+      B: "An operating system cannot automatically or natively \"downgrade\" itself to a completely different OS version (Win 11 to Win 10) during an offline setup process.",
+      C: "",
+      D: "BitLocker is a full disk encryption feature that is completely unsupported in Windows Home editions. It would never be part of a Windows 11 Home setup process."
+    },
+    examTrap: "The \"Legacy Setup Knowledge\" trap. Techs used to bypassing network requirements for local accounts must know that Windows 11 Home strictly enforces internet connectivity."
+  },
+  {
+    id: "Q023",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A technician is configuring a custom-built legacy BIOS system using a disk initialized with the Master Boot Record (MBR) partition style. To highly organize the system, the technician creates three primary partitions: one for Windows OS files, one for a proprietary database, and one for system log files. The Windows files copy successfully, but upon restart, the system displays an \"Operating System Not Found\" error and halts.",
+    prompt: "What is the MOST likely cause of this boot failure?",
+    choices: [
+      { key: "A", text: "The MBR partition style strictly limits a single hard drive to a maximum of two primary partitions." },
+      { key: "B", text: "The specific primary partition containing the Partition Boot Record (PBR) was not marked as \"active\"." },
+      { key: "C", text: "A legacy BIOS system requires the GUID Partition Table (GPT) style to boot from multiple partitions." },
+      { key: "D", text: "The OS partition must be extended into a logical drive before the bootloader can execute." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"legacy BIOS system... MBR... creates three primary partitions... Operating System Not Found\"",
+    explanationCorrect: "In a legacy Master Boot Record (MBR) disk layout, you can have up to four primary partitions. However, for the BIOS to know exactly which of those partitions contains the boot loader (the Partition Boot Record or PBR), one—and only one—of those primary partitions must be explicitly flagged as \"active.\" If the technician copied the OS files but forgot to mark that specific partition as active, the BIOS will scan the disk, find no active boot flag, and halt with an error.",
+    explanationIncorrect: {
+      A: "This is factually incorrect. The MBR partition style mathematically supports up to four primary partitions, not two. Creating three is completely within the limits of the specification.",
+      B: "",
+      C: "This is entirely backwards. A legacy BIOS system fundamentally relies on MBR. UEFI is the firmware interface that strictly requires the GUID Partition Table (GPT) style to boot an OS.",
+      D: "A primary partition does not need to be extended into a logical drive to boot. In fact, logical drives inside an extended partition cannot be marked as active to serve as the initial boot sequence target in an MBR system."
+    },
+    examTrap: "The \"Active Flag\" trap. The prompt distracts you with multiple partitions and databases, but the core MBR rule remains: without an active flag, it won't boot."
+  },
+  {
+    id: "Q024",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A technician is responsible for deploying clean installations of Windows 10 to a fleet of offline, stand-alone retail kiosks using a manufacturer-provided installation DVD from 2019. After the base OS installs from the optical drive, the technician must spend two hours manually applying massive cumulative update patches and modern device drivers via a separate external USB drive.",
+    prompt: "What is the BEST long-term preventative strategy the technician should take to optimize future deployments for these kiosks?",
+    choices: [
+      { key: "A", text: "Use the Windows update menu to configure the kiosks for automated Zero-touch deployment." },
+      { key: "B", text: "Create slipstreamed installation media on a bootable USB drive containing the base OS and all necessary updates." },
+      { key: "C", text: "Use the mbr2gpt utility to bypass the outdated drivers loaded by the original DVD." },
+      { key: "D", text: "Configure the kiosks' UEFI firmware to utilize a factory recovery partition over a network PXE boot." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"offline, stand-alone retail kiosks... DVD from 2019... manually applying massive cumulative update patches\"",
+    explanationCorrect: "The technician is wasting time performing a two-step installation (outdated base OS, followed by manual patches). The standard industry solution is to create \"slipstreamed\" media. Slipstreaming is the process of integrating patches, updates, and driver files directly into the base OS installation image. By placing this updated image on a faster bootable USB drive, the technician can install a fully updated OS in a single, rapid deployment pass, entirely avoiding the outdated DVD.",
+    explanationIncorrect: {
+      A: "Zero-touch deployment strictly requires an active Internet connection to connect to cloud services. The scenario explicitly states these are \"offline, stand-alone\" kiosks, making cloud deployment impossible.",
+      B: "",
+      C: "The mbr2gpt utility is a command-line tool used to convert a disk's partition style from Master Boot Record to GUID Partition Table. It has absolutely nothing to do with injecting OS updates or bypassing outdated device drivers.",
+      D: "A factory recovery partition restores a machine to its original, unpatched factory state, which would put the technician right back where they started (needing to manually apply updates)."
+    },
+    examTrap: "The \"Optimization Methodology\" trap (Immediate Remediation vs Long-term Prevention). The exam tests if you recognize the term \"slipstreaming\" as the specific administrative answer to outdated physical installation media."
+  },
+  {
+    id: "Q025",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A software developer has successfully configured a multiboot environment on a single workstation, installing Windows 11 Pro on the first partition and Ubuntu Linux on the second. To streamline their workflow, they create a third 500 GB logical partition intended to serve as a shared repository. The developer needs to easily read and write project files to this third partition seamlessly from both operating systems without installing any third-party file system drivers or software.",
+    prompt: "Which of the following file systems MUST the technician format the shared partition with to meet this specific requirement?",
+    choices: [
+      { key: "A", text: "Resilient File System (ReFS)" },
+      { key: "B", text: "New Technology File System (NTFS)" },
+      { key: "C", text: "FAT32" },
+      { key: "D", text: "ext4" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"shared repository... seamlessly from both operating systems without installing any third-party file system drivers\"",
+    explanationCorrect: "When configuring a multiboot setup between distinct operating system families (like Windows and Linux), file system compatibility is a major hurdle. Windows natively uses NTFS, and Linux natively uses formats like ext4. To ensure seamless, native read/write data access between both operating systems out of the box, CompTIA best practices dictate setting up the shared partition using a universal file system. FAT32 is universally supported by almost all modern and legacy operating systems for both reading and writing without extra configuration.",
+    explanationIncorrect: {
+      A: "ReFS (Resilient File System) is a proprietary Microsoft file system designed for high data availability and fault tolerance. It is exclusively supported on advanced Windows editions (Pro for Workstations/Enterprise) and is natively unrecognizable by Linux.",
+      B: "NTFS is the standard native file system for modern Windows installations. While many modern Linux distributions have developed ways to read NTFS, it is not considered the universally supported standard for native, seamless two-way read/write sharing across distinct OS platforms without potential driver overhead.",
+      C: "",
+      D: "The ext4 file system is the native standard for Linux distributions (like Ubuntu). Windows natively lacks the ability to read or write to ext4 partitions entirely, meaning the files would be invisible when the developer boots into Windows."
+    },
+    examTrap: "The \"Native Compatibility vs. Best Performance\" trap. While NTFS and ext4 offer better security and file size limits, FAT32 is the only \"universal\" file system tested that guarantees native cross-platform compatibility in a multiboot scenario."
+  }, 
+{
+    id: "Q026",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A systems administrator is deploying Windows 10 Enterprise to 50 new workstations across a local network using a Preboot Execution Environment (PXE) boot strategy. The goal is a fully automated \"unattended installation\" so the IT team does not have to interact with the machines. The network boot is successful, and the setup process begins. However, halfway through the installation, the setup process abruptly pauses on every machine, prompting the technicians to manually accept the End User License Agreement (EULA) and manually input the local administrator password.",
+    prompt: "What is the MOST likely cause of this deployment interruption?",
+    choices: [
+      { key: "A", text: "The local DHCP server failed to provide the DNS name of the remote installation server." },
+      { key: "B", text: "The answer file created in Windows System Image Manager (WSIM) is missing specific configuration passes." },
+      { key: "C", text: "The workstations' UEFI firmware has Secure Boot enabled, which pauses automated scripts to verify the bootloader." },
+      { key: "D", text: "The Group Policy Editor (gpedit.msc) on the deployment server is configured to require manual EULA acceptance." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"fully automated 'unattended installation'... abruptly pauses... prompting the technicians to manually accept the End User License Agreement (EULA) and manually input\"",
+    explanationCorrect: "Unattended network deployments rely on a specifically formatted script called an \"answer file\" (typically unattend.xml in Windows) to automatically feed the setup program all the configuration choices that a human would normally click through. This file is generated using the Windows System Image Manager (WSIM). If the setup pauses and asks a human for input (like a password or EULA acceptance), it means the answer file was configured incorrectly and omitted those specific automated responses during the deployment configuration passes.",
+    explanationIncorrect: {
+      A: "The DHCP server is responsible for handing out an IP address and pointing the client to the PXE server. Because the prompt states \"The network boot is successful, and the setup process begins,\" the DHCP phase has already flawlessly completed.",
+      B: "",
+      C: "Secure Boot verifies the cryptographic signature of the OS bootloader before it executes to prevent rootkits. It operates invisibly in the background and does not generate graphical pop-ups asking users to accept software EULAs or input Windows passwords.",
+      D: "The Group Policy Editor (gpedit.msc) is used to enforce security policies and application settings after an operating system is already installed and running. It has no bearing on the pre-installation deployment environment."
+    },
+    examTrap: "The \"Symptom Sequencing\" trap. The exam tests if you can deduce exactly where in the installation pipeline the failure occurred. Because the network boot started successfully, networking tools (DHCP/PXE) are eliminated, isolating the issue to the deployment script tool (WSIM)."
+  },
+  {
+    id: "Q027",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A clinic's IT technician is tasked with repurposing an older desktop tower that utilizes legacy BIOS firmware. The clinic wants to use this tower as a standalone workstation and installs a brand new, blank 4 TB internal hard drive. The technician boots from the Windows 10 installation USB. Because the system uses legacy BIOS, the technician initializes the new internal drive using the Master Boot Record (MBR) partition style. The technician then creates a single primary partition for the OS and attempts to format it.",
+    prompt: "What will be the direct result of this configuration?",
+    choices: [
+      { key: "A", text: "The OS installation will fail entirely because legacy BIOS firmware cannot interface with hard drives larger than 2 TB." },
+      { key: "B", text: "The setup program will automatically convert the drive's partition style from MBR to GPT to utilize the full 4 TB." },
+      { key: "C", text: "The OS will install successfully, but the primary partition will be strictly limited to a maximum of 2 TB, wasting the remaining space." },
+      { key: "D", text: "The OS will install successfully, provided the technician extends the remaining 2 TB into multiple logical drives." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"legacy BIOS... blank 4 TB internal hard drive... initializes the new internal drive using the Master Boot Record (MBR)\"",
+    explanationCorrect: "The Master Boot Record (MBR) is an older partition style strictly required to boot an OS on legacy BIOS systems. However, MBR has a hard mathematical limitation based on its 32-bit sector tracking: it cannot address or utilize storage space beyond 2 Terabytes on a single disk. The installation will proceed, but the partition will cap at 2 TB, and the remaining 2 TB will be entirely unusable \"Unallocated Space\" that cannot be reclaimed while the disk remains MBR.",
+    explanationIncorrect: {
+      A: "Legacy BIOS has no issue interfacing with a physical 4 TB drive, it is the logical partition table (MBR) that creates the 2 TB software barrier. The OS will install just fine within the first 2 TB of the disk.",
+      B: "The setup program will not automatically convert the drive to GPT. Furthermore, if it did, the installation would fail upon reboot because GUID Partition Table (GPT) disks strictly require UEFI firmware to boot an OS, and this system has legacy BIOS.",
+      C: "",
+      D: "You cannot bypass the overall 2 TB disk limit of MBR by creating logical drives inside an extended partition. The 2 TB ceiling applies to the entire physical disk's addressable space, regardless of how you slice the partitions."
+    },
+    examTrap: "The \"Absolute Hardware Limits vs Logical Software Limits\" trap. It tests if you know that MBR doesn't break the physical drive, it just artificially shrinks its usable capacity."
+  },
+  {
+    id: "Q028",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A rapidly expanding enterprise currently utilizes Windows 10 Pro across all of its 500 employee laptops. Following a security audit, the Chief Information Security Officer (CISO) mandates that all devices must immediately implement AppLocker to control software execution and Windows Defender Credential Guard to protect domain credentials. The IT manager instructs the procurement department to purchase 500 standard Retail licenses from a local software vendor to upgrade the laptops to the necessary Windows edition.",
+    prompt: "Why will this procurement strategy fail to achieve the CISO's mandate?",
+    choices: [
+      { key: "A", text: "The required security features are only available in Windows Enterprise, which cannot be purchased via retail licenses." },
+      { key: "B", text: "Upgrading from Windows 10 Pro to an edition that supports AppLocker requires a complete clean installation, not a license upgrade." },
+      { key: "C", text: "Windows Defender Credential Guard is exclusive to Windows Pro for Workstations, which requires specific NVDIMM hardware." },
+      { key: "D", text: "Standard retail licenses only support downgrades; volume licensing is required to move up an upgrade path." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"implement AppLocker... and Windows Defender Credential Guard... purchase 500 standard Retail licenses\"",
+    explanationCorrect: "AppLocker and Windows Defender Credential Guard are advanced, enterprise-grade security and management features that are completely absent from Windows Pro. They are exclusive to the Windows Enterprise (and Education) editions. A critical licensing distinction is that Windows Enterprise is only available through corporate volume licensing agreements directly with Microsoft or authorized partners; it cannot be purchased as a standard retail license (Full Packaged Product) from a store.",
+    explanationIncorrect: {
+      A: "",
+      B: "You do not need a clean installation to move from Windows 10 Pro to Windows 10 Enterprise. If a volume licensing key is acquired, it can be deployed as an in-place upgrade, cleanly unlocking the Enterprise features without wiping data.",
+      C: "Windows Defender Credential Guard is an Enterprise/Education feature, not exclusive to Pro for Workstations. Furthermore, while Pro for Workstations supports persistent system RAM (NVDIMM), this hardware is not a requirement for Credential Guard.",
+      D: "Retail licenses fully support upgrading (e.g., moving from Windows Home to Windows Pro). The restriction here is the availability of the Enterprise edition in the retail channel, not the direction of the upgrade path."
+    },
+    examTrap: "The \"Licensing Availability\" trap. Knowing which OS edition has the feature is only half the battle; CompTIA expects you to know exactly how businesses are legally allowed to acquire those enterprise editions."
+  },
+  {
+    id: "Q029",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A hospital IT technician is tasked with decommissioning a mobile medical cart laptop because it is suffering from severe OS corruption. Hospital compliance policy dictates that before the laptop is reassigned, its software environment must be restored to the exact out-of-the-box state provided by the Original Equipment Manufacturer (OEM). Crucially, this state includes a suite of proprietary, pre-licensed medical tracking software and specialized hardware drivers injected by the OEM at the factory, for which the IT team has no separate installation media.",
+    prompt: "Which of the following repair methods is the ONLY way to remediate the OS while adhering to the strict compliance policy?",
+    choices: [
+      { key: "A", text: "Perform a clean installation using a slipstreamed Windows ISO on a bootable USB drive." },
+      { key: "B", text: "Press the assigned OEM hotkey during startup to boot into the hidden factory recovery partition." },
+      { key: "C", text: "Execute the native Windows \"Reset this PC\" option from the Advanced Startup Options menu." },
+      { key: "D", text: "Run the native Windows \"Refresh\" tool to reinstall the OS files while preserving the desktop applications." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"restored to the exact out-of-the-box state provided by the Original Equipment Manufacturer (OEM)... includes a suite of proprietary, pre-licensed medical tracking software... no separate installation media\"",
+    explanationCorrect: "A factory recovery partition is a specialized segment of the hard drive created by the computer's manufacturer (OEM). Unlike generic Windows installation media, this hidden partition contains a cloned image of the exact software state the computer was in when it left the assembly line—including the base OS, hardware drivers, and all pre-installed proprietary OEM third-party applications. By triggering this partition at boot (e.g., via F11 or CTRL+F11), the technician will perfectly fulfill the policy to restore the proprietary medical software without needing separate installation media.",
+    explanationIncorrect: {
+      A: "A clean installation via a slipstreamed ISO is technically valid for fixing OS corruption, but it installs a generic, base version of Windows from Microsoft. It will completely wipe the drive and will not contain the OEM's proprietary medical software, violating the policy.",
+      B: "",
+      C: "The native Windows \"Reset\" tool deletes the OS, settings, user data, and all third-party desktop apps to prepare a fresh installation using localized or cloud-downloaded generic Windows files. It will not restore the custom OEM-injected third-party software.",
+      D: "The Windows \"Refresh\" tool is a distractor because it explicitly deletes desktop applications while preserving Store apps and user files. It would wipe out the medical tracking software."
+    },
+    examTrap: "The \"Generic vs OEM Tool\" trap. Candidates often conflate Windows 10/11's built-in \"Reset\" feature with traditional OEM Factory Recovery partitions. Only the OEM partition guarantees the return of third-party bloatware/proprietary tools included at the factory."
+  },
+  {
+    id: "Q030",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A user upgrades their custom gaming desktop by replacing the motherboard and upgrading the physical RAM to 256 GB. They move their original solid-state drive—which contains a fully updated, 64-bit Windows 10 Home Original Equipment Manufacturer (OEM) installation—into the new motherboard. The system boots successfully, but the user notices two distinct issues: Windows displays a watermark stating it is no longer activated, and the Task Manager only reports 128 GB of usable memory.",
+    prompt: "What is the fundamental cause of these two symptoms?",
+    choices: [
+      { key: "A", text: "Windows Home 64-bit has a hard architectural cap of 128 GB of RAM, and OEM licenses cannot be transferred to a new motherboard." },
+      { key: "B", text: "The new motherboard requires a UEFI firmware update to address memory beyond 128 GB, and Retail licenses require a domain connection to reactivate." },
+      { key: "C", text: "The 64-bit architecture universally limits RAM to 128 GB across all consumer OS editions, and the user must purchase a Volume License key to reactivate." },
+      { key: "D", text: "The user accidentally booted into the 32-bit version of Windows 10 Home, which restricts RAM usage and invalidates 64-bit product keys." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"replacing the motherboard and upgrading the physical RAM to 256 GB... Windows 10 Home Original Equipment Manufacturer (OEM)... no longer activated... only reports 128 GB\"",
+    explanationCorrect: "This scenario tests two distinct Windows Home limitations. First, an OEM license is legally and technically bound to the original device (specifically the motherboard); it cannot be transferred to a new motherboard like a Retail license can. Second, while 64-bit architectures support massive amounts of RAM generally, Microsoft artificially caps the 64-bit edition of Windows Home at a maximum of 128 GB of RAM. The OS simply ignores the remaining 128 GB installed on the board.",
+    explanationIncorrect: {
+      A: "",
+      B: "UEFI does not inherently limit RAM to 128 GB; that is an OS-level software restriction. Furthermore, the prompt explicitly states this is an OEM license, not a Retail license, and Retail licenses do not require a domain to activate (Home cannot even join a domain).",
+      C: "The 64-bit architecture is not universally limited to 128 GB. Windows Pro supports up to 2 TB, and Enterprise supports up to 6 TB. Additionally, Home editions cannot be purchased via Volume Licensing.",
+      D: "A 32-bit version of Windows is mathematically limited to 4 GB of RAM, not 128 GB. Furthermore, you cannot \"accidentally boot\" into a 32-bit version from a drive that contains a 64-bit installation."
+    },
+    examTrap: "The \"Dual-Domain Variable\" trap. The exam will combine licensing rules (OEM vs Retail) with edition-specific hardware caps (128 GB Home vs 2 TB Pro) to ensure you know the exact limits of an OS tier."
+  },
+  {
+    id: "Q031",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "An administrator is attempting an in-place upgrade from Windows 10 Pro to Windows 11 Pro on a corporate workstation. The workstation features a supported 8th-generation 64-bit processor, a GPT-formatted disk, and UEFI firmware with Secure Boot enabled. However, the Windows 11 setup wizard halts the installation, stating that the device fails to meet the strict security integrity requirements for the new operating system.",
+    prompt: "Which of the following is the MOST likely missing prerequisite that must be configured before the upgrade can proceed?",
+    choices: [
+      { key: "A", text: "The system's Master Boot Record (MBR) must be converted using the mbr2gpt utility." },
+      { key: "B", text: "The Trusted Platform Module (TPM) 2.0 must be enabled in the system's UEFI firmware." },
+      { key: "C", text: "The workstation must be joined to a Windows Domain Controller to authenticate the upgrade." },
+      { key: "D", text: "The Group Policy Editor must be used to bypass the Windows Defender Credential Guard check." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"fails to meet the strict security integrity requirements... Windows 11 setup wizard halts\"",
+    explanationCorrect: "Windows 11 enforces strict hardware-level security prerequisites. Alongside a supported CPU and Secure Boot, Windows 11 absolutely requires a Trusted Platform Module (TPM) 2.0 chip to be present and enabled in the motherboard's firmware. TPM 2.0 secures cryptographic keys and authenticates the system at startup to prevent rootkits. Without it enabled, the Windows 11 installer will hard-block the upgrade.",
+    explanationIncorrect: {
+      A: "The scenario explicitly states the disk is already a \"GPT-formatted disk.\" Running the mbr2gpt utility is unnecessary and impossible on a disk that is already configured with a GUID Partition Table.",
+      B: "",
+      C: "A domain connection is a networking and management feature utilized by Pro and Enterprise editions, but it is never a mandatory prerequisite for the local installation or upgrade of a Windows OS.",
+      D: "Credential Guard is an Enterprise/Education feature, not a Pro feature. Regardless, it is an OS-level service, not a pre-boot hardware security requirement that blocks Windows 11 installations."
+    },
+    examTrap: "The \"Hidden Hardware Prerequisite\" trap. Candidates often focus on CPU, RAM, and Storage, forgetting that modern Windows heavily tests cryptographic hardware components (TPM 2.0)."
+  },
+  {
+    id: "Q032",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A medium-sized business recently hired a Chief Information Security Officer (CISO). The CISO discovers the entire fleet of 300 employee laptops currently runs Windows 10 Pro. To secure the environment, the CISO mandates the immediate deployment of AppLocker to strictly control software execution and DirectAccess to provide seamless, VPN-less virtual private networking. The IT manager purchases Windows 10 Pro for Workstations upgrades via a retail channel, believing this will unlock the necessary features.",
+    prompt: "Why is the IT manager's remediation plan policy non-compliant?",
+    choices: [
+      { key: "A", text: "AppLocker and DirectAccess are exclusive features of Windows Enterprise, which must be acquired through volume licensing." },
+      { key: "B", text: "Windows Pro for Workstations requires specialized NVDIMM hardware to support DirectAccess networking protocols." },
+      { key: "C", text: "The retail channel only sells \"N\" versions of Windows, which natively strip out DirectAccess and AppLocker binaries." },
+      { key: "D", text: "AppLocker must be configured locally via the Group Policy Editor, making it incompatible with a 300-device deployment." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"deployment of AppLocker... and DirectAccess... purchases Windows 10 Pro for Workstations\"",
+    explanationCorrect: "Advanced corporate security and deployment features—specifically AppLocker and DirectAccess—are absent from all tiers of the \"Pro\" edition, including Pro for Workstations. These specific features are entirely exclusive to the Windows Enterprise and Education editions. Furthermore, Enterprise editions cannot be purchased via retail channels; they are strictly available through corporate volume licensing agreements.",
+    explanationIncorrect: {
+      A: "",
+      B: "Pro for Workstations does support persistent system RAM (NVDIMM), but this is a hardware memory feature for demanding workloads. It has absolutely nothing to do with DirectAccess VPN protocols or software execution control.",
+      C: "\"N\" versions of Windows strip out multimedia applications (like Media Player and Skype) to comply with EU law. They do not strip out enterprise security or networking protocols. Retail channels sell standard versions globally.",
+      D: "While Group Policy Editor (gpedit.msc) can configure AppLocker, Group Policy is designed specifically to be pushed out from a centralized Domain Controller to thousands of devices simultaneously; it is highly compatible with large deployments."
+    },
+    examTrap: "The \"Edition Feature Exclusivity\" trap. It evaluates if you know that \"Pro for Workstations\" is an upgrade for hardware capacity (RAM/CPUs), whereas \"Enterprise\" is an upgrade for software management/security."
+  },
+  {
+    id: "Q033",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A graphic design firm has a custom-built workstation running Windows 10 Pro. The workstation functions perfectly, but the IT department needs to repurpose the Pro license for a server administrator. The IT tech is instructed to apply a newly purchased Windows 10 Home retail license to the workstation to downgrade the OS, but is explicitly told they must preserve the user's expensive, locally installed graphic design applications and personalized desktop settings.",
+    prompt: "Which of the following describes the outcome of attempting this specific downgrade path using the Windows setup media?",
+    choices: [
+      { key: "A", text: "The setup will successfully preserve the personal files, but all desktop applications and settings will be permanently deleted." },
+      { key: "B", text: "The setup will successfully preserve the applications and settings if the tech selects the \"Refresh\" option during installation." },
+      { key: "C", text: "The setup will block the downgrade entirely because moving from Windows 10 Pro to Windows 10 Home is an unsupported upgrade path." },
+      { key: "D", text: "The setup will require a conversion from the GPT partition style to MBR before the Home edition will accept the downgrade image." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"downgrade the OS... preserve the user's expensive, locally installed graphic design applications and personalized desktop settings.\"",
+    explanationCorrect: "Microsoft has strict rules regarding the direction of in-place installations. While upgrading (e.g., Home to Pro) preserves everything, downgrading an operating system edition (e.g., Pro to Home) has severe limitations. According to CompTIA objectives, downgrading an OS only preserves the user's personal data files. All installed third-party applications, OS settings, and customizations are completely wiped during the downgrade process. Therefore, the tech will fail the mandate to preserve the applications.",
+    explanationIncorrect: {
+      A: "",
+      B: "The \"Refresh\" tool is used for repairing a broken OS of the same edition. It reinstalls system files and keeps Store apps/personal data, but explicitly deletes standard desktop applications. It cannot be used to bypass downgrade restrictions.",
+      C: "While downgrading from Enterprise to any other edition is unsupported and blocked, downgrading from Pro to Home is supported by the installer; however, it functions as a customized clean install that only saves personal files.",
+      D: "The partition style (MBR vs GPT) is completely irrelevant to OS edition downgrade paths. Both Pro and Home editions fully support and run on GPT disks."
+    },
+    examTrap: "The \"Downgrade Consequences\" trap. Candidates often assume that because an in-place upgrade preserves apps and settings, a downgrade will do the same. CompTIA explicitly notes that downgrades destroy apps and settings."
+  },
+  {
+    id: "Q034",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A technician is configuring a specialized legacy BIOS system that will act as a central logging server. The system has a single 1 TB mechanical hard drive initialized with the Master Boot Record (MBR) partition style. The software vendor strictly requires that the physical drive be divided into five completely separate logical storage areas (drive letters) to isolate different types of log files.",
+    prompt: "How must the technician configure the MBR drive to successfully meet the vendor's requirement of five separate storage areas?",
+    choices: [
+      { key: "A", text: "Create five primary partitions sequentially using the Windows Disk Management tool." },
+      { key: "B", text: "Format the entire drive as a single primary partition using the Resilient File System (ReFS) to generate virtual drive letters." },
+      { key: "C", text: "Create three primary partitions, create one extended partition, and configure two logical drives within the extended partition." },
+      { key: "D", text: "Use the mbr2gpt utility to bypass the storage limitation, then create five primary partitions." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"legacy BIOS system... MBR... requires that the physical drive be divided into five completely separate logical storage areas\"",
+    explanationCorrect: "The Master Boot Record (MBR) partition style has a strict mathematical limitation in its partition table: it can only support a maximum of four primary partitions per physical disk. To create more than four usable storage areas (drive letters), the technician must use the standard workaround: create up to three primary partitions, designate the fourth as an \"extended partition,\" and then divide that extended partition into multiple \"logical drives.\"",
+    explanationIncorrect: {
+      A: "Disk Management will physically block the creation of a fifth primary partition. MBR cannot structurally support five primary partitions.",
+      B: "ReFS (Resilient File System) is an advanced file system used for fault tolerance in Enterprise environments; it does not bypass underlying MBR partition table limitations or generate \"virtual drive letters\" to satisfy physical isolation requirements.",
+      C: "",
+      D: "The mbr2gpt utility converts the disk to GPT, which does support up to 128 primary partitions. However, the scenario states this is a \"legacy BIOS system.\" A legacy BIOS system cannot boot from a GPT disk; it strictly requires MBR. Converting it would render the server unbootable."
+    },
+    examTrap: "The \"MBR Maximum Partitions\" trap. The exam checks if you know the exact combination needed to break the 4-partition limit of MBR (Primary + Extended + Logical)."
+  },
+  {
+    id: "Q035",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A university IT lab administrator needs to deploy Windows 10 Education to 40 bare-metal workstations simultaneously over the weekend. To save time, the administrator configures a Windows deployment server on the local subnet and ensures the Windows System Image Manager (WSIM) answer file is perfect. The administrator powers on the 40 client machines, but the deployment fails immediately. The client screens show they received a local IP address from the router, but display an error: \"PXE-E32: TFTP open timeout.\"",
+    prompt: "What is the MOST likely misconfiguration preventing the remote network installation?",
+    choices: [
+      { key: "A", text: "The workstations' internal hard drives are set to a higher boot priority than the Network (PXE) adapter in the UEFI firmware." },
+      { key: "B", text: "The local DHCP server is not configured to provide the DNS name or IP address of the remote installation server to the clients." },
+      { key: "C", text: "The workstations lack the preboot execution environment (PXE)-compliant network adapters required for zero-touch cloud deployment." },
+      { key: "D", text: "The Group Policy Editor on the deployment server is blocking unattended EULA acceptance for the incoming clients." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"received a local IP address from the router, but display an error: 'PXE-E32: TFTP open timeout.'\"",
+    explanationCorrect: "In a Preboot Execution Environment (PXE) network boot, the client relies entirely on the local DHCP server. The DHCP server must provide two things: a local IP address (which succeeded here) AND DHCP Option 66/67, which provides the IP address or DNS name of the actual installation server holding the image. If the DHCP server provides an IP but fails to point the client to the deployment server, the client will attempt to download the image file via TFTP, time out, and fail.",
+    explanationIncorrect: {
+      A: "If the internal hard drives were prioritized higher than the network adapter, the system would attempt to boot from the blank local drives and display \"Operating System Not Found.\" The fact that a PXE error is displayed proves the network boot initiated correctly.",
+      B: "",
+      C: "Zero-touch deployment uses cloud-based internet services, not local PXE/TFTP servers. Furthermore, the presence of a PXE error proves the adapters are PXE-compliant and attempting to operate.",
+      D: "The Group Policy Editor enforces OS settings after Windows is running; it does not manage PXE handshakes or EULA acceptances during the pre-boot bare-metal imaging phase."
+    },
+    examTrap: "The \"Incomplete Networking Setup\" trap. CompTIA expects you to know that DHCP in an imaging environment does more than just assign IPs; it must act as a signpost to the imaging server."
+  },
+  {
+    id: "Q036",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "An architecture student buys a used laptop running the 32-bit version of Windows 10 Pro. They download a trial version of an industry-standard, high-end 3D rendering application. The software vendor's website clearly states the application is compiled exclusively as a 64-bit program.",
+    prompt: "What will happen when the student attempts to run the installation file for this rendering application?",
+    choices: [
+      { key: "A", text: "The application will install successfully but will be artificially limited to utilizing a maximum of 4 GB of RAM." },
+      { key: "B", text: "The installation will fail entirely because a 32-bit operating system cannot execute 64-bit applications." },
+      { key: "C", text: "The OS will use the Windows compatibility troubleshooter to emulate a 64-bit environment and run the app." },
+      { key: "D", text: "The installation will succeed, provided the user disables Windows Defender Credential Guard first." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"32-bit version of Windows... application is compiled exclusively as a 64-bit program\"",
+    explanationCorrect: "Application execution architecture is a one-way street in Windows. While a 64-bit operating system features a subsystem (WOW64) that allows it to run older 32-bit applications seamlessly, a 32-bit operating system physically lacks the architectural capability and address space to execute 64-bit instructions. The 64-bit installer will immediately throw an incompatibility error and refuse to run on the 32-bit OS.",
+    explanationIncorrect: {
+      A: "A 32-bit OS is indeed limited to 4 GB of RAM, but the application won't even install, let alone run and hit a RAM limit.",
+      B: "",
+      C: "The Windows compatibility troubleshooter can adjust DPI settings, spoof older Windows versions (like Windows 7 or XP), and change admin rights. It cannot magically emulate a 64-bit CPU architecture on a 32-bit kernel.",
+      D: "Credential Guard is an Enterprise-tier security feature used to isolate secrets in memory; it has absolutely nothing to do with basic architectural instruction set compatibility for third-party apps."
+    },
+    examTrap: "The \"Reverse Backward-Compatibility\" trap. Candidates often learn \"Windows can run both,\" forgetting that only 64-bit OSes are bilingual; 32-bit OSes are strictly 32-bit only."
+  },
+  {
+    id: "Q037",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A developer purchases a blank 1 TB external USB solid-state drive. They intend to use this drive as the primary, bootable installation target for a new Ubuntu Linux operating system, allowing them to carry their development environment between different lab computers. During the guided Linux setup program, the developer must format the drive's primary partition.",
+    prompt: "Which file system MUST the developer select to serve as the native foundation for this Linux OS installation?",
+    choices: [
+      { key: "A", text: "APFS" },
+      { key: "B", text: "NTFS" },
+      { key: "C", text: "ext4" },
+      { key: "D", text: "ReFS" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"primary, bootable installation target for a new Ubuntu Linux operating system... format the drive's primary partition\"",
+    explanationCorrect: "Operating systems require specific, native file systems to install their core kernel and system files. For modern Linux distributions (like Ubuntu), the native and standard file system family is the Extended File System, with ext4 (or ext3) being the correct choice. Linux cannot be natively installed and booted from proprietary file systems owned by Apple or Microsoft.",
+    explanationIncorrect: {
+      A: "APFS (Apple File System) is the proprietary, native file system used exclusively by modern macOS installations. Linux cannot install its root filesystem on APFS.",
+      B: "NTFS (New Technology File System) is the proprietary file system required for installing modern Windows operating systems. While Linux can read/write data to a secondary NTFS drive, it cannot use NTFS as its primary bootable OS partition.",
+      C: "",
+      D: "ReFS (Resilient File System) is a specialized Microsoft file system used for high data availability in Windows Pro for Workstations and Enterprise servers. It is unsupported as a Linux OS partition."
+    },
+    examTrap: "The \"OS-to-File System Mapping\" trap. It tests fundamental recall of which file system belongs to which major operating system family."
+  },
+  {
+    id: "Q038",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A corporation issues Windows 10 Pro laptops to its executives. During a security audit, a penetration tester demonstrates a severe vulnerability: by plugging in a generic USB thumb drive loaded with a live Ubuntu Linux environment, the tester can reboot the laptop, bypass the Windows login screen entirely, and directly view confidential NTFS files on the internal hard drive.",
+    prompt: "Which combination of long-term preventative configurations MUST the IT department implement to secure the devices against this specific attack?",
+    choices: [
+      { key: "A", text: "Set the internal hard drive as the highest priority boot device, set a UEFI supervisor password, and enable BitLocker." },
+      { key: "B", text: "Enable Secure Boot in the UEFI firmware, disable USB ports in Windows Device Manager, and implement AppLocker." },
+      { key: "C", text: "Convert the internal drive from MBR to GPT using mbr2gpt, and use Group Policy to enforce strong local passwords." },
+      { key: "D", text: "Configure the laptops to boot exclusively via an Internet-based zero-touch deployment, and enable Windows Defender Credential Guard." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"plugging in a generic USB thumb drive loaded with a live Ubuntu Linux environment... bypass the Windows login screen... directly view confidential NTFS files\"",
+    explanationCorrect: "This attack relies on two physical vulnerabilities: the ability to boot from external media, and unencrypted data at rest. To prevent this, the IT team must change the boot order in the UEFI firmware so the internal hard drive is the only bootable device. They must secure that firmware with a supervisor password so attackers cannot change the boot order back to USB. Finally, because Linux can read NTFS files if the drive is unencrypted, the team must enable BitLocker (supported by Windows 10 Pro) to encrypt the data, rendering the files unreadable even if the attacker physically removes the drive.",
+    explanationIncorrect: {
+      A: "",
+      B: "Disabling USB ports in the Windows Device Manager only works when Windows is running; it does not prevent the motherboard firmware from booting a USB device before Windows loads. AppLocker controls Windows software execution and does nothing against an external Linux boot.",
+      C: "Converting the disk partition style to GPT does not encrypt the data or secure the boot process. Group Policy enforcing strong Windows passwords is useless here because the attacker is booting an entirely different OS (Linux) to bypass Windows authentication completely.",
+      D: "Credential Guard is an Enterprise feature that protects domain credentials in memory while Windows is running; it does not encrypt data at rest on the hard drive."
+    },
+    examTrap: "The \"Layered Security / Out-of-Band Attack\" trap. Candidates often try to fix Windows settings (Device Manager, Passwords) to stop an attack that is happening outside of Windows (via firmware/Live USB)."
+  },
+  {
+    id: "Q039",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "An administrator is preparing to perform an in-place upgrade on a Windows 10 workstation to migrate it to Windows 11. They run the official PC Health Check compatibility advisor. The advisor indicates the hardware is fully supported but flags an obsolete, deeply integrated third-party VPN client as severely incompatible with Windows 11. The vendor offers a new Windows 11-compatible version of the VPN client on their website.",
+    prompt: "According to CompTIA upgrade methodology, what is the BEST FIRST step to resolve this compatibility roadblock?",
+    choices: [
+      { key: "A", text: "Back up the user's data, perform a clean install of Windows 11 using a USB drive, and then install the new VPN client." },
+      { key: "B", text: "Proceed with the in-place upgrade, then use the Windows compatibility troubleshooter to force the old VPN client to run." },
+      { key: "C", text: "Uninstall the incompatible VPN application completely from Windows 10 prior to executing the Windows 11 setup program." },
+      { key: "D", text: "Download the new VPN client to a flash drive and load it via the \"F6\" load driver menu during the Windows 11 installation phase." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"flags an obsolete, deeply integrated third-party VPN client as severely incompatible... BEST FIRST step\"",
+    explanationCorrect: "When a pre-upgrade compatibility advisor flags incompatible software (especially deep-level software like a VPN client), leaving it installed during an in-place upgrade is highly likely to cause the upgrade process to fail, hang, or result in severe OS instability. The correct methodology is to systematically remove the roadblock first: uninstall the incompatible software while still in Windows 10, run the Windows 11 in-place upgrade, and then install the updated software provided by the vendor.",
+    explanationIncorrect: {
+      A: "A clean install is a destructive remediation that wipes user data, customizations, and all other compatible applications. Because a path for an in-place upgrade exists, a clean install is an overreaction and highly inefficient for a single-application compatibility issue.",
+      B: "Proceeding with known incompatible, deep-system software is reckless. The compatibility troubleshooter is designed for minor display/DPI or admin rights issues; it cannot magically make obsolete networking kernel drivers work on a new OS.",
+      C: "",
+      D: "The \"F6 / Load Driver\" prompt during Windows installation is specifically used to inject mass storage controller drivers (like RAID or SATA controllers) so the setup program can see the hard drive. It is not used to install third-party desktop applications like VPN clients."
+    },
+    examTrap: "The \"Order of Operations / Remediation vs Prevention\" trap. It tests your knowledge of sequencing an upgrade (Uninstall -> Upgrade -> Reinstall)."
+  },
+  {
+    id: "Q040",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A field technician is tasked with deploying Windows 10 Pro to dozens of standalone, air-gapped industrial control PCs at remote manufacturing sites. The technician relies on a standard spindle DVD installation disc created by the IT team in 2021. Because the sites lack internet access, the technician must spend two hours per machine manually transferring massive cumulative security updates and proprietary industrial drivers from an external hard drive after the base OS installs.",
+    prompt: "What is the BEST long-term preventative strategy the IT department should implement to drastically reduce the technician's deployment time?",
+    choices: [
+      { key: "A", text: "Configure a Windows System Image Manager (WSIM) answer file to automatically accept the EULA and set local passwords." },
+      { key: "B", text: "Implement a remote zero-touch deployment strategy utilizing cloud orchestration tools." },
+      { key: "C", text: "Create slipstreamed installation media on a high-speed bootable USB flash drive that includes the base OS, all recent patches, and necessary drivers." },
+      { key: "D", text: "Advise the technician to utilize the factory recovery partition on each industrial PC to bypass the optical media." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"air-gapped industrial control PCs... DVD installation disc created... in 2021... manually transferring massive cumulative security updates... after the base OS installs\"",
+    explanationCorrect: "The technician is experiencing extreme inefficiency by using outdated optical media, necessitating a labor-intensive, two-step installation process (old base OS + manual updates). The industry-standard administrative solution is to \"slipstream\" the installation media. Slipstreaming is the process of integrating (injecting) all modern security patches, service packs, and hardware drivers directly into the base OS installation image. By putting this updated image on a fast USB drive, the technician can perform a fully updated, single-pass deployment entirely offline.",
+    explanationIncorrect: {
+      A: "An answer file automates user prompts (like passwords and time zones). While helpful, it does not solve the core issue: the base OS is still three years out of date and will still require the technician to manually apply gigabytes of patches.",
+      B: "Zero-touch deployment strictly requires an active Internet connection to phone home to cloud services. The scenario explicitly states these are \"air-gapped\" (offline) PCs, making this strategy impossible.",
+      C: "",
+      D: "A factory recovery partition restores a machine to its original, out-of-the-box state. If the PC is several years old, the recovery partition will also be years out of date, putting the technician right back where they started with needing updates."
+    },
+    examTrap: "The \"Terminology Application\" trap. CompTIA wants you to recognize the word \"slipstreaming\" not just as a vocab term, but as the specific operational fix for outdated physical media."
+  },
+  {
+    id: "Q041",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A technician inherits an older workstation that utilizes legacy BIOS firmware. The system contains two separate physical hard drives initialized with the MBR partition style. Drive 0 contains the active Partition Boot Record (PBR), but no Windows files. Drive 1 contains a logical drive holding all the Windows OS files. The system currently boots normally. Believing Drive 0 to be empty and useless, a junior technician physically removes Drive 0 to save power. Upon restart, the system displays an \"Operating System Not Found\" error.",
+    prompt: "Which of the following explains why the system failed to boot after Drive 0 was removed?",
+    choices: [
+      { key: "A", text: "In an MBR layout, the legacy BIOS looks specifically for the active System partition to initiate the boot loader; removing it breaks the boot chain to the OS files on Drive 1." },
+      { key: "B", text: "The legacy BIOS requires all OS files to physically reside on Drive 0; Windows cannot legally boot from a logical drive on a secondary disk." },
+      { key: "C", text: "Removing Drive 0 caused the GUID Partition Table (GPT) to lose its backup header, rendering Drive 1 unreadable to the firmware." },
+      { key: "D", text: "The junior technician failed to run the Windows mbr2gpt utility on Drive 1 to make it an independent, bootable volume." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Drive 0 contains the active Partition Boot Record (PBR), but no Windows files. Drive 1 contains a logical drive holding all the Windows OS files... physically removes Drive 0\"",
+    explanationCorrect: "In a legacy Master Boot Record (MBR) system, the physical location of the boot files is split into two distinct concepts: the System partition and the Boot partition. The legacy BIOS scans the drives for the one specific primary partition flagged as \"active.\" This active partition (the System partition on Drive 0) contains the PBR and the initial bootloader code. The bootloader then acts as a signpost, pointing the computer to the actual OS files (the Boot partition), which can reside on an entirely different drive (Drive 1). Removing the active partition removes the signpost, breaking the boot sequence entirely.",
+    explanationIncorrect: {
+      A: "",
+      B: "This is factually incorrect. In an MBR layout, the Boot partition (containing the Windows OS files) can absolutely reside on a logical drive on a secondary disk, which is why the system booted normally before the junior tech intervened.",
+      C: "The scenario explicitly states both drives are initialized with the MBR partition style. GPT backup headers are completely irrelevant to this legacy setup.",
+      D: "Running the mbr2gpt utility on Drive 1 would convert it to GPT. Legacy BIOS firmware cannot read or boot from GPT disks. This action would permanently break the system's ability to boot."
+    },
+    examTrap: "The \"System vs Boot Partition\" trap. CompTIA explicitly tests the confusing Microsoft terminology where the \"System\" partition holds the bootloader (Active/PBR) and the \"Boot\" partition holds the System OS files (Windows directory). Separating them across physical drives tests if you understand the MBR chain of events."
+  },
+  {
+    id: "Q042",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A systems administrator executes a remote network installation (PXE) of Windows 10 Enterprise to a new, bare-metal workstation. The client PC successfully acquires an IP address via DHCP, locates the remote server, and seamlessly downloads the cloned OS image. However, instead of completing the zero-touch process, the automated installation abruptly halts at the final setup screen, prompting the on-site technician to manually create a local administrator account and set a password.",
+    prompt: "What is the MOST likely cause of this deployment interruption?",
+    choices: [
+      { key: "A", text: "The unattend.xml answer file created in Windows System Image Manager is missing specific configuration passes." },
+      { key: "B", text: "The local DHCP server failed to provide the DNS name of the remote installation server to the client." },
+      { key: "C", text: "The target PC's UEFI firmware has Network (PXE) Boot disabled in its boot priority list." },
+      { key: "D", text: "The deployment server's Group Policy Editor is enforcing a manual password complexity check." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"successfully acquires an IP address... seamlessly downloads the cloned OS image... automated installation abruptly halts at the final setup screen, prompting the on-site technician\"",
+    explanationCorrect: "An unattended installation utilizes a configuration script, known as an answer file in Windows, to fully automate choices and settings during the OS setup phase. These answer files are created and configured using the Windows System Image Manager (WSIM). If the installation process pauses to ask a human user for input—such as creating an account or setting a password—it indicates that the answer file was incompletely configured and omitted the specific automated responses required for that final setup phase.",
+    explanationIncorrect: {
+      A: "",
+      B: "While a DHCP server must provide the DNS name or IP address of the installation server for a network boot to function, this step was already successful. The scenario explicitly states the client located the server and downloaded the image, meaning the DHCP configuration is flawless.",
+      C: "If Network (PXE) Boot was disabled in the UEFI firmware, the computer would never have initiated the network connection or downloaded the image in the first place. The error occurred well after the firmware boot phase.",
+      D: "The Group Policy Editor (gpedit.msc) is used to enforce OS and application settings across devices after the operating system is fully installed, booted, and joined to a domain. It does not govern or halt pre-OS unattended installation scripts."
+    },
+    examTrap: "The \"Misleading Symptom Sequencing\" trap. The scenario heavily describes networking actions (PXE, DHCP, servers) to bait candidates into choosing a networking tool error, but the sequence of events proves the network phase succeeded, isolating the failure to the OS configuration script."
+  },
+  {
+    id: "Q043",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Hard",
+    scenario: "A technician is preparing a user's Windows 10 Pro workstation for an in-place upgrade to Windows 11 Pro. The PC Health Check tool confirms the CPU is supported and the physical TPM 2.0 module is present. However, the system is currently utilizing the legacy BIOS boot method, which is incompatible with Windows 11. The technician plans to access the motherboard firmware to switch the boot mode to UEFI and enable Secure Boot.",
+    prompt: "According to CompTIA upgrade methodology, which action MUST be performed immediately BEFORE the technician restarts the computer to change the firmware settings?",
+    choices: [
+      { key: "A", text: "Run the mbr2gpt utility within Windows 10 to convert the disk's partition style without data loss." },
+      { key: "B", text: "Use the Windows Media Creation Tool to format a USB flash drive using the FAT32 file system." },
+      { key: "C", text: "Run the sfc /scannow command to ensure the active Partition Boot Record (PBR) is free of corruption." },
+      { key: "D", text: "Perform a clean installation of Windows 10 to establish a primary partition for the UEFI bootloader." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"currently utilizing the legacy BIOS boot method... plans to access the motherboard firmware to switch the boot mode to UEFI... BEFORE the technician restarts\"",
+    explanationCorrect: "Legacy BIOS systems fundamentally rely on the Master Boot Record (MBR) partition style to boot an operating system, whereas UEFI firmware strictly requires the GUID Partition Table (GPT) partitioning scheme. If the technician simply reboots and changes the firmware to UEFI while the disk is still MBR, the motherboard will not recognize the disk as a boot device, rendering the system completely unbootable. To prevent this, the technician must first run the Windows mbr2gpt utility, which securely converts the live disk to GPT without destroying the user's data, allowing the subsequent UEFI firmware change to succeed.",
+    explanationIncorrect: {
+      A: "",
+      B: "While the Windows Media Creation Tool is useful for creating bootable installation media on a USB drive, preparing external media does not solve the fundamental architectural mismatch on the internal hard drive. The internal drive must still be converted to GPT to boot under UEFI.",
+      C: "The System File Checker (sfc /scannow) is a valid tool for repairing corrupted Windows system files. However, an MBR partition style is not \"corrupted\"; it is simply an older architecture. Scanning it will not magically convert it to the required GPT format.",
+      D: "A clean installation involves wiping the disk entirely, which destructively deletes all existing user data and settings. This violates the core purpose of the requested \"in-place upgrade,\" which is specifically chosen to preserve applications and data."
+    },
+    examTrap: "The \"Order of Operations\" trap. Candidates must understand the symbiotic relationship between firmware and partition styles. Changing the firmware without first converting the disk architecture is a catastrophic sequencing error."
+  },
+  {
+    id: "Q044",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Easy",
+    scenario: "A European marketing agency purchases several new laptops from a local hardware vendor, which come pre-installed with Windows 11 Pro N. The marketing team successfully joins the devices to the centralized corporate Domain Controller. However, users immediately complain that they cannot review audio files or play back standard MP4 video advertisements locally on the machines, receiving a generic \"codec not supported\" error.",
+    prompt: "What is the most efficient, policy-compliant remediation for this issue?",
+    choices: [
+      { key: "A", text: "Download and install the Media Feature Pack directly from Microsoft to restore the missing multimedia applications." },
+      { key: "B", text: "Purchase an in-place upgrade to Windows 11 Enterprise via a Volume Licensing agreement." },
+      { key: "C", text: "Use the Group Policy Editor (gpedit.msc) to unhide the built-in Windows Media Player binaries." },
+      { key: "D", text: "Perform a repair installation using the Windows 11 setup media to replace the corrupted audio drivers." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"European marketing agency... pre-installed with Windows 11 Pro N... cannot review audio files or play back standard MP4 video\"",
+    explanationCorrect: "\"N\" versions of Microsoft Windows are specialized editions distributed in Europe to comply with European Union antitrust regulations. These specific editions physically exclude pre-installed multimedia applications and native codecs, such as Windows Media Player, Music apps, and Skype. Because the core operating system remains unchanged, users who legitimately require these features for work can easily and officially restore them by downloading the free Media Feature Pack directly from Microsoft, aligning the N version with standard editions.",
+    explanationIncorrect: {
+      A: "",
+      B: "Upgrading to the Enterprise edition is a drastic, expensive, and technically incorrect solution. \"N\" variants exist across all tiers, including Enterprise and Education. Upgrading to Enterprise N would still leave the laptops devoid of the required media software.",
+      C: "The Group Policy Editor (gpedit.msc) is a powerful tool for enforcing configurations, but it cannot \"unhide\" applications that do not physically exist on the hard drive. The N editions have these multimedia binaries completely stripped out at the factory.",
+      D: "The \"codec not supported\" error is a misleading symptom implying file corruption. A repair installation fixes broken OS files, but in this case, the media drivers and codecs are not corrupted; they are legally and intentionally absent by design."
+    },
+    examTrap: "The \"Regulatory Software Variant\" trap. The exam checks your knowledge of geopolitical OS variations (EU N-versions) and their specific, official remediation pathways (Media Feature Pack)."
+  },
+  {
+    id: "Q045",
+    topic: "CompTIA A+ Core 1 (220-1101)",
+    difficulty: "Medium",
+    scenario: "A university IT department needs to provision 300 new computers for a student laboratory. The Chief Information Security Officer (CISO) mandates two strict requirements: the operating system must natively support AppLocker to strictly prevent students from executing unauthorized software, and the IT team must be legally permitted to use a single, customized OS image to rapidly deploy to all 300 machines simultaneously over the network.",
+    prompt: "Which operating system edition and licensing model MUST the university procure to meet these exact requirements?",
+    choices: [
+      { key: "A", text: "Windows Education edition procured through an academic volume licensing agreement." },
+      { key: "B", text: "Windows Pro for Workstations edition procured through a retail/Full Packaged Product (FPP) license." },
+      { key: "C", text: "Windows Pro Education edition procured through an Original Equipment Manufacturer (OEM) license." },
+      { key: "D", text: "Windows Enterprise edition procured via a single Retail license key." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"university IT department... support AppLocker... use a single, customized OS image to rapidly deploy to all 300 machines\"",
+    explanationCorrect: "Advanced enterprise security features, such as AppLocker (software execution control) and Windows Defender Credential Guard, are entirely absent from all \"Pro\" tier editions; they are exclusive to the Enterprise and Education editions. Furthermore, standard Retail and OEM licenses do not grant the legal rights or technical tools to create and distribute a single custom installation image across hundreds of machines; this capability requires a volume licensing agreement. Therefore, purchasing Windows Education via a volume license perfectly satisfies both the technical AppLocker requirement and the legal deployment requirement.",
+    explanationIncorrect: {
+      A: "",
+      B: "While Windows Pro for Workstations supports advanced processing hardware (like 4-way multiprocessing and 6 TB of RAM), it is still fundamentally a \"Pro\" edition and lacks the exclusive AppLocker security feature required by the CISO. Additionally, Retail/FPP licenses do not support bulk custom image deployment.",
+      C: "Windows Pro Education is fundamentally based on the standard Windows Pro architecture, meaning it lacks Enterprise-exclusive features like AppLocker. Furthermore, OEM licenses are strictly tied to the specific device they were sold with and cannot be used for centralized network image deployment.",
+      D: "While Windows Enterprise does contain AppLocker, Enterprise editions are absolutely not available for purchase through standard Retail licensing channels. They can only be acquired via corporate volume licensing agreements."
+    },
+    examTrap: "The \"Edition vs Licensing Rights\" trap. CompTIA will test if you can successfully combine an OS feature requirement (AppLocker = Enterprise/Edu tier) with a legal deployment requirement (Custom Imaging = Volume Licensing tier)."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
