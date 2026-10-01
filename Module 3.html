@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A financial analyst's modern workstation was recently upgraded with a secondary high-end graphics card to render large datasets. Shortly after, the system begins experiencing random shutdowns and crashes when running complex rendering tasks. The technician verifies that the workstation is connected to a stable 120 VAC wall outlet and the power supply unit (PSU) is an 80 PLUS Gold model rated for 1000 W, which exceeds the combined 850 W rating of all internal components. However, the technician notices the PSU is an older model reused from a previous server build.",
+    prompt: "Despite having sufficient total wattage, what is the MOST likely cause of the random shutdowns during heavy rendering?",
+    choices: [
+      { key: "A", text: "The PSU's efficiency drops below 80% under maximum load, generating excessive heat." },
+      { key: "B", text: "The 120 VAC wall outlet is insufficient; data centers require 230 VAC high-line voltage for dual GPUs." },
+      { key: "C", text: "The PSU is delivering insufficient amperage over the +12 VDC rail." },
+      { key: "D", text: "The workstation lacks a failover redundant power supply backplane." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "older model reused... despite having sufficient total wattage",
+    explanationCorrect: "When specifying a PSU for a system with high power requirements, it is essential to assess the power distribution across output voltages, specifically the rails. For modern computers, especially those with high-end GPUs, the +12 VDC rail is the most heavily used and critical pathway. Even if a PSU has a high total wattage rating (e.g., 1000 W), an older design might not supply enough dedicated amperage on the +12 VDC rail to support modern dual-GPU workloads, leading to system instability and random crashes.",
+    explanationIncorrect: {
+      A: "While 80 PLUS Gold ensures high efficiency (at least 87% at 100% load), an efficiency drop does not inherently cause a system crash unless it leads to thermal throttling. The 1000 W capacity should easily handle an 850 W load without catastrophic heat failure if properly ventilated.",
+      B: "North American outlets typically provide 120 VAC (low-line), which standard auto-switching PSUs are fully designed to tolerate (100-127 VAC range). While 230 VAC is more efficient for data centers, 120 VAC is perfectly capable of safely powering a 1000 W desktop PSU.",
+      C: "",
+      D: "Redundant power supplies are crucial for maintaining continuous uptime in servers and data centers in case one PSU hardware fails. However, adding a redundant PSU does not solve the root issue of a single active PSU lacking the proper internal rail distribution to power the GPUs."
+    },
+    examTrap: "The \"Total Wattage Trap.\" Students often assume that as long as total PSU wattage exceeds total component wattage, power is sufficient. The exam requires understanding that power distribution across the +12 VDC rail is equally critical."
+  },
+  {
+    id: "Q002",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A technician needs to relocate a high-end gaming PC from a user's home office to a gaming tournament. The PC is equipped with a custom open-loop liquid cooling system featuring a pump, water blocks attached to the CPU and GPU, and a large radiator. The technician powers down the machine, unplugs all external peripherals, and prepares to lift the heavy chassis into a transport case.",
+    prompt: "What is the BEST first step the technician must take before moving the PC?",
+    choices: [
+      { key: "A", text: "Drain the liquid cooling system." },
+      { key: "B", text: "Detach the water blocks from the CPU and GPU." },
+      { key: "C", text: "Remove the passive heat sinks." },
+      { key: "D", text: "Clean the radiator and fans with compressed air." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "open-loop liquid cooling system... before moving the PC",
+    explanationCorrect: "An open-loop liquid cooling system pushes coolant around the chassis through water loops and tubing. Routine maintenance dictates that the system must be completely drained of its coolant before moving the PC to a different location. This prevents catastrophic liquid spills and damage to internal components caused by shifting or pressure changes during transit.",
+    explanationIncorrect: {
+      A: "",
+      B: "Detaching the water blocks without draining the system first would immediately cause coolant to spill directly onto the motherboard and expansion cards. Furthermore, removing water blocks requires reapplying thermal paste upon reinstallation, making it an unnecessary step for transport.",
+      C: "A liquid-cooled system primarily relies on water blocks and radiators rather than traditional passive heat sinks with fins. Even if passive heat sinks are present on secondary components like RAM, removing them before transport is unnecessary and exposes the chips to damage.",
+      D: "While fans and radiators must be kept dust-free, cleaning them is a routine maintenance task, not a critical safety prerequisite for physical transport. Draining the loop is the immediate, critical priority to prevent liquid damage."
+    },
+    examTrap: "The \"Maintenance Priority Trap.\" While cleaning is a valid maintenance step, mitigating the risk of liquid damage takes absolute precedence when physically relocating an open-loop system."
+  },
+  {
+    id: "Q003",
+    topic: "Storage",
+    difficulty: "Hard",
+    scenario: "A school administrator requires a new Network Attached Storage (NAS) array to archive critical student assessments. The school board's strict data continuity policy states the new server must continue to operate flawlessly even if two separate storage drives fail simultaneously. The budget allows for a maximum of four 4 TB hard disk drives.",
+    prompt: "Which RAID configuration provides the necessary fault tolerance to comply with the school board's policy while maximizing usable storage capacity?",
+    choices: [
+      { key: "A", text: "RAID 5" },
+      { key: "B", text: "RAID 10" },
+      { key: "C", text: "RAID 6" },
+      { key: "D", text: "RAID 0" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "continue to operate flawlessly even if two separate storage drives fail simultaneously",
+    explanationCorrect: "RAID 6 utilizes striping combined with double distributed parity, spreading two sets of parity information across all disks in the array. This architectural feature specifically allows a RAID 6 array to tolerate the simultaneous failure of exactly two disks. With four 4 TB drives, RAID 6 provides 8 TB of usable capacity (total capacity minus the capacity of two parity disks) while fully satisfying the strict double-failure policy.",
+    explanationIncorrect: {
+      A: "RAID 5 uses single distributed parity and offers more usable space (12 TB out of 16 TB in this scenario). However, it can only survive the failure of a single disk; if a second disk fails, the entire logical volume is destroyed, violating the policy.",
+      B: "RAID 10 (a stripe of mirrors) requires four disks and provides 50% usable capacity (8 TB). While it can survive two disk failures, it can only do so if the failures occur in different mirrored sub-volumes. If both drives fail within the same mirror, the volume crashes, meaning it cannot guarantee survival against any two simultaneous failures.",
+      C: "",
+      D: "RAID 0 relies purely on disk striping to maximize speed and capacity, yielding 16 TB of space. It provides zero redundancy; the failure of a single disk causes the entire array to fail completely."
+    },
+    examTrap: "Distinguishing between RAID 10's conditional double-failure tolerance and RAID 6's guaranteed double-failure tolerance in small four-drive arrays."
+  },
+  {
+    id: "Q004",
+    topic: "RAM",
+    difficulty: "Medium",
+    scenario: "A systems administrator is upgrading the memory on a critical database server to prevent system crashes caused by multi-bit errors. The server currently runs perfectly with 64 GB of ECC Registered DIMMs (RDIMMs). To save budget, the administrator installs an additional 64 GB of ECC Unbuffered DIMMs (UDIMMs) into the empty memory slots. Upon pressing the power button, the server emits error beeps and completely fails to boot.",
+    prompt: "What is the fundamental cause of the boot failure?",
+    choices: [
+      { key: "A", text: "The motherboard requires DDR5's internal error-checking mechanism to support 128 GB of RAM." },
+      { key: "B", text: "The system cannot mix Registered DIMMs (RDIMMs) and Unbuffered DIMMs (UDIMMs) on the same motherboard." },
+      { key: "C", text: "The system is forcing the ECC memory to operate in single-channel mode." },
+      { key: "D", text: "The added memory lacks the 8-bit checksum required for ECC operation." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "currently runs... ECC Registered DIMMs (RDIMMs)... installs... ECC Unbuffered DIMMs (UDIMMs)",
+    explanationCorrect: "Motherboards are designed to support either Unbuffered DIMMs (UDIMMs) or Registered DIMMs (RDIMMs), but they cannot support both simultaneously. RDIMMs include a hardware register that reduces electrical load on the memory controller, while UDIMMs lack this register. Mixing these two fundamentally different electrical architectures in the same system will prevent the machine from booting entirely.",
+    explanationIncorrect: {
+      A: "DDR5 does introduce an internal error-checking mechanism, but older generations (DDR3/DDR4) easily support 128 GB of RAM without it. The issue is the physical mixing of buffered and unbuffered architectures, not the generation of the DDR standard.",
+      B: "",
+      C: "If modules are populated unevenly, a system might drop from dual-channel to single-channel mode, which degrades performance but still allows the system to boot and function. Single-channel operation does not cause a hard failure to boot.",
+      D: "The scenario explicitly states the administrator installed \"ECC Unbuffered DIMMs.\" By definition, all true ECC RAM adds the extra 8-bit checksum and utilizes a 72-bit data bus. The failure is due to the lack of the register, not the lack of the ECC checksum."
+    },
+    examTrap: "The \"ECC Universality Trap.\" Students often mistakenly believe that as long as all RAM modules are \"ECC,\" they are fully compatible."
+  },
+  {
+    id: "Q005",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A software developer builds a high-end workstation to simultaneously host four heavy virtual machines (VMs) for cross-platform testing. The system contains an 8-core/16-thread CPU and 64 GB of RAM. While the CPU and RAM capacity seem adequate, the VMs run incredibly sluggishly, especially when executing tasks that require heavy virtual memory management between the host and guest operating systems.",
+    prompt: "Which CPU feature should the developer ensure is enabled in the BIOS/UEFI to resolve this specific memory management bottleneck?",
+    choices: [
+      { key: "A", text: "Symmetrical Multiprocessing (SMP)" },
+      { key: "B", text: "Second Level Address Translation (SLAT)" },
+      { key: "C", text: "Simultaneous Multithreading (SMT)" },
+      { key: "D", text: "Advanced RISC Machine (ARM) emulation" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "sluggishly, especially when executing tasks that require heavy virtual memory management",
+    explanationCorrect: "Second-generation hardware virtualization features, explicitly known as Second Level Address Translation (SLAT)—or Extended Page Table (EPT) for Intel and Rapid Virtualization Indexing (RVI) for AMD—are critical for managing the massive overhead of virtualized environments. SLAT directly offloads virtual memory management tasks from the software hypervisor to the CPU hardware, allowing VMs to translate memory addresses rapidly and run smoothly.",
+    explanationIncorrect: {
+      A: "Symmetric Multiprocessing (SMP) refers to systems utilizing two or more physical CPUs on a multisocket motherboard. While useful for servers, the developer's workstation only has a single multi-core CPU, making SMP irrelevant to this specific memory management bottleneck.",
+      B: "",
+      C: "Simultaneous Multithreading (SMT), known as Hyper-Threading by Intel, allows a single physical core to act as two virtual cores to process multiple instruction threads concurrently. While SMT is important for VM performance, the prompt specifically highlights a virtual memory management bottleneck, which is resolved by SLAT, not SMT.",
+      D: "ARM emulation is used to run x86/x64 software on ARM-based System-on-Chips (SoCs), which incurs a massive performance penalty. It has nothing to do with resolving hardware-assisted memory translation issues in a standard developer workstation."
+    },
+    examTrap: "Differentiating between standard multi-threading performance enhancements (SMT) and specific hardware-assisted virtualization memory features (SLAT/EPT)."
+  },
+  {
+    id: "Q006",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A technician is upgrading the storage in a compact ultra-thin laptop. The laptop currently has an M.2 2280 SATA solid-state drive installed. The technician replaces it with a highly rated M.2 2280 NVMe SSD that supports transfer rates up to 6.7 GB/s. The new NVMe drive is M-keyed and physically fits perfectly into the motherboard's M.2 slot. However, upon powering on, the system's BIOS/UEFI fails to detect the new drive entirely.",
+    prompt: "What is the most likely reason the new drive is undetected?",
+    choices: [
+      { key: "A", text: "The motherboard's M.2 slot only supports the SATA/AHCI bus architecture." },
+      { key: "B", text: "NVMe drives require a dedicated PCIe expansion card slot, not an M.2 form factor slot." },
+      { key: "C", text: "The technician forgot to connect the dedicated SATA power cable to the M.2 drive." },
+      { key: "D", text: "M.2 2280 drives are too long for ultra-thin laptop enclosures." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "currently has an M.2 2280 SATA... replaces it with a... NVMe SSD... physically fits perfectly",
+    explanationCorrect: "M.2 is strictly a physical form factor, not a guarantee of underlying bus protocol support. An M.2 slot on a motherboard can be engineered to utilize either the older, slower SATA/AHCI bus or the faster NVMe (PCIe) interface. If a motherboard's documentation states the M.2 slot is wired only for SATA, it will not communicate with an NVMe drive, even if the drive's physical M-key allows it to slide into the slot.",
+    explanationIncorrect: {
+      A: "",
+      B: "NVMe SSDs are incredibly common in the M.2 form factor, which orient horizontally and are explicitly designed to save space in laptops and PC motherboards without needing bulky standard PCIe expansion cards.",
+      C: "M.2 slots are explicitly designed to provide necessary power directly over the bus. They completely eliminate the need for separate SATA power cables, making this answer technically invalid.",
+      D: "The M.2 2280 label means the drive is 22mm wide and 80mm long. The scenario notes the original drive was a 2280, and the new one \"physically fits perfectly,\" ruling out physical length as the limiting factor."
+    },
+    examTrap: "Confusing physical form factors (M.2) with logical data bus interfaces (SATA vs. NVMe)."
+  },
+  {
+    id: "Q007",
+    topic: "RAM",
+    difficulty: "Easy",
+    scenario: "A user's desktop motherboard features four color-coded RAM slots. Currently, two identical 8 GB DDR4 RAM modules are installed in slots A1 and B1, running optimally. The user decides to expand their memory but only has the budget to purchase a single 16 GB DDR4 module. They install the new 16 GB module into slot A2.",
+    prompt: "How will the motherboard's memory controller MOST likely handle this asymmetrical configuration?",
+    choices: [
+      { key: "A", text: "The system will halt the boot sequence until a matching 16 GB module is added to slot B2." },
+      { key: "B", text: "The system will disable the new 16 GB module, maintaining dual-channel speeds for the original 16 GB." },
+      { key: "C", text: "The system will activate flex mode, running 16 GB in dual-channel and 16 GB in single-channel." },
+      { key: "D", text: "The system will synchronize the bus, running all 32 GB at the speed of the L3 CPU cache." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "single 16 GB DDR4 module... asymmetrical configuration",
+    explanationCorrect: "When adding an odd number of memory modules or mismatched sizes, modern motherboards utilize a feature known as flex mode. In this configuration, the memory controller matches the 16 GB capacity from the two original 8 GB sticks (A1 and B1) with 16 GB from the new stick to operate them optimally in dual-channel mode, while any leftover asymmetrical amounts operate in single-channel mode. This ensures the system reaps some dual-channel performance benefits despite the mismatched sizes.",
+    explanationIncorrect: {
+      A: "Modern systems are extremely tolerant of mismatched memory sizes and capacities. While asymmetrical RAM is not optimal for peak performance, it will not trigger a hard boot halt.",
+      B: "While some systems might theoretically disable a spare module if severely incompatible, modern controllers default to utilizing all available RAM. Dropping to single-channel or flex mode is the standard behavior, rather than ignoring the purchased memory entirely.",
+      C: "",
+      D: "System RAM is much slower than the CPU's L3 cache. The memory controller synchronizes the RAM modules to the lowest common bus speed among the sticks themselves, not to the ultra-fast speeds of the CPU cache."
+    },
+    examTrap: "Understanding that dual-channel architecture is highly flexible (flex mode) and does not strictly require perfectly identical pairs across all 4 slots to boot."
+  },
+  {
+    id: "Q008",
+    topic: "Storage",
+    difficulty: "Easy",
+    scenario: "A technician is preparing to recycle a severely damaged workstation that will no longer power on due to a completely dead PSU. Before sending it to the recycling center, the technician realizes that an irreplaceable, proprietary software installation CD is still locked inside the internal optical drive.",
+    prompt: "What is the BEST immediate action the technician should take to retrieve the CD without destroying the drive?",
+    choices: [
+      { key: "A", text: "Insert a paper clip into the small hole on the front bezel of the drive." },
+      { key: "B", text: "Unscrew the chassis, remove the SATA power connector, and apply an external 12 V battery." },
+      { key: "C", text: "Use a flathead screwdriver to pry the disc tray forcefully from the drive bay." },
+      { key: "D", text: "Connect a USB to SATA adapter to the drive to override the region coding." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "no longer power on... locked inside the internal optical drive",
+    explanationCorrect: "Internal optical drives are universally manufactured with a fail-safe mechanical eject feature for situations where the standard eject button lacks electrical power. The drive features a tiny access hole on the front bezel; inserting a stiff wire, such as a paper clip, mechanically activates the release gear. This safely ejects the tray without requiring any electrical power or causing physical damage to the unit.",
+    explanationIncorrect: {
+      A: "",
+      B: "While bypassing the dead PSU by providing alternate power might eventually work, it requires completely opening the PC chassis, removing the drive, and risking electrical shorts. Using the mechanical eject hole is vastly faster and safer.",
+      C: "Forcing a closed tray open with a screwdriver will break the internal plastic gears and permanently destroy the drive's mechanism. The mechanical hole is explicitly designed to avoid this damage.",
+      D: "Region coding restricts consumer DVD/Blu-ray playback based on geographical regions and has absolutely nothing to do with the physical ejection of the media tray during a power failure."
+    },
+    examTrap: "Basic hardware life-hacks expected of an IT technician. Tool selection (paper clip) for unpowered optical media retrieval."
+  },
+  {
+    id: "Q009",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A small business wants to upgrade an office computer that is currently running an Intel Core i7 processor in an LGA 1200 socket. Hoping to boost multi-threading performance, the owner purchases a top-of-the-line AMD Ryzen 9 processor designed for an AM4 socket. The office manager opens the PC case, removes the Intel cooler, and attempts to drop the new AMD processor into the motherboard.",
+    prompt: "What fundamental physical issue will prevent this installation?",
+    choices: [
+      { key: "A", text: "The AMD CPU utilizes a Pin Grid Array (PGA) design with fragile pins that cannot interface with the Intel motherboard's socket." },
+      { key: "B", text: "The AM4 processor requires an active liquid cooling loop, while the LGA 1200 socket only supports passive heat sinks." },
+      { key: "C", text: "The AMD processor requires DDR5 memory, making it incompatible with the motherboard's DDR4 slots." },
+      { key: "D", text: "The LGA 1200 socket must be updated with a new BIOS firmware before it will accept the Ryzen processor." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Intel Core i7... LGA 1200 socket... attempts to drop the new AMD processor into the motherboard",
+    explanationCorrect: "Intel and AMD utilize completely different, proprietary physical architectures for their CPUs and motherboards. Intel traditionally utilizes a Land Grid Array (LGA) where the delicate pins are situated inside the motherboard socket. Conversely, older AMD Ryzen AM4 processors utilize a Pin Grid Array (PGA) where the fragile pins are located on the bottom of the CPU chip itself. Therefore, an AMD CPU cannot physically be installed into an Intel motherboard socket under any circumstances.",
+    explanationIncorrect: {
+      A: "",
+      B: "CPUs are not strictly bound to specific cooling technologies based solely on their socket. Both AMD and Intel CPUs can utilize passive heat sinks, active air coolers, or advanced liquid cooling systems depending on their thermal output, not their socket physical array.",
+      C: "While the transition to DDR5 exists (e.g., AMD's AM5 socket), the AM4 socket mentioned in the scenario explicitly utilizes DDR4 memory. Regardless of RAM, the CPU physical socket is the immediate physical barrier.",
+      D: "A BIOS firmware update can allow a motherboard to accept a newer CPU within the same exact generation or socket family. No firmware update can overcome the massive physical and electrical differences between competing AMD and Intel sockets."
+    },
+    examTrap: "Knowing that AMD and Intel physical packaging (LGA vs PGA) makes cross-brand motherboard swapping physically impossible."
+  },
+  {
+    id: "Q010",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A database administrator is migrating a high-traffic SQL server from 15,000 RPM hard disk drives (HDDs) to solid-state drives (SSDs) to dramatically increase read performance. However, the administrator is concerned about the long-term reliability of the new array, noting that flash memory cells degrade significantly when subjected to millions of repetitive write operations inherent to database workloads.",
+    prompt: "Which inherent feature of modern SSDs serves as a long-term prevention strategy against premature block failure?",
+    choices: [
+      { key: "A", text: "80 PLUS Gold efficiency certification" },
+      { key: "B", text: "Dual distributed parity striping" },
+      { key: "C", text: "Firmware wear leveling routines" },
+      { key: "D", text: "512-byte sector formatting geometry" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "flash memory cells degrade significantly... long-term prevention strategy",
+    explanationCorrect: "Solid-state drives (SSDs) utilize NOT AND (NAND) flash memory, which chemically degrades over countless write and erase cycles. To prevent localized burnout of frequently accessed sectors, SSD firmware and modern operating systems deploy wear leveling routines. Wear leveling algorithmically distributes write operations evenly across all physical blocks on the drive, drastically extending the overall lifespan and reliability of the device.",
+    explanationIncorrect: {
+      A: "The 80 PLUS certification program (Bronze, Silver, Gold) strictly measures the energy efficiency of Power Supply Units (PSUs) converting AC to DC power. It has absolutely no relation to solid-state storage degradation.",
+      B: "Dual distributed parity striping is the core mechanism of a RAID 6 array, protecting data against whole-drive failures. While RAID provides fault tolerance, it is a broad array configuration, not a low-level SSD feature designed to prevent individual NAND flash cell burnout.",
+      C: "",
+      D: "Drive geometry dividing circular tracks into 512-byte sectors is the low-level formatting method used by mechanical Hard Disk Drives (HDDs) on spinning magnetic platters. SSDs use blocks and pages, not tracks and sectors."
+    },
+    examTrap: "Linking specific flash degradation weaknesses to their firmware-level remediation (wear leveling)."
+  },
+  {
+    id: "Q011",
+    topic: "Power",
+    difficulty: "Easy",
+    scenario: "A technician is tasked with replacing a dead power supply in an older, legacy desktop PC. The new replacement is a high-quality modular ATX power supply. When routing cables, the technician notices the motherboard's main power port is an older 20-pin connector. The new power supply's main motherboard cable terminates in a 24-pin connector.",
+    prompt: "What is the proper procedure to safely power this motherboard?",
+    choices: [
+      { key: "A", text: "Use a 20+4-pin P1 adapter cable to make the connection." },
+      { key: "B", text: "Force the 24-pin connector into the socket, allowing the 4 extra pins to hang off the edge." },
+      { key: "C", text: "Use a Molex-to-SATA adapter to bridge the extra 4 pins to an expansion slot." },
+      { key: "D", text: "Enable dual-channel mode in the BIOS to accept the 24-pin voltage load." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "older 20-pin connector... terminates in a 24-pin connector",
+    explanationCorrect: "The ATX power supply standard has evolved over time; older motherboards required a 20-pin P1 connector, while modern motherboards require a 24-pin P1 connector. To ensure backward compatibility, many modern PSUs include a specialized 20+4-pin P1 adapter cable, or the 24-pin block can be physically split into a 20-pin block and a 4-pin block. Using this adapter allows the new PSU to safely power the legacy motherboard without physical damage.",
+    explanationIncorrect: {
+      A: "",
+      B: "Attempting to force an oversized connector into a smaller socket runs a high risk of misaligning the voltage pins (+12V, +5V, +3.3V) or physically breaking the delicate plastic housing on the motherboard. Adapters must be used for safe connection.",
+      C: "Molex and SATA power connectors are strictly designed to provide power to peripheral storage drives, not to supplement main motherboard P1 connections. Bridging them is technically invalid and physically impossible.",
+      D: "Dual-channel mode is a memory controller architecture designed to double data bandwidth between the CPU and RAM. It has absolutely nothing to do with ATX power supply pin configurations or voltage loads."
+    },
+    examTrap: "Knowledge of legacy vs. modern ATX standards and the correct, safe use of modular adapters (20+4 pin)."
+  },
+  {
+    id: "Q012",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A traveling sales agent uses a modern, fanless Windows 10 tablet equipped with an Advanced RISC Machine (ARM) System-on-Chip (SoC) for its exceptional battery life. The agent needs to install a legacy proprietary inventory application compiled exclusively for the x86 instruction set. The application successfully installs and opens, but the agent reports that the tablet becomes extremely sluggish, processes inventory reports slowly, and drains the battery exceptionally fast when the app is running.",
+    prompt: "What is the technical cause of this severe performance penalty?",
+    choices: [
+      { key: "A", text: "The ARM CPU lacks a dedicated Arithmetic Logic Unit (ALU) to process standard legacy code." },
+      { key: "B", text: "The operating system is relying on software emulation to translate the x86 instructions for the ARM hardware." },
+      { key: "C", text: "The fanless passive cooling design is triggering severe thermal throttling on the DDR5 memory." },
+      { key: "D", text: "The tablet requires an active internet connection to download instructions into the L1 cache." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "fanless Windows 10 tablet equipped with an... ARM... application compiled exclusively for the x86 instruction set",
+    explanationCorrect: "ARM architecture utilizes Reduced Instruction Set Computing (RISC), while x86 architecture utilizes Complex Instruction Set Computing (CISC). Because the physical hardware processes code completely differently, an ARM device cannot natively run x86 software. To achieve compatibility, operating systems like Windows on ARM run a facsimile environment called emulation. Software emulation dynamically translates x86 code to ARM code in real-time, which imposes a massive performance penalty and drastically reduces battery life.",
+    explanationIncorrect: {
+      A: "Every functioning CPU, including ARM-based chips, possesses an Arithmetic Logic Unit (ALU) to perform fundamental mathematical and logical operations. The absence of an ALU is technically impossible.",
+      B: "",
+      C: "While fanless devices rely on passive cooling, ARM chips are explicitly engineered to run cool without active fans. The sluggish performance is immediately tied to the software emulation of the x86 code, not sudden thermal throttling of the memory.",
+      D: "The L1 cache is ultra-fast hardware memory integrated directly onto the CPU die to store immediately necessary instructions. It pulls data from local system RAM, not by downloading instructions from the internet."
+    },
+    examTrap: "Recognizing the hidden costs of cross-architecture software translation. The trap is confusing physical hardware limitations (cooling/ALU) with the heavy software tax of CISC-on-RISC emulation."
+  },
+  {
+    id: "Q013",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A graphic designer’s PC is experiencing thermal shutdowns when rendering 3D graphics. The system monitoring software shows the CPU fan is spinning at 100% (3000 RPM), but the CPU temperature rapidly climbs past 95°C before the system powers off. The technician removes the heat sink to inspect the processor, noticing the thermal paste is dry and flaky. To quickly resolve the issue, the technician applies a generous, thick layer of new thermal paste directly over the old, dried paste and firmly re-clamps the heat sink. Upon rebooting, the system immediately overheats and shuts down again.",
+    prompt: "What troubleshooting methodology step did the technician fail to execute properly, resulting in the continued overheating?",
+    choices: [
+      { key: "A", text: "Test the theory to determine cause; the technician should have replaced the CPU fan first." },
+      { key: "B", text: "Establish a plan of action to resolve the problem; the technician failed to clean the old paste and applied too much new paste." },
+      { key: "C", text: "Verify full system functionality; the technician forgot to enable the passive cooling profile in the BIOS." },
+      { key: "D", text: "Document findings; the technician did not record the voltage of the heat sink assembly." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "applies a generous, thick layer of new thermal paste directly over the old, dried paste",
+    explanationCorrect: "During the remediation phase (establishing and implementing a plan of action), specific physical procedures must be followed to ensure proper thermal transfer. The technician must thoroughly clean off the old, dried thermal paste before applying new paste, and the new paste must be applied sparingly (e.g., in a small \"X\" pattern). Applying a thick layer of new paste over old, flaky paste introduces air gaps and creates a thick physical barrier that acts as a thermal insulator rather than a conductor, causing the CPU to overheat immediately.",
+    explanationIncorrect: {
+      A: "Replacing the CPU fan is an incorrect first step because the scenario explicitly states the fan is functioning perfectly at 100% (3000 RPM). The symptom points to a thermal transfer issue between the CPU and the heat sink, not a mechanical fan failure.",
+      B: "",
+      C: "A heat sink relies on passive cooling properties (fins increasing surface area), but a BIOS profile does not magically bypass the physical laws of thermal conductivity. A poor paste application will cause overheating regardless of any software or firmware settings.",
+      D: "While documenting findings is the final step of the CompTIA troubleshooting methodology, failing to document the issue does not cause the PC to physically overheat. Furthermore, heat sink assemblies do not have a \"voltage\"; the attached fan has a voltage, but it is already confirmed to be spinning at maximum speed."
+    },
+    examTrap: "The \"More is Better\" trap. Inexperienced technicians often assume that applying more thermal paste results in better cooling. The exam tests the knowledge that excess paste insulates heat and can damage the socket if it overflows."
+  },
+  {
+    id: "Q014",
+    topic: "RAM",
+    difficulty: "Hard",
+    scenario: "A user builds a new high-performance desktop utilizing a motherboard with four color-coded DIMM slots (A1 and B1 are black; A2 and B2 are grey). The user purchases a 32 GB DDR4 memory kit containing two identical 16 GB modules. The user carefully installs the modules side-by-side into slots A1 and A2. The system boots successfully, but during a memory benchmark, the data bandwidth is reported to be exactly half of the manufacturer’s advertised speed.",
+    prompt: "What is the MOST likely cause of the reduced memory bandwidth?",
+    choices: [
+      { key: "A", text: "The motherboard only supports single-channel memory architectures." },
+      { key: "B", text: "The RAM modules must be installed in alternating slots (e.g., A1 and B1) to enable dual-channel mode." },
+      { key: "C", text: "The system is operating in flex mode, running one 16 GB module and disabling the other." },
+      { key: "D", text: "The 32-bit operating system is limiting the memory bus to 4 GB of addressable space." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "installs the modules side-by-side into slots A1 and A2... data bandwidth is reported to be exactly half",
+    explanationCorrect: "Dual-channel memory architecture doubles the data bandwidth by utilizing two 64-bit pathways simultaneously (128 bits total) between the memory controller and the RAM. To enable dual-channel mode, identical memory modules must be installed into corresponding channels, which are typically color-coded pairs (e.g., A1 and B1). By installing the modules side-by-side into slots A1 and A2, both modules are occupying the same channel, forcing the system to operate in single-channel mode and effectively cutting the theoretical bandwidth in half.",
+    explanationIncorrect: {
+      A: "The scenario explicitly notes the motherboard features four color-coded DIMM slots in pairs (A and B), which is the universal physical indicator of a dual-channel (or quad-channel) capable motherboard. Almost all modern desktop motherboards support at least dual-channel configurations.",
+      B: "",
+      C: "Flex mode is activated when an odd number of modules or mismatched capacities (e.g., a 2 GB and a 6 GB module) are installed, allowing partial dual-channel operation. Since the user installed two perfectly identical 16 GB modules, flex mode does not apply; it is strictly a channel population error.",
+      D: "A 32-bit OS limits the total addressable capacity to 4 GB, meaning the OS would ignore 28 GB of the installed RAM. However, a 32-bit OS does not physically halve the hardware bandwidth (speed) of the memory bus itself."
+    },
+    examTrap: "The visual assumption trap. Users often assume memory sticks should be placed physically adjacent to each other. The exam requires knowing that dual-channel banks are typically staggered (alternating slots)."
+  },
+  {
+    id: "Q015",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A videographer purchases a high-end digital camera capable of recording 4K uncompressed video. To ensure plenty of storage, they buy a massive 512 GB SDXC memory card. The camera recognizes the card and formats it successfully. However, every time the videographer presses record, the camera captures exactly 5 seconds of footage before halting and displaying a \"Buffer Write Error.\"",
+    prompt: "What storage characteristic is MOST likely causing this specific recording failure?",
+    choices: [
+      { key: "A", text: "The SDXC card is formatted to FAT32, which cannot support files larger than 4 GB." },
+      { key: "B", text: "The SDXC card speed rating is Class 10 (25 MBps), which is too slow for 4K data throughput." },
+      { key: "C", text: "The camera does not support the SDXC extended capacity standard." },
+      { key: "D", text: "The SD card lacks wear leveling algorithms, causing immediate flash cell failure." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "512 GB SDXC... captures exactly 5 seconds of footage before halting and displaying a 'Buffer Write Error.'",
+    explanationCorrect: "High-resolution uncompressed video requires massive, sustained data transfer rates. While an original SD card speed rating (Class 10) provides up to 25 MBps, this is wildly insufficient for 4K video, which fills the camera's internal temporary buffer faster than the buffer can offload the data to the card. The videographer needs a card with a much higher speed rating, such as UHS-II (up to 312 MBps) or SD Express, to handle the continuous heavy write operations.",
+    explanationIncorrect: {
+      A: "While the FAT32 file system does have a 4 GB maximum file size limit, 5 seconds of 4K video will not reach 4 GB. The specific symptom is a \"buffer error\" indicating a speed bottleneck, not a file size cap restriction.",
+      B: "",
+      C: "The scenario explicitly states that \"The camera recognizes the card and formats it successfully.\" If the camera's internal reader did not support the SDXC standard, it would not have been able to recognize or mount the 512 GB volume at all.",
+      D: "Wear leveling is a firmware feature used to extend the long-term lifespan of flash memory cells over millions of write cycles. The absence of wear leveling would not cause a brand-new, just-formatted card to fail within 5 seconds of its very first use."
+    },
+    examTrap: "Confusing storage capacity with storage speed. An SD card can have massive capacity (512 GB) but still possess an older, low-tier speed rating unsuitable for modern media."
+  },
+  {
+    id: "Q016",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A data center technician is upgrading an enterprise-class server motherboard that features Symmetric Multiprocessing (SMP) architecture via dual LGA 4189 sockets. The server currently runs flawlessly with a single 16-core Intel Xeon processor in Socket 1. To increase processing power for a new database, the technician purchases a newer 24-core Intel Xeon processor that uses the exact same LGA 4189 physical socket. The technician installs the 24-core CPU into Socket 2. When the server is powered on, it fails to POST and emits a series of hardware error codes.",
+    prompt: "Why did the server fail to boot after the upgrade?",
+    choices: [
+      { key: "A", text: "The 24-core processor requires DDR5 RAM, whereas the motherboard only has DDR4 slots." },
+      { key: "B", text: "SMP architecture requires both populated CPU sockets to contain identical CPU models and specifications." },
+      { key: "C", text: "The LGA 4189 socket is designed exclusively for AMD EPYC processors, not Intel Xeon." },
+      { key: "D", text: "The server's BIOS must be updated to enable Simultaneous Multithreading (SMT) for the secondary socket." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Symmetric Multiprocessing (SMP)... 16-core Intel Xeon... 24-core Intel Xeon... exact same LGA 4189 physical socket",
+    explanationCorrect: "Symmetric Multiprocessing (SMP) is a specific motherboard architecture that allows two or more physical CPUs to share the same system memory and data buses. However, a strict hardware requirement of SMP is that all installed processors must be perfectly matched; they must be the exact same model, with the same core count, clock speed, and cache specifications. Mixing a 16-core CPU and a 24-core CPU, even if they physically fit the same socket, breaks the synchronization of the SMP architecture and prevents the motherboard from posting.",
+    explanationIncorrect: {
+      A: "While memory generation compatibility is important, the failure here is explicitly tied to adding a mismatched CPU to an SMP array. The server booted fine previously, meaning the RAM generation is compatible with the board.",
+      B: "",
+      C: "The LGA 4189 socket is explicitly manufactured by Intel for its Xeon Scalable processor lineup. AMD EPYC processors utilize entirely different socket architectures, such as Socket SP3 or SP5.",
+      D: "Simultaneous Multithreading (SMT), known as Hyper-Threading on Intel chips, is a feature that allows a single physical core to handle two threads. It is an internal CPU feature and has nothing to do with the external motherboard requirement of matching physical processors for SMP operation."
+    },
+    examTrap: "The assumption that physical socket compatibility equals system compatibility. In multi-socket servers, identical CPU matching is a mandatory architectural rule."
+  },
+  {
+    id: "Q017",
+    topic: "Power",
+    difficulty: "Medium",
+    scenario: "A high-availability web server hosted in a rackmount chassis suddenly triggers an audible alarm. The system administrator observes an amber warning light on one of the server's two power supply units (PSU A). The server remains fully operational because PSU B is handling the entire electrical load. Both PSUs are plugged directly into the server's internal backplane.",
+    prompt: "What is the BEST first step the administrator should take to replace the failing power supply?",
+    choices: [
+      { key: "A", text: "Schedule a maintenance window to power down the server during off-peak hours." },
+      { key: "B", text: "Unplug the AC power cord from PSU A and slide the failing unit out of the chassis immediately." },
+      { key: "C", text: "Open the server chassis and disconnect the 24-pin ATX power cable from the motherboard." },
+      { key: "D", text: "Switch the remaining PSU B from 120 VAC low-line to 240 VAC high-line to compensate for the lost wattage." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "high-availability... two power supply units... plugged directly into the server's internal backplane",
+    explanationCorrect: "Enterprise servers utilize redundant power supplies connected to a central circuit board called a backplane. This specific architecture is engineered to allow hot-swapping, meaning a failed component can be safely removed and replaced while the system is actively running. Because PSU B is maintaining system power and the backplane manages the electrical connections safely, the administrator's best first step is to simply unplug and pull the dead PSU A out without taking the critical server offline.",
+    explanationIncorrect: {
+      A: "Scheduling a maintenance window to shut down the server defeats the entire purpose of having expensive, redundant, hot-swappable power supplies. The primary goal in enterprise environments is maintaining continuous uptime.",
+      B: "",
+      C: "PSUs connected to a server backplane do not use internal ATX cables. The backplane itself provides the physical blind-mate connectors to the motherboard. Opening the case to hunt for a 24-pin cable is both unnecessary and physically incorrect.",
+      D: "Autoswitching PSUs automatically detect and adjust to the wall voltage (120V vs 240V). Changing the input voltage of the surviving PSU does not magically increase its maximum wattage rating, nor is it a safe or valid way to handle a failover scenario."
+    },
+    examTrap: "Differentiating between consumer PC troubleshooting (always power off and unplug) and enterprise server hardware capabilities (hot-swapping redundant modules)."
+  },
+  {
+    id: "Q018",
+    topic: "Storage",
+    difficulty: "Hard",
+    scenario: "A receptionist's legacy office PC features a 32-bit CPU, 4 GB of DDR3 RAM, and an older 5400 RPM mechanical Hard Disk Drive (HDD). The user complains that when they have multiple PDF documents and web browser tabs open simultaneously, the computer freezes for several seconds at a time. During these freezes, the HDD activity light remains solid white, and the fan spins loudly. A diagnostic check reveals the CPU temperature is normal, and there are no malware infections.",
+    prompt: "What is the MOST likely technical cause of the severe performance drops?",
+    choices: [
+      { key: "A", text: "The 32-bit CPU cannot address the full 4 GB of physical RAM, causing the operating system to frequently utilize the HDD for virtual memory paging." },
+      { key: "B", text: "The 5400 RPM HDD is experiencing excessive seek times due to fragmented parity data from a failed RAID array." },
+      { key: "C", text: "The motherboard's memory controller is forcing the 4 GB of RAM to run in flex mode, halving the data transfer bandwidth." },
+      { key: "D", text: "The system is relying heavily on virtual memory because the OS has exhausted its physical RAM, and paging to a mechanical HDD is extremely slow." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "multiple PDF... open simultaneously... freezes for several seconds... HDD activity light remains solid white",
+    explanationCorrect: "System RAM acts as the short-term working memory for active applications. When a system with very low physical RAM (like 4 GB) attempts to run multiple heavy applications, the RAM fills up completely. To prevent a crash, the operating system utilizes virtual memory (paging), which temporarily moves data from the RAM to the mass storage drive. Because the storage drive is an older 5400 RPM mechanical HDD with physical spinning platters and moving heads, read/write speeds are incredibly slow compared to RAM, resulting in 100% disk usage (solid activity light) and severe system freezing.",
+    explanationIncorrect: {
+      A: "While it is true that a 32-bit CPU has a 4 GB address space limit (often leaving around 3.5 GB usable due to hardware reservations), this minor hardware limitation is not the root cause of the freezing. The freezing is caused by the exhaustion of that space and the subsequent paging to the extremely slow mechanical HDD.",
+      B: "There is no indication in the scenario that a RAID array is present or has failed. While a 5400 RPM drive does have slow seek times, the issue is not broken parity data, but rather the OS using the disk as an overflow for system memory (thrashing).",
+      C: "Flex mode occurs when asymmetrical RAM amounts are populated (e.g., 2 GB and 6 GB). Even if flex mode were active, it would merely result in single-channel speeds, which causes a minor performance dip, not complete multi-second system freezing with solid HDD activity.",
+      D: ""
+    },
+    examTrap: "Recognizing the symptoms of \"disk thrashing.\" The trap is selecting a highly technical-sounding answer (like 32-bit addressing limits) rather than identifying the practical relationship between exhausted RAM and slow virtual memory on mechanical storage."
+  },
+  {
+    id: "Q019",
+    topic: "Hardware",
+    difficulty: "Easy",
+    scenario: "A software engineer is building a dedicated host machine to run a hypervisor and multiple resource-heavy virtual machines (VMs). To ensure the VMs run smoothly without stalling during complex memory allocation tasks, the engineer specifically purchases a processor that supports hardware-assisted memory translation.",
+    prompt: "Which processor feature provides this specific hardware-assisted virtual memory management?",
+    choices: [
+      { key: "A", text: "Symmetrical Multiprocessing (SMP)" },
+      { key: "B", text: "Second Level Address Translation (SLAT)" },
+      { key: "C", text: "Simultaneous Multithreading (SMT)" },
+      { key: "D", text: "Error-Correcting Code (ECC) Memory Controller" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "hardware-assisted memory translation... ensure the VMs run smoothly",
+    explanationCorrect: "Managing memory between a host operating system and multiple guest virtual machines places a massive overhead on software hypervisors. Second Level Address Translation (SLAT)—also known as Extended Page Table (EPT) by Intel and Rapid Virtualization Indexing (RVI) by AMD—is a second-generation hardware virtualization feature built directly into the CPU. SLAT offloads the complex task of virtual memory management from the software to the CPU hardware, drastically improving VM performance and reducing system latency.",
+    explanationIncorrect: {
+      A: "Symmetrical Multiprocessing (SMP) is a motherboard architecture utilizing multiple physical CPU sockets. While helpful for a hypervisor host, it is a physical hardware layout, not an internal CPU feature designed to manage virtual memory translation.",
+      B: "",
+      C: "Simultaneous Multithreading (SMT) allows a single physical CPU core to process two instruction threads concurrently. While beneficial for multitasking and virtualization, it handles processing threads, not the specific translation of memory addresses between host and guest OS.",
+      D: "An ECC Memory Controller detects and corrects single-bit memory errors to prevent data corruption and system crashes. While crucial for server stability, ECC does not translate virtual memory addresses for hypervisors."
+    },
+    examTrap: "Distinguishing between general performance enhancements (SMT) and specific virtualization-assisting technologies (SLAT)."
+  },
+  {
+    id: "Q020",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A financial firm is archiving critical, unalterable tax records. The IT director dictates that the data must be stored on physical media that provides high read speeds but absolute protection against accidental deletion or modification by malware. The files are roughly 15 GB in size per yearly archive. The budget does not allow for Enterprise Tape Drives.",
+    prompt: "Which storage medium perfectly complies with the IT director’s requirements?",
+    choices: [
+      { key: "A", text: "Secure Digital Extended Capacity (SDXC) Cards" },
+      { key: "B", text: "Basic Recordable Blu-ray Discs (BD-R)" },
+      { key: "C", text: "Solid State Drives (SSD) with wear leveling disabled" },
+      { key: "D", text: "Network Attached Storage (NAS) configured in RAID 0" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "unalterable... protection against accidental deletion or modification... roughly 15 GB in size",
+    explanationCorrect: "Basic Recordable media, such as BD-R (Blu-ray Disc Recordable), utilizes an organic dye or phase-change material that is permanently burned by a laser during the write process. This makes the media physically \"Write Once, Read Many\" (WORM). Because the data cannot be physically erased or altered by software or malware, it guarantees unalterable archiving. A single-layer Blu-ray holds 25 GB of data, which easily accommodates the 15 GB requirement.",
+    explanationIncorrect: {
+      A: "SDXC cards use flash memory, which is inherently rewritable. Even if a physical lock switch is engaged on the card adapter, the data itself is fundamentally alterable and vulnerable to accidental formatting or advanced malware if the switch is bypassed or ignored by certain card readers.",
+      B: "",
+      C: "SSDs are completely volatile to software commands; any user or malware with proper permissions can instantly delete the files. Disabling wear leveling (if even possible via firmware) would only cause the drive to degrade faster, not protect the data from modification.",
+      D: "A NAS configured in RAID 0 provides excellent speed and large capacity by striping data across disks, but it offers zero fault tolerance and no protection against accidental deletion. A user or ransomware could instantly wipe the NAS over the network."
+    },
+    examTrap: "Recognizing the unique archival value of optical media (WORM characteristics) versus modern flash/magnetic storage when absolute immutability is required."
+  },
+  {
+    id: "Q021",
+    topic: "Storage",
+    difficulty: "Hard",
+    scenario: "A data analyst is tasked with recovering a massive volume of corrupted data from a failed RAID 5 array. The array originally consisted of four 4 TB Hard Disk Drives. One drive failed mechanically, and while waiting for a replacement, a second drive suffered a sudden read/write head crash.",
+    prompt: "What is the required remediation step to restore access to the data?",
+    choices: [
+      { key: "A", text: "Insert two new 4 TB drives; the RAID controller will automatically rebuild the data using the remaining distributed parity." },
+      { key: "B", text: "Replace the damaged read/write head on the second drive, then use the CHKDSK command to fix the logical file system errors." },
+      { key: "C", text: "Recreate the logical storage volume entirely and restore the data from the most recent off-site backup." },
+      { key: "D", text: "Upgrade the array to RAID 6, which inherently supports surviving a double-drive failure without data loss." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "RAID 5 array... second drive suffered a sudden read/write head crash",
+    explanationCorrect: "RAID 5 utilizes single distributed parity, meaning the array can computationally survive the failure of only one physical drive. If a second drive fails before the array has finished rebuilding, the entire logical storage unit (volume) collapses, and all data is permanently destroyed. The only remediation possible in a multiple-drive failure scenario on RAID 5 is to rebuild the hardware volume from scratch and restore the lost data from a completely separate backup system.",
+    explanationIncorrect: {
+      A: "Inserting two new drives will do nothing. Because RAID 5 parity is only calculated to cover a single missing disk, the loss of a second disk means the mathematical equation used to rebuild the data is unsolvable. The data is gone.",
+      B: "Replacing the mechanical read/write heads of a hard drive requires a specialized class-100 cleanroom and highly advanced data recovery expertise. Furthermore, the CHKDSK utility repairs logical file system corruption, it cannot repair physically destroyed RAID hardware stripes.",
+      C: "",
+      D: "While RAID 6 utilizes dual distributed parity and can survive a simultaneous two-drive failure, upgrading to RAID 6 is a prevention strategy for the future. You cannot upgrade a completely failed RAID 5 array retroactively to recover data that is already permanently lost."
+    },
+    examTrap: "The \"RAID is a Backup\" trap. RAID provides high availability, but a multi-drive failure destroys the array. Students must recognize when hardware recovery is impossible and external backups must be utilized."
+  },
+  {
+    id: "Q022",
+    topic: "Power",
+    difficulty: "Medium",
+    scenario: "A technician builds a compact media PC utilizing a fully modular 80 PLUS Bronze power supply. To improve airflow in the cramped chassis, the technician only plugs in the 24-pin motherboard cable and the CPU power cable, leaving all the SATA and Molex cables in the box. A few weeks later, the system begins experiencing intermittent power loss and random reboots. The technician inspects the case and notices that the modular CPU power cable feels slightly loose at the point where it connects to the back of the power supply unit.",
+    prompt: "What is the MOST likely cause of the intermittent power loss?",
+    choices: [
+      { key: "A", text: "The 80 PLUS Bronze rating is inefficient, causing the PSU to overheat and trip a thermal sensor." },
+      { key: "B", text: "The lack of extra SATA and Molex cables disrupted the electrical grounding of the PSU chassis." },
+      { key: "C", text: "The modular connection at the PSU interface is not seated firmly, increasing electrical resistance and disrupting voltage delivery." },
+      { key: "D", text: "The 24-pin ATX cable requires a 20+4 pin adapter to properly bridge the voltage to a compact motherboard." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "modular CPU power cable feels slightly loose at the point where it connects to the back of the power supply",
+    explanationCorrect: "Fully modular power supplies rely on physical plug-in interfaces at both the component end and the PSU end. If a modular cable is loose or not fully clicked into the back of the power supply unit, it creates a poor electrical contact. This loose connection introduces high electrical resistance, which causes voltage drops and intermittent power delivery to critical components like the CPU, resulting in random system reboots and instability.",
+    explanationIncorrect: {
+      A: "An 80 PLUS Bronze rating means the PSU operates at a minimum of 82% efficiency. While less efficient than Gold or Platinum, it is a certified, safe standard that does not inherently overheat or cause power loss unless the fan fails or the unit is severely overloaded.",
+      B: "Modular power supplies are specifically designed so that unnecessary cables (like SATA and Molex) can be completely removed to improve airflow. The grounding of the PSU is handled via the AC wall outlet cord and the metal chassis mounting, not the internal DC peripheral cables.",
+      C: "",
+      D: "A 20+4 pin adapter is used specifically when an older legacy motherboard features a 20-pin port, but the PSU provides a 24-pin cable. It is not required simply because a motherboard is \"compact\" (e.g., Mini-ITX boards still utilize standard 24-pin connections)."
+    },
+    examTrap: "Recognizing the unique mechanical failure point of modular PSUs (the PSU-side plug interface) versus standard non-modular units."
+  },
+  {
+    id: "Q023",
+    topic: "Hardware",
+    difficulty: "Easy",
+    scenario: "A junior technician is tasked with replacing a damaged processor on an Intel-based motherboard. The documentation states the motherboard uses an LGA 1700 socket. The technician opens the CPU retention bracket, carefully aligning the small golden triangle marker on the corner of the new CPU with the corresponding triangle on the motherboard socket.",
+    prompt: "Why is aligning these specific markers a critical installation step?",
+    choices: [
+      { key: "A", text: "It ensures the thermal paste is distributed evenly across the heat sink fins." },
+      { key: "B", text: "It guarantees that Pin 1 on the CPU matches Pin 1 on the socket to prevent catastrophic electrical and physical damage." },
+      { key: "C", text: "It activates the Zero Insertion Force (ZIF) lever to lock the CPU into the socket." },
+      { key: "D", text: "It orientates the CPU fan headers to properly reach the motherboard's 4-pin fan power connectors." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "aligning the small golden triangle marker... with the corresponding triangle on the motherboard socket",
+    explanationCorrect: "Both Land Grid Array (LGA) and Pin Grid Array (PGA) sockets rely on an intricate grid of hundreds of microscopic pins and contact pads transferring specific voltages and data signals. Pin 1 is the universal starting point for this grid layout. By aligning the triangle marker on the CPU with the triangle on the socket, the technician ensures that every single pin aligns with its correct counterpart. Inserting a CPU backward will instantly crush the delicate pins and send high voltage down data lines, permanently destroying the CPU and motherboard.",
+    explanationIncorrect: {
+      A: "Thermal paste is applied to the top center (the integrated heat spreader) of the CPU after the processor is fully installed and locked into the socket. The alignment markers have absolutely nothing to do with paste distribution.",
+      B: "",
+      C: "The Zero Insertion Force (ZIF) mechanism is simply a mechanical lever and sliding plate that locks the CPU securely without requiring downward pressure. Aligning the triangles does not activate this lever; the technician must physically pull the lever down.",
+      D: "The CPU fan is a separate hardware component attached to the heat sink assembly, not the bare CPU die. The orientation of the CPU chip itself does not dictate how the fan cable routes to the motherboard header."
+    },
+    examTrap: "Fundamental hardware safety protocol. Ensuring candidates understand the literal meaning and critical nature of the Pin 1 orientation markers on all processors."
+  },
+  {
+    id: "Q024",
+    topic: "Storage",
+    difficulty: "Hard",
+    scenario: "A server administrator orders high-performance M.2 storage to upgrade the boot times of a rackmount server. The server motherboard features two M.2 slots. The administrator installs a top-tier M.2 NVMe SSD into Slot 1, and the system easily achieves transfer rates exceeding 6 GB/s. Attempting to add more storage, the administrator purchases an enterprise-grade Serial Attached SCSI (SAS) SSD and attempts to install it into M.2 Slot 2. However, the drive cannot be attached to the motherboard.",
+    prompt: "What is the technical reason the administrator's installation attempt failed?",
+    choices: [
+      { key: "A", text: "M.2 NVMe drives utilize the PCIe bus, causing a hardware conflict that disables the secondary SAS controller." },
+      { key: "B", text: "M.2 is a physical form factor exclusively designed to support the SATA and NVMe (PCIe) interfaces, not the SAS protocol." },
+      { key: "C", text: "SAS drives require an external 12V power supply that the M.2 slot cannot provide over the bus." },
+      { key: "D", text: "The M.2 slot limits data throughput to 600 MBps, which severely bottlenecks SAS performance." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Serial Attached SCSI (SAS) SSD and attempts to install it into M.2 Slot",
+    explanationCorrect: "M.2 is a specific physical form factor designed for ultra-compact devices and motherboard mounting. The M.2 physical slot is electrically engineered to connect directly to either the SATA bus architecture or the high-speed PCIe bus (utilizing the NVMe protocol). Serial Attached SCSI (SAS) is an entirely different point-to-point serial enterprise protocol that requires specific SAS host bus adapters and proprietary SAS cabling. SAS drives are never manufactured in the M.2 form factor, making physical installation impossible.",
+    explanationIncorrect: {
+      A: "While motherboard PCIe lanes are limited and populating certain slots can disable others, an NVMe drive does not inherently \"conflict\" with an SAS controller. The primary issue is that an SAS drive physically cannot plug into an M.2 slot.",
+      B: "",
+      C: "M.2 slots natively provide all necessary power directly over the motherboard bus (typically 3.3V), eliminating the need for external power cables. However, power delivery is irrelevant because the physical interface and protocol mismatch prevents connection entirely.",
+      D: "While the older SATA interface on an M.2 slot limits throughput to roughly 600 MBps, the PCIe/NVMe interface handles speeds far exceeding that (up to 32 GT/s on PCIe 5.0). Regardless of speed, an SAS drive physically cannot connect to the M.2 standard."
+    },
+    examTrap: "Understanding the rigid boundaries of the M.2 form factor. The trap is assuming that because SAS is a \"high-performance enterprise\" drive, it must be available in the modern \"high-performance\" M.2 physical format."
+  },
+  {
+    id: "Q025",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A database administrator is performance-tuning a custom server application that performs millions of sequential calculations. Using performance monitoring tools, the administrator notices that the server's CPU is frequently stalling and sitting idle. The diagnostic report indicates that the processor is constantly waiting for the next set of code instructions to arrive from the DDR4 system memory due to cache misses.",
+    prompt: "Which specific stage of the CPU instruction pipeline is currently experiencing the primary bottleneck?",
+    choices: [
+      { key: "A", text: "Decode" },
+      { key: "B", text: "Execute" },
+      { key: "C", text: "Fetch" },
+      { key: "D", text: "Write-back" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "constantly waiting for the next set of code instructions to arrive from the DDR4 system memory",
+    explanationCorrect: "The CPU instruction pipeline follows a strict sequence: Fetch, Decode, Execute, Write-back. During the Fetch stage, the CPU retrieves the next instruction from system RAM (or cache) into the pipeline. If the system memory is slow, or if there are constant cache misses, the CPU cannot retrieve the instructions fast enough, causing a stall directly at the Fetch stage before any translation or calculation can occur.",
+    explanationIncorrect: {
+      A: "The Decode stage is where the CPU's control unit translates the fetched instruction to determine what resources are needed. A bottleneck here is usually caused by unoptimized, complex software instructions (CISC overhead), not by a delay in retrieving the data from RAM.",
+      B: "The Execute stage is where the Arithmetic Logic Unit (ALU) or Floating-Point Unit (FPU) performs the actual mathematical operation. This stage stalls if the ALU is overwhelmed by the complexity of the math, not if it is waiting for the instructions to arrive from RAM.",
+      C: "",
+      D: "The Write-back stage is the final step where the calculated result is stored back into a register or system memory. A bottleneck here implies the CPU is processing data faster than it can save it, which contradicts the symptom of waiting for instructions to arrive."
+    },
+    examTrap: "Confusing general \"CPU slowness\" with the specific architectural stages of the CPU pipeline. The trap is assuming execution is slow, when in reality, the CPU is starving for data at the input (fetch) level."
+  },
+  {
+    id: "Q026",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A financial firm requires a new high-availability database server. The strict corporate policy mandates that the storage array must provide 10 TB of usable space, combined with high read/write performance, and the ability to survive a single drive failure without bringing the volume offline. The IT technician has a budget to purchase exactly four 6 TB enterprise hard drives.",
+    prompt: "Which RAID configuration complies with the policy and what is the resulting usable capacity?",
+    choices: [
+      { key: "A", text: "RAID 5, resulting in 12 TB of usable capacity." },
+      { key: "B", text: "RAID 10, resulting in 12 TB of usable capacity." },
+      { key: "C", text: "RAID 1, resulting in 24 TB of usable capacity." },
+      { key: "D", text: "RAID 0, resulting in 18 TB of usable capacity." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "four 6 TB... high read/write performance... survive a single drive failure... 10 TB of usable space",
+    explanationCorrect: "RAID 10 (Stripe of Mirrors) perfectly fits this scenario as it combines the high performance of striping with the fault tolerance of mirroring, surviving a drive failure in either sub-volume. RAID 10 requires at least four disks and imposes a 50% storage overhead due to the mirroring. Four 6 TB drives yield 24 TB of raw storage, which halves to 12 TB of usable capacity, easily satisfying the 10 TB minimum policy requirement.",
+    explanationIncorrect: {
+      A: "While RAID 5 provides fault tolerance and requires less overhead, an array of four 6 TB drives in RAID 5 reserves the equivalent of one drive for parity. This would yield 18 TB of usable space (3 x 6 TB), not 12 TB.",
+      B: "",
+      C: "RAID 1 is a simple mirror that only supports two drives per logical volume, not four. Furthermore, a 50% overhead on raw 24 TB would yield 12 TB, making the claim of 24 TB usable completely mathematically impossible for a mirrored array.",
+      D: "RAID 0 stripes data across all drives for maximum performance and yields 100% of the raw capacity (24 TB). It provides zero redundancy, meaning a single drive failure destroys all data, explicitly violating the firm's strict fault-tolerance policy."
+    },
+    examTrap: "Testing both the architectural requirements of RAID levels and the ability to accurately calculate storage overhead penalties on the fly."
+  },
+  {
+    id: "Q027",
+    topic: "RAM",
+    difficulty: "Easy",
+    scenario: "A user wants to drastically improve their computer's performance. The motherboard currently houses 16 GB of DDR4 memory running at 3200 MT/s. The user purchases a state-of-the-art 32 GB DDR5 module running at 4800 MT/s. When attempting to insert the new memory stick into the empty secondary slot, the user notices it will not slide into the socket.",
+    prompt: "What physical characteristic acts as a prevention mechanism to stop this installation?",
+    choices: [
+      { key: "A", text: "The Zero Insertion Force (ZIF) lever is currently locked down." },
+      { key: "B", text: "The DDR5 module has a different pin count and a uniquely positioned edge connector notch." },
+      { key: "C", text: "The motherboard's flex mode brackets physically block asymmetrical capacities." },
+      { key: "D", text: "The heat sink on the DDR5 module is too tall to clear the DIMM slot's retaining clips." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "DDR4 memory... purchases a state-of-the-art 32 GB DDR5... will not slide into the socket",
+    explanationCorrect: "Memory generations are fundamentally incompatible due to different electrical architectures and signaling voltages. To prevent users from accidentally destroying the motherboard or the RAM by forcing incompatible generations together, manufacturers physically alter the layout of the pins and shift the location of the notch on the bottom edge connector. Because the DDR5 notch does not align with the plastic key in the DDR4 slot, physical insertion is impossible.",
+    explanationIncorrect: {
+      A: "The Zero Insertion Force (ZIF) lever is a retention mechanism exclusively found on CPU sockets (like LGA or PGA layouts), not on system RAM. RAM relies on vertical insertion and side retaining clips.",
+      B: "",
+      C: "Flex mode is a firmware-level memory controller feature that handles mismatched RAM capacities (e.g., mixing an 8 GB stick with a 16 GB stick) gracefully. It is a logical software feature, not a physical bracket that blocks insertion.",
+      D: "While high-performance RAM often features tall heat sinks that might interfere with bulky CPU air coolers, the heat sink itself does not interact with the DIMM slot's retaining clips, which secure the ends of the PCB board, not the top heat spreader."
+    },
+    examTrap: "Recognizing that RAM generations are entirely physically incompatible, bypassing any logical troubleshooting steps."
+  },
+  {
+    id: "Q028",
+    topic: "RAM",
+    difficulty: "Hard",
+    scenario: "A critical scientific workstation is equipped with 128 GB of Error-Correcting Code (ECC) Registered DIMMs. The workstation runs complex weather simulations 24/7. Suddenly, the workstation halts entirely, generating a Blue Screen of Death (BSOD) that cites a critical memory hardware fault. A reboot restores the system, but the user is confused because they purchased ECC RAM specifically to prevent memory-related crashes.",
+    prompt: "What technical limitation of ECC RAM explains this sudden system halt?",
+    choices: [
+      { key: "A", text: "ECC RAM must be paired with Unbuffered DIMMs (UDIMMs) to successfully correct memory faults." },
+      { key: "B", text: "The system's memory controller disabled dual-channel mode, which bypassed the ECC parity checks." },
+      { key: "C", text: "The ECC memory encountered a multi-bit error, which it can detect but cannot correct." },
+      { key: "D", text: "The 8-bit checksum overflowed due to the heavy calculation load of the weather simulation." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "ECC RAM... halts entirely... generating a Blue Screen of Death... cites a critical memory hardware fault",
+    explanationCorrect: "Error-Correcting Code (ECC) RAM utilizes an extra 8-bit checksum on a 72-bit data bus to maintain data integrity. While ECC RAM is highly effective at detecting and automatically correcting single-bit memory errors silently in the background, it has a strict architectural limitation: it cannot correct simultaneous multi-bit errors. When a multi-bit error occurs, the ECC controller detects the catastrophic corruption and intentionally halts the system (causing a BSOD) to prevent that corrupted data from being written to the storage drive and destroying the database.",
+    explanationIncorrect: {
+      A: "Registered DIMMs (RDIMMs) are actually the standard, most reliable form factor for large ECC deployments because the register reduces electrical load on the memory controller. Mixing RDIMMs and UDIMMs is physically unsupported and would cause a failure to boot, not a random runtime crash.",
+      B: "Dual-channel mode is an architecture that doubles data bandwidth by utilizing two memory pathways simultaneously. It has absolutely no bearing on whether the internal ECC parity checks function; ECC works perfectly fine in single-channel mode.",
+      C: "",
+      D: "The 8-bit checksum is a mathematical hash of the data stored in the memory cell, not a counter that can \"overflow\" based on the CPU's computational workload. Heavy simulations stress the CPU, but they do not cause ECC checksum overflows."
+    },
+    examTrap: "The \"Invincible ECC\" trap. Candidates must know that ECC prevents single-bit crashes but intentionally triggers a halt to protect data when an uncorrectable multi-bit error is detected."
+  },
+  {
+    id: "Q029",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A technician is attempting to resolve an overheating issue on a legacy file server. The server's CPU utilizes a massive, fanless passive heat sink. The technician decides to permanently remove the three metal covers over the empty rear PCIe expansion slots, reasoning that opening holes in the back of the case will \"let more heat escape.\" Upon powering the server back on and running a load test, the CPU overheats even faster than before.",
+    prompt: "What thermal principle did the technician violate, exacerbating the problem?",
+    choices: [
+      { key: "A", text: "The technician disrupted the directed airflow convection by removing the blanking plates, dropping the internal air pressure." },
+      { key: "B", text: "The open slots allowed the 120 VAC ambient room power to interfere with the motherboard's ground planes." },
+      { key: "C", text: "The lack of metal covers prevented the heat sink from transferring thermal energy via direct physical conduction." },
+      { key: "D", text: "The technician accidentally disabled the system's open-loop liquid pump by changing the chassis intrusion sensor." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "fanless passive heat sink... remove the three metal covers over the empty rear PCIe expansion slots",
+    explanationCorrect: "Passive heat sinks rely entirely on the chassis' internal airflow (convection) to carry heat away from their fins. Server and PC cases are engineered to create a specific air pressure channel where front intake fans push cool air directly over the components and out the rear exhaust vents. By removing the blanking plates (expansion slot covers), the technician created massive leaks in the chassis, causing the air pressure to drop and the cool air to escape before it could properly travel over the CPU's passive heat sink.",
+    explanationIncorrect: {
+      A: "",
+      B: "120 VAC is the electrical power supplied from the wall to the power supply unit. It does not magically leap through open PCIe slots in the back of a case to interfere with grounding planes.",
+      C: "Conduction is the transfer of heat through direct physical contact (e.g., from the CPU die to the base of the heat sink). The metal expansion slot covers on the back of the case do not physically touch the CPU, so they play no role in direct conduction.",
+      D: "The scenario explicitly states the server utilizes a \"massive, fanless passive heat sink,\" which relies on air. There is no open-loop liquid pump present to disable, making this answer technically invalid for the context."
+    },
+    examTrap: "The intuitive but incorrect assumption that \"more holes equals better cooling.\" Understanding that chassis air pressure and directed flow (aided by blanking plates) are critical for passive cooling."
+  },
+  {
+    id: "Q030",
+    topic: "Power",
+    difficulty: "Easy",
+    scenario: "A North American company is deploying an older desktop PC to a newly opened branch office in London, UK. The PC uses a legacy power supply with a manual red voltage selector switch near the power plug, currently set to 120V. The technician in London unpacks the PC, plugs it directly into the office wall outlet using a standard UK power cable, and presses the power button.",
+    prompt: "What will be the immediate result of this action?",
+    choices: [
+      { key: "A", text: "The PC will boot normally, as the motherboard's voltage regulator will step down the power." },
+      { key: "B", text: "The PC will fail to boot due to an insufficient 50Hz AC frequency, but no damage will occur." },
+      { key: "C", text: "The power supply will be overpowered and permanently destroyed, risking a fire." },
+      { key: "D", text: "The redundant power supply backplane will safely redirect the excess current to ground." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "manual red voltage selector switch... set to 120V... plugs it directly into the office wall outlet [in the UK]",
+    explanationCorrect: "Power distribution grids vary globally; North America provides ~120 VAC (low-line), while the UK provides ~230 VAC (high-line). A manual voltage selector switch physically configures the power supply's internal transformer to expect a specific input. If the switch is set to 120V but is plugged into a 230V outlet, the PSU's input stage is instantly flooded with double the expected voltage, resulting in blown capacitors, permanent destruction of the PSU, and a severe risk of fire or hardware damage.",
+    explanationIncorrect: {
+      A: "The motherboard's voltage regulator modules (VRMs) step down the DC voltage (12V to lower voltages for the CPU). They do not regulate the incoming AC wall power. The PSU will explode long before the motherboard VRMs receive any usable DC power.",
+      B: "While the UK grid does run at 50Hz (compared to 60Hz in the US), the frequency difference is not the critical issue here. The massive over-voltage (230V pushing into a 120V circuit) is what causes the immediate, catastrophic hardware failure.",
+      C: "",
+      D: "Redundant power supply backplanes are enterprise server features designed for hot-swapping failovers, not for shunting massive AC over-voltage events to ground. Furthermore, this is an \"older desktop PC,\" which lacks backplane architecture."
+    },
+    examTrap: "Understanding the critical danger of manual voltage switches on legacy/budget PSUs when moving equipment internationally."
+  },
+  {
+    id: "Q031",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A freelance video editor is building a workstation and needs a dedicated secondary storage drive to act exclusively as a temporary \"scratch disk.\" This drive will hold massive 8K video files during active editing to ensure the timeline scrubs without lag. Once the project is exported, these raw cache files are immediately deleted. The editor demands absolute maximum sequential read/write speeds, and explicitly states that redundancy for this specific drive is a waste of money since all original footage is backed up on a separate NAS.",
+    prompt: "Which hardware RAID configuration is MOST appropriate for this scratch disk?",
+    choices: [
+      { key: "A", text: "RAID 1" },
+      { key: "B", text: "RAID 5" },
+      { key: "C", text: "RAID 10" },
+      { key: "D", text: "RAID 0" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "temporary 'scratch disk'... absolute maximum sequential read/write speeds... redundancy... is a waste of money",
+    explanationCorrect: "RAID 0 (Disk Striping) divides data into blocks and spreads them across multiple disks concurrently. Because multiple disk heads are writing and reading simultaneously, RAID 0 provides the absolute highest performance and yields 100% usable disk capacity. While its total lack of fault tolerance makes it dangerous for permanent data storage, it is the perfect, policy-compliant solution for a temporary video scratch disk where raw speed is the only metric that matters.",
+    explanationIncorrect: {
+      A: "RAID 1 (Mirroring) provides fault tolerance by duplicating data, which introduces a slight write penalty. This violates the editor's requirement for maximum speed and their assertion that redundancy is a waste of money.",
+      B: "RAID 5 requires calculating and writing distributed parity data across the disks. This parity calculation incurs a noticeable \"write penalty,\" making it significantly slower than RAID 0 for temporary cache operations.",
+      C: "RAID 10 provides excellent performance and high fault tolerance, but it requires a minimum of four disks and sacrifices 50% of the raw capacity to mirroring. This introduces unnecessary costs for redundancy the editor explicitly rejected.",
+      D: ""
+    },
+    examTrap: "Recognizing that while RAID 0 is usually the \"wrong\" answer for enterprise storage due to extreme risk, it is the explicitly correct engineering choice for temporary, high-speed cache scenarios."
+  },
+  {
+    id: "Q032",
+    topic: "RAM",
+    difficulty: "Medium",
+    scenario: "A PC gamer is tuning their system for maximum frame rates. They are choosing between two 32 GB dual-channel memory kits. Both kits are identical in their underlying architecture, being DDR4 and rated at a clock speed of 3600 MT/s. However, Kit A advertises timings of 14-15-15-35 (CAS 14), while Kit B advertises timings of 18-22-22-42 (CAS 18).",
+    prompt: "Why will Kit A provide superior real-world performance compared to Kit B?",
+    choices: [
+      { key: "A", text: "Kit A has a lower Column Access Strobe (CAS) latency, meaning it takes fewer clock cycles to deliver requested data to the memory controller." },
+      { key: "B", text: "Kit A utilizes Error-Correcting Code (ECC), which algorithmically cleans the 14-bit data stream before it reaches the CPU cache." },
+      { key: "C", text: "Kit B's higher timings indicate it requires an 18-volt power supply, which will cause thermal throttling on standard motherboards." },
+      { key: "D", text: "Kit A will automatically drop to a single-channel flex mode to bypass the 35-cycle refresh bottleneck." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Both... rated at a clock speed of 3600 MT/s... Kit A... CAS 14... Kit B... CAS 18",
+    explanationCorrect: "Even if two RAM kits share the identical transfer rate (e.g., 3600 MT/s), their internal timing characteristics dictate how quickly they respond to commands. Column Access Strobe (CAS) latency measures the delay, in clock cycles, between the moment the memory controller requests data and the moment that data is available on the module's pins. A lower CAS latency (14 vs 18) means the RAM responds quicker, resulting in superior performance and lower system latency.",
+    explanationIncorrect: {
+      A: "",
+      B: "The numbers 14-15-15-35 represent timing delays in clock cycles, not a \"14-bit data stream.\" Furthermore, ECC memory is meant for server stability, not gaming performance, and it actually carries a slight performance penalty due to parity calculations.",
+      C: "DDR4 memory operates at a standard 1.2V (or 1.35V for overclocked kits). A requirement of 18 volts would instantly vaporize the motherboard traces. The \"18\" refers to clock cycles of delay, not electrical voltage.",
+      D: "Flex mode is invoked when asymmetrical capacities of RAM are populated on the motherboard (e.g., 8GB + 4GB), allowing partial dual-channel operation. It has nothing to do with avoiding timing bottlenecks or CAS latency specifications."
+    },
+    examTrap: "Differentiating between memory bandwidth (MT/s) and memory latency (CAS timings)."
+  },
+  {
+    id: "Q033",
+    topic: "Storage",
+    difficulty: "Easy",
+    scenario: "A technician is tasked with reviving a 10-year-old desktop tower by upgrading its primary storage. The technician removes the failing 3.5-inch 5400 RPM mechanical hard drive from the chassis. They intend to replace it with a much faster 2.5-inch SATA Solid State Drive (SSD). The technician connects the SATA power and data cables successfully, but the new SSD is too small to screw into the metal rails of the drive bay.",
+    prompt: "What hardware accessory is required to physically secure this drive?",
+    choices: [
+      { key: "A", text: "A non-volatile memory express (NVMe) host bus adapter." },
+      { key: "B", text: "An adapter caddy or mounting bracket." },
+      { key: "C", text: "A Serial Attached SCSI (SAS) backplane enclosure." },
+      { key: "D", text: "A 20+4 pin motherboard adapter cable." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "2.5-inch SATA Solid State Drive... too small to screw into the metal rails of the [3.5-inch] drive bay",
+    explanationCorrect: "Traditional desktop tower drive bays are manufactured to the 3.5-inch or 5.25-inch form factors. Because modern SATA SSDs utilize the much smaller 2.5-inch laptop form factor, they will hang loose inside a standard desktop bay, putting strain on the fragile SATA connectors. To securely mount the smaller drive into the wider bay, the technician must screw the 2.5-inch SSD into an adapter caddy (or mounting bracket), which then perfectly fits the 3.5-inch chassis rails.",
+    explanationIncorrect: {
+      A: "An NVMe host bus adapter is a PCIe expansion card used to mount ultra-fast M.2 NVMe drives onto older motherboards. It is useless for physically mounting a standard 2.5-inch SATA block drive into a chassis bay.",
+      B: "",
+      C: "A SAS backplane is an enterprise server component used to connect high-end SAS hard drives. It is an expensive protocol bridge and power distributor, not a basic physical bracket for consumer SATA drives.",
+      D: "A 20+4 pin adapter is used to connect modern power supplies to older motherboards with legacy 20-pin P1 main power sockets. It provides main electrical power, not physical mounting support for storage drives."
+    },
+    examTrap: "Basic hardware installation constraints. Form factor differences between fixed disks (3.5\") and modern solid-state blocks (2.5\")."
+  },
+  {
+    id: "Q034",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A consumer purchases a mid-range desktop CPU whose packaging explicitly advertises it as an \"8C/16T\" processor. After installing the CPU and booting into the Windows 10 operating system, the user opens Task Manager and is confused to see 16 individual logical processors listed under the performance graphs, despite only buying a single physical CPU chip.",
+    prompt: "What architectural feature is responsible for the operating system seeing 16 processors?",
+    choices: [
+      { key: "A", text: "Symmetrical Multiprocessing (SMP)" },
+      { key: "B", text: "Second Level Address Translation (SLAT)" },
+      { key: "C", text: "Simultaneous Multithreading (SMT)" },
+      { key: "D", text: "Reduced Instruction Set Computing (RISC)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "8C/16T... Windows 10... Task Manager... 16 individual logical processors listed",
+    explanationCorrect: "The notation \"8C/16T\" stands for 8 physical Cores and 16 Threads. This is made possible by Simultaneous Multithreading (SMT), famously branded as Hyper-Threading by Intel. SMT allows each single physical processing core to accept and process two separate instruction streams (threads) concurrently. The operating system recognizes each of these threads as an independent \"logical processor,\" which is why 8 physical cores appear as 16 logical processors in Task Manager.",
+    explanationIncorrect: {
+      A: "Symmetric Multiprocessing (SMP) involves a motherboard with two or more completely separate physical CPU sockets (e.g., two 8-core chips installed side-by-side). The scenario explicitly states the user bought a \"single physical CPU chip,\" ruling out SMP.",
+      B: "Second Level Address Translation (SLAT) is a hardware-assisted virtualization feature that helps hypervisors map virtual memory addresses to physical memory efficiently. It does not multiply the appearance of CPU cores in the host operating system.",
+      C: "",
+      D: "RISC is a CPU architecture utilized primarily by ARM processors focusing on simple, efficient instructions. Whether a chip uses RISC or CISC architecture does not dictate how many logical threads it presents to the Task Manager."
+    },
+    examTrap: "Differentiating between SMT (multithreading on a single chip) and SMP (multiple physical chips on a motherboard)."
+  },
+  {
+    id: "Q035",
+    topic: "Storage",
+    difficulty: "Medium",
+    scenario: "A medical clinic needs to archive weekly patient log text files to optical media for long-term offsite storage compliance. Because the files are small, the clinic wants to use a single optical disc to store an entire month's worth of logs. The compliance policy states that new logs must be appended to the disc every Friday, but previously written logs must be physically impossible to alter or erase by ransomware.",
+    prompt: "Which type of optical media provides the exact capabilities required for this policy?",
+    choices: [
+      { key: "A", text: "Multisession Recordable Media (e.g., CD-R)" },
+      { key: "B", text: "Basic Rewritable Media (e.g., CD-RW)" },
+      { key: "C", text: "Single-session Recordable Media (e.g., DVD-R closed after burn)" },
+      { key: "D", text: "Secure Digital Extended Capacity (SDXC)" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "appended to the disc every Friday... previously written logs must be physically impossible to alter or erase",
+    explanationCorrect: "Recordable media (such as CD-R or DVD-R) physically burns data into an organic dye using a laser, creating a Write-Once, Read-Many (WORM) status that makes data physically impossible to erase or alter by malware. A multisession recordable burn allows the user to append new data sets to the remaining free space on the disc in separate sessions over time (like every Friday), fulfilling both the append requirement and the strict non-alteration compliance policy.",
+    explanationIncorrect: {
+      A: "",
+      B: "Rewritable media (CD-RW) uses a phase-change material that allows the laser to melt and reset the data tracks. Because the data can be erased and overwritten, it is vulnerable to alteration or wiping by malicious software, violating the compliance policy.",
+      C: "A basic single-session recordable disc is \"closed\" or \"finalized\" after the very first burn. While it protects the initial data from erasure, it permanently prevents any new data from being appended on subsequent Fridays, failing the month-long storage requirement.",
+      D: "SDXC cards use flash memory, which is completely rewritable. Even if a physical lock switch is present on the card, the data itself is fundamentally alterable by software that bypasses the switch, offering zero hardware-level WORM protection."
+    },
+    examTrap: "Understanding the nuances of optical burning software modes. Candidates must know the difference between finalizing a disc (single-session) and leaving it open for appending (multisession) while retaining WORM security."
+  },
+  {
+    id: "Q036",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A system administrator finishes assembling a new high-end server featuring a 24-core Intel Core i9 processor, 128 GB of RAM, and a fresh installation of Windows Server. The administrator intends to run Microsoft Hyper-V to host several 64-bit virtual machines (VMs). However, when the administrator attempts to install the hypervisor role in the OS, an error message pops up stating that the underlying hardware does not support virtualization.",
+    prompt: "What is the BEST first step the administrator should take to remediate this error?",
+    choices: [
+      { key: "A", text: "Replace the CISC processor with a RISC processor to support hypervisor execution." },
+      { key: "B", text: "Upgrade the motherboard to a dual-socket Symmetric Multiprocessing (SMP) configuration." },
+      { key: "C", text: "Reboot the server into the system firmware and enable Intel VT-x." },
+      { key: "D", text: "Purchase Error-Correcting Code (ECC) Registered DIMMs to stabilize the virtual memory pool." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "fresh installation... 24-core Intel Core i9... error message... stating that the underlying hardware does not support virtualization",
+    explanationCorrect: "Modern CPUs, especially high-end models like the Core i9, natively possess hardware-assisted virtualization technologies built into the silicon (Intel VT-x for Intel, AMD-V for AMD). However, for security reasons, motherboard manufacturers frequently disable these virtualization extensions by default in the system firmware (BIOS/UEFI). The administrator's best first step is to reboot, enter the firmware setup program, and explicitly enable VT-x, which will allow the hypervisor to interface with the CPU correctly.",
+    explanationIncorrect: {
+      A: "Changing architecture from CISC (x86/x64) to RISC (ARM) would ruin compatibility with Windows Server and standard enterprise hypervisors. The Core i9 (CISC) is an incredibly powerful processor fully capable of enterprise virtualization.",
+      B: "Symmetric Multiprocessing (SMP) adds a second physical CPU to the board, which provides more raw processing power. However, adding more processors does not magically enable the disabled virtualization instruction sets in the BIOS.",
+      C: "",
+      D: "While ECC RAM is highly recommended for server stability, a lack of ECC RAM does not trigger a hard stop error regarding \"unsupported virtualization hardware\" during a hypervisor software installation."
+    },
+    examTrap: "Recognizing that hardware capabilities (VT-x) are not always active out of the box. The trap is assuming incompatible hardware rather than simply navigating to the BIOS to toggle a setting."
+  },
+  {
+    id: "Q037",
+    topic: "Hardware",
+    difficulty: "Hard",
+    scenario: "A security administrator is provisioning new workstations for the financial department. The previous workstations were running legacy 32-bit CPUs and operating systems. Recently, several of these older machines were compromised when malware successfully executed malicious code within memory segments reserved exclusively for application data. To prevent this specific type of buffer overflow attack from succeeding again, the administrator mandates that all new workstations must utilize a 64-bit (x64) CPU architecture and a modern 64-bit OS.",
+    prompt: "Which hardware-level security feature natively supported by the x64 architecture explicitly prevents this type of attack?",
+    choices: [
+      { key: "A", text: "Intel Virtualization Technology (VT-x)" },
+      { key: "B", text: "Data Execution Prevention (DEP)" },
+      { key: "C", text: "Error-Correcting Code (ECC) Memory Checksums" },
+      { key: "D", text: "Second Level Address Translation (SLAT)" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "executed malicious code within memory segments reserved exclusively for application data... mandates... 64-bit (x64) CPU architecture",
+    explanationCorrect: "The x64 architecture natively supports hardware-based Data Execution Prevention (DEP) for 64-bit systems. DEP is a strict security feature that flags specific areas of system memory as \"non-executable\" (such as areas storing temporary application data). If malware attempts to run a malicious payload from these restricted data regions, the CPU's hardware intercepts the action and halts the execution, directly thwarting the buffer overflow attack described in the scenario.",
+    explanationIncorrect: {
+      A: "Intel VT-x allows a physical CPU to safely abstract its hardware to support multiple isolated virtual machines (VMs). While virtualization provides environment isolation, it is not a memory-level execution protection feature designed to stop buffer overflows within a host operating system.",
+      B: "",
+      C: "Error-Correcting Code (ECC) adds an 8-bit parity checksum to the data bus to automatically detect and correct single-bit hardware memory errors caused by electrical interference or cosmic rays. It protects against random data corruption, not targeted execution of malicious malware code.",
+      D: "Second Level Address Translation (SLAT) is an advanced hardware-assisted virtualization feature that helps hypervisors rapidly map virtual memory addresses to physical memory. It drastically improves virtual machine performance but plays no role in blocking code execution in non-executable memory regions."
+    },
+    examTrap: "Recognizing that moving to a 64-bit architecture provides inherent hardware-level security benefits (DEP), rather than just memory capacity and speed upgrades."
+  },
+  {
+    id: "Q038",
+    topic: "Power",
+    difficulty: "Medium",
+    scenario: "An IT technician is deploying several desktop PCs into a repurposed warehouse office. The office lacks central air conditioning, making high ambient heat and humidity significant risk factors. The PCs currently draw about 400 W of power and are equipped with standard, uncertified 500 W power supplies. Within a week, the internal PC case temperatures reach critical levels, causing thermal throttling. The technician decides to replace the uncertified power supplies with 500 W units featuring an 80 PLUS Gold certification.",
+    prompt: "How does this specific upgrade directly remediate the thermal throttling issue?",
+    choices: [
+      { key: "A", text: "The new PSU limits the system’s maximum voltage draw, preventing the CPU from reaching its thermal threshold." },
+      { key: "B", text: "The 80 PLUS Gold rating guarantees the PSU utilizes liquid-cooling channels rather than a mechanical exhaust fan." },
+      { key: "C", text: "The new PSU converts AC wall power to DC device power much more efficiently, wasting significantly less energy as ambient heat." },
+      { key: "D", text: "The 80 PLUS Gold PSU automatically steps down the 120 VAC low-line wall power to a cooler 50 Hz frequency." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "repurposed warehouse office... high ambient heat... uncertified power supplies... 80 PLUS Gold certification",
+    explanationCorrect: "Power supplies generate heat as a byproduct of converting alternating current (AC) from the wall into direct current (DC) for computer components. An uncertified power supply operates inefficiently, wasting a large percentage of its drawn power by bleeding it off as heat into the computer chassis. By upgrading to an 80 PLUS Gold certified PSU (which operates at 87% to 90% efficiency), the conversion process is vastly superior; significantly less energy is wasted as heat, directly lowering the thermal burden on the PC chassis and resolving the overheating issue.",
+    explanationIncorrect: {
+      A: "A power supply provides power dynamically based on the demands of the CPU and GPU; it does not \"limit\" or throttle the voltage to keep the system cool. If a CPU demands power, the PSU must supply it, or the system will crash.",
+      B: "The 80 PLUS certification program measures electrical conversion efficiency exclusively. It has absolutely nothing to do with the physical cooling mechanism of the PSU, and Gold-rated PSUs still rely overwhelmingly on mechanical exhaust fans.",
+      C: "",
+      D: "While power supplies do convert wall power, they cannot alter the fundamental frequency (Hz) supplied by the regional electrical grid. Furthermore, changing frequency does not dictate the thermal output of the conversion process."
+    },
+    examTrap: "Understanding that electrical efficiency directly equates to thermal output. The trap is assuming power supplies only affect electrical delivery, missing their massive impact on internal chassis temperatures."
+  },
+  {
+    id: "Q039",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A video editor uses a high-end workstation outfitted with an open-loop liquid cooling system. As part of routine annual maintenance, the editor drains the old coolant, thoroughly cleans the reservoir, and refills the loop with fresh, high-quality coolant fluid. When they power the system back on, the water pump makes an unusually loud gurgling noise, and the CPU temperature spikes to 95°C within minutes, despite all radiator fans spinning at maximum RPM.",
+    prompt: "What is the MOST likely cause of the sudden overheating?",
+    choices: [
+      { key: "A", text: "The system’s thermal paste dried out instantly during the fluid change." },
+      { key: "B", text: "The editor failed to bleed trapped air bubbles out of the water loop." },
+      { key: "C", text: "The passive heat sink fins on the radiator are coated in dust." },
+      { key: "D", text: "The water block is incompatible with the new coolant's viscosity." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "drains... and refills... pump makes an unusually loud gurgling noise... temperature spikes",
+    explanationCorrect: "In an open-loop liquid cooling system, heat is transferred from the CPU into the liquid coolant. When a system is completely drained and refilled, pockets of air naturally become trapped inside the tubing and water blocks. Because air is a terrible thermal conductor compared to liquid, these trapped air bubbles create massive hot spots, drastically reducing cooling efficiency and causing the pump to struggle (gurgling). The system must be \"bled\" to allow this air to escape.",
+    explanationIncorrect: {
+      A: "Thermal paste sits between the exterior of the CPU heat spreader and the metal water block. It degrades slowly over years; it does not \"dry out instantly\" simply because the liquid inside the attached water block was drained and replaced.",
+      B: "",
+      C: "While a dust-coated radiator reduces cooling efficiency, this degrades performance gradually over time. The scenario specifies the system overheated immediately following a fluid change, pointing to a maintenance error rather than slow dust accumulation.",
+      D: "Standard PC liquid cooling fluids share very similar viscosities (primarily being distilled water mixed with biocides and anti-corrosives). A standard fluid change would not introduce a viscosity mismatch capable of causing sudden pump failure and massive overheating."
+    },
+    examTrap: "Recognizing the specific maintenance hazards of custom cooling systems. The gurgling noise is the subtle clue pointing away from mechanical failure and toward an air-lock issue."
+  },
+  {
+    id: "Q040",
+    topic: "Storage",
+    difficulty: "Easy",
+    scenario: "A user is attempting to upgrade the storage in a three-year-old laptop. The motherboard features an empty M.2 slot that the manual states is exclusively wired for the SATA/AHCI bus. The user purchases a top-tier M.2 NVMe PCIe 4.0 SSD. When the user attempts to insert the new drive into the laptop's slot, they find that it physically refuses to slide into the connector, no matter how carefully they align it.",
+    prompt: "What physical characteristic is actively preventing this installation?",
+    choices: [
+      { key: "A", text: "The NVMe drive relies on a 2.5-inch form factor caddy, which will not fit into an M.2 slot." },
+      { key: "B", text: "The NVMe drive utilizes an M-key edge connector, which does not align with the laptop's B-keyed slot." },
+      { key: "C", text: "The laptop's M.2 slot lacks the 20+4 pin power delivery required for PCIe 4.0 storage." },
+      { key: "D", text: "The NVMe drive is 80mm long (2280), but the laptop requires a 15mm thick magnetic platter." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "exclusively wired for the SATA/AHCI bus... M.2 NVMe PCIe 4.0 SSD... physically refuses to slide into the connector",
+    explanationCorrect: "The M.2 standard uses physical notches (called \"keys\") cut into the edge connector of the drive to prevent users from plugging an incompatible drive into a motherboard slot. Standard SATA-based M.2 SSDs typically use a B-key (or B/M-key), while high-performance PCIe NVMe drives exclusively use an M-key. Because the laptop is wired strictly for SATA, its slot features a physical plastic barrier corresponding to the B-key, making it physically impossible to insert an M-keyed NVMe drive.",
+    explanationIncorrect: {
+      A: "NVMe drives are incredibly common in the bare-board M.2 form factor. They do not rely on bulky 2.5-inch drive caddies, which are reserved for older standard SATA block drives.",
+      B: "",
+      C: "M.2 slots inherently provide all necessary power directly over the bus interface (typically 3.3V). A 20+4 pin connector is the massive main power cable used to connect a power supply unit directly to an ATX motherboard, not to an SSD.",
+      D: "The \"2280\" designation means the drive is 22mm wide and 80mm long, which is the standard size for M.2 drives. A 15mm thick platter describes a bulky, high-capacity 2.5-inch mechanical hard drive, which has no relationship to thin M.2 slots."
+    },
+    examTrap: "Understanding that M.2 is just a form factor, and that manufacturer keying (B vs M) acts as a physical safeguard against bus protocol incompatibility (SATA vs NVMe)."
+  },
+  {
+    id: "Q041",
+    topic: "Storage",
+    difficulty: "Hard",
+    scenario: "A small law firm stores its active legal cases on a Network Attached Storage (NAS) device. The NAS is configured with a two-disk hardware RAID 1 array to ensure high availability. The RAID controller dashboard currently shows the array status as \"Healthy and Synchronized.\" An intern accidentally permanently deletes an entire folder of critical client contracts from the Windows file share and immediately empties their local recycle bin. Panicked, the intern unplugs the NAS from the wall.",
+    prompt: "What is the BEST first step the IT administrator should take to recover the missing contracts?",
+    choices: [
+      { key: "A", text: "Reconnect power to the NAS and run a RAID rebuild sequence to pull the files from the second mirrored disk." },
+      { key: "B", text: "Remove disk 2 from the NAS chassis, attach it directly to a desktop via SATA, and copy the files over." },
+      { key: "C", text: "Boot the NAS and utilize OS-level file recovery software or restore the folder from an external backup solution." },
+      { key: "D", text: "Reconfigure the RAID controller firmware to convert the RAID 1 array into a RAID 0 array to retrieve the striped data." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "RAID 1 array... accidentally permanently deletes an entire folder... immediately empties their local recycle bin",
+    explanationCorrect: "RAID 1 (Mirroring) provides hardware fault tolerance against physical drive failure by instantly duplicating all write operations across two disks. However, it offers zero protection against user error or OS-level file deletion. When the intern permanently deleted the folder, the RAID controller immediately executed that deletion command on both disks simultaneously. Therefore, the files are gone from the RAID array entirely, and the only viable recovery step is to use data carving software or pull from an actual offline backup.",
+    explanationIncorrect: {
+      A: "A RAID rebuild is used when a physical hard drive dies and is replaced with a blank disk; it mathematically rebuilds the array. Because the deletion was written to both healthy disks instantly, a RAID rebuild will accomplish nothing—the array is already \"healthy\" and perfectly mirrored (missing the files on both drives).",
+      B: "Pulling disk 2 will yield the exact same file system state as disk 1. The deletion occurred on both drives simultaneously, so disk 2 will also be missing the deleted folder.",
+      C: "",
+      D: "Converting a mirrored array (RAID 1) to a striped array (RAID 0) is a destructive architectural change that requires reformatting the drives. Doing this would permanently destroy all remaining data on the NAS."
+    },
+    examTrap: "The \"RAID is a Backup\" fallacy. Students must firmly understand that RAID protects against hardware failure, not OS-level software deletions, because mirrored drives replicate user errors instantly."
+  },
+  {
+    id: "Q042",
+    topic: "RAM",
+    difficulty: "Medium",
+    scenario: "A business purchases an off-lease desktop computer running a 32-bit CPU and a fresh installation of a 32-bit Windows operating system. The computer originally had 4 GB of DDR4 RAM. Wanting to improve performance for heavy spreadsheet work, the IT tech upgrades the machine to 16 GB of DDR4 RAM. Upon booting, the BIOS setup utility successfully detects and registers all 16 GB of hardware memory. However, when the user opens several large spreadsheets, the system slows to a crawl, and the hard drive activity light stays solid white, indicating heavy virtual memory paging.",
+    prompt: "Why is the system relying on slow virtual memory despite the hardware upgrade?",
+    choices: [
+      { key: "A", text: "The memory controller is forcing the new RAM modules to run in single-channel mode, creating a massive data bottleneck." },
+      { key: "B", text: "The 32-bit address bus limits the CPU to recognizing only 4 GB of memory, ignoring the remaining 12 GB." },
+      { key: "C", text: "The DDR4 modules do not possess an internal Error-Correcting Code (ECC) checksum, causing data loss during heavy loads." },
+      { key: "D", text: "The operating system's device drivers were not recompiled to utilize the x64 complex instruction set." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "32-bit CPU... 32-bit Windows... BIOS setup utility successfully detects and registers all 16 GB... heavy virtual memory paging",
+    explanationCorrect: "A processor's address bus determines the maximum number of memory locations the CPU can track. A 32-bit CPU and a 32-bit operating system are strictly architecturally limited to a 32-bit address space, which maxes out at exactly 4 GB of addressable virtual memory. Even though the motherboard's basic input/output system (BIOS) physically sees the 16 GB of RAM plugged into the slots, the 32-bit OS physically cannot address or use 12 GB of it. As a result, the OS quickly exhausts its 4 GB limit and is forced to page data to the painfully slow hard drive.",
+    explanationIncorrect: {
+      A: "Single-channel memory limits the bandwidth of data transfers, which causes a minor performance dip. However, it does not hide memory capacity from the OS, nor does it cause severe virtual memory disk thrashing.",
+      B: "",
+      C: "ECC RAM is used in high-end servers to detect and correct single-bit memory errors to prevent system crashes. The absence of ECC does not cause a system to ignore installed RAM capacity or heavily page to the hard drive.",
+      D: "The scenario explicitly states the system relies on a \"32-bit CPU.\" Recompiling drivers for x64 is impossible because the physical hardware itself lacks the 64-bit architecture needed to execute those instructions."
+    },
+    examTrap: "Recognizing the strict mathematical limit of legacy 32-bit architecture. The trap is assuming the hardware is broken because the OS behavior contradicts the BIOS hardware report."
+  },
+  {
+    id: "Q043",
+    topic: "RAM",
+    difficulty: "Hard",
+    scenario: "A server technician is building a new enterprise database host. To maximize memory density and performance, they select a motherboard supporting the latest DDR5 specification. Due to budget constraints, the technician installs only a single 64 GB DDR5 memory module into the first DIMM slot. When they run a hardware diagnostic, the motherboard reports that the memory is communicating with the CPU via \"dual-channel\" operation. The technician is confused, as they know dual-channel mode typically requires two identical sticks of RAM to be installed.",
+    prompt: "Based on the DDR5 architectural standard, what is the technical explanation for this diagnostic report?",
+    choices: [
+      { key: "A", text: "The motherboard's firmware has activated flex mode to simulate a second RAM stick." },
+      { key: "B", text: "The memory module is an RDIMM, which uses its hardware register to split the 64-bit bus into two virtual channels." },
+      { key: "C", text: "DDR5 fundamentally redesigns the data bus, providing two independent 32-bit channels on every single memory module." },
+      { key: "D", text: "The system is misreporting the CAS latency, confusing clock speed timings with physical bus pathways." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "single 64 GB DDR5 memory module... reports that the memory is communicating with the CPU via 'dual-channel' operation",
+    explanationCorrect: "Unlike previous generations of memory (DDR3, DDR4) which featured a single 64-bit data channel per module, the DDR5 architectural standard radically redesigned the memory bus layout. Every individual DDR5 memory module natively features two independent 32-bit channels. This architectural change distributes the memory load more effectively, drastically reducing latency and improving multi-core CPU efficiency. Therefore, a single stick of DDR5 will correctly report as operating in dual-channel mode.",
+    explanationIncorrect: {
+      A: "Flex mode is a firmware feature used in older DDR architectures to allow partial dual-channel operation when mismatched capacities of RAM (like an 8 GB stick and a 4 GB stick) are populated. It cannot magically simulate a second channel if only one single stick is present.",
+      B: "Registered DIMMs (RDIMMs) use a register to electronically buffer the command and address signals, reducing the electrical load on the memory controller. They do not split the physical data bus to create virtual channels.",
+      C: "",
+      D: "Column Access Strobe (CAS) latency refers to the delay in clock cycles between a data request and data delivery. Latency timings are completely independent of the physical width and number of data bus channels available on the module."
+    },
+    examTrap: "Knowing the specific, major architectural leaps between memory generations. The trap is applying outdated DDR4 rules to the fundamentally redesigned DDR5 standard."
+  },
+  {
+    id: "Q044",
+    topic: "Hardware",
+    difficulty: "Easy",
+    scenario: "A home user wants to upgrade their gaming PC to improve framerates. They currently have a motherboard equipped with an LGA 1200 socket, actively running an Intel 10th-generation processor. The user purchases a brand-new Intel 12th-generation \"Alder Lake\" CPU. The user unlatches the Zero Insertion Force (ZIF) lever, removes the old CPU, and attempts to carefully place the new 12th-generation processor into the motherboard.",
+    prompt: "What will occur when the user attempts this installation?",
+    choices: [
+      { key: "A", text: "The system will boot into the BIOS but will require a firmware update to unlock the Alder Lake microcode." },
+      { key: "B", text: "The CPU will drop into the socket, but the ZIF lever will not provide enough pressure to seat the PGA pins." },
+      { key: "C", text: "The installation will be blocked because the new CPU requires an LGA 1700 socket and physically will not fit." },
+      { key: "D", text: "The system will function normally, but Hyper-Threading will be disabled to maintain thermal limits." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "LGA 1200 socket... purchases a brand-new Intel 12th-generation 'Alder Lake' CPU",
+    explanationCorrect: "CPU manufacturers frequently change their socket designs between processor generations to accommodate new electrical layouts and features (like DDR5 and PCIe 5.0). The Intel 10th and 11th generation CPUs utilize the LGA 1200 socket, which features 1,200 contact pads. The Intel 12th generation (Alder Lake) CPUs utilize an entirely different, physically larger rectangular design known as the LGA 1700 socket. Consequently, a 12th-generation CPU is physically incompatible with an LGA 1200 motherboard and cannot be seated in the socket.",
+    explanationIncorrect: {
+      A: "A BIOS/UEFI firmware update can resolve minor microcode compatibility issues between CPUs within the exact same socket family (e.g., upgrading from a 10th to 11th gen chip on LGA 1200). It cannot bypass a profound physical size and pin-count mismatch.",
+      B: "Both the older 10th gen and newer 12th gen Intel processors utilize the Land Grid Array (LGA) design, where the delicate pins are in the motherboard socket, not on the CPU. Pin Grid Array (PGA) is traditionally associated with older AMD processors.",
+      C: "",
+      D: "Because the processor cannot physically fit into the motherboard's socket, the system cannot be powered on, making any discussion of running normally or disabling Hyper-Threading completely invalid."
+    },
+    examTrap: "Recognizing that processor generations are tied to specific physical socket form factors, and that motherboard upgrades are mandatory when crossing certain generational lines."
+  },
+  {
+    id: "Q045",
+    topic: "Hardware",
+    difficulty: "Medium",
+    scenario: "A traveling executive needs a new laptop. Their primary requirement is extreme battery life and the ability to work in completely silent environments without a loud exhaust fan. They only use web-based applications and basic email. The IT department tests a standard x64-based laptop, but the battery drains too quickly and the fan noise is disruptive. The IT director suggests procuring a laptop equipped with a System-on-Chip (SoC) using the Advanced RISC Machines (ARM) architecture.",
+    prompt: "Why does the ARM architecture provide the specific benefits the executive requires?",
+    choices: [
+      { key: "A", text: "It relies on a Complex Instruction Set Computing (CISC) design, allowing it to process heavy software threads without increasing voltage." },
+      { key: "B", text: "It utilizes a Reduced Instruction Set Computing (RISC) design, executing simple instructions in a single clock cycle, which vastly improves performance-per-watt." },
+      { key: "C", text: "It features a larger L3 hardware cache than x64 chips, eliminating the need to page data to the mass storage drive." },
+      { key: "D", text: "It offloads all mathematical operations to a cloud-based server, drastically reducing the local processing load." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "extreme battery life... completely silent environments... Advanced RISC Machines (ARM) architecture",
+    explanationCorrect: "ARM processors are built on a Reduced Instruction Set Computing (RISC) architecture. RISC uses a small, highly optimized set of instructions. While it may take more lines of code to accomplish a task than a complex x64 chip, each RISC instruction typically executes perfectly in a single clock cycle. This creates profound power efficiency (performance-per-watt). Because the chip draws far less electrical power, battery life is drastically extended, and thermal output is so low that the device can operate perfectly using passive cooling (no fans).",
+    explanationIncorrect: {
+      A: "The x86/x64 processors manufactured by Intel and AMD utilize the Complex Instruction Set Computing (CISC) design. ARM explicitly does not use CISC; it uses RISC (Reduced Instruction Set Computing).",
+      B: "",
+      C: "While CPU cache (L1, L2, L3) is vital for performance, ARM chips do not inherently feature larger caches than massive desktop x64 chips. Furthermore, having a large cache does not eliminate the need for an operating system to manage virtual memory (paging).",
+      D: "While thin-client computing exists, modern ARM-based SoCs (like Apple's M-series or Qualcomm Snapdragon) are incredibly powerful local processors. They do not rely on constant internet connectivity to offload basic mathematical operations to the cloud."
+    },
+    examTrap: "Understanding the fundamental architectural difference between Intel/AMD (CISC) and ARM (RISC) and how that directly translates to thermal output and mobile battery life."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
