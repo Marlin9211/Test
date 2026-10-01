@@ -1,0 +1,2546 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+/* =========================
+   Question Bank (Embedded) - Part 1 of 3
+   ========================= */
+
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Microsoft Windows Settings",
+    difficulty: "medium",
+    scenario: "A user on a Windows 10 Pro machine is attempting to install a legacy desktop application (.exe) required for a specific department project. The user recently reset their local account password after a sync issue, but complains their \"account is still broken\" because every time they launch the setup file, the screen dims and asks for an administrator password. The user insists they should have access because they are logged into their own profile.",
+    prompt: "What is the BEST explanation and solution for this behavior?",
+    choices: [
+      { key: "A", text: "The user's account password was not synced correctly during the reset; perform an identity synchronization to restore their privileges." },
+      { key: "B", text: "The user is running a 32-bit installer on a 64-bit OS, causing a compatibility block; run the application in WOW64 compatibility mode." },
+      { key: "C", text: "The application requires a 64-bit OS but the user is on 32-bit; verify the system type in the About settings." },
+      { key: "D", text: "The application is attempting to modify system files, and User Account Control (UAC) requires an administrator to approve it; enter administrative credentials." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"every time they launch the setup file, the screen dims and asks for an administrator password\"",
+    explanationCorrect: "Desktop applications distributed via .EXE setup files require administrator privileges to install because they modify core system folders or the registry. When a standard user attempts to run these files, User Account Control (UAC) prompts for administrator credentials to prevent unauthorized changes to the system. Entering the correct administrative credentials will satisfy the UAC prompt and allow the installation to proceed safely.",
+    explanationIncorrect: {
+      A: "Identity synchronization issues could cause login problems, making it a plausible general concern. However, in this specific context, the prompt for credentials when installing software is expected behavior for a standard user, not a symptom of a broken or unsynced password.",
+      B: "A 32-bit application can be installed on a 64-bit Windows operating system utilizing the WOW64 (Windows on Windows 64-bit) environment. While this is a valid compatibility feature, it does not bypass the need for administrative rights to install desktop software.",
+      C: "It is true that a 64-bit application cannot be installed on a 32-bit operating system. However, an architecture mismatch would result in a compatibility error preventing the execution entirely, not a screen-dimming credential prompt."
+    },
+    examTrap: "The misleading symptom of the recently \"broken/reset password\" is a distractor to make you think the account is fundamentally flawed. The prompt tests your ability to recognize normal UAC behavior for standard users attempting administrative tasks."
+  },
+  {
+    id: "Q002",
+    topic: "Microsoft Windows Settings",
+    difficulty: "hard",
+    scenario: "An executive travels frequently and relies on a Windows 11 laptop. They complain that their laptop battery completely drains while stored in their travel bag. The executive explicitly states they always close the laptop lid, assuming this will \"turn off\" the device, but later finds out the laptop was still receiving email notifications in the bag. They require the laptop to save their open session data securely but consume absolutely zero battery power when the lid is closed.",
+    prompt: "What should the technician configure in the Control Panel Power Options to meet the executive's specific requirements?",
+    choices: [
+      { key: "A", text: "Configure the \"Close the lid\" action to Hibernate." },
+      { key: "B", text: "Enable Hybrid Sleep in the Advanced Power Options." },
+      { key: "C", text: "Disable Fast Startup in the Power Options." },
+      { key: "D", text: "Configure the Network Adapter to disable Modern Standby." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"save their open session data securely but consume absolutely zero battery power\"",
+    explanationCorrect: "Hibernate mode (ACPI mode S4) saves the current session—including any open but unsaved file data in memory—directly to the hard drive, and then turns the computer completely off, consuming zero power. By mapping the \"Close the lid\" action to Hibernate via the Power Options applet, the user guarantees the session is saved while entirely eliminating battery drain during travel.",
+    explanationIncorrect: {
+      B: "Hybrid Sleep creates a hibernation file but then places the system into a standby state, which still consumes a small amount of battery to keep the RAM powered. While it protects data in case of power failure, it does not meet the strict requirement of consuming absolutely zero power immediately upon lid closure.",
+      C: "Fast Startup uses the hibernation file to quickly boot the system from a powered-off state. Disabling it will only slow down the boot time and does not alter the power state behavior triggered by closing the laptop lid.",
+      D: "Modern Standby allows a device to maintain network connectivity while in a low-power idle mode, which explains the ongoing email notifications. Disabling it would stop the network activity, but the system would likely default to standard Sleep (suspend to RAM), which still consumes battery power."
+    },
+    examTrap: "Integrating Hardware power limits with OS power plans. The misleading symptom is the email notifications, which points toward Modern Standby as the culprit. While Modern Standby is active, simply disabling it doesn't fulfill the \"zero battery power\" requirement; Hibernate is the definitive solution."
+  },
+  {
+    id: "Q003",
+    topic: "Microsoft Windows Networking",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop.",
+    difficulty: "hard",
+    scenario: "A teleworker is seated at a local cafe and connects to the cafe's Wi-Fi network. Because the cafe suppresses its SSID broadcast for privacy, the teleworker manually configures the network name and password to establish the connection. Once connected, the teleworker attempts to map a drive to a coworker's laptop sitting across the table, knowing they are on the exact same IP subnet. However, the connection is completely blocked, and the laptop cannot even be pinged. The teleworker also notices their third-party VPN client is taking longer than usual to authenticate.",
+    prompt: "What is the MOST likely cause of the inability to map the drive to the coworker's laptop?",
+    choices: [
+      { key: "A", text: "The wireless adapter's roaming aggressiveness is set too high, causing connection drops." },
+      { key: "B", text: "The network location profile is set to Public, automatically disabling network discovery." },
+      { key: "C", text: "The cafe's DHCP server assigned a 24-bit subnet mask, logically isolating the two clients." },
+      { key: "D", text: "The Windows Defender Firewall was manually configured to block all incoming connections via the VPN." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"cafe's Wi-Fi network,\" \"cannot even be pinged,\" \"exact same IP subnet.\"",
+    explanationCorrect: "Windows uses the Network Location Awareness (NLA) service to categorize networks as either Public or Private. When a network profile is set to \"Public\"—which is the default and recommended setting for untrusted environments like cafes—Windows Defender Firewall intentionally hides the PC from other devices. This automatically disables network discovery and file/printer sharing, preventing local drive mapping regardless of whether the devices share the same subnet.",
+    explanationIncorrect: {
+      A: "Roaming aggressiveness dictates how quickly a wireless adapter searches for and switches to a stronger access point to optimize performance. While setting this too high can drain the battery, it does not permanently block file sharing or ICMP ping requests between devices on the same subnet.",
+      C: "A 24-bit subnet mask (255.255.255.0) is a standard IPv4 configuration that distinguishes the network portion from the host portion of the address. Devices with addresses in the same 24-bit range are logically on the same network and can communicate directly without a router, so this mask would facilitate, not prevent, the connection.",
+      D: "While Windows Defender Firewall does allow administrators to block all incoming connections, the scenario specifies the drive mapping fails locally between two laptops at the cafe. The slow VPN is a misleading symptom included in the scenario; the local file sharing block is natively caused by the NLA Public profile settings, not the VPN firewall rules."
+    },
+    examTrap: "Misleading symptom trap. The hidden SSID and the slow VPN client are distractors meant to pull your focus toward complex networking or security software issues, rather than the built-in host-based network location profile controls."
+  },
+  {
+    id: "Q004",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "medium",
+    scenario: "A systems administrator needs to migrate a legacy file server's data to an external SSD. The source directory contains hundreds of deeply nested subdirectories. Some of these subdirectories are currently empty but are strictly required for future application configurations. The data transfer must happen over a slightly unreliable network connection, requiring a robust command-line tool that can handle interruptions and preserve NTFS attributes without launching a graphical interface.",
+    prompt: "Which of the following commands and switches is the BEST choice for this task?",
+    choices: [
+      { key: "A", text: "xcopy source destination /E" },
+      { key: "B", text: "robocopy source destination /E" },
+      { key: "C", text: "robocopy source destination /S" },
+      { key: "D", text: "copy source destination /Y" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"empty but are strictly required,\" \"unreliable network connection,\" \"robust command-line tool.\"",
+    explanationCorrect: "robocopy (Robust File Copy) is designed specifically for larger, more complex tasks, such as working over unreliable network connections and mirroring directory structures. The /E switch is explicitly required in this context because it dictates that all subdirectories must be copied, including the empty ones that the applications will eventually need.",
+    explanationIncorrect: {
+      A: "While xcopy is a valid command for copying files and directories, it is intended for quick, straightforward tasks and lacks the robust resilience required for unreliable network connections. Furthermore, Microsoft explicitly recommends robocopy over xcopy for better handling of long file names and NTFS attributes.",
+      C: "The robocopy tool is the correct utility to use, but the /S switch is inappropriate for this specific scenario. The /S switch copies subdirectories but intentionally excludes empty ones, which would break the application configurations mentioned in the prompt.",
+      D: "The copy command is a basic utility meant for transferring single files or groups of files within a single directory. It does not natively copy nested directory structures, making it useless for migrating a heavily nested legacy file server."
+    },
+    examTrap: "Switch confusion. The exam frequently tests whether candidates know the precise functional difference between highly similar switches (e.g., /S vs /E) and legacy vs. modern tools (xcopy vs robocopy)."
+  },
+  {
+    id: "Q005",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "hard",
+    scenario: "A technician installs a brand new 4TB secondary solid-state drive (SSD) into a creative professional's workstation. Upon booting into Windows, the technician opens the Disk Management console, clicks \"Initialize Disk\" when prompted, and proceeds through the wizard. However, when the technician attempts to create a single simple volume utilizing the entire drive, they notice they can only allocate a maximum of 2TB. The remaining space shows up as unallocated and cannot be used to extend the new volume.",
+    prompt: "What is the MOST likely cause of this limitation?",
+    choices: [
+      { key: "A", text: "The technician accidentally initialized the disk using the MBR partition style." },
+      { key: "B", text: "The volume was formatted with the FAT32 file system instead of NTFS." },
+      { key: "C", text: "The SSD needs to be converted from a Basic Disk to a Dynamic Disk." },
+      { key: "D", text: "The disk requires the extend volume command to merge the adjacent unallocated space." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"new 4TB secondary solid-state drive,\" \"allocate a maximum of 2TB,\" \"remaining space shows up as unallocated.\"",
+    explanationCorrect: "The Master Boot Record (MBR) partition style carries a hard architectural limit that restricts maximum disk size support to 2TB. When the technician blindly clicked through the initialization wizard and selected MBR instead of the Globally Unique ID Partition Table (GPT), it rendered any capacity beyond the 2TB threshold entirely unusable by the operating system.",
+    explanationIncorrect: {
+      B: "While FAT32 is an older, simpler file system with strict limitations, those limitations apply to file sizes (4GB maximum per file) and individual partition sizes (2TB), not the physical initialization of the entire disk itself...",
+      C: "Dynamic Disks are a deprecated Windows feature used primarily to create software RAID configurations... Converting a basic disk to a dynamic disk does not natively bypass the 2TB limitation if the underlying partition table was improperly initialized as MBR.",
+      D: "The extend volume feature in Disk Management is used to add adjacent unallocated space to an existing partition. However, because the disk was initialized with MBR, the space beyond 2TB is fundamentally inaccessible to the partition table..."
+    },
+    examTrap: "Root cause analysis vs. symptom fixing. Distractor D (extending the volume) sounds like a logical remediation step for \"unallocated space,\" but it completely fails to recognize the hardware-level architectural limit (MBR) causing the symptom."
+  },
+  {
+    id: "Q006",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "medium",
+    scenario: "A user submits a ticket stating they are receiving an \"Access Denied\" error when attempting to open a newly created project folder on their local Windows 10 workstation. The technician establishes a theory of probable cause that the user's account lacks the necessary security group memberships. To verify this theory quickly without clicking through multiple GUI console windows, the technician opens an elevated Command Prompt.",
+    prompt: "Which command should the technician execute to view the user's current security identifiers (SIDs) and specific administrative rights?",
+    choices: [
+      { key: "A", text: "sfc /verifyonly" },
+      { key: "B", text: "lusrmgr.msc" },
+      { key: "C", text: "whoami /groups" },
+      { key: "D", text: "diskpart > detail volume" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"verify this theory quickly without clicking through multiple GUI console windows,\" \"security identifiers (SIDs).\"",
+    explanationCorrect: "whoami /groups is a native command-line utility explicitly designed to output the security groups the current user belongs to, as well as their underlying Security Identifiers (SIDs). By utilizing this command, the technician can immediately determine if the user has local administrative privileges or is missing from the required access groups, satisfying the requirement to avoid the GUI.",
+    explanationIncorrect: {
+      A: "The System File Checker (sfc /verifyonly) is used to scan the integrity of protected Windows operating system files. It does not interact with local user accounts, permissions, or security groups...",
+      B: "lusrmgr.msc is the run command used to open the Local Users and Groups Microsoft Management Console. While this tool is used for managing user accounts and groups, it launches a graphical user interface (GUI), directly violating the scenario's constraint...",
+      D: "The diskpart utility, specifically the detail volume command, provides deep configuration information regarding physical disks, partitions, and file systems. It does not contain any functionality to audit user credentials, SIDs, or group memberships."
+    },
+    examTrap: "Constraint checking. Option B is technically a correct tool to solve the overall problem, but it violates the strict constraint placed in the scenario (avoiding the GUI)."
+  },
+  {
+    id: "Q007",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "hard",
+    scenario: "A desktop computer is frequently crashing, and several critical project files have recently become corrupted and unreadable. Based on the system's age, the technician suspects the traditional hard disk drive (HDD) has suffered physical damage to its platters, resulting in bad sectors. The technician opens an administrative command prompt to implement a fix. The immediate goal is to repair file system errors while also scanning for and recovering any readable data from the damaged sectors before attempting a full drive clone.",
+    prompt: "Which of the following is the BEST command to execute to achieve both goals?",
+    choices: [
+      { key: "A", text: "sfc /scannow" },
+      { key: "B", text: "chkdsk C: /f" },
+      { key: "C", text: "chkdsk C: /r" },
+      { key: "D", text: "format C: /fs:NTFS /q" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"physical damage to its platters,\" \"recovering any readable data from the damaged sectors.\"",
+    explanationCorrect: "chkdsk /r goes beyond basic file system repair by actively scanning the physical disk for bad sectors and attempting to recover readable data from them. This is the only command-line utility listed that addresses physical media degradation and attempts data salvage, which perfectly aligns with the technician's immediate remediation goals before cloning.",
+    explanationIncorrect: {
+      A: "The sfc /scannow command is used exclusively to scan and replace corrupted or missing core Windows operating system files... It does not scan the physical hard drive platters for bad sectors...",
+      B: "chkdsk C: /f is technically valid for fixing logical file system structure errors. However, it does not instruct the OS to perform the deep surface scan required to locate physical bad sectors or salvage readable user data...",
+      D: "The format C: /fs:NTFS /q command creates a brand new file system on the drive... This is a destructive action that would instantly wipe out the user's project files..."
+    },
+    examTrap: "Scope of utility switches. The exam heavily tests the distinction between chkdsk /f (logical repair only) and chkdsk /r (logical repair PLUS physical sector recovery).",
+    additionalNote: "Best First Step Explanation: While cloning the drive is a vital long-term preservation strategy, running chkdsk /r is the best first immediate step to stabilize the file system and salvage data from damaged sectors..."
+  },
+  {
+    id: "Q008",
+    topic: "Microsoft Command-Line Tools & Networking (Integration)",
+    objective: "1.5 & 1.7 Given a scenario, use the appropriate Microsoft command-line tools / configure Microsoft Windows networking features",
+    difficulty: "hard",
+    scenario: "A branch manager traveling to a new remote office connects their corporate laptop to the newly installed local router. The manager can browse the internet perfectly but submits an urgent ticket stating they cannot map a network drive to the branch's local file server. The user angrily insists the issue is permission-based because they are a confirmed member of the \"Executive\" security group.",
+    prompt: "Which sequence of tools and configurations is the MOST appropriate way for the technician to validate the user's claim and resolve the underlying connectivity issue?",
+    choices: [
+      { key: "A", text: "Run whoami /groups to verify the user's group membership, then open Windows Settings to change the Network Profile from Public to Private." },
+      { key: "B", text: "Execute sfc /scannow to verify the integrity of the network stack, then change the IP assignment from DHCP to a Manual Static configuration." },
+      { key: "C", text: "Run certmgr.msc to validate the user's digital certificate, then navigate to Windows Defender Firewall and allow port 8080 through the tunnel." },
+      { key: "D", text: "Use diskpart to verify the volume layout of the local disk, then utilize robocopy /S to forcibly establish a connection to the network path." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"...connects their corporate laptop to the newly installed local router\" and \"...cannot map a network drive... insists the issue is permission-based.\"",
+    explanationCorrect: "When an end-user insists an issue is related to their permissions, the whoami /groups command is the optimal CLI tool to rapidly display the security groups the current user belongs to, cleanly verifying or dismissing their claim. However, because the laptop was recently connected to a new router, Windows Network Location Awareness likely prompted the user, and defaulting to a \"Public\" network profile configures the Windows Defender Firewall to block all access and make the host completely undiscoverable for file sharing. Changing the profile to \"Private\" restores the ability to map drives on a trusted network, effectively resolving the issue.",
+    explanationIncorrect: {
+      B: "Changing from DHCP to a Static IP is technically a valid networking configuration step. However, it is incorrect here because the user is already successfully browsing the internet, proving that DHCP is handing out valid IP addresses, and sfc /scannow has no bearing on network discovery features.",
+      C: "Running certmgr.msc is a valid way to check for personal digital certificates used in network authentication. This is incorrect because the issue is related to local file sharing discovery, not PKI, and port 8080 is traditionally used for Proxy servers, not internal SMB file sharing.",
+      D: "The diskpart command is an excellent tool for viewing detailed local disk configuration, and robocopy is robust for file transfers. This is incorrect because diskpart cannot troubleshoot remote network mappings, and robocopy cannot bypass a firewall blocking network discovery to a UNC path."
+    },
+    examTrap: "Domain Integration Trap. The scenario presents a layered problem: a user claiming a local OS permission issue (requiring OS command line verification) combined with an underlying firewall/network location issue (requiring GUI networking knowledge)."
+  },
+  {
+    id: "Q009",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "medium",
+    scenario: "A user attempts to hide a personal folder on their secondary data partition by tampering with system settings, accidentally removing the drive letter entirely. The drive no longer appears in File Explorer, though the user confirms the data was not deleted. The Disk Management GUI is currently crashing on startup due to a known system bug on this machine, but the user urgently needs to access a presentation stored on that missing partition.",
+    prompt: "Which sequence of command-line actions is the BEST FIRST step to restore access to the data?",
+    choices: [
+      { key: "A", text: "diskpart -> list volume -> select volume # -> assign letter=E" },
+      { key: "B", text: "diskpart -> list disk -> select disk # -> create partition primary" },
+      { key: "C", text: "chkdsk E: /f -> diskpart -> select partition # -> active" },
+      { key: "D", text: "sfc /scannow -> diskpart -> assign letter=E" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"removing the drive letter entirely,\" \"Disk Management GUI is currently crashing,\" \"urgently needs to access.\"",
+    explanationCorrect: "The diskpart utility serves as the command-line equivalent of the Disk Management tool... By listing the volumes, selecting the volume that is missing its letter, and using the assign letter= command, the technician immediately restores the drive mapping so File Explorer can see the data again.",
+    explanationIncorrect: {
+      B: "While diskpart is the correct tool, the create partition primary command is used to allocate brand new space on a drive. Executing this... could overwrite the partition table or lead to formatting requirements, causing permanent data loss...",
+      C: "The Check Disk utility (chkdsk /f) ... requires a drive letter to target the scan; since the user removed the drive letter, the command would fail...",
+      D: "The System File Checker (sfc /scannow) ... Running this command would waste valuable time because the missing drive letter is a configuration error..."
+    },
+    examTrap: "Destructive command awareness. Option B sounds highly technical and uses the correct tool, but CompTIA tests whether you know which diskpart sub-commands are destructive (creating/formatting) versus non-destructive (assigning letters).",
+    additionalNote: "Best First Step Explanation: ...immediately assigning a drive letter via CLI is the most efficient and least invasive remediation strategy."
+  },
+  {
+    id: "Q010",
+    topic: "Microsoft Windows Networking",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop.",
+    difficulty: "hard",
+    scenario: "A fleet of corporate laptops is issued to a sales team that frequently travels between the main corporate office and various client sites. At the corporate office, all web traffic must be routed through an internal server to cache content and filter malicious domains. However, when connected to client Wi-Fi networks, the laptops must access the internet directly to function properly. The IT manager notes that users frequently forget to reconfigure their adapters manually, causing excessive helpdesk tickets when they cannot browse at client sites.",
+    prompt: "Which configuration is the MOST policy-compliant and efficient solution to automate this network requirement?",
+    choices: [
+      { key: "A", text: "Enter the URL of a proxy configuration script (PAC file) in the \"Script address\" field within the Network & Internet Proxy settings." },
+      { key: "B", text: "Configure a non-transparent proxy using port 8080 and instruct users to toggle the \"Use a proxy server\" switch upon arriving at a client site." },
+      { key: "C", text: "Deploy a Virtual Private Network (VPN) using the SSTP protocol with split tunneling enabled." },
+      { key: "D", text: "Set the Network Location profile to \"Public\" when at client sites and \"Private\" when at the corporate office." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"route all web traffic through an internal server,\" \"avoid having users manually toggle,\" \"dynamically.\"",
+    explanationCorrect: "A proxy configuration script (PAC file) allows client devices to dynamically adjust their proxy settings based on specified rules and conditions, such as which network they are currently connected to. By placing the URL of the PAC file into the \"Script address\" field, the IT manager ensures the laptops automatically use the caching server at the home office and route directly to the internet at client sites...",
+    explanationIncorrect: {
+      B: "A non-transparent proxy ... requires manual client-side configuration. Relying on users to manually toggle a switch completely fails the scenario's requirement to automate the process...",
+      C: "A Virtual Private Network (VPN) creates a secure tunnel ... deploying a VPN does not natively solve the specific requirement of dynamically caching and filtering local web traffic proxy rules...",
+      D: "Network Location profiles (Public vs. Private) are used by the Windows Defender Firewall to control host discoverability ... They do not control or configure web browser proxy routing..."
+    },
+    examTrap: "Tool purpose vs. Scenario constraint. Option D uses real network location terminology that changes based on where a user is traveling, tricking you into associating \"Public/Private\" with proxy routing, when in fact it only governs firewall sharing rules."
+  },
+{
+    id: "Q011",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "medium",
+    scenario: "A systems administrator creates a custom script designed to clean up temporary system files and map required network drives. The administrator configures a Basic Task in Task Scheduler to run this script automatically using the \"At startup\" trigger. However, the administrator notices that if the server boots up while the connected network switch is undergoing a firmware update (resulting in a temporary loss of link), the script successfully executes but fails to map the drives.",
+    prompt: "How should the administrator adjust the Task Scheduler configuration to prevent the script from running prematurely in this scenario?",
+    choices: [
+      { key: "A", text: "Modify the Conditions tab to specify that the task should only run when the computer is connected to a specific network." },
+      { key: "B", text: "Change the Trigger from \"At startup\" to \"On idle\" to allow the network adapter time to stabilize." },
+      { key: "C", text: "Check the \"Run with highest privileges\" box in the General tab to ensure the script has network mapping rights." },
+      { key: "D", text: "Configure the Actions tab to run sfc /verifyonly prior to executing the cleanup script." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"fails to map the drives, even though the script executes,\" \"temporary loss of link.\"",
+    explanationCorrect: "Task Scheduler divides task behavior into triggers, actions, and conditions. The \"Conditions\" tab provides extra criteria that must be met before a triggered task is allowed to run. By explicitly defining network conditions, the administrator instructs Windows to hold off on executing the script until the server verifies it has a valid connection to the specified network...",
+    explanationIncorrect: {
+      B: "Changing the trigger to \"On idle\" means the task will only start when the computer experiences a period of no user activity. This does not guarantee that the network switch has finished its firmware update...",
+      C: "The \"Run with highest privileges\" option dictates the security context ... permissions are not the root cause of the failure.",
+      D: "The sfc /verifyonly command ... has absolutely nothing to do with ensuring a network connection is active before mapping drives."
+    },
+    examTrap: "Trigger vs. Condition confusion. CompTIA heavily tests whether candidates understand the functional difference between an event that initiates a task (Trigger) and the prerequisite environment required to allow it to run (Condition)."
+  },
+  {
+    id: "Q012",
+    topic: "Microsoft Windows Networking (Security)",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop. (Integrates with Security)",
+    difficulty: "hard",
+    scenario: "A traveling executive connects a Windows 10 laptop to an airport's complimentary Wi-Fi. Upon connecting, the Network Location Awareness (NLA) prompt asks, \"Do you want to allow your PC to be discoverable by other PCs and devices on this network?\" The executive hastily clicks \"Yes.\" A few minutes later, the executive notices an unexpected spike in disk activity and fears someone on the untrusted airport network is actively probing their shared folders.",
+    prompt: "What is the BEST immediate remediation step the executive should take to secure the local files while maintaining internet access to finish an urgent email?",
+    choices: [
+      { key: "A", text: "Navigate to the Network & Internet settings and change the Network Profile from Private to Public." },
+      { key: "B", text: "Open the Windows Defender Firewall console and configure an exception rule to block port 8080." },
+      { key: "C", text: "Open the Local Group Policy Editor (gpedit.msc) and enforce a maximum password age policy." },
+      { key: "D", text: "Disconnect from the Wi-Fi and establish a WWAN connection using a cellular USB adapter." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"hastily clicks 'Yes',\" \"securing local files while maintaining internet access.\"",
+    explanationCorrect: "Clicking \"Yes\" to the NLA prompt explicitly categorizes the network profile as \"Private,\" which immediately tells Windows Defender Firewall to allow host discovery and enable file/printer sharing. By going into the Network & Internet settings and reverting the profile to \"Public,\" Windows will instantly hide the PC from other devices and natively block all sharing protocols...",
+    explanationIncorrect: {
+      B: "While Windows Defender Firewall is the underlying mechanism ... manually creating an exception rule for port 8080 is incorrect because 8080 is traditionally used for non-transparent proxy traffic, not SMB file sharing...",
+      C: "The Local Group Policy Editor (gpedit.msc) can manage account security settings ... changing how often a password expires does absolutely nothing to stop an active, unauthorized network probe...",
+      D: "Utilizing a WWAN cellular adapter is an excellent preventative strategy ... However, the scenario requires an immediate remediation step that explicitly dictates \"maintaining internet access\"..."
+    },
+    examTrap: "Prevention vs. Remediation constraint. Distractor D offers a highly secure, technically valid alternative (cellular WAN), but it violates the scenario's constraint of fixing the immediate exposure while keeping the current Wi-Fi internet session active.",
+    additionalNote: "Best First Step Explanation: ...toggling the profile back to \"Public\" is the best, fastest, and most direct native remediation..."
+  },
+  {
+    id: "Q013",
+    topic: "Microsoft Windows Networking (Security)",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop. (Integrates with Security/OS Tools)",
+    difficulty: "hard",
+    scenario: "A financial auditor is staying at a hotel and connects their Windows 10 laptop to the hotel's complimentary Wi-Fi. Upon connecting, the auditor strictly follows company protocol and clicks \"No\" when the Network Location Awareness prompt asks if the PC should be discoverable. Later, the auditor attempts to run a proprietary financial syncing application that relies on establishing an incoming connection from the corporate server. The application repeatedly times out and fails to sync...",
+    prompt: "What is the MOST secure, policy-compliant configuration to allow the proprietary application to function?",
+    choices: [
+      { key: "A", text: "Open the Network & Internet settings and change the Network Profile from Public to Private so the application can communicate." },
+      { key: "B", text: "Open the Windows Defender Firewall console, select \"Allow an app through the firewall,\" and check the box for the proprietary app under the Public profile." },
+      { key: "C", text: "Open the Local Group Policy Editor (gpedit.msc) and create an IP Security Policy to bypass the captive portal timeouts." },
+      { key: "D", text: "Open an elevated Command Prompt and execute sfc /scannow to replace the missing networking DLL files causing the sync timeout." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"clicks 'No' when... asks if the PC should be discoverable,\" \"incoming connection,\" \"proprietary application.\"",
+    explanationCorrect: "Clicking \"No\" to the discovery prompt automatically assigns the network profile as \"Public,\" which instructs Windows Defender Firewall to natively block all incoming connections for security. To securely resolve this without compromising the entire system ... use the \"Allow an app through the firewall\" exception interface specifically for that proprietary application, ensuring the checkbox for the \"Public\" profile is ticked.",
+    explanationIncorrect: {
+      A: "Changing the Network Profile to \"Private\" would technically allow the application to function ... However, doing this on an untrusted public hotel network creates a massive security vulnerability...",
+      C: "The Local Group Policy Editor (gpedit.msc) ... they cannot bypass a hotel's web-based captive portal ... and this action does nothing to open the local host-based firewall port...",
+      D: "The System File Checker (sfc /scannow) ... The application timeout is a configuration block imposed intentionally by the Public firewall profile..."
+    },
+    examTrap: "Security vs. Functionality trap. Distractor A is the fastest, easiest way to make the app work, but CompTIA heavily tests whether candidates know how to grant least-privilege exceptions (Option B) rather than broadly lowering system shields on public networks."
+  },
+  {
+    id: "Q014",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "medium",
+    scenario: "A user's Windows 11 workstation is experiencing random Blue Screen of Death (BSOD) crashes and frequent application faults immediately following a failed overnight Windows update. A junior technician previously ran chkdsk C: /f which completed successfully but found no logical disk errors. The user mentions that their secondary 4TB mechanical hard drive is at 99% capacity and desperately needs to be cleaned up...",
+    prompt: "Which command is the BEST next step to diagnose and repair the suspected issue?",
+    choices: [
+      { key: "A", text: "cleanmgr" },
+      { key: "B", text: "chkdsk C: /r" },
+      { key: "C", text: "sfc /scannow" },
+      { key: "D", text: "diskpart followed by extend volume" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"failed overnight Windows update,\" \"core Windows directory was damaged,\" \"chkdsk C: /f... found no logical disk errors.\"",
+    explanationCorrect: "The System File Checker (sfc /scannow) is a native command-line utility explicitly designed to scan the integrity of all protected system files and replace incorrect or corrupted versions with healthy copies. Because the crashes began immediately after a failed OS update and basic file system structures are confirmed intact, verifying the core Windows Resource Protection files is the exact correct troubleshooting methodology step...",
+    explanationIncorrect: {
+      A: "The Disk Clean-up utility (cleanmgr) ... a full secondary data drive does not cause the primary OS boot volume to experience random BSODs from a failed update.",
+      B: "The chkdsk C: /r command locates physical bad sectors ... Because the junior tech already verified there are no logical file system errors (/f)... running a multi-hour physical sector scan is the wrong scope...",
+      D: "The diskpart ... extend volume adds unallocated space to an existing partition. This would theoretically address the 99% capacity issue ... but it completely ignores the actual root cause of the system crashes..."
+    },
+    examTrap: "Misleading symptom trap. The user's complaint about the 99% full 4TB secondary drive is a \"red herring\" designed to trick you into selecting a storage management tool..."
+  },
+  {
+    id: "Q015",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "hard",
+    scenario: "A warehouse worker reports that their USB barcode scanner stopped working abruptly. The scanner does not emit its usual laser light. The worker notes that moving the scanner to a different USB port briefly triggers a \"USB device not recognized\" notification, but it still fails to function. An IT technician opens Device Manager to investigate and locates the scanner listed under the \"Human Interface Devices\" category. The technician observes a small down arrow overlay on the scanner's icon.",
+    prompt: "What is the MOST likely cause of the scanner's failure, and how should it be resolved?",
+    choices: [
+      { key: "A", text: "The device is administratively disabled; the technician should right-click the device and select \"Enable device.\"" },
+      { key: "B", text: "The device lacks a compatible driver; the technician should right-click the device and select \"Update driver.\"" },
+      { key: "C", text: "The device has suffered a hardware failure; the technician should right-click the device, select \"Uninstall device,\" and replace the hardware." },
+      { key: "D", text: "The device has a resource conflict; the technician should open regedit.msc and manually delete the hardware registry subkey." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"small down arrow overlay,\" \"Human Interface Devices.\"",
+    explanationCorrect: "In the Microsoft Windows Device Manager console, a small down arrow overlay on a device icon explicitly indicates that the hardware has been disabled. Disabling a device tells Windows to stop loading its driver and prevents it from interacting with the system, which directly explains why the laser does not light up. Right-clicking the device and selecting \"Enable device\" will immediately restore functionality.",
+    explanationIncorrect: {
+      B: "If a device lacks a compatible driver ... Device Manager will display it as an \"Unknown Device\" or flag it with a yellow exclamation mark, not a down arrow...",
+      C: "While a hardware failure is a technically plausible cause ... the visual confirmation of the down arrow in Device Manager definitively proves the issue is logical (disabled state) rather than physical...",
+      D: "Editing the registry directly via regedit.msc is a highly dangerous administrative task ... Device resource conflicts are managed via the Device Manager GUI, and a conflict would typically present as a yellow exclamation mark..."
+    },
+    examTrap: "Iconography recall. The exam frequently tests whether candidates can differentiate between Device Manager visual indicators (e.g., down arrow = disabled; yellow exclamation = driver issue/conflict)."
+  },
+  {
+    id: "Q016",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "easy",
+    scenario: "A video editor purchases a brand new 2TB NVMe solid-state drive (SSD) to use exclusively as a high-speed scratch disk. A technician physically installs the drive onto the motherboard. Upon booting into Windows 10, the technician opens File Explorer, but the new 2TB drive does not appear anywhere alongside the existing C: drive. The technician confirms the BIOS/UEFI properly recognizes the physical presence of the NVMe hardware.",
+    prompt: "What is the BEST first step the technician must perform to make the drive visible and usable to the user?",
+    choices: [
+      { key: "A", text: "Open the Disk Management console, initialize the disk using the GPT partition style, and format a new simple volume." },
+      { key: "B", text: "Open the Disk Management console, right-click the existing C: drive, and select \"Extend Volume\" to absorb the new drive." },
+      { key: "C", text: "Open an administrative Command Prompt and execute format D: /fs:NTFS /q." },
+      { key: "D", text: "Open the Task Scheduler console and configure a basic task to mount the drive upon user logon." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"brand new 2TB NVMe,\" \"does not appear anywhere alongside the existing C: drive,\" \"BEST first step.\"",
+    explanationCorrect: "When a brand new, raw storage drive is introduced to a Windows system, it exists in an \"uninitialized\" state and contains no file structure. The technician must open the Disk Management console ... to initialize the disk—writing either a Master Boot Record (MBR) or GUID Partition Table (GPT) to it—and then partition and format it with a file system like NTFS...",
+    explanationIncorrect: {
+      B: "The \"Extend Volume\" feature ... You cannot seamlessly extend a C: drive partition across a completely separate, uninitialized physical NVMe drive using standard simple volumes.",
+      C: "The command-line format tool requires an existing volume and a drive letter ... Because the drive is brand new and uninitialized, it does not yet have a partition table or a drive letter...",
+      D: "Task Scheduler is an automation utility ... It is not used to initialize raw hardware or mount basic local internal disk drives."
+    },
+    examTrap: "Order of operations. Option C (formatting) is a required step to make a drive usable, but CompTIA tests your knowledge that initialization and partitioning must strictly occur before a drive can be formatted.",
+    additionalNote: "Best First Step Explanation: Initializing the raw disk is the mandatory prerequisite before any file system, drive letter, or user data can be applied to the hardware."
+  },
+  {
+    id: "Q017",
+    topic: "Microsoft Windows OS Features & Networking (Security + PKI)",
+    objective: "1.4 & 1.7 Given a scenario, use Microsoft Windows operating system features and tools / configure Microsoft Windows networking features",
+    difficulty: "hard",
+    scenario: "A finance executive reports that when attempting to access the company’s internal payroll portal, their browser suddenly throws a severe \"connection is not private\" error. The executive mentions that the portal worked perfectly yesterday and notes that their internet connection feels slightly slower than usual. The technician verifies that the workstation is connected to the trusted corporate Wi-Fi and the Windows Defender Firewall is currently turned on.",
+    prompt: "Which of the following is the BEST next step for the technician to investigate the root cause of this security warning?",
+    choices: [
+      { key: "A", text: "Open the Network and Internet settings and change the network profile from Private to Public to isolate the machine." },
+      { key: "B", text: "Execute sfc /scannow in an elevated command prompt to repair any corrupted browser components or cache files." },
+      { key: "C", text: "Run certmgr.msc and examine the Trusted Root Certification Authorities store for rogue or compromised certificates." },
+      { key: "D", text: "Open secpol.msc to review the local IP Security Policies and ensure the connection is not being blocked." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"...browser suddenly throws a severe 'connection is not private' error\" and \"internet connection feels slightly slower than usual.\"",
+    explanationCorrect: "Digital certificates are fundamentally responsible for verifying the identity of a service or website to ensure secure authentication. Trusting an unsafe or compromised Certification Authority (CA) allows malicious actors to masquerade as legitimate services (like a payroll portal) and intercept data, which explains both the browser privacy warning and the potentially degraded network performance due to an interception proxy. Using the certmgr.msc console allows the technician to directly audit the Trusted Root Certification Authorities folder and remove the rogue certificate, directly addressing the underlying cryptographic vulnerability.",
+    explanationIncorrect: {
+      A: "Changing the network location to Public is a valid security measure for untrusted networks... However, this is incorrect here because the user is already on the trusted corporate Wi-Fi, and changing this profile will break other legitimate internal network functions... without resolving the browser's cryptographic trust error.",
+      B: "The System File Checker (sfc /scannow) ... is incorrect in this specific scenario because browser trust warnings are related to public key infrastructure (PKI) and certificate stores, not foundational Windows system file integrity.",
+      D: "The Local Security Policy editor (secpol.msc) ... is incorrect in this scope because IP Security Policies do not dictate web browser SSL/TLS certificate validation..."
+    },
+    examTrap: "Misleading Symptom Trap. The user mentions \"slower internet,\" which might bait a candidate into troubleshooting general network drivers, firewall rules, or system file corruption. The core technical clue is the sudden cryptographic failure on an internal site.",
+    additionalNote: "BEST First Step Explanation: ...the CompTIA troubleshooting methodology dictates identifying the problem (Step 1) by checking the most direct point of failure: the local machine's certificate trust store..."
+  },
+  {
+    id: "Q018",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "medium",
+    scenario: "A systems administrator executes a maintenance script on a production Windows Server. Immediately after execution, the command prompt displays a warning that the system will automatically reboot in 60 seconds. The administrator suddenly realizes that a critical, long-running database transaction is still processing and will be corrupted if the server drops power. Simultaneously, a system tray notification pops up warning that the C: drive has less than 200MB of free space remaining.",
+    prompt: "What is the BEST first step the administrator should take to prevent data corruption?",
+    choices: [
+      { key: "A", text: "Open cleanmgr and immediately clear the Windows Update cache." },
+      { key: "B", text: "Execute shutdown /a in the elevated command prompt." },
+      { key: "C", text: "Press CTRL+C inside the command prompt window to break the script." },
+      { key: "D", text: "Execute taskkill /f /im shutdown.exe to forcefully terminate the process." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"reboot in 60 seconds,\" \"critical, long-running database transaction,\" \"BEST first step.\"",
+    explanationCorrect: "The /a switch is specifically designed to abort a system shutdown or restart sequence that has already been initiated via a time delay (such as shutdown /r /t 60). By executing this command within the 60-second window, the administrator successfully halts the reboot...",
+    explanationIncorrect: {
+      A: "The Disk Clean-up utility (cleanmgr) ... freeing up disk space will not stop the pending 60-second reboot timer...",
+      C: "Pressing CTRL+C is a valid command-line function ... However, once the shutdown command is executed with a time delay, it passes the reboot instruction to the underlying Windows operating system...",
+      D: "While taskkill is a valid command ... the shutdown timer is managed natively by Windows system services, not an actively running foreground executable named \"shutdown.exe\"..."
+    },
+    examTrap: "Misleading symptom trap. The low disk space warning is a distractor designed to pull focus toward capacity management, testing whether you can prioritize immediate data loss prevention (aborting the reboot) over secondary system warnings.",
+    additionalNote: "Best First Step Explanation: Halting the reboot timer with /a is the only action that stabilizes the system and secures the database transaction..."
+  },
+  {
+    id: "Q019",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools. (Integrates Hardware + OS File Systems)",
+    difficulty: "hard",
+    scenario: "A technician is manually preparing a 1TB NVMe drive for a custom Windows 10 deployment. Using diskpart, the technician initializes the disk using the GPT partition style. To ensure consistency across the drive, the technician formats both the primary 900GB volume (intended for the OS) and the smaller 100MB Extensible Firmware Interface (EFI) system partition entirely in NTFS. The technician then applies the Windows image to the 900GB partition. Upon rebooting, the motherboard fails to locate the Boot Manager, and the operating system refuses to load.",
+    prompt: "What is the MOST likely cause of this boot failure?",
+    choices: [
+      { key: "A", text: "The technician initialized the drive using GPT instead of the MBR partition style." },
+      { key: "B", text: "The system partition containing the EFI boot files must be formatted in FAT32, not NTFS." },
+      { key: "C", text: "The 900GB boot partition lacks a designated drive letter, hiding it from the BIOS." },
+      { key: "D", text: "The drive requires the bootrec /fixmbr command to establish the partition table." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"formats both... entirely in NTFS,\" \"100MB Extensible Firmware Interface (EFI) system partition,\" \"fails to locate the Boot Manager.\"",
+    explanationCorrect: "Windows architecture enforces strict file system rules for different volume types during setup. While the boot partition (which houses the actual Windows OS directory) must be formatted in NTFS, the system partition (which houses the EFI boot files and Boot Manager) must strictly be formatted in FAT32 so the motherboard's UEFI firmware can read it natively before loading the OS drivers.",
+    explanationIncorrect: {
+      A: "Initializing the disk as a Globally Unique ID Partition Table (GPT) is the correct and modern standard, especially for UEFI-based systems booting from NVMe drives...",
+      C: "Drive letters (like C: or D:) are logical constructs assigned by the Windows operating system after it has successfully booted...",
+      D: "The bootrec /fixmbr command is a legacy troubleshooting tool used specifically to repair the Master Boot Record on older BIOS-based systems..."
+    },
+    examTrap: "Terminology inversion. Candidates often assume the \"boot partition\" holds the boot files and the \"system partition\" holds the OS. Microsoft defines them inversely..."
+  },
+  {
+    id: "Q020",
+    topic: "Microsoft Windows Networking (Hardware)",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop. (Integrates Hardware Device Manager)",
+    difficulty: "medium",
+    scenario: "A warehouse worker uses a Windows tablet mounted to a forklift to access a live inventory database. The warehouse is heavily blanketed by multiple 802.11ac wireless access points, all broadcasting the exact same SSID. The worker submits a ticket stating that when driving from the North end to the South end of the warehouse, the database constantly drops connection...",
+    prompt: "Which configuration change should the technician make in Device Manager to BEST resolve this issue?",
+    choices: [
+      { key: "A", text: "Change the Wireless Mode property from 802.11ac to 802.11n to increase signal range." },
+      { key: "B", text: "Increase the Roaming Aggressiveness value in the adapter's Advanced properties." },
+      { key: "C", text: "Increase the Transmit Power value in the adapter's Advanced properties to Maximum." },
+      { key: "D", text: "Uncheck \"Allow the computer to turn off this device to save power\" in the Power Management tab." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"stubbornly holds onto a very weak 1-bar signal,\" \"fully disconnecting before finally attaching to the much closer.\"",
+    explanationCorrect: "The \"Roaming Aggressiveness\" setting explicitly dictates how quickly a wireless adapter searches for and seamlessly transitions to an access point with a stronger signal. By increasing this value from its default medium setting, the technician forces the tablet to drop the weak North access point earlier and hand off to the strong South access point before the connection to the live database can time out or drop.",
+    explanationIncorrect: {
+      A: "Downgrading the Wireless Mode ... reduces overall bandwidth and does not directly solve the handoff logic...",
+      C: "Transmit Power dictates the strength of the radio signal emitted by the tablet itself ... it does not instruct the tablet's driver to drop a weak incoming connection...",
+      D: "Disabling the OS power-saving feature ... Because the worker is actively driving and using a live database ... the device is not entering a sleep state..."
+    },
+    examTrap: "Feature confusion (Transmit Power vs Roaming Aggressiveness). Both are advanced Wi-Fi adapter properties, but CompTIA tests whether you know which one affects signal output (Transmit Power) versus access point handoff behavior (Roaming)."
+  },
+{
+    id: "Q021",
+    topic: "Microsoft Windows Operating System Features and Tools (Security)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools. (Integrates Security)",
+    difficulty: "hard",
+    scenario: "A user downloads a free \"system optimizer\" utility from an unverified online forum. Shortly after, the user notices their web browser is navigating to banking websites that appear visually identical to the real sites, complete with a valid padlock icon, but the URLs contain slight misspellings (e.g., \"chasebank-secure.com\"). A technician suspects a trust impersonation attack is occurring. The technician runs sfc /scannow, which completes and reports no integrity violations.",
+    prompt: "Which of the following tools is the MOST appropriate to identify and remove the cryptographic vulnerability allowing this attack?",
+    choices: [
+      { key: "A", text: "Open secpol.msc to review the local Public Key Policies and enforce IPsec rules." },
+      { key: "B", text: "Open certmgr.msc and inspect the Trusted Root Certification Authorities folder." },
+      { key: "C", text: "Open lusrmgr.msc and check for unauthorized local administrative accounts." },
+      { key: "D", text: "Open gpedit.msc and disable vulnerable third-party browser extensions." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"valid padlock icon,\" \"trust impersonation attack,\" \"sfc /scannow... reports no integrity violations.\"",
+    explanationCorrect: "A trust impersonation attack involves a malicious actor installing a fraudulent root certificate into the operating system. This rogue certificate tricks the local machine and its web browsers into natively trusting fake digital certificates issued by the attacker... The Certificate Manager console (certmgr.msc) is the exact centralized tool required to view, manage, and manually remove compromised certificates from the \"Trusted Root Certification Authorities\" store.",
+    explanationIncorrect: {
+      A: "The Local Security Policy editor (secpol.msc) can manage network security rules ... it does not manage the specific personal or trusted root certificate stores...",
+      C: "The Local Users and Groups console (lusrmgr.msc) ... managing user accounts does not address or remove the underlying cryptographic root certificate...",
+      D: "The Group Policy Editor (gpedit.msc) ... trust impersonation is a cryptographic issue occurring at the operating system's certificate store level, not a simple malicious browser extension."
+    },
+    examTrap: "Misleading symptom trap. The scenario mentions sfc /scannow found no issues to explicitly rule out core OS file corruption, ensuring you focus solely on the logical cryptographic element (certificates)..."
+  },
+  {
+    id: "Q022",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "easy",
+    scenario: "A senior IT manager wants to delegate basic daily maintenance tasks to a junior technician. The junior technician needs to regularly manage local user accounts, inspect physical disk partition layouts, and view the status of hardware drivers on a specific terminal. However, the manager wants to avoid the junior technician opening three separate control panels every day, while also preventing them from accidentally modifying local Group Policies.",
+    prompt: "What is the MOST efficient way to provide the junior technician with access to exactly these three tools in a single, customized interface?",
+    choices: [
+      { key: "A", text: "Open taskschd.msc and create a logon trigger that executes lusrmgr.msc, diskmgmt.msc, and devmgmt.msc sequentially." },
+      { key: "B", text: "Open regedit.msc and add the three tools to the HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run key." },
+      { key: "C", text: "Open the command prompt and write a batch script that utilizes the diskpart and whoami /groups commands." },
+      { key: "D", text: "Open mmc.exe, add the Local Users and Groups, Disk Management, and Device Manager snap-ins, and save the console as an .msc file." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"single, customized interface,\" \"exactly these three tools,\" \"avoid opening three separate control panels.\"",
+    explanationCorrect: "The Microsoft Management Console (mmc.exe) is designed specifically to act as a customizable container for various administrative tools known as \"snap-ins.\" By manually adding only the three required snap-ins ... and saving the custom console as an .msc file on the desktop, the manager provides the junior technician with a unified, single-pane-of-glass interface...",
+    explanationIncorrect: {
+      A: "Task Scheduler (taskschd.msc) can certainly automate the launching of applications ... However, this would simply open three entirely separate, distinct graphical windows...",
+      B: "Editing the registry to place the tools in the Run key achieves the same flawed result as Task Scheduler...",
+      C: "A batch script utilizing diskpart and whoami would provide a text-based output ... but it fails to provide the graphical interfaces (like Device Manager)..."
+    },
+    examTrap: "Tool purpose identification. Options A and B automate the launching of tools, but CompTIA tests whether you know that MMC is the only built-in mechanism for consolidating graphical tools into one unified workspace."
+  },
+ {
+    id: "Q023",
+    topic: "Microsoft Windows Networking & OS Security (Firewall + Network Profiles)",
+    objective: "1.7 Configure Microsoft Windows networking features & 1.4 Use Microsoft Windows OS features. (Integrating OS Security & Networking)",
+    difficulty: "hard",
+    scenario: "A field worker connects their Windows 10 laptop to an unfamiliar coffee shop Wi-Fi network. Suddenly, they realize they cannot access a shared presentation folder hosted on their local SSD from their mobile phone, a setup that works flawlessly at their home office. The user opens Windows Defender Firewall and manually creates an inbound rule to allow their file-sharing application, but the connection remains blocked.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The network adapter's properties are set to obtain a DNS server address automatically." },
+      { key: "B", text: "The Network Location profile for the coffee shop Wi-Fi is currently set to Public." },
+      { key: "C", text: "The Wi-Fi adapter is configured to support only the 802.11b standard." },
+      { key: "D", text: "The user’s Local Users and Groups console has the Guest account disabled." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"unfamiliar coffee shop Wi-Fi network\" and \"manually creates an inbound rule... but the connection remains blocked\"",
+    explanationCorrect: "When a Windows device connects to a new network, the Network Location Awareness service sets a profile; if set to \"Public,\" Windows Firewall fundamentally blocks all access and makes the host undiscoverable to protect it on untrusted networks. Even if a user manually punches a hole in the firewall for a specific app, the overarching Public profile restrictions override local file sharing and printer discovery.",
+    explanationIncorrect: {
+      A: "The network adapter's properties are set to obtain a DNS server address automatically: Obtaining a DNS server automatically via DHCP is standard behavior... It has no direct bearing on the local Windows Defender Firewall blocking incoming SMB/file-sharing requests.",
+      C: "The Wi-Fi adapter is configured to support only the 802.11b standard: While 802.11b is a slow, legacy wireless standard, it still provides base IP connectivity. A mismatched wireless standard would prevent connection to the access point entirely...",
+      D: "The user’s Local Users and Groups console has the Guest account disabled: Disabling the Guest account is a standard security best practice and does not inherently break authenticated file sharing..."
+    },
+    examTrap: "Domain Integration Trap. The question blends local host security (Firewall exceptions) with Networking (Network Location Profiles). The trap is believing that an application-specific firewall rule will bypass the blanket network discovery restrictions imposed by the \"Public\" profile."
+  },
+  {
+    id: "Q024",
+    topic: "Microsoft Windows Operating System Features and Tools (Hardware + File Systems)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools. (Integrates Hardware + OS File Systems)",
+    difficulty: "hard",
+    scenario: "A technician is tasked with deploying Windows 11 onto a brand new 1TB NVMe solid-state drive. Using the diskpart command-line utility, the technician initializes the disk using the GPT partition style. They carefully create a 100MB Extensible Firmware Interface (EFI) system partition and a 900GB primary boot partition. Because the user handles large video files, the technician formats both the 100MB system partition and the 900GB boot partition using the NTFS file system...",
+    prompt: "What is the MOST likely cause of the boot failure?",
+    choices: [
+      { key: "A", text: "The technician initialized the disk using GPT instead of the legacy MBR partition style." },
+      { key: "B", text: "The NVMe drive is suffering from thermal throttling, causing the firmware to disconnect it." },
+      { key: "C", text: "The 100MB system partition must be formatted in FAT32, not NTFS." },
+      { key: "D", text: "The 900GB boot partition was not assigned a drive letter (C:) during the diskpart process." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"formats both... using the NTFS file system,\" \"motherboard's UEFI firmware completely fails to locate the Boot Manager.\"",
+    explanationCorrect: "Windows architecture enforces strict, non-negotiable file system requirements during the partition setup phase. While the \"boot partition\" (which holds the OS files) must be formatted in NTFS, the \"system partition\" (which holds the EFI boot files and the Boot Manager) must strictly be formatted as FAT32 so the motherboard's pre-boot firmware can natively read it.",
+    explanationIncorrect: {
+      A: "Initializing the drive with a Globally Unique ID Partition Table (GPT) is the modern standard and is strictly required by Microsoft for UEFI-based systems...",
+      B: "While the scenario mentions the drive feels unusually hot, NVMe drives naturally run warm under load. This is a misleading symptom...",
+      D: "Drive letters are logical identifiers ... The motherboard's UEFI firmware does not rely on Windows drive letters..."
+    },
+    examTrap: "Terminology Inversion Trap. Candidates frequently confuse the \"System Partition\" and \"Boot Partition.\" Microsoft inversely defines the system volume as holding the boot files (requiring FAT32) and the boot volume as holding the OS (requiring NTFS)."
+  },
+ {
+    id: "Q025",
+    topic: "Microsoft Command-Line Tools (Shutdown Management)",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Sub-objective: System Management Commands)",
+    difficulty: "medium",
+    scenario: "A technician is remotely troubleshooting a Windows 11 file server via an elevated command prompt. To test a newly created scheduled task, the technician manually triggers a test script that includes the shutdown /s /t 60 command. Immediately after pressing Enter, a panicked department head calls, stating they are currently saving a massive, unrecoverable database index directly to that specific server and need exactly 5 more minutes to finish the write operation.",
+    prompt: "What is the BEST immediate action the technician must take to prevent catastrophic data loss?",
+    choices: [
+      { key: "A", text: "Open Task Manager and force-quit the cmd.exe process tree." },
+      { key: "B", text: "Quickly change the server's network profile to \"Public\" to pause inbound SMB file transfers." },
+      { key: "C", text: "Execute shutdown /a in the command prompt." },
+      { key: "D", text: "Execute shutdown /h to safely hibernate the server and preserve the active session to disk." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"shutdown /s /t 60 command. Immediately after pressing Enter... need exactly 5 more minutes to finish\"",
+    explanationCorrect: "When the shutdown command is executed with a time delay switch (/t 60, which introduces a 60-second countdown), the OS initiates a system-wide shutdown sequence that cannot be stopped by simply closing the window. The absolute best and most direct way to halt this sequence is to use the shutdown /a (abort) command. Executing this specific command immediately cancels the pending shutdown timer, keeping the server online and allowing the department head to safely finish saving their unrecoverable database.",
+    explanationIncorrect: {
+      A: "Force-quit cmd.exe: Terminating the command prompt application via Task Manager merely closes the visible console window interface. Because the shutdown timer has already been handed off to the core Windows operating system, the 60-second countdown will continue silently in the background, resulting in data loss.",
+      B: "Change to \"Public\" profile: Changing a network profile to \"Public\" configures the Windows Firewall to block inbound discovery and file sharing requests. This is disastrous in this scenario because it would immediately severe the department head's active connection to the server, instantly corrupting the database write operation they are trying to protect.",
+      D: "Execute shutdown /h: The hibernate command (/h) saves the current system session to the hard disk and powers off the machine. This is incorrect because attempting to run another power-state command will fail while a shutdown sequence is already active, and even if it succeeded, powering off the network card would instantly drop the user's active database transfer."
+    },
+    examTrap: "Direct Knowledge Recall / Remediation Sequencing. The exam tests whether candidates know how to reverse dangerous commands in real-time. Knowing how to initiate a shutdown is common; knowing how to abort one (/a) before the timer expires is critical for administrative damage control."
+  },
+  {
+    id: "Q026",
+    topic: "Microsoft Windows Operating System Features and Tools (Disk Optimization)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "easy",
+    scenario: "An IT administrator is reviewing maintenance schedules for newly deployed laptops equipped exclusively with Solid State Drives (SSDs). The previous fleet used traditional HDDs and relied heavily on weekly defragmentation to maintain seek performance. The administrator opens the Optimize Drives tool to review the current automated configuration for the new SSDs.",
+    prompt: "How should the administrator manage disk optimization for these new laptops to ensure long-term hardware health?",
+    choices: [
+      { key: "A", text: "Disable the scheduled optimization entirely to prevent write amplification and cell degradation." },
+      { key: "B", text: "Schedule weekly defragmentation to ensure contiguous clusters are maintained for large files." },
+      { key: "C", text: "Allow the optimizer tool to run on its schedule so it can execute TRIM operations." },
+      { key: "D", text: "Reformat the boot partitions using a FAT32 file system to natively support Advanced Format 4K sectors." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"equipped exclusively with Solid State Drives (SSDs)\" and \"review the current automated configuration\"",
+    explanationCorrect: "For Solid State Drives, the Windows Defragment and Optimize Drives tool does not perform traditional defragmentation; instead, it runs essential TRIM operations. TRIM allows the SSD controller to mark OS-deletable data as writable, which is vital for the drive's wear-leveling routines and overall performance.",
+    explanationIncorrect: {
+      A: "Disable the scheduled optimization entirely: This is a common misconception; while legacy defrag operations wear out SSDs, the modern Windows optimizer detects SSDs and runs TRIM instead. Disabling it entirely would prevent TRIM from running, ultimately degrading the drive's performance over time.",
+      B: "Schedule weekly defragmentation: Defragmenting reorganizes file data into contiguous clusters to reduce physical seek time on spinning disks (HDDs). This is irrelevant for SSDs...",
+      D: "Reformat the boot partitions using a FAT32 file system: Windows setup requires the boot partition containing the OS files to be formatted as NTFS, not FAT32..."
+    },
+    examTrap: "Legacy Knowledge Trap. Test-takers who remember that \"defragging an SSD is bad\" might incorrectly choose to disable the Optimize Drives tool entirely, forgetting that Microsoft adapted the tool to perform vital TRIM operations on flash storage."
+  },
+  {
+    id: "Q027",
+    topic: "Microsoft Windows Operating System Features and Tools (Device Manager)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools. (Sub-objective: Device Manager)",
+    difficulty: "easy",
+    scenario: "A medical office uses a specialized, hardwired proprietary ID badge scanner. After a recent automatic Windows Update pushed a new driver for the scanner, the reception PC began experiencing sporadic Blue Screens of Death (BSODs). The manufacturer acknowledges the bug and promises a permanent patch within a month. The PC must remain stable for scheduling software, and the heavy scanner cannot be physically unplugged from the desk. The technician needs to stop the crashing without deleting the driver, as uninstalling it causes Windows to aggressively reinstall the buggy update via Plug and Play upon every reboot.",
+    prompt: "Which action in Device Manager is the MOST appropriate temporary workaround to ensure system stability?",
+    choices: [
+      { key: "A", text: "Right-click the scanner and select Uninstall device." },
+      { key: "B", text: "Right-click the scanner and select Roll Back Driver." },
+      { key: "C", text: "Right-click the scanner and select Disable device." },
+      { key: "D", text: "Double-click the scanner and configure the Power Management tab to turn off the device." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"...cannot be physically unplugged... uninstalling it causes Windows to aggressively reinstall the buggy update...\"",
+    explanationCorrect: "Disabling a device in Device Manager is the precise administrative action required when a device is malfunctioning but cannot be physically uninstalled, or when an administrator needs to temporarily restrict access. Disabling the device (indicated by a down arrow in the console) stops the operating system from loading the device into memory or communicating with the faulty driver, immediately halting the BSOD crashes while leaving the hardware physically connected.",
+    explanationIncorrect: {
+      A: "Uninstall device: Uninstalling removes the driver from the OS temporarily. However, as the scenario explicitly warns, leaving a Plug and Play device physically connected after uninstallation will simply prompt Windows to detect the hardware and reinstall the faulty driver upon the next reboot, reintroducing the crash.",
+      B: "Roll Back Driver: Rolling back the driver reverts it to a previously installed, functional version. While this is normally a best practice after a bad update, the scenario explicitly states the technician needs a temporary workaround because the automatic Windows Update aggressively pushes the bad driver back onto the system. Disabling it is the only way to lock its state until the vendor patch arrives.",
+      D: "Power Management tab: The Power Management tab allows the OS to turn off a device to save power... This does not prevent a buggy driver from initializing during boot sequences or user interaction..."
+    },
+    examTrap: "Remediation vs. Prevention. The question tests the candidate's understanding of the behavioral difference between \"Uninstall\" (which triggers PnP re-detection) and \"Disable\" (which halts OS interaction entirely)."
+  },
+  {
+    id: "Q028",
+    topic: "Microsoft Windows Operating System Features and Tools (Storage Optimization)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "medium",
+    scenario: "A video editor submits a ticket complaining that saving massive 4K video files locally has become increasingly sluggish over the past few months. The workstation utilizes a 2TB internal NVMe Solid State Drive (SSD) with approximately 600GB of free space remaining. To resolve this, a junior technician opens Task Scheduler and creates a weekly automated task to run the Windows Disk Defragmenter to ensure the video files occupy contiguous clusters.",
+    prompt: "Why will the junior technician's chosen remediation strategy fail to improve the storage performance for this specific workstation?",
+    choices: [
+      { key: "A", text: "NVMe drives utilize Advanced Format natively, meaning standard Windows defragmentation algorithms cannot organize the clusters properly." },
+      { key: "B", text: "The Disk Defragmenter tool requires a minimum of 50% free disk space to temporarily hold contiguous files during the reorganization process." },
+      { key: "C", text: "The workstation relies on an SSD, which stores data in blocks managed by the drive controller rather than relying on the physical contiguous organization used by HDDs." },
+      { key: "D", text: "The Defragment and Optimize Drives tool can only be executed manually from within the Disk Management console and cannot be triggered by Task Scheduler." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"...utilizes a 2TB internal NVMe Solid State Drive (SSD)...\" and \"...ensure the video files occupy contiguous clusters.\"",
+    explanationCorrect: "Unlike traditional Hard Disk Drives (HDDs) where defragmentation physically reorganizes data into contiguous clusters to reduce the time the mechanical read/write head seeks across platters, Solid State Drives (SSDs) do not have mechanical parts. On an SSD, data is stored in memory blocks managed exclusively by the drive's built-in controller, meaning physical contiguity of the files is irrelevant to read/write speeds. Instead, to optimize an SSD, the operating system must run TRIM operations, which notify the drive controller to mark deleted data blocks as writable, reducing cell degradation and speeding up future writes.",
+    explanationIncorrect: {
+      A: "It is true that some modern disks use Advanced Format with 4K sectors natively to increase storage efficiency. However, this is incorrect because sector formatting standards do not prevent OS-level maintenance tools from running; the true limitation is the fundamental difference between NAND flash memory architecture and mechanical platters.",
+      B: "Disk performance generally begins to suffer when a volume drops below 20% free space, and tools do require some overhead to move data. However, this distractor is incorrect because the drive currently has 600GB free (30%), which is ample overhead, and more importantly, defragmentation is simply the wrong technical mechanism for an SSD.",
+      D: "It is incorrect to claim the optimizer cannot be automated. Windows natively utilizes Task Scheduler to automatically run the disk optimizer on a predefined cadence (usually weekly)."
+    },
+    examTrap: "Legacy Knowledge vs. Modern Technology Trap. Defragmentation is deeply associated with \"sluggish drives\" in older IT literature. The exam tests your ability to adapt legacy concepts (contiguous clusters) to modern hardware (SSDs and TRIM)."
+  },
+  {
+    id: "Q029",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Integrates Command Line + Storage)",
+    difficulty: "easy",
+    scenario: "A technician is using the diskpart command-line utility to prepare a newly initialized 1TB secondary solid-state drive for a user. The technician successfully executes create partition primary and select partition 1. Next, the technician types assign letter=E and presses Enter. When the user opens File Explorer, they successfully see the new E: drive, but when they double-click it, Windows throws an error stating the volume does not contain a recognized file system...",
+    prompt: "What required step did the technician omit during the diskpart sequence?",
+    choices: [
+      { key: "A", text: "They failed to execute format fs=ntfs quick before assigning the drive letter." },
+      { key: "B", text: "They forgot to run chkdsk E: /f to establish the logical sector boundaries." },
+      { key: "C", text: "They failed to initialize the disk using the Globally Unique ID Partition Table (GPT) style." },
+      { key: "D", text: "They forgot to convert the drive to a Dynamic Disk for standard data storage." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"does not contain a recognized file system,\" \"omit during the diskpart sequence.\"",
+    explanationCorrect: "Simply creating a partition and assigning a drive letter allocates raw space, but it does not create the underlying file structure required by the operating system to read and write data. The technician missed the mandatory formatting step (format fs=ntfs quick)...",
+    explanationIncorrect: {
+      B: "The chkdsk /f command is used to scan an existing file system ... Because the drive has not yet been formatted with a file system, running a check disk command would fail immediately.",
+      C: "The scenario explicitly states the drive was \"newly initialized,\" ... the failure is at the file system layer (formatting), not the physical initialization layer.",
+      D: "Dynamic Disks are a deprecated Windows feature ... not for standard, simple data storage on a single drive."
+    },
+    examTrap: "Order of operations. CompTIA tests if you know the strict operational sequence of storage management: Initialize -> Partition -> Format -> Assign Letter."
+  },
+  {
+    id: "Q030",
+    topic: "Microsoft Command-Line Tools (System Management)",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Sub-objective: System Management Commands)",
+    difficulty: "easy",
+    scenario: "A system administrator is managing a local server via a remote command prompt session. The administrator has several monitoring scripts currently running under their user account. They need to end their shift, which requires them to securely close all of their running programs and active services. However, a critical company-wide print spooler service operates on this machine, meaning the physical computer itself MUST remain powered on and running at all times.",
+    prompt: "Which command should the administrator execute to cleanly end their session without violating the physical uptime requirement of the server?",
+    choices: [
+      { key: "A", text: "shutdown /s" },
+      { key: "B", text: "shutdown /h" },
+      { key: "C", text: "shutdown /l" },
+      { key: "D", text: "shutdown /r" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"...securely close all of their running programs... physical computer itself MUST remain powered on and running at all times.\"",
+    explanationCorrect: "The shutdown command utility is used to securely manage system power states and user sessions. The /l switch specifically instructs the OS to \"Log off\" the current user. This is the correct action because it securely closes all programs and services running exclusively under that specific administrator's user account, while deliberately leaving the computer's core operating system powered on and running so background network services (like the print spooler) remain uninterrupted.",
+    explanationIncorrect: {
+      A: "shutdown /s: The /s switch initiates a complete system shutdown, closing all programs and physically turning off the computer hardware. This is entirely incorrect as it directly violates the scenario's strict requirement that the server hardware must remain powered on to service printing.",
+      B: "shutdown /h: The /h switch places the computer into hibernation, saving the current session to the hard disk before powering the machine hardware off. While it saves the session state, it still powers off the physical machine, dropping the network connection and breaking the print spooler requirement.",
+      D: "shutdown /r: The /r switch initiates a restart (a soft reset), which closes all programs and fully reboots the operating system without powering down the hardware. Although the machine comes back online quickly, it is incorrect because the brief OS downtime during the reboot cycle will interrupt active print jobs on the server."
+    },
+    examTrap: "Syntax Distinguishment. The exam tests basic CLI proficiency by verifying the candidate knows the subtle difference between logging off (/l) and shutting down (/s), especially when remotely managing servers where physical uptime is critical."
+  },
+  {
+    id: "Q031",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "medium",
+    scenario: "A systems administrator is tasked with backing up a massive, heavily nested folder structure from a failing physical server to an external network location. The proprietary application that relies on this structure requires several deeply nested subdirectories to remain perfectly intact, even though many of them currently contain zero files. The administrator executes the xcopy source destination /S command...",
+    prompt: "Why did the backup operation fail to support the application, and which command is the BEST choice to use instead?",
+    choices: [
+      { key: "A", text: "The /S switch intentionally excludes empty directories; use robocopy source destination /E instead." },
+      { key: "B", text: "xcopy cannot transfer data over unreliable network connections; use chkdsk source /r instead." },
+      { key: "C", text: "The /S switch compresses the data during transit; use xcopy source destination /E instead." },
+      { key: "D", text: "xcopy is incompatible with proprietary application files; use diskpart followed by move source destination." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"requires several deeply nested subdirectories to remain perfectly intact,\" \"xcopy source destination /S\".",
+    explanationCorrect: "The /S switch in command-line copy utilities explicitly copies subdirectories but intentionally excludes any that are empty. ... The administrator should use robocopy ... and explicitly pair it with the /E switch, which guarantees all subdirectories are copied, including empty ones.",
+    explanationIncorrect: {
+      B: "While xcopy is less resilient over unreliable networks ... the root cause of the application failure is the missing folder structure...",
+      C: "The /S switch dictates subdirectory inclusion logic; it does not compress files during transit...",
+      D: "xcopy is fully compatible with any standard file type ... diskpart is a partition management utility..."
+    },
+    examTrap: "Switch nuance recall. The exam heavily tests the candidate's ability to distinguish between highly similar command-line modifiers..."
+  },
+ {
+    id: "Q032",
+    topic: "Microsoft Command-Line Tools (System File Checker)",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "medium",
+    scenario: "A user reports that their Windows 10 PC frequently crashes, and they recently saw a brief \"bad block\" warning on the screen. A technician notes that some core Windows services are failing to start properly. The technician needs to immediately verify the integrity of the protected OS files to see if they are damaged, but wants to avoid triggering a time-consuming surface scan of the entire drive during the initial diagnosis.",
+    prompt: "Which command is the BEST first step for the technician to run from an elevated prompt?",
+    choices: [
+      { key: "A", text: "chkdsk C: /r" },
+      { key: "B", text: "chkdsk C: /f" },
+      { key: "C", text: "sfc /scannow" },
+      { key: "D", text: "diskpart followed by detail disk" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"immediately verify the integrity of the protected OS files... avoid triggering a time-consuming surface scan\"",
+    explanationCorrect: "The System File Checker (sfc) utility is specifically designed to verify and restore corrupted or damaged protected Windows system files from a cached folder. Because the technician needs an immediate check of the OS integrity without initiating a lengthy sector-by-sector scan, using sfc /scannow is the optimal, most efficient first step.",
+    explanationIncorrect: {
+      A: "chkdsk C: /r: This command is technically valid for finding and recovering bad sectors on a disk. However, it is incorrect in this scenario because /r performs a highly time-consuming surface scan, which the technician explicitly wants to avoid during this initial phase.",
+      B: "chkdsk C: /f: This command attempts to fix file system errors. While faster than a /r scan, it focuses on the file system's structural integrity rather than the specific verification and replacement of protected Microsoft OS system files.",
+      D: "diskpart followed by detail disk: This command allows a user to view disk configuration and check if partitions are reported as healthy. However, it does not scan for or repair corrupted operating system files or bad blocks..."
+    },
+    examTrap: "Tool Selection / Scope Trap. The misleading symptom of a \"bad block\" pushes the test-taker toward chkdsk /r, but the prompt's explicit constraints to check \"protected OS files\" and \"avoid a time-consuming surface scan\" make sfc the correct first diagnostic step.",
+    additionalNote: "Best First Step: sfc /scannow directly addresses the failing core Windows services by checking the OS files first before committing to a multi-hour hardware/sector scan."
+  },
+  {
+    id: "Q033",
+    topic: "Microsoft Command-Line Tools (Security/Permissions)",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Integrates Command Line + Security/Permissions)",
+    difficulty: "medium",
+    scenario: "A junior employee attempts to modify a specialized configuration file located within a shared departmental folder on their local C: drive but receives an \"Access Denied\" error. A helpdesk technician remotes in and confirms via the graphical interface that the \"Accounting Users\" security group has explicit Full Control permissions over the folder...",
+    prompt: "Which command should the technician execute to quickly verify if the user's current session recognizes the required group membership without disrupting the active application?",
+    choices: [
+      { key: "A", text: "lusrmgr.msc" },
+      { key: "B", text: "gpupdate /force" },
+      { key: "C", text: "whoami /groups" },
+      { key: "D", text: "netstat -abo" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"verify if the user's current session recognizes the required group membership,\" \"without disrupting the active application.\"",
+    explanationCorrect: "The whoami /groups command-line utility outputs the exact security groups and Security Identifiers (SIDs) that the currently logged-in user belongs to during their active session. By running this simple command, the technician can immediately diagnose if the user lacks the proper group membership...",
+    explanationIncorrect: {
+      A: "The Local Users and Groups console (lusrmgr.msc) ... launches a graphical Microsoft Management Console (MMC) window, which violates the strict scenario constraint...",
+      B: "The gpupdate /force command forces a manual refresh of Windows Group Policy settings ... it does not display or verify the user's current security group tokens...",
+      D: "The netstat -abo command displays active TCP/IP network connections ... It has absolutely no ability to query local or domain user account permissions..."
+    },
+    examTrap: "Constraint checking. Option A is technically capable of showing group membership, but CompTIA frequently embeds environmental constraints ... to force you to choose the lightweight, non-disruptive Command Line Interface alternative."
+  },
+  {
+    id: "Q034",
+    topic: "Microsoft Windows Networking",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop. (Integrates Networking + Security)",
+    difficulty: "hard",
+    scenario: "A remote sales worker is connected to a restrictive client's guest Wi-Fi network. The worker needs to securely access the corporate intranet to download a presentation. The worker attempts to connect using the company's standard Point-to-Point Tunneling Protocol (PPTP) VPN, but the connection repeatedly times out...",
+    prompt: "Which built-in Windows VPN protocol is the BEST alternative for the technician to configure to successfully bypass the client's strict web-only firewall?",
+    choices: [
+      { key: "A", text: "OpenVPN with custom cryptographic algorithms" },
+      { key: "B", text: "Layer 2 Tunneling Protocol (L2TP) with IPSec" },
+      { key: "C", text: "Internet Key Exchange version 2 (IKEv2)" },
+      { key: "D", text: "Secure Socket Tunneling Protocol (SSTP)" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"strict web-only firewall,\" \"actively blocking all non-standard web traffic and specific tunneling ports,\" \"built-in Windows VPN protocol.\"",
+    explanationCorrect: "The Secure Socket Tunneling Protocol (SSTP) is a Microsoft-specific VPN protocol explicitly designed to tunnel traffic securely over standard HTTPS (port 443). ... utilizing SSTP will effectively mask the VPN tunnel as standard web traffic, allowing it to seamlessly bypass the restrictive firewall...",
+    explanationIncorrect: {
+      A: "OpenVPN ... is explicitly not a built-in Windows protocol and requires third-party client software installation...",
+      B: "Layer 2 Tunneling Protocol (L2TP) with IPSec ... relies on specific, distinct ports ... commonly blocked by strict public firewalls...",
+      C: "IKEv2 ... does not natively disguise its traffic as standard HTTPS to bypass strict web-only firewalls..."
+    },
+    examTrap: "Misleading symptom trap. The low laptop battery is a red herring designed to trick you into selecting IKEv2 ... rather than focusing on the actual technical blocker (the strict guest firewall requiring SSTP)."
+  },
+{
+    id: "Q035",
+    topic: "Microsoft Windows Networking",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop. (Integrates Networking + Updates)",
+    difficulty: "medium",
+    scenario: "A remote field worker uses a laptop with a built-in Wireless Wide Area Network (WWAN) cellular adapter to maintain connectivity on the road. The worker submits a ticket stating that their emails and lightweight web applications sync perfectly, but a mandatory, massive Windows OS feature update repeatedly fails to download, returning a bandwidth error. The worker recently noticed the laptop was running unusually hot and executed the cleanmgr utility to clear the system cache, but the update still refuses to process.",
+    prompt: "What is the MOST appropriate configuration change to resolve the update download issue?",
+    choices: [
+      { key: "A", text: "Open the Network & Internet settings and disable the \"metered connection\" limit on the WWAN adapter." },
+      { key: "B", text: "Open the Task Scheduler library and recreate the missing Windows Update trigger." },
+      { key: "C", text: "Open an elevated command prompt and execute sfc /scannow to repair corrupted update components." },
+      { key: "D", text: "Change the WWAN network profile from Public to Private within the Windows Defender Firewall." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"WWAN cellular adapter,\" \"emails... sync perfectly, but a mandatory, massive Windows OS feature update repeatedly fails.\"",
+    explanationCorrect: "Windows natively supports setting WWAN links as \"metered connections.\" When marked as metered, Windows limits background data usage—specifically blocking large, non-critical downloads like massive OS feature updates—to prevent high cellular overage charges. Disabling the metered limit (or raising the data cap) allows the update to download.",
+    explanationIncorrect: {
+      B: "Task Scheduler handles automated processes ... the scenario specifies a bandwidth error rather than a failure to trigger...",
+      C: "The System File Checker (sfc /scannow) ... the update failure is a logical data-cap restriction imposed by the OS, not file corruption.",
+      D: "Network profiles (Public vs. Private) dictate host discoverability and local sharing rules ... They do not restrict outbound Internet bandwidth or OS update downloads."
+    },
+    examTrap: "Misleading symptom trap. The laptop running hot and use of cleanmgr are red herrings designed to suggest OS corruption (pointing to sfc /scannow), masking the actual WWAN metered connection limitation."
+  },
+  {
+    id: "Q036",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Integrates Command Line + Storage)",
+    difficulty: "easy",
+    scenario: "A technician is using the diskpart command-line utility to prepare a newly initialized 1TB secondary solid-state drive for a user. The technician successfully executes create partition primary and select partition 1. Next, the technician types assign letter=E and presses Enter. When the user opens File Explorer, they successfully see the new E: drive, but when they double-click it, Windows throws an error stating the volume does not contain a recognized file system. The user also mentions their internet connection has been intermittently slow all morning.",
+    prompt: "What required step did the technician omit during the diskpart sequence?",
+    choices: [
+      { key: "A", text: "They failed to execute format fs=ntfs quick before assigning the drive letter." },
+      { key: "B", text: "They forgot to run chkdsk E: /f to establish the logical sector boundaries." },
+      { key: "C", text: "They failed to initialize the disk using the Globally Unique ID Partition Table (GPT) style." },
+      { key: "D", text: "They forgot to convert the drive to a Dynamic Disk for standard data storage." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"does not contain a recognized file system,\" \"omit during the diskpart sequence.\"",
+    explanationCorrect: "Simply creating a partition and assigning a drive letter allocates raw space, but it does not create the underlying file structure required by the operating system to read and write data. The technician missed the mandatory formatting step (format fs=ntfs quick), which writes the New Technology File System (NTFS) to the volume, making it usable by Windows Explorer.",
+    explanationIncorrect: {
+      B: "The chkdsk /f command is used to scan an existing file system for logical errors ... Because the drive has not yet been formatted with a file system, running a check disk command would fail immediately.",
+      C: "The scenario explicitly states the drive was \"newly initialized,\" ... the error in File Explorer confirms the partition exists and has a letter; the failure is at the file system layer (formatting), not the physical initialization layer.",
+      D: "Dynamic Disks are a deprecated Windows feature used for advanced redundant configurations ... not for standard, simple data storage on a single drive."
+    },
+    examTrap: "Order of operations. CompTIA tests if you know the strict operational sequence of storage management: Initialize → Partition → Format → Assign Letter."
+  },
+  {
+    id: "Q037",
+    topic: "Microsoft Windows Operating System Features and Tools (Security)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools. (Integrates Security)",
+    difficulty: "hard",
+    scenario: "An enterprise organization recently deployed a new internal payroll web application that utilizes HTTPS. Several employees report that when they access the site, their web browsers display a bright red security warning stating the digital certificate is invalid and issued by an unknown entity. The IT department confirms the certificate is perfectly valid and was intentionally generated by their own local enterprise provider rather than a commercial third-party. A technician runs sfc /scannow on an affected PC, which completes and reports zero integrity violations.",
+    prompt: "Which management console must a technician use to permanently resolve this browser warning for the users?",
+    choices: [
+      { key: "A", text: "certmgr.msc to import the enterprise provider's root certificate into the Trusted Root Certification Authorities store." },
+      { key: "B", text: "secpol.msc to create a Local Security Policy exception for the internal web application's IP address." },
+      { key: "C", text: "gpedit.msc to modify the User Configuration administrative templates to disable HTTPS validation." },
+      { key: "D", text: "lusrmgr.msc to add the affected employees to the Cryptographic Operators security group." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"generated by their own local enterprise provider,\" \"issued by an unknown entity.\"",
+    explanationCorrect: "Web browsers rely on a centralized local store of trusted Certification Authorities (CAs) to verify the legitimacy of digital certificates. Because the payroll certificate was issued by an internal enterprise CA rather than a globally recognized third party, the local operating system does not natively trust it. Using the Certificate Manager console (certmgr.msc) to manually import the enterprise CA's root certificate establishes that required trust, permanently clearing the \"unknown entity\" browser warning.",
+    explanationIncorrect: {
+      B: "The Local Security Policy editor (secpol.msc) manages detailed security parameters ... It does not manage the cryptographic certificate stores required by browsers...",
+      C: "The Group Policy Editor (gpedit.msc) ... disabling HTTPS validation globally is a catastrophic security violation that exposes the user to man-in-the-middle attacks...",
+      D: "The Local Users and Groups console (lusrmgr.msc) manages user account permissions ... assigning users to it does not magically populate the browser's Trusted Root Certification Authorities store..."
+    },
+    examTrap: "Tool purpose vs. Misleading Symptom. The inclusion of sfc /scannow reporting zero violations is a distractor to rule out OS corruption, ensuring candidates know this is strictly a logical Public Key Infrastructure (PKI) management task using certmgr.msc."
+  },
+  // ... (you had several repeats of xcopy/robocopy, SSTP, whoami /groups, etc. – I've deduplicated and included only unique variants below)
+
+  {
+    id: "Q038",
+    topic: "Microsoft Command-Line Tools (Interactive Shells)",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Sub-objective: Navigation & Interactive Commands)",
+    difficulty: "easy",
+    scenario: "A network technician is verifying DNS records on a Windows client. They open a command prompt, type nslookup, and press Enter. The standard directory path disappears, and the prompt changes to a simple > symbol. After successfully querying several domain names, the technician decides they want to clear the screen using the cls command to take a clean screenshot for their documentation. However, when they type cls and press Enter, the prompt returns an \"Unrecognized command\" error instead of clearing the screen. The network connection is perfectly stable.",
+    prompt: "What is the MOST likely reason the command failed, and how should the technician resolve it?",
+    choices: [
+      { key: "A", text: "The command prompt is lacking administrative privileges; they must right-click and \"Run as Administrator\" before using the cls command." },
+      { key: "B", text: "The local DNS server is unreachable; the technician must configure a Preferred DNS server in the IPv4 settings before clearing the cache." },
+      { key: "C", text: "The nslookup tool operates in an interactive mode; the technician must type exit or press CTRL+C to return to the standard Windows shell before running cls." },
+      { key: "D", text: "The Windows OS has deprecated the legacy cls command; the technician must use the modern PowerShell equivalent Clear-Host." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"...type nslookup, and press Enter. The standard directory path disappears, and the prompt changes to a simple > symbol.\"",
+    explanationCorrect: "Certain command-line utilities, such as nslookup and telnet, operate in what is known as \"interactive mode.\" Once launched, the utility takes over the console, and the prompt will exclusively accept inputs specific to that tool's internal functions (like querying DNS records), completely ignoring standard Windows shell commands like cls or dir. To regain access to standard Windows commands, the technician must explicitly leave the interactive program by typing exit or pressing CTRL+C to return to the standard C:\\> prompt.",
+    explanationIncorrect: {
+      A: "Lacking administrative privileges: The cls (clear screen) command is a basic, harmless cosmetic command that is available to all standard users. It never requires elevated administrative privileges to execute...",
+      B: "Local DNS server unreachable: The scenario explicitly states the technician was \"successfully querying several domain names,\" proving the DNS server is highly reachable... clearing the screen (cls) has absolutely no technical relationship to clearing a DNS cache...",
+      D: "cls is deprecated: The cls command remains a fully supported and natively functioning command in all modern iterations of the Windows Command Prompt. While Clear-Host is the PowerShell equivalent, cls is actively retained for backward compatibility..."
+    },
+    examTrap: "CLI Environment Nuance. The exam tests whether candidates recognize the visual cues of an interactive shell (the missing path, the > symbol) and understand that standard OS commands do not work while trapped inside a sub-utility."
+  },
+   {
+    id: "Q039",
+    topic: "Microsoft Command-Line Tools (Check Disk Utility)",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools. (Sub-objective: Check Disk utility)",
+    difficulty: "medium",
+    scenario: "An older external mechanical hard drive (E:\\) suffered a severe power failure while archiving a massive folder of tax documents. Upon reboot, the drive is accessible, but several files throw read-errors. The panicked user opens an administrative command prompt and executes chkdsk E: /r. After the lengthy, 4-hour scan completes, the command prompt reports the file system is healthy and bad sectors were recovered. However, when the user opens the E:\\ drive in File Explorer, they discover that three critically important tax PDF files are completely missing from their original folders.",
+    prompt: "Based on the behavior of the executed command, what is the MOST appropriate next step for the user to locate their missing data?",
+    choices: [
+      { key: "A", text: "Navigate to the root directory of the E:\\ drive and look for .chk files containing salvaged data fragments." },
+      { key: "B", text: "Run sfc /scannow against the external drive to pull the missing files from the local WINSxS cache." },
+      { key: "C", text: "Execute the format E: /q command to perform a quick restoration of the Volume Boot Record's missing file index." },
+      { key: "D", text: "Use the robocopy /E command to extract the missing files from the hidden Volume Shadow Copy partition." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"...executes chkdsk E: /r... completely missing from their original folders.\"",
+    explanationCorrect: "The chkdsk command with the /r switch performs a highly invasive scan that not only fixes logical file system errors but aggressively attempts to recover readable data from physically damaged or bad sectors on the disk platter. When Check Disk extracts orphaned or corrupted data from bad sectors that it cannot re-associate with the original file path, it saves those recovered data fragments as filennnn.chk files directly in the root directory of the scanned drive...",
+    explanationIncorrect: {
+      B: "Run sfc /scannow: The System File Checker explicitly safeguards and replaces protected, foundational Microsoft operating system files... It is entirely incapable of scanning for or restoring personal user data...",
+      C: "Execute format E: /q: The format command is destructive. Running a quick format (/q) explicitly removes all file references... This would guarantee total, instantaneous data loss...",
+      D: "Use robocopy /E: While robocopy is a powerful file duplication tool, it cannot copy files that the file system index literally can no longer locate... external archive drives do not inherently maintain Volume Shadow Copy snapshots..."
+    },
+    examTrap: "Tool Behavior / Consequence Knowledge. Everyone knows chkdsk /r fixes bad sectors. The exam tests whether you actually know where the tool dumps the recovered data after it rips it out of a corrupted sector."
+  },
+{
+    id: "Q040",
+    topic: "Microsoft Windows Networking",
+    objective: "1.7 Given a scenario, configure Microsoft Windows networking features on a client/desktop.",
+    difficulty: "medium",
+    scenario: "A corporate workstation has just been provisioned for a new employee. The company uses a strict content filtering system to block malicious and inappropriate websites. The employee submits a ticket stating their web browser immediately returns a \"Connection Timed Out\" error for every HTTP and HTTPS site they try to visit. The technician opens an administrative command prompt and successfully pings the local default gateway (192.168.1.1) and an external DNS server (8.8.8.8) with 0% packet loss. DHCP is functioning normally, and the network does not utilize transparent or auto-configuring interceptors.",
+    prompt: "What is the MOST likely cause of the web browser's inability to load pages?",
+    choices: [
+      { key: "A", text: "The workstation's IPv4 properties are missing the Default Gateway address." },
+      { key: "B", text: "The network adapter's Transmit Power is set too low to reach the external web servers." },
+      { key: "C", text: "The client's Network & Internet settings lack a manual non-transparent proxy server configuration on port 8080." },
+      { key: "D", text: "The workstation is configured with a 24-bit subnet mask, isolating it from external web traffic." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"strict content filtering system,\" \"successfully pings... external DNS server (8.8.8.8),\" \"does not utilize transparent or auto-configuring interceptors.\"",
+    explanationCorrect: "Non-transparent proxy servers—which are explicitly used for content filtering and caching—require manual client-side configuration to function. Because the proxy is not transparent or auto-configuring, the web browser has no idea it needs to forward HTTP/HTTPS traffic to the proxy server's IP and designated port (commonly 8080). The successful pings to an external IP prove the underlying network connectivity is flawless, isolating the issue entirely to the missing application-layer proxy configuration.",
+    explanationIncorrect: {
+      A: "A missing default gateway would entirely prevent the workstation from communicating outside its local subnet. Since the scenario explicitly states the technician successfully pinged an external IP address (8.8.8.8), the default gateway must be correctly configured...",
+      B: "Transmit Power is an advanced wireless adapter setting ... Since the workstation is successfully sending and receiving ICMP ping packets to the internet with 0% packet loss, radio signal strength is not the cause...",
+      D: "A 24-bit subnet mask (255.255.255.0) simply defines the boundary ... it does not intrinsically isolate a machine from the internet."
+    },
+    examTrap: "Misleading symptom trap. The successful ping test is a classic diagnostic trap designed to trick you into assuming all web traffic should work. However, ping uses ICMP, while browsers use HTTP/HTTPS, which in this environment is being deliberately blocked until the proxy is manually configured."
+  },
+  {
+    id: "Q041",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "hard",
+    scenario: "A user's primary boot volume (C:) is running critically low on disk space. A technician opens the Disk Management console and notices a 50GB OEM Recovery Partition located at the very end of the physical disk, with a secondary data volume (D:) sitting directly between the C: drive and the Recovery Partition. The technician successfully deletes the D: drive, creating 50GB of unallocated space. However, when the technician right-clicks the C: drive, the \"Extend Volume\" option is completely grayed out and unavailable. The disk currently has 0% fragmentation.",
+    prompt: "What is the MOST likely cause of the \"Extend Volume\" option being unavailable?",
+    choices: [
+      { key: "A", text: "The unallocated space must be directly adjacent to the C: partition to extend it." },
+      { key: "B", text: "The disk must be converted from a Basic Disk to a Dynamic Disk before extending." },
+      { key: "C", text: "The boot partition is formatted in NTFS, which does not support dynamic resizing." },
+      { key: "D", text: "The Disk Management GUI is restricted; the technician must use the diskpart extend command instead." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"located at the very end of the physical disk,\" \"D: sitting directly between the C: drive and the Recovery Partition.\"",
+    explanationCorrect: "Windows Disk Management enforces a strict geographical rule on the physical disk: you can only expand an existing partition into unallocated space if that space is directly and immediately adjacent to the right of the target partition. Because the secondary D: drive was located between the C: drive and the deleted Recovery Partition, deleting the Recovery Partition created unallocated space at the end of the drive, leaving the active D: drive acting as a physical barrier preventing the C: drive from expanding.",
+    explanationIncorrect: {
+      B: "While Dynamic Disks offer advanced features like spanning volumes ... a Basic Disk is fully capable of extending simple volumes on a single drive...",
+      C: "NTFS ... fully supports dynamic volume extension and shrinking (unlike older file systems like FAT32)...",
+      D: "The diskpart command-line utility operates under the exact same physical constraints as the Disk Management GUI..."
+    },
+    examTrap: "GUI vs CLI capabilities. Candidates often falsely assume that command-line tools (Option D) can \"hack\" or bypass the fundamental architectural rules of the operating system that the GUI enforces."
+  },
+  {
+    id: "Q042",
+    topic: "Microsoft Command-Line Tools",
+    objective: "1.5 Given a scenario, use the appropriate Microsoft command-line tools.",
+    difficulty: "hard",
+    scenario: "A frantic developer accidentally hid a critical configuration file in a massive, cluttered archive directory containing thousands of old log files. The developer is unsure of the exact file name but knows the file has a .log extension and was modified earlier today. The developer's IDE is currently crashing repeatedly because it cannot locate this file. A technician opens an administrative command prompt and navigates to the archive directory.",
+    prompt: "Which command is the BEST choice to locate the hidden file as efficiently as possible?",
+    choices: [
+      { key: "A", text: "dir ????????.log /o:n" },
+      { key: "B", text: "dir *.log /a:h /o:d" },
+      { key: "C", text: "sfc /scannow" },
+      { key: "D", text: "robocopy . \\backup /E" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"accidentally hid a critical configuration file,\" \"modified earlier today.\"",
+    explanationCorrect: "The dir command ... supports specific switches to narrow down complex searches. The *.log argument filters for the correct extension. Crucially, the /a:h switch explicitly displays files with the \"hidden\" attribute ... and the /o:d switch sorts the output by date. This places the most recently modified hidden file at the bottom of the list...",
+    explanationIncorrect: {
+      A: "The dir ????????.log /o:n command uses wildcard characters to search specifically for a file with an exactly eight-character name ... this command lacks the /a:h switch to reveal hidden files...",
+      C: "The System File Checker (sfc /scannow) ... has no ability to search for, unhide, or interact with custom developer log files...",
+      D: "The robocopy /E command ... would simply duplicate the massive, cluttered directory ... without actually helping the technician identify the hidden configuration file."
+    },
+    examTrap: "Switch memorization. The exam tests precise recall of command-line modifiers. Distractor A looks highly technical with its ? wildcards, but it fails to include the mandatory attribute switch (/a:h) required to view hidden items."
+  },
+  {
+    id: "Q043",
+    topic: "Microsoft Windows Operating System Features and Tools",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools. (Integrates OS Tools + User Management)",
+    difficulty: "hard",
+    scenario: "A systems administrator is configuring a specialized Windows 10 kiosk machine for a retail store. A proprietary inventory application must launch automatically with specific environmental variables whenever any employee logs into the machine. The administrator opens the Registry Editor (regedit.msc) and manually adds the application's executable path to the standard \\Software\\Microsoft\\Windows\\CurrentVersion\\Run key. However, while the application successfully auto-launches for the administrator, standard retail employees report seeing a blank desktop when they log in.",
+    prompt: "Which registry configuration error MOST likely caused this issue?",
+    choices: [
+      { key: "A", text: "The administrator placed the value in the HKEY_CURRENT_USER root key instead of HKEY_LOCAL_MACHINE." },
+      { key: "B", text: "The administrator placed the value in the HKEY_CLASSES_ROOT root key instead of HKEY_USERS." },
+      { key: "C", text: "The administrator failed to back up the NTUSER.DAT hive before committing the binary registry changes." },
+      { key: "D", text: "The standard retail employees have not been added to the Local Administrators security group via lusrmgr.msc." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"whenever any employee logs into,\" \"successfully auto-launches for the administrator,\" \"standard retail employees report seeing a blank desktop.\"",
+    explanationCorrect: "The Windows Registry is divided into distinct root keys that dictate the scope of configurations. HKEY_CURRENT_USER stores personalized settings exclusively for the currently logged-in user (in this case, the administrator who authored the change). To ensure a startup application executes system-wide for every user account that logs into the machine, the executable path must be placed in the HKEY_LOCAL_MACHINE (HKLM) hive...",
+    explanationIncorrect: {
+      B: "HKEY_CLASSES_ROOT contains information regarding registered applications ... It is not the correct location for configuring global startup execution scripts or Run keys.",
+      C: "While backing up the registry ... is a critical best practice ... failing to create a backup does not logically cause the script to only execute for one user profile.",
+      D: "Adding retail employees to the Local Administrators group ... violates the principle of least privilege ... elevating their privileges would not magically migrate the administrator's personal HKCU registry entry..."
+    },
+    examTrap: "Scope of configuration. CompTIA heavily tests whether candidates understand the functional difference between system-wide changes (HKLM / Computer Configuration) and user-specific changes (HKCU / User Configuration)."
+  },
+  {
+    id: "Q044",
+    topic: "Microsoft Windows Operating System Features and Tools (Hardware)",
+    objective: "1.4 Given a scenario, use Microsoft Windows operating system features and tools.",
+    difficulty: "easy",
+    scenario: "A user's external USB web camera was functioning perfectly for months until a mandatory, automated Windows Update ran overnight. Now, the camera's image is severely distorted, and video conferencing applications freeze entirely when the device is activated. The user is frantic because they have a high-stakes client presentation in 10 minutes. A technician remotes into the machine, opens Device Manager, and verifies the camera is recognized by the OS and has no yellow exclamation marks.",
+    prompt: "What is the BEST FIRST step the technician should take to restore the camera's functionality in time for the presentation?",
+    choices: [
+      { key: "A", text: "Right-click the camera, select \"Uninstall Device\", physically unplug the camera, and reboot the system to force a fresh detection." },
+      { key: "B", text: "Right-click the camera, navigate to the Driver tab in Properties, and click \"Roll Back Driver\"." },
+      { key: "C", text: "Open an elevated command prompt and execute sfc /scannow to repair the corrupted Windows Update files." },
+      { key: "D", text: "Right-click the camera, select \"Disable Device\", wait 30 seconds, and select \"Enable Device\" to reset the USB controller." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"functioning perfectly for months until a mandatory, automated Windows Update ran,\" \"presentation in 10 minutes,\" \"BEST FIRST step.\"",
+    explanationCorrect: "The \"Roll Back Driver\" feature in Device Manager is explicitly designed for this exact scenario: instantly reverting a device to its previously installed, functional driver version if a recent update causes instability. Because the camera was working perfectly prior to the overnight update, executing a quick rollback directly addresses the root cause ... without requiring a time-consuming system reboot...",
+    explanationIncorrect: {
+      A: "Uninstalling the device and rebooting is a valid ... step, but it is not the best first step here. Rebooting takes precious minutes ... and Windows Plug-and-Play may simply pull down the exact same faulty driver...",
+      C: "The System File Checker (sfc /scannow) ... does not manage or repair third-party peripheral hardware drivers...",
+      D: "Disabling and re-enabling a device ... because the root cause is a permanently flawed driver ... simply power-cycling the logical state of the device will not fix the underlying software corruption."
+    },
+    examTrap: "Time-constraint prioritization. Option A (Uninstall) is a common reflex ... but CompTIA tests your awareness that Roll Back is inherently faster, requires no reboot, and specifically targets the \"bad update\" scenario...",
+    additionalNote: "Best First Step Explanation: Rolling back the driver instantly mitigates the damage caused by the Windows Update..."
+  }
+];
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
