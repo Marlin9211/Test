@@ -1,0 +1,2516 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Security Measures (Zero Trust / MFA)",
+    difficulty: "hard",
+    scenario: "A company is implementing a Zero Trust security framework and mandates Multifactor Authentication (MFA) for all domain users. A technician configures a user's workstation to require both a complex alphanumeric password and a 6-digit PIN for login. Despite this configuration, the security audit flags the workstation as non-compliant with the MFA policy. The user has not reported any issues logging in.",
+    prompt: "What is the MOST likely reason the workstation failed the security audit?",
+    choices: [
+      { key: "A", text: "The PIN is stored in the local Security Account Manager (SAM) rather than Active Directory." },
+      { key: "B", text: "The authentication factors configured both belong to the \"knowledge\" category." },
+      { key: "C", text: "The workstation is using a local account instead of a Microsoft account." },
+      { key: "D", text: "The PIN authentication is occurring offline without contacting the domain controller." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "require both a complex alphanumeric password and a 6-digit PIN",
+    explanationCorrect: "Multifactor authentication (MFA) requires the use of at least two different types of authentication credentials, such as something you know (knowledge), something you have (possession), or something you are (inherence). Because both a password and a PIN are considered \"knowledge\" factors (something the user knows), using them together does not constitute true MFA. This is why the security audit correctly flagged the configuration as non-compliant.",
+    explanationIncorrect: {
+      A: "While the SAM database does store local accounts, a PIN used in Windows Hello is actually backed by the hardware TPM. Regardless of where it is stored, the core reason it fails MFA compliance is the lack of factor variance, not the storage location.",
+      C: "A Microsoft account or a local account can both be secured with various authentication factors, and the account type itself does not dictate MFA compliance. The audit failed specifically because the configured authentication mechanism lacked two distinct credential categories.",
+      D: "While it is true that a Windows Hello PIN can authenticate a user offline without contacting a domain controller, this is an intentional feature, not a violation of MFA. The lack of a second distinct factor is the true violation."
+    },
+    examTrap: "The \"Double Factor vs. Multi-Factor\" Trap. The exam will try to trick you into thinking two passwords or a password and a PIN equal MFA."
+  },
+  {
+    id: "Q002",
+    topic: "Windows OS Security Settings (Permissions)",
+    difficulty: "medium",
+    scenario: "An IT administrator maps a network drive for a user in the Sales department. The shared folder (\\\\FILESERVER\\SalesData) is configured with the \"Everyone\" group granted \"Read\" share permissions. On the backend, the administrator has granted the \"Sales\" security group \"Modify\" NTFS permissions to the same folder. When the user accesses the mapped drive and attempts to delete an outdated spreadsheet, they receive an \"Access Denied\" error, even though they are a member of the Sales group.",
+    prompt: "Which of the following is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The user must manually run the gpupdate /force command to apply the NTFS permissions." },
+      { key: "B", text: "The share permissions are more restrictive than the NTFS permissions." },
+      { key: "C", text: "The user must elevate their privileges using User Account Control (UAC) to delete the file." },
+      { key: "D", text: "Implicit Deny has overridden the Explicit Allow permissions." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Everyone group granted 'Read' share permissions... 'Sales' security group 'Modify' NTFS permissions",
+    explanationCorrect: "When both share permissions and NTFS permissions are applied to the same network resource, Windows analyzes both sets and applies the most restrictive effective permission when the user accesses the file over the network. Because the share permission is set to only \"Read\", it restricts the user's effective access to \"Read\", completely overriding the \"Modify\" NTFS permission over the network connection. The user would only have Modify access if logged on locally to the file server.",
+    explanationIncorrect: {
+      A: "gpupdate /force is used to immediately apply new or changed Group Policy Objects (GPOs) to a client machine. File and share permissions take effect upon the next access or login and are not dependent on Group Policy refresh intervals.",
+      C: "User Account Control (UAC) prevents malicious software from making unauthorized changes by requiring administrative consent for system-level tasks. Deleting a file from a standard network share relies on standard NTFS/Share access control lists, not UAC elevation.",
+      D: "Implicit deny means that unless there is a rule granting access, it is denied. Here, both permissions explicitly grant access (Read and Modify), but the combination of Share and NTFS protocols defaults to the most restrictive explicit rule, not an implicit deny."
+    },
+    examTrap: "The \"NTFS vs. Share Permission\" Trap. The exam tests whether you know that the most restrictive permission wins when accessing files across a network."
+  },
+  {
+    id: "Q003",
+    topic: "Microsoft Command-Line Tools (Group Policy)",
+    difficulty: "hard",
+    scenario: "A user complains that an internal web application is loading very slowly. During troubleshooting, the Helpdesk technician notices the user's workstation is missing a critical security policy that was pushed out to the domain an hour ago. The technician wants to force the workstation to pull the latest Active Directory policies immediately, including those requiring a system reboot, without navigating through the GUI.",
+    prompt: "Which command is the BEST choice for the technician to use?",
+    choices: [
+      { key: "A", text: "gpresult /r" },
+      { key: "B", text: "gpupdate /force /boot" },
+      { key: "C", text: "net use * /delete" },
+      { key: "D", text: "net localgroup Administrators /add" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "force the workstation to pull the latest Active Directory policies immediately, including those requiring a system reboot",
+    explanationCorrect: "Group policies are normally refreshed every 90 minutes. To force the system to retrieve and apply all new and old policies immediately, the gpupdate /force command is required. Appending the /boot switch ensures that if a newly applied policy requires a system restart to take effect, the computer will automatically reboot to finalize the configuration.",
+    explanationIncorrect: {
+      A: "The gpresult command is a diagnostic tool used to display the Resultant Set of Policy (RSoP) currently applied to a user or computer. While useful for seeing what policies are missing, it does not pull or enforce new policies from the domain controller.",
+      C: "The net use * /delete command is used to remove all currently mapped network drives from the user's session. This has no impact on Group Policy synchronization or domain security updates.",
+      D: "net localgroup Administrators /add is a syntax fragment used to add a user to the local Administrators group. It is entirely unrelated to updating domain Group Policy Objects (GPOs)."
+    },
+    examTrap: "The \"Diagnostic vs. Remediation Tool\" Trap. Test takers must distinguish between gpresult (viewing policies) and gpupdate (applying policies)."
+  },
+  {
+    id: "Q004",
+    topic: "Windows OS Security Settings",
+    difficulty: "medium",
+    scenario: "A technician is logged into a domain-joined workstation to troubleshoot a failed application update. The technician needs to sign in to the workstation's local administrative account, named \"AdminLocal\", because the domain controller is temporarily unreachable. When the technician types \"AdminLocal\" into the username field and enters the password, the login fails with an \"invalid credentials\" error.",
+    prompt: "What is the BEST first step the technician should take to successfully authenticate?",
+    choices: [
+      { key: "A", text: "Use the syntax .\\AdminLocal in the username field." },
+      { key: "B", text: "Use the syntax Domain\\AdminLocal in the username field." },
+      { key: "C", text: "Boot the computer into Safe Mode to bypass Active Directory." },
+      { key: "D", text: "Use the net user AdminLocal /active:yes command." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "domain-joined workstation... needs to sign in to the workstation's local administrative account",
+    explanationCorrect: "When a Windows computer is joined to a domain, it defaults to attempting authentication against the domain controller using Kerberos. To force the machine to authenticate against its local Security Accounts Manager (SAM) database rather than the domain, the user must specify the local machine name. Typing .\\ before the username instructs Windows to log into the local host device rather than the network domain.",
+    explanationIncorrect: {
+      B: "The syntax Domain\\Username explicitly forces Windows to check the credentials against the Active Directory domain controller. Since the goal is to bypass the domain and the domain controller is down, this will cause the login to fail again.",
+      C: "Safe Mode loads Windows with a minimal set of drivers. While you can log into a local account in Safe Mode, simply changing the username syntax is the immediate, correct configuration step. Rebooting is highly inefficient and unnecessary here.",
+      D: "The net user /active:yes command enables a disabled account. However, you must already be logged into Windows with an elevated command prompt to execute this command. The technician is currently stuck at the login screen."
+    },
+    examTrap: "The \"Domain vs. Local Context\" Trap. You must understand how Windows routes authentication requests when attached to a domain."
+  },
+  {
+    id: "Q005",
+    topic: "Security Measures",
+    difficulty: "hard",
+    scenario: "A traveling executive complains that she cannot log into her Windows 10 laptop while on a long flight without Wi-Fi. She usually uses an external FIDO2 USB token and facial recognition to log in at the office, but the laptop's IR camera is broken, and she forgot her USB token. She is prompted to use her Windows Hello PIN, but she believes it will not work without an internet connection to contact the Microsoft authentication servers.",
+    prompt: "How should the Helpdesk technician respond to the executive's concern?",
+    choices: [
+      { key: "A", text: "The PIN will not work offline because Single Sign-On (SSO) requires Kerberos validation." },
+      { key: "B", text: "The PIN will work offline because it is validated locally using the computer's TPM chip." },
+      { key: "C", text: "The PIN will work offline, but only if an Authenticator App is used to generate an OTP first." },
+      { key: "D", text: "The PIN will not work offline, so she must use her Microsoft Account password instead." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "she believes it will not work without an internet connection... Windows Hello PIN",
+    explanationCorrect: "A Windows Hello PIN is not a standard network password; it is explicitly tied to the specific hardware device. The PIN is protected by the Trusted Platform Module (TPM) chip on the CPU or motherboard. Because the authentication happens entirely on the local device via the TPM, the PIN does not need to be verified over a network link, allowing the user to securely log in while completely offline.",
+    explanationIncorrect: {
+      A: "While Single Sign-On (SSO) and Kerberos are used for domain network authentication, local device login via Windows Hello operates independently of Kerberos when offline. The local device caches the authorization token.",
+      C: "An Authenticator app generating a One-Time Password (OTP) is a valid MFA method, but it is not a prerequisite for using a local Windows Hello PIN. The PIN itself acts as the primary knowledge factor for the TPM.",
+      D: "If the device is using a Microsoft Account, the standard password would normally require internet connectivity to verify unless cached. However, the Windows Hello PIN is explicitly designed to solve this problem by providing a secure, hardware-backed local authentication method that works perfectly offline."
+    },
+    examTrap: "The \"Cloud vs. Local Authentication\" Trap. Many assume a PIN tied to a Microsoft account requires the cloud, but Windows Hello PINs are locally stored in the TPM."
+  },
+  {
+    id: "Q006",
+    topic: "Windows OS Security Settings (NTFS Permissions)",
+    difficulty: "hard",
+    scenario: "An organization uses deep directory structures on its file server. The parent folder \\\\FILESERVER\\Projects is configured with NTFS permissions that enforce an \"Inherited Deny\" for the \"Write\" permission for all standard users. However, a specific user, Alice, needs to be able to edit a single document located inside \\\\FILESERVER\\Projects\\Marketing\\Q1.docx. The IT administrator manually configures an \"Explicit Allow\" for Write access directly on Q1.docx for Alice's user account.",
+    prompt: "When Alice attempts to save changes to Q1.docx, what will be the result, and why?",
+    choices: [
+      { key: "A", text: "She will be denied access because Inherited Deny permissions take precedence over Explicit Allow permissions." },
+      { key: "B", text: "She will be granted access because Explicit Allow permissions override Inherited Deny permissions." },
+      { key: "C", text: "She will be denied access because the file inherits the most restrictive permission from the root Share folder." },
+      { key: "D", text: "She will be granted access because NTFS permissions process from bottom to top, granting access at the file level first." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Inherited Deny... manually configures an 'Explicit Allow'... directly on Q1.docx",
+    explanationCorrect: "In the Windows NTFS permission hierarchy, directly assigned permissions (Explicit permissions) always override inherited permissions. Even if a parent folder passes down a strict \"Deny\" rule, if an administrator specifically places an \"Explicit Allow\" rule directly on the child object (the file), the explicit rule takes absolute precedence, and the user will be granted access.",
+    explanationIncorrect: {
+      A: "This is backwards. While an \"Explicit Deny\" beats an \"Explicit Allow\", an \"Explicit Allow\" beats an \"Inherited Deny\".",
+      C: "While share permissions and NTFS permissions do combine over a network, the scenario specifically outlines an NTFS inheritance conflict within the file system hierarchy, not a conflict between the Share ACL and NTFS ACL.",
+      D: "NTFS permissions do not simply process \"bottom to top\" blindly. They follow a specific strict hierarchy: Explicit Deny > Explicit Allow > Implicit Deny > Implicit Allow. The explicit nature of the permission is what grants access, not just the physical location of the file."
+    },
+    examTrap: "The \"Inherited vs Explicit Permissions\" Trap. The exam tests the exact order of operations for NTFS access control lists."
+  },
+  {
+    id: "Q007",
+    topic: "Microsoft Command-Line Tools (Network Drives)",
+    difficulty: "medium",
+    scenario: "A user reports that every morning when they log into their computer, they cannot access the engineering team's shared drive. A technician discovers that the user is manually mapping the drive via File Explorer every day, but the mapping is lost when the computer shuts down. The technician opens an elevated command prompt to permanently assign the shared folder \\\\ENG-SERVER\\Blueprints to the Z: drive.",
+    prompt: "Which of the following commands should the technician execute?",
+    choices: [
+      { key: "A", text: "net use Z: \\\\ENG-SERVER\\Blueprints /persistent:yes" },
+      { key: "B", text: "net share Z: \\\\ENG-SERVER\\Blueprints /active:yes" },
+      { key: "C", text: "net user Z: \\\\ENG-SERVER\\Blueprints /add" },
+      { key: "D", text: "netstat Z: \\\\ENG-SERVER\\Blueprints /persistent:yes" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "permanently assign the shared folder... to the Z: drive",
+    explanationCorrect: "The net use command is used in the Windows command line to connect to, remove, and configure connections to shared network resources. By mapping the drive letter Z: to the UNC path \\\\ENG-SERVER\\Blueprints and appending the /persistent:yes switch, the technician ensures that Windows saves the mapping in the user's profile and automatically reconnects it after every reboot.",
+    explanationIncorrect: {
+      B: "net share is used to create a network share on the host machine, making local files available to others. It is not used by a client to map or connect to an existing share.",
+      C: "net user is utilized to add, remove, or modify user accounts in the local Security Account Manager (SAM) database or Active Directory. It does not interact with network file sharing.",
+      D: "netstat is a network utility used to display active TCP/UDP connections, listening ports, and routing tables. It cannot map network drives."
+    },
+    examTrap: "The \"Tool Selection: Net vs Netstat\" Trap. Both involve networking, but net manages SMB resources/accounts, while netstat manages protocol connections."
+  },
+  {
+    id: "Q008",
+    topic: "Windows Networking Features (Profiles)",
+    difficulty: "hard",
+    scenario: "A hospital IT department notices significant network congestion every day at 8:00 AM and 5:00 PM. An analysis shows massive bandwidth spikes as doctors log in and out of different workstations across the facility. The doctors currently use Roaming Profiles so their massive specialized medical imaging files appear on their Desktop regardless of which computer they use. The IT Director wants a long-term prevention strategy that maintains the doctors' seamless access to their files without causing network bottlenecks at logon/logoff.",
+    prompt: "Which of the following is the BEST policy-compliant solution?",
+    choices: [
+      { key: "A", text: "Configure an Implicit Deny on the shared medical imaging folder." },
+      { key: "B", text: "Implement Folder Redirection via Group Policy." },
+      { key: "C", text: "Switch the doctors from domain accounts to Microsoft accounts." },
+      { key: "D", text: "Enable nearby sharing over Bluetooth PAN." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Roaming Profiles so their massive specialized medical imaging files... network bottlenecks at logon/logoff",
+    explanationCorrect: "Roaming profiles copy the entire user profile from the network share to the local PC at logon, and push changes back at logoff. If the profile contains massive files, this causes severe network congestion. Folder Redirection changes the logical target of a folder (like the Desktop or Documents) directly to a network share, meaning the files stay on the server and are accessed only over the network when opened, rather than being copied entirely at logon/logoff. This eliminates the bandwidth bottleneck while preserving the seamless user experience.",
+    explanationIncorrect: {
+      A: "Configuring an Implicit Deny would completely block the doctors from accessing their files, disrupting hospital operations. This is not a valid solution.",
+      C: "Switching to a Microsoft Account creates a local profile linked to the cloud. This breaks the centralized active directory administration and does not solve the local network transfer bottleneck for multi-gigabyte files natively.",
+      D: "Nearby sharing allows simple file transfers between adjacent PCs or phones over Bluetooth. It does not provide seamless, centralized access to a user's desktop files across a hospital facility."
+    },
+    examTrap: "The \"Remediation vs Prevention - Roaming vs Redirection\" Trap. You must understand the performance differences between how Windows handles Roaming Profiles versus Folder Redirection."
+  },
+  {
+    id: "Q009",
+    topic: "Windows OS Security Settings (UAC)",
+    difficulty: "easy",
+    scenario: "A standard user is attempting to install an approved legacy application on their corporate Windows 10 PC. The application executable requires intermediate permissions to modify system registries. When the user double-clicks the installer, the screen dims, and a prompt appears displaying a Security Shield icon, asking if the app can make changes to the device.",
+    prompt: "What is the BEST FIRST step the user must take to proceed with the installation?",
+    choices: [
+      { key: "A", text: "Authenticate using a biometric gesture like Windows Hello Face." },
+      { key: "B", text: "Enter the credentials of an account belonging to the local Administrators group." },
+      { key: "C", text: "Add their standard user account to the legacy Power Users group." },
+      { key: "D", text: "Restart the PC and use the F8 menu to disable driver signature enforcement." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "standard user... Security Shield icon, asking if the app can make changes",
+    explanationCorrect: "The prompt described is User Account Control (UAC). UAC requires explicit consent before allowing a process to execute with elevated administrative privileges. Because the logged-in account has standard privileges, clicking \"Yes\" is not enough; the UAC consent dialog explicitly requires the entry of administrator credentials to authorize the privilege escalation within the standard user's session.",
+    explanationIncorrect: {
+      A: "While Windows Hello can be used to log into the machine initially, standard users cannot bypass UAC privilege escalation solely with a biometric gesture; they lack the fundamental authorization (admin rights) required to approve the prompt.",
+      C: "Adding a user to the Power Users group is a severe security risk and is deprecated in modern Windows 10/11 (they now have standard user permissions). UAC is designed to allow standard users to perform specific administrative tasks without permanently altering their group membership.",
+      D: "Driver signature enforcement is a startup setting related to installing unsigned kernel-mode drivers. It has nothing to do with bypassing standard UAC installation prompts for userland applications."
+    },
+    examTrap: "The \"Admin vs Standard UAC Prompt\" Trap. Admin users just click \"Yes\", but standard users must provide Admin credentials."
+  },
+  {
+    id: "Q010",
+    topic: "Security Measures (SSO / Federation)",
+    difficulty: "medium",
+    scenario: "A user navigates to a cloud-based service provider (like Google Workspace) to check their email. Instead of entering a password on the Google page, the user is redirected to their company's internal login portal. After entering their corporate credentials, a digitally signed document is generated by the company's identity provider and sent back to Google, granting the user access to their inbox.",
+    prompt: "Which logical security control is being utilized in this scenario?",
+    choices: [
+      { key: "A", text: "Security Assertions Markup Language (SAML)" },
+      { key: "B", text: "Remote Authentication Dial-In User Service (RADIUS)" },
+      { key: "C", text: "Time-based One-Time Password (TOTP)" },
+      { key: "D", text: "Privilege Access Management (PAM)" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "redirected to their company's internal login portal... digitally signed document is generated by the company's identity provider and sent back",
+    explanationCorrect: "Security Assertions Markup Language (SAML) is an XML-based authentication protocol used to implement Single Sign-On (SSO) for web applications. The scenario explicitly describes the SAML workflow: the user attempts to access a Service Provider (SP), is redirected to an Identity Provider (IdP), authenticates, and the IdP creates a digitally signed SAML assertion which is passed back to the SP to grant access.",
+    explanationIncorrect: {
+      B: "RADIUS is a networking protocol that provides centralized Authentication, Authorization, and Accounting (AAA) management for users connecting to a network access server (like a VPN or Wi-Fi). It is not the protocol used for web-based, IdP-to-SP federated identity assertions.",
+      C: "TOTP is an algorithm that computes a one-time password from a shared secret key and the current time (often used in Authenticator apps). While the user might use TOTP to log into the corporate portal, SAML is the protocol handling the redirection and digitally signed assertion to the cloud service.",
+      D: "Privileged Access Management (PAM) involves securing and monitoring highly sensitive administrator accounts (like root or Domain Admin). It is not a web SSO authentication protocol."
+    },
+    examTrap: "The \"SSO Variations\" Trap. Test takers must recognize the specific mechanics of SAML (IdP, SP, Assertion) vs local Kerberos."
+  },
+  {
+    id: "Q011",
+    topic: "Microsoft Command-Line Tools (Local Groups)",
+    difficulty: "medium",
+    scenario: "An IT support specialist is deploying a new workstation. Security policies dictate that the built-in \"Administrator\" account must remain disabled. The specialist has created a new local account named \"IT-Deploy\". The specialist needs to ensure \"IT-Deploy\" has full unrestricted management tasks on the local machine using the command line.",
+    prompt: "Which of the following commands will accomplish this?",
+    choices: [
+      { key: "A", text: "net localgroup Administrators IT-Deploy /add" },
+      { key: "B", text: "net user IT-Deploy /active:yes" },
+      { key: "C", text: "net user Administrators IT-Deploy /add" },
+      { key: "D", text: "net localgroup IT-Deploy Administrators /add" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "ensure 'IT-Deploy' has full unrestricted management tasks... using the command line",
+    explanationCorrect: "To give a local account full management access, it must be added to the built-in \"Administrators\" local security group. The net localgroup command is used to modify local group memberships. The correct syntax lists the group name first, followed by the user name, and then the /add switch: net localgroup Administrators IT-Deploy /add.",
+    explanationIncorrect: {
+      B: "The net user IT-Deploy /active:yes command simply enables the IT-Deploy account if it were disabled. It does not elevate the account's privileges or add it to the Administrators group.",
+      C: "This syntax uses net user instead of net localgroup. net user is for managing individual accounts, not group memberships.",
+      D: "This reverses the syntax. net localgroup requires the name of the group being modified (Administrators) to be listed before the user being added (IT-Deploy)."
+    },
+    examTrap: "The \"Syntax Reversal\" Trap. The exam frequently provides commands with correct keywords but backwards syntax to test precision."
+  },
+  {
+    id: "Q012",
+    topic: "Security Measures (SSO / Kerberos)",
+    difficulty: "hard",
+    scenario: "A user authenticates to their Windows domain workstation in the morning. For the rest of the day, they seamlessly open Microsoft SQL Server, access their Exchange Email, and open Intranet web portals without ever being prompted to enter their password again. Later that week, a malicious threat actor steals the user's active session token and uses it to move laterally through the network, breaching the SQL database and Exchange server simultaneously without knowing the user's password.",
+    prompt: "Which security concept presents this specific inherent vulnerability?",
+    choices: [
+      { key: "A", text: "Just-in-Time (JIT) Access" },
+      { key: "B", text: "Asymmetric Encryption Key Exchange" },
+      { key: "C", text: "Single Sign-On (SSO) via Kerberos" },
+      { key: "D", text: "Implicit Allow Access Control Lists" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "authenticates... once... access their Exchange Email... without ever being prompted... attacker steals... active session token... breaching... simultaneously",
+    explanationCorrect: "Single Sign-On (SSO), implemented natively in Windows Active Directory via the Kerberos protocol, allows a user to authenticate once and receive a token (ticket) that grants access to multiple services (like SQL and Exchange) without re-authenticating. The major inherent disadvantage of SSO is that if a threat actor compromises the account or steals the session token, they instantly gain unauthorized access to all associated services under that single identity.",
+    explanationIncorrect: {
+      A: "Just-in-Time (JIT) access is a security mechanism that reduces risk by only granting privileges for a limited time when explicitly requested. It is a mitigation strategy, not the cause of widespread lateral movement via a stolen token.",
+      B: "Asymmetric key exchange uses public and private keys to securely transmit symmetric session keys over untrusted networks. While encryption secures the data, the vulnerability described is an architectural flaw of SSO authorization, not a cryptographic failure.",
+      D: "Implicit Allow is generally not a default concept in secure Windows ACLs (Implicit Deny is). While poor ACLs allow access, the specific mechanism that allows the attacker to use one stolen token for multiple distinct services is SSO."
+    },
+    examTrap: "The \"Double-Edged Sword\" Trap. CompTIA expects you to know not just what a technology does (SSO adds convenience), but its primary security risk (single point of failure)."
+  },
+  {
+    id: "Q013",
+    topic: "Windows Networking Features (File Sharing)",
+    difficulty: "easy",
+    scenario: "A user takes their corporate laptop to a coffee shop and connects to the open Wi-Fi network. Suddenly, File Explorer displays a notification warning that Network Discovery and File Sharing are turned off. The user needs to briefly access a file hosted on a coworker's laptop sitting across the table, so the user navigates to the Control Panel to manually enable Network Discovery.",
+    prompt: "Why is the current OS behavior happening, and what is the BEST long-term prevention strategy for sharing files in untrusted environments?",
+    choices: [
+      { key: "A", text: "The OS recognized a Workgroup conflict; the user should use net use to force a mapped drive to the coworker." },
+      { key: "B", text: "The OS defaulted the untrusted network to the Public profile; the user should utilize nearby sharing over Bluetooth PAN instead." },
+      { key: "C", text: "The OS detected a duplicate IP address via DHCP; the user should switch the network profile to Domain." },
+      { key: "D", text: "The OS enabled User Account Control; the user should place the file in the C$ administrative share." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "coffee shop and connects to the open Wi-Fi... File Explorer displays a notification warning... Network Discovery and File Sharing are turned off",
+    explanationCorrect: "When Windows connects to a new, untrusted network (like a coffee shop), it defaults the network profile to \"Public\" for security. In the Public profile, Network Discovery and File Sharing are intentionally disabled by default to prevent unauthorized access. If the user needs to quickly and securely share a file with a physically adjacent coworker without exposing their PC to the entire coffee shop by changing the profile to Private, utilizing nearby sharing over Bluetooth (a Personal Area Network or PAN) is the most secure and appropriate alternative.",
+    explanationIncorrect: {
+      A: "Workgroup conflicts do not trigger the OS to disable network discovery. Furthermore, net use will fail if Network Discovery and File Sharing are disabled by the OS firewall rules.",
+      C: "A duplicate IP address causes a network connectivity failure, not a specific File Explorer prompt about Network Discovery. Furthermore, you cannot simply switch a coffee shop connection to a \"Domain\" profile; that requires reaching an Active Directory Domain Controller.",
+      D: "UAC triggers prompts for administrative elevation (Security Shield), not Network Discovery notifications in File Explorer. Placing a file in the C$ administrative share would still require file sharing to be enabled on the network profile to be accessible."
+    },
+    examTrap: "The \"Public vs Private Network Profile\" Trap. The exam tests if you understand why Windows disables sharing in public, and asks for alternative data transfer methods (PAN/Bluetooth)."
+  },
+  {
+    id: "Q014",
+    topic: "Windows OS Security Settings (Administrative Shares)",
+    difficulty: "hard",
+    scenario: "A small business operates a peer-to-peer workgroup. A technician disables password-protected sharing in the Advanced Sharing Settings to allow guest users to easily print to a shared USB printer. Later, a user complains they cannot connect to the root directory of a coworker's PC using the path \\\\PC-Reception\\C$. The guest user confirms they can successfully print documents and access the \\Public folder, but the C$ share prompts for a username and password, which then yields an \"Access Denied\" error.",
+    prompt: "What is the MOST likely reason for this behavior?",
+    choices: [
+      { key: "A", text: "The guest user must use the net use * /delete command to clear conflicting Kerberos tickets." },
+      { key: "B", text: "Disabling password-protected sharing does not remove authentication requirements for hidden administrative shares." },
+      { key: "C", text: "The network type is currently set to \"Public,\" which forces a strict Implicit Deny on all root drives." },
+      { key: "D", text: "The workstation's Local Security Authority (LSA) has corrupted the guest user's Security ID (SID)." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "disables password-protected sharing... cannot connect to the root directory... using the path \\\\PC-Reception\\C$",
+    explanationCorrect: "Windows automatically creates hidden administrative shares for the root folder of local drives, designated by a $ symbol (such as C$). These specific shares are strictly restricted and can only be accessed by members of the local Administrators group. Even if an administrator completely disables password-protected sharing for standard network discovery and public folders, these underlying administrative shares natively remain password-protected to prevent catastrophic security breaches.",
+    explanationIncorrect: {
+      A: "The net use * /delete command removes mapped network drives; it does not clear Kerberos tickets. Furthermore, Kerberos is a domain-based authentication protocol, and this scenario explicitly occurs in a peer-to-peer workgroup.",
+      C: "If the network type were set to \"Public,\" Network Discovery and general File/Printer sharing would be disabled entirely. Because the guest can successfully print and see the Public folder, the network profile is correctly set to Private, making this distractor technically invalid in context.",
+      D: "A Security ID (SID) uniquely identifies accounts, but guest accounts utilizing open public shares do not rely on local SAM SID validation for standard unauthenticated share access. The denial is caused by the strict access control on the C$ share, not a corrupted SID."
+    },
+    examTrap: "The \"Administrative Share Override\" Trap. The exam tests if you understand that global sharing toggles do not override the strict, hardcoded security requirements of administrative shares."
+  },
+  {
+    id: "Q015",
+    topic: "Security Measures (Password Storage)",
+    difficulty: "medium",
+    scenario: "A software development team is building a new application that stores local user credentials. The lead developer suggests using the Advanced Encryption Standard (AES) cipher to encrypt the users' passwords in the local database. A security technician objects, stating that if the application's single secret key is compromised, all user passwords will be exposed in plain text.",
+    prompt: "Which of the following technologies should the technician recommend as a secure, policy-compliant solution for password storage?",
+    choices: [
+      { key: "A", text: "Asymmetric Encryption via RSA" },
+      { key: "B", text: "Ephemeral Session Keys" },
+      { key: "C", text: "Cryptographic Hashing via SHA-256" },
+      { key: "D", text: "Digital Signatures" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "encrypt the users' passwords... single secret key is compromised... exposed in plain text",
+    explanationCorrect: "A cryptographic hash utilizes a one-way mathematical function that converts data into a fixed-length value, making it impossible to recover the original plain text from the resulting hash. Hashes, specifically algorithms like SHA-256, are the industry standard for securely storing passwords because the original meaning does not ever have to be recovered or decrypted. Instead, the system simply hashes the user's login attempt and compares it to the stored hash.",
+    explanationIncorrect: {
+      A: "Asymmetric encryption uses a public and private key pair, allowing data encrypted by one key to be decrypted by the other. Because passwords should never be stored in a reversible (decryptable) format, any form of encryption—symmetric or asymmetric—is the wrong tool for password storage.",
+      B: "Ephemeral session keys are temporary symmetric encryption keys used to protect the data exchange during a single communication session. They are used for securing data in transit across a network, not for long-term at-rest password storage in a database.",
+      D: "A digital signature is used to prove that a message or certificate has not been altered or spoofed, utilizing a hash encrypted by a sender's private key. It provides non-repudiation and integrity for messages, but it is not a mechanism for securing a database of user passwords."
+    },
+    examTrap: "The \"Encryption vs. Hashing\" Trap. Test-takers often assume encryption is the highest form of security, but passwords must be hashed (one-way), not encrypted (two-way)."
+  },
+  {
+    id: "Q016",
+    topic: "Windows OS Security Settings (SID / Permissions)",
+    difficulty: "hard",
+    scenario: "An IT administrator accidentally deletes the local user account for an employee named \"B.Wayne\" on a Windows workstation. Realizing the mistake, the administrator immediately opens the Local Users and Groups console and creates a new account with the exact same username (\"B.Wayne\") and the exact same password. However, when the user logs in, they are completely denied access to their local documents, despite the username and password matching perfectly.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The Local Security Authority (LSA) requires a reboot to synchronize the Kerberos ticket." },
+      { key: "B", text: "The recreated account was generated with a unique Security ID (SID)." },
+      { key: "C", text: "The implicitly denied permissions of the previous account overrode the new account's access." },
+      { key: "D", text: "The new account lacks a Microsoft Account synchronization token." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "deletes the local user account... creates a new account with the exact same username... denied access to their local documents",
+    explanationCorrect: "In Windows access control lists (ACLs), permissions are not tied to the plain-text username; they are strictly tied to a unique underlying security ID (SID). When an account is deleted and then recreated with the exact same username, the operating system generates a brand new SID for that account. Because the local files still hold permissions tied to the old, deleted SID, the newly created account will be denied access until the administrator manually reassigns the permissions.",
+    explanationIncorrect: {
+      A: "Kerberos is an authentication protocol used in Active Directory domain environments. This scenario specifically takes place on a single local Windows workstation utilizing a local account, meaning Kerberos is not involved in this authentication process.",
+      C: "Implicit deny means that access is denied if there is no explicit rule granting it. The issue here is not that the previous account had an implicit deny; the issue is that the new account simply does not possess the unique SID required to match the existing Explicit Allow rules on the files.",
+      D: "A Microsoft account allows for profile setting synchronization across devices via an online portal. The lack of a Microsoft account does not prevent a local Windows account from accessing local NTFS files; the SID mismatch is the sole root cause."
+    },
+    examTrap: "The \"Name vs. SID\" Trap. CompTIA expects technicians to know that OS security relies on SIDs, making account recreation a destructive process regarding file permissions."
+  },
+  {
+    id: "Q017",
+    topic: "Windows Networking Features (Home Folders)",
+    difficulty: "medium",
+    scenario: "A network administrator is configuring Active Directory user accounts for a newly established branch office. The company policy states that all employees must have a private, mapped network drive to store personal data. The administrator decides to use the Profile tab in Active Directory Users and Computers to automatically map this drive upon user sign-in.",
+    prompt: "Which of the following is the correct syntax the administrator should enter into the \"Connect to\" box to properly assign a Home Folder?",
+    choices: [
+      { key: "A", text: "\\\\SERVER\\HOME$\\%USERNAME%" },
+      { key: "B", text: "net use Z: \\\\SERVER\\HOME$ /persistent:yes" },
+      { key: "C", text: "\\\\SERVER\\ROAMING$\\%USERNAME%" },
+      { key: "D", text: "gpupdate /force /boot" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Profile tab in Active Directory... automatically map this drive... Home Folder",
+    explanationCorrect: "A home folder is a private network drive where users can securely store personal files, mapped automatically during sign-in. To configure this centrally via Active Directory, the administrator must enter the Universal Naming Convention (UNC) path into the account properties utilizing the environment variable %USERNAME%. The correct syntax for the Connect to box is \\\\SERVER\\HOME$\\%USERNAME%, which dynamically routes each user to their specific subfolder.",
+    explanationIncorrect: {
+      B: "The net use command is a valid command-line utility used to manually or script-map a network drive. However, this command syntax is not entered into the \"Connect to\" box in Active Directory account properties; it would be used in a command prompt or a login script.",
+      C: "The \\\\SERVER\\ROAMING$\\%USERNAME% syntax is used in the Profile path box to configure a Roaming Profile, which copies the entire user profile to the local PC at logon. A home folder is a separate private mapped drive, not a full profile copy.",
+      D: "The gpupdate /force command is a command-line tool used to manually force a client machine to refresh and apply Group Policy Objects. It is completely unrelated to configuring UNC paths for Home Folders in AD."
+    },
+    examTrap: "The \"GUI vs Command Line Syntax\" Trap. The exam tests if you know the difference between entering a UNC path in a GUI properties box versus executing a command-line script."
+  },
+  {
+    id: "Q018",
+    topic: "Microsoft Command-Line Tools (Network Shares)",
+    difficulty: "hard",
+    scenario: "A technician needs to remotely troubleshoot a member server named SRV-DATA. The technician opens an elevated command prompt on their local workstation. The technician wants to quickly see a list of all currently available shared folders hosted on SRV-DATA without permanently mapping a drive or altering their current environment variables.",
+    prompt: "Which of the following commands is the BEST choice to accomplish this task?",
+    choices: [
+      { key: "A", text: "netstat \\\\SRV-DATA" },
+      { key: "B", text: "net use \\\\SRV-DATA /persistent:no" },
+      { key: "C", text: "net view \\\\SRV-DATA" },
+      { key: "D", text: "gpresult /r \\\\SRV-DATA" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "quickly see a list of all currently available shared folders... without permanently mapping a drive",
+    explanationCorrect: "The net view command is a built-in Windows utility specifically designed to display a list of domains, computers, or resources that are being shared by a specified computer. By executing net view \\\\SRV-DATA, the technician can instantly query the remote host and view its available shares directly in the command prompt output without making any local drive connections. This perfectly fulfills the requirement of viewing resources without altering local environment variables.",
+    explanationIncorrect: {
+      A: "The netstat command is used to display active TCP/UDP network connections, listening ports, and routing tables. It cannot query SMB file shares on a remote server, making it useless for this task.",
+      B: "The net use command is used to map, configure, or delete connections to shared network resources. While appending /persistent:no prevents the connection from surviving a reboot, net use inherently attempts to create a connection, whereas the technician only requested to view the list of available shares.",
+      D: "The gpresult /r command is a diagnostic tool used to display the Resultant Set of Policy (RSoP) applied to a machine or user. It provides group policy security information, not a list of network file shares."
+    },
+    examTrap: "The \"Net Command Variations\" Trap. Test-takers must precisely differentiate between net use (connecting) and net view (discovering)."
+  },
+  {
+    id: "Q019",
+    topic: "Windows Networking Features (Printers)",
+    difficulty: "medium",
+    scenario: "A company upgrades its primary print server to Windows 10 64-bit and shares a new enterprise multi-function printer. While newer workstations can connect to and use the shared printer flawlessly, older legacy workstations running Windows 7 32-bit (x86) report errors when right-clicking the share and selecting \"Connect.\" The technician verifies the print server is online and permissions are correct.",
+    prompt: "What is the BEST FIRST step to remediate this issue?",
+    choices: [
+      { key: "A", text: "Utilize the \"Additional drivers\" button on the print server to load the 32-bit drivers into the share." },
+      { key: "B", text: "Use net use to map the printer to an LPT port on the Windows 7 workstations." },
+      { key: "C", text: "Switch the print server's network profile from Public to Private to enable network discovery." },
+      { key: "D", text: "Configure the legacy Windows 7 clients to use Folder Redirection to access the print spooler." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "print server to Windows 10 64-bit... legacy workstations running Windows 7 32-bit (x86) report errors... selecting 'Connect'",
+    explanationCorrect: "When a printer is shared from a Windows host, the print server automatically attempts to provide the necessary drivers to client machines when they connect. However, a 64-bit operating system only natively hosts 64-bit drivers. To support legacy 32-bit clients, the administrator must navigate to the Sharing tab in the Printer Properties and use the \"Additional drivers\" button to make the x86 architecture drivers available over the network. This ensures the legacy clients receive the correct software payload upon connection.",
+    explanationIncorrect: {
+      B: "While net use can technically map network printers to legacy LPT ports, it does not solve the underlying architecture mismatch. The 32-bit client still requires a 32-bit driver to process print jobs, regardless of how the connection is mapped.",
+      C: "If the network profile were set to Public, the newer 64-bit workstations would also be unable to see or connect to the shared printer. Because some workstations connect flawlessly, the network profile is already correctly set.",
+      D: "Folder Redirection is a Group Policy feature used to change the storage location of user profile folders (like Documents or Desktop) to a network file server. It has absolutely nothing to do with print spoolers or driver architecture."
+    },
+    examTrap: "The \"Architecture Mismatch\" Trap. You must recognize that a 64-bit host cannot inherently provide 32-bit drivers without manual intervention via the Additional Drivers feature."
+  },
+  {
+    id: "Q020",
+    topic: "Windows OS Security Settings (NTFS Permissions)",
+    difficulty: "hard",
+    scenario: "An organization stores sensitive financial data in a folder named \\\\SERVER\\Finance. A user named \"C.Kent\" is a member of the \"Accounting\" security group and the \"Temporary_Staff\" security group.\n\n* The \"Accounting\" group is configured with an Explicit Allow for the \"Modify\" NTFS permission on the folder.\n* The \"Temporary_Staff\" group is configured with an Explicit Deny for the \"Write\" NTFS permission on the folder. When C.Kent navigates to the folder locally and attempts to edit and save a spreadsheet, they are blocked by an \"Access Denied\" error.",
+    prompt: "Why is the operating system exhibiting this behavior?",
+    choices: [
+      { key: "A", text: "The most restrictive Explicit Deny always overrides any Explicit Allow permissions." },
+      { key: "B", text: "The share permissions on the folder are set to Read-Only." },
+      { key: "C", text: "Explicit Allow permissions are evaluated last and therefore discarded." },
+      { key: "D", text: "The user's Kerberos token failed to inherit the parent folder's rights." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Accounting group is configured with an Explicit Allow... Temporary_Staff group is configured with an Explicit Deny",
+    explanationCorrect: "When a user belongs to multiple security groups, Windows must evaluate and combine the permissions from all sources to determine the user's effective access. In the strict hierarchy of NTFS permission evaluation, an \"Explicit Deny\" is the most restrictive and always takes top priority, overriding any and all \"Explicit Allow\" permissions granted by other group memberships. Therefore, because C.Kent is in a group explicitly denied write access, the OS blocks the action despite the Accounting group's granted access.",
+    explanationIncorrect: {
+      B: "The scenario states that C.Kent navigates to the folder locally on the server. Share permissions only apply when a folder is accessed over a network connection; they offer no protection and do not factor into local NTFS evaluation.",
+      C: "Explicit Allow permissions are not evaluated last; they are evaluated second in the hierarchy, directly after Explicit Deny. The explicit allow is not \"discarded,\" it is simply overruled by the higher-priority explicit deny.",
+      D: "Kerberos tokens handle authentication and SSO authorization across a domain, but they do not dictate the physical rules of NTFS file inheritance. The blocking mechanism is the local NTFS ACL evaluation order, not a token failure."
+    },
+    examTrap: "The \"NTFS Hierarchy\" Trap. The exam tests the exact order of operations: Explicit Deny beats Explicit Allow, which beats Implicit Deny."
+  },
+  {
+    id: "Q021",
+    topic: "Windows Networking Features (Domain Join)",
+    difficulty: "medium",
+    scenario: "An IT support technician unpacks a brand-new Windows 10 Pro desktop and prepares to join it to the corporate domain, corp.515support.com. The PC is physically connected to the network switch. The technician enters the domain name into the System Properties dialog, but an error pops up stating: \"An Active Directory Domain Controller for the domain could not be contacted.\" The technician successfully pings the IP address of the Domain Controller.",
+    prompt: "What is the MOST likely cause of this domain join failure?",
+    choices: [
+      { key: "A", text: "The workstation is using a Home edition of Windows." },
+      { key: "B", text: "The workstation cannot resolve the domain's Fully Qualified Domain Name (FQDN)." },
+      { key: "C", text: "The local Administrator account is subject to User Account Control (UAC)." },
+      { key: "D", text: "The domain requires a Security Assertions Markup Language (SAML) assertion." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "successfully pings the IP address of the Domain Controller... could not be contacted",
+    explanationCorrect: "To join a Windows machine to a domain, the local computer must be able to communicate with the Domain Controller. More specifically, because domains are identified by a Fully Qualified Domain Name (FQDN), the client machine must be configured with the correct DNS server IP addresses to translate corp.515support.com into the Domain Controller's IP address. Because the technician can ping the IP address but cannot join by name, this indicates a DNS resolution failure.",
+    explanationIncorrect: {
+      A: "While it is true that Windows Home edition cannot join a domain, the scenario explicitly states the technician is setting up a \"brand-new Windows 10 Pro desktop\". Windows Pro natively supports domain joining.",
+      C: "The built-in Administrator account is not subject to UAC by default, and UAC prompts would not cause a network error stating a domain controller could not be contacted.",
+      D: "SAML is an XML-based authentication protocol used to implement Single Sign-On (SSO) for web applications and cloud service providers. It is not the protocol used for joining a physical Windows workstation to an on-premise Active Directory domain."
+    },
+    examTrap: "The \"Ping vs DNS\" Trap. If an IP responds but a name fails, it is always a DNS issue. Domain joins rely heavily on DNS."
+  },
+  {
+    id: "Q022",
+    topic: "Security Measures (MFA / Hardware Tokens)",
+    difficulty: "hard",
+    scenario: "A hospital requires strict Zero Trust authentication for all workstation logons. They deploy USB smart keys (hard tokens) to all doctors. A doctor inserts their registered hard token into a workstation, expecting to be instantly authenticated to the network, but access is denied. A technician investigates and confirms the token is properly registered via a trust relationship with the network server.",
+    prompt: "What crucial step is the doctor missing to successfully complete this multifactor authentication process?",
+    choices: [
+      { key: "A", text: "The doctor must provide an inherence or knowledge factor to unlock the token itself." },
+      { key: "B", text: "The doctor must generate a time-based one-time password (TOTP) from an authenticator app first." },
+      { key: "C", text: "The doctor must map a Home Folder to cache their credentials." },
+      { key: "D", text: "The doctor must use the gpupdate /force command to pull the token's certificate." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "inserts their registered hard token... expecting to be instantly authenticated... missing to successfully complete",
+    explanationCorrect: "A hardware token (like a USB smart card) is a possession factor, but inserting it alone is not highly secure if the token is lost or stolen. Under FIDO2 standards, when a user connects a hard token, they must first authorize and unlock the token locally via a PIN (knowledge) or a fingerprint scan (inherence). Only after the user verifies their identity locally does the token transmit its encrypted credentials to the network service to grant access.",
+    explanationIncorrect: {
+      B: "A time-based one-time password (TOTP) is generated by a soft token, such as an authenticator app on a smartphone. Hard tokens generate and transmit their own cryptographic assertions automatically; they do not require secondary manual codes from an app.",
+      C: "A home folder is a private network drive mapped via Active Directory for personal data storage (\\\\SERVER\\HOME$\\%USERNAME%). It is a data storage configuration and has absolutely nothing to do with authentication protocols or unlocking a hard token.",
+      D: "The gpupdate /force command refreshes Group Policy Objects on a client machine. It is not used to interact with, register, or unlock hardware authentication tokens."
+    },
+    examTrap: "The \"Token vs Factor\" Trap. People assume having a token is enough, but true MFA via hard tokens requires local activation (PIN/Biometric) before the token acts."
+  },
+  {
+    id: "Q023",
+    topic: "Security Measures (OTP Algorithms)",
+    difficulty: "medium",
+    scenario: "A military contractor works in a secure, subterranean vault completely devoid of cellular, Wi-Fi, or GPS signals. The contractor needs an offline hardware token to generate unique one-time passwords for logging into an air-gapped terminal. Because there is no internal clock synchronization available between the terminal and the token, time-dependent codes will eventually fail.",
+    prompt: "Which type of one-time password (OTP) algorithm is the BEST policy-compliant solution for this specific environment?",
+    choices: [
+      { key: "A", text: "2-Step Verification via SMS" },
+      { key: "B", text: "Time-based OTP (TOTP)" },
+      { key: "C", text: "Hash-based Message Authentication Code OTP (HOTP)" },
+      { key: "D", text: "Security Assertions Markup Language (SAML)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "devoid of cellular... no internal clock synchronization... time-dependent codes will eventually fail",
+    explanationCorrect: "Hash-based Message Authentication Code OTP (HOTP) uses a specific algorithm that generates an OTP using a counter-based approach rather than a clock. Each time a button on the token is pressed to request an OTP, an internal counter increments, ensuring a unique code is created that the server also anticipates based on the same counter. Because it relies purely on sequential counting, it requires no time synchronization or network connectivity to function perfectly.",
+    explanationIncorrect: {
+      A: "2-Step verification via SMS (text messaging) requires cellular network reception to receive the code. The scenario explicitly states the vault is subterranean and devoid of cellular signals, making SMS delivery impossible.",
+      B: "Time-based OTP (TOTP) relies on an algorithm that computes a password from a shared secret and the current time (often in 30-to-60-second windows). Because the air-gapped terminal and the token have no clock synchronization, clock drift will eventually cause TOTP to fail entirely.",
+      D: "SAML is an XML-based authentication protocol used for Single Sign-On (SSO) routing between Identity Providers and web-based Service Providers. It is entirely dependent on network connectivity and is not a localized, offline OTP generation mechanism."
+    },
+    examTrap: "The \"HOTP vs TOTP\" Trap. You must know the functional difference between event-driven (counter) OTPs and clock-driven (time) OTPs."
+  },
+  {
+    id: "Q024",
+    topic: "Windows OS Security Settings (Windows Hello)",
+    difficulty: "medium",
+    scenario: "A systems administrator is tasked with deploying new laptops to the sales team. The company enforces strict Zero Trust policies and wants to move away from passwords. The administrator attempts to enable facial recognition via the Windows Hello settings panel, but the \"Windows Hello Face\" option is greyed out and unavailable, even though the laptop has a compatible IR camera with updated drivers.",
+    prompt: "What must the administrator configure FIRST before facial recognition can be activated?",
+    choices: [
+      { key: "A", text: "A Windows Hello PIN" },
+      { key: "B", text: "A Domain Group Policy Object (GPO)" },
+      { key: "C", text: "A Security Assertions Markup Language (SAML) identity provider" },
+      { key: "D", text: "The Local Security Authority (LSA) Interactive Logon script" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Windows Hello Face option is greyed out... IR camera with updated drivers",
+    explanationCorrect: "Windows Hello requires a specific configuration sequence to establish its hardware-backed security. Before any advanced biometric gestures (like fingerprint or facial recognition) can be enabled, a Windows Hello PIN must be configured first. The PIN, securely tied to the CPU's Trusted Platform Module (TPM), acts as an absolute requisite backup mechanism ensuring the user is not locked out if the camera fails or lighting conditions prevent facial scanning.",
+    explanationIncorrect: {
+      B: "While Group Policy Objects (GPOs) can dictate broader network rules, the local OS inherently requires a PIN to enable biometrics, regardless of domain policies. Setting up a GPO does not bypass this fundamental sequence requirement.",
+      C: "SAML is a web-based Single Sign-On protocol used for cloud authentication. It operates completely independently of the local device's Windows Hello biometric subsystem requirements.",
+      D: "The Local Security Authority (LSA) processes interactive logons, but modifying login scripts has no bearing on unlocking the Windows Hello settings applet. Login scripts run tasks after authentication, whereas the PIN is needed for authentication."
+    },
+    examTrap: "The \"Sequence of Operations\" Trap. Test-takers often assume biometrics are standalone, but CompTIA tests the prerequisite step: A PIN is always mandatory for Windows Hello."
+  },
+  {
+    id: "Q025",
+    topic: "Windows OS Security Settings (Groups)",
+    difficulty: "easy",
+    scenario: "A contractor is working temporarily at a corporate office and joins the internal Wi-Fi. The contractor attempts to share a presentation folder with a corporate employee sitting next to them. The employee tries to browse to the contractor's PC in File Explorer but cannot see it. The contractor navigates to Advanced Sharing Settings to investigate.",
+    prompt: "Which of the following groups inherently excludes the contractor's \"Guest\" account from gaining standard network share permissions?",
+    choices: [
+      { key: "A", text: "The Users group" },
+      { key: "B", text: "The Everyone group" },
+      { key: "C", text: "The Authenticated Users group" },
+      { key: "D", text: "The Power Users group" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "excludes the contractor's Guest account from gaining standard network share permissions",
+    explanationCorrect: "When configuring shares and NTFS permissions on a Windows network, administrators assign access to security groups rather than individual users. Windows provides built-in system groups to simplify this. The \"Authenticated Users\" group is specifically designed to encompass any user who has successfully logged in with a valid account, but it explicitly and inherently excludes \"Guest\" accounts for security purposes.",
+    explanationIncorrect: {
+      A: "The standard \"Users\" group contains standard user accounts that can run applications and use printers. While guests aren't typically in this group by default, the specific system group known for explicitly filtering out guest accounts contextually in share administration is Authenticated Users.",
+      B: "The \"Everyone\" group is a broad system group that literally contains all accounts, including unauthenticated guests. Therefore, it does not exclude the Guest account.",
+      D: "The \"Power Users\" group is a legacy group from older Windows versions that currently acts with the exact same permissions as the standard Users group in Windows 10/11. It is not the system group utilized to broadly filter out guests from network shares."
+    },
+    examTrap: "The \"Everyone vs Authenticated Users\" Trap. You must know the difference when setting up safe network shares: \"Everyone\" includes guests, \"Authenticated Users\" blocks them."
+  },
+  {
+    id: "Q026",
+    topic: "Security Measures (Kerberos SSO)",
+    difficulty: "hard",
+    scenario: "An executive routinely logs into a domain-joined workstation using a single set of credentials. Once authenticated, the executive seamlessly accesses the internal SQL Server database, the Exchange Email server, and multiple secure intranet web portals without ever being prompted to enter a password again for the rest of the day.",
+    prompt: "What mechanism securely facilitates this specific functionality across the Active Directory network?",
+    choices: [
+      { key: "A", text: "The Local Security Authority (LSA) verifies a Time-based OTP against a hardware token." },
+      { key: "B", text: "A server encrypts a secret with a public key and the device decrypts it using a TPM-stored private key." },
+      { key: "C", text: "The Kerberos protocol issues an authorization token utilized for Single Sign-On (SSO)." },
+      { key: "D", text: "The SAML Identity Provider (IdP) generates an explicit access control list (ACL)." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "domain-joined workstation... accesses the internal SQL Server... Exchange Email... without ever being prompted to enter a password again",
+    explanationCorrect: "Single Sign-On (SSO) is the mechanism that allows a user to authenticate exactly once and gain access to multiple applications or services. In a traditional Windows Active Directory domain network, SSO is natively implemented via the Kerberos authentication protocol. When the user logs in, Kerberos issues an authorization ticket (token) to the user's session, which is then automatically presented to services like SQL and Exchange, proving identity without requiring redundant password entries.",
+    explanationIncorrect: {
+      A: "A Time-based OTP (TOTP) is a multifactor authentication code, usually generated by a smartphone app. While it validates identity initially, it is not the protocol that passes authorization seamlessly between internal domain servers (SSO).",
+      B: "This describes the underlying asymmetric cryptography workflow of Windows Hello for Business (passwordless SSO). However, the scenario specifically describes standard domain-joined login utilizing credentials that authenticate to traditional network services, which relies fundamentally on Kerberos tokens.",
+      D: "SAML is an SSO technology, but it is explicitly designed for web applications and cloud Service Providers (SP) using an Identity Provider (IdP) via digital XML assertions. It does not manage local NTFS ACLs or traditional on-premise Kerberos-based SQL/Exchange trust relationships."
+    },
+    examTrap: "The \"SSO Variations\" Trap. CompTIA will test your ability to differentiate between Kerberos (internal AD SSO) and SAML (external/cloud web SSO)."
+  },
+  {
+    id: "Q027",
+    topic: "Security Measures (Control Types)",
+    difficulty: "easy",
+    scenario: "A corporate campus is experiencing repeated physical security breaches where unauthorized individuals are tailgating employees through secure doors. The IT Security Director implements an intensive mandatory security awareness training program for all staff. However, a recent audit determines that while employee awareness has improved, a complementary software-based control is required to secure the internal workstations themselves if an unauthorized person does enter the building.",
+    prompt: "Which of the following represents the appropriate classification of the new control the Director wants to implement for the workstations?",
+    choices: [
+      { key: "A", text: "A procedural control" },
+      { key: "B", text: "A physical control" },
+      { key: "C", text: "A logical control" },
+      { key: "D", text: "An environmental control" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "software-based control is required to secure the internal workstations",
+    explanationCorrect: "Logical controls are applied and enforced by digital or cyber systems and software architectures. Implementing a software-based defense mechanism on the workstations—such as requiring a smart card, biometric user authentication, or a complex screen-lock password—directly fits the definition of a logical security control. These digital parameters act as the last line of defense when physical barriers fail.",
+    explanationIncorrect: {
+      A: "Procedural controls are applied and enforced by people, such as the mandatory security awareness training program mentioned in the scenario. The prompt specifically asks for the classification of the new software-based workstation restriction, not the training.",
+      B: "Physical controls work in the built environment to control physical access to sites, such as fences, locks, or turnstiles. Software-based restrictions on an operating system are digital, not physical.",
+      D: "Environmental controls manage the physical environment of hardware, such as HVAC systems, fire suppression, or temperature monitoring. They do not enforce software-based access control or secure digital workstations against unauthorized access."
+    },
+    examTrap: "The \"Control Classification\" Trap. The scenario introduces procedural and physical elements to misdirect you, but the final question asks you to classify the requested software-based workstation defense."
+  },
+  {
+    id: "Q028",
+    topic: "Security Measures (Digital Signatures)",
+    difficulty: "hard",
+    scenario: "A user navigates to a sensitive online banking portal. Before transferring any funds, the user wants to ensure the web application is genuinely operated by their bank and has not been spoofed by an attacker. The browser receives the bank's digital certificate containing a digital signature. The browser successfully validates the signature and displays a padlock icon.",
+    prompt: "What exact cryptographic mechanism did the browser use to verify the bank's digital signature?",
+    choices: [
+      { key: "A", text: "The browser used the bank's private key to encrypt a new secret session key." },
+      { key: "B", text: "The browser used its own private key to decrypt the bank's symmetric cipher." },
+      { key: "C", text: "The browser used the bank's public key to decrypt the signature and compared the resulting hash." },
+      { key: "D", text: "The browser used a cryptographic hash to reverse the plain text of the bank's certificate." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "validates the signature... What exact cryptographic mechanism did the browser use",
+    explanationCorrect: "A digital signature proves that a certificate or message has not been altered or spoofed. The sender (the bank) computes a hash of the data and encrypts that hash with their own private key, creating the signature. To verify it, the recipient (the browser) must decrypt the signature using the bank's public key to retrieve the original hash. The browser then computes its own hash of the certificate and compares the two; if they match, the signature is authentic.",
+    explanationIncorrect: {
+      A: "While the browser might eventually generate a secret session key for symmetric encryption during a TLS handshake, this action is used for securing data in transit, not for verifying the identity within a digital signature. Furthermore, the browser would encrypt that session key with the bank's public key, not its private key (which is kept secret by the bank).",
+      B: "Asymmetric key pairs require a public and private key. A user's browser does not use its own private key to verify an external entity's signature. The signature was created by the sender's private key and can only be decrypted by the corresponding sender's public key.",
+      D: "A cryptographic hash is a strict one-way mathematical function. It is mathematically impossible to reverse a hash to obtain the original plain text. Hashes are compared for integrity, not reversed for reading."
+    },
+    examTrap: "The \"Asymmetric Key Reversal\" Trap. You must explicitly understand which key (Public vs. Private) does the encrypting and decrypting during the specific action of digital signature verification."
+  },
+  {
+    id: "Q029",
+    topic: "Windows OS Security Settings (File Systems)",
+    difficulty: "medium",
+    scenario: "A technician attaches a 64GB external USB flash drive to a Windows 10 Pro server. The technician intends to share the drive across the network and apply granular, file-level access restrictions to prevent the \"Guest\" account from modifying specific documents. However, when the technician right-clicks a document and selects Properties, the \"Security\" tab is entirely missing. Only the \"General\" and \"Details\" tabs are visible.",
+    prompt: "What is the MOST likely reason for this missing tab?",
+    choices: [
+      { key: "A", text: "The file inherits an Implicit Deny from the parent folder." },
+      { key: "B", text: "The USB drive is formatted using the FAT32 file system." },
+      { key: "C", text: "The technician must elevate their session using User Account Control (UAC)." },
+      { key: "D", text: "The Local Security Authority (LSA) has not generated a unique SID for the drive." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "granular, file-level access restrictions... Security tab is entirely missing",
+    explanationCorrect: "The \"Security\" tab in Windows file properties is the interface used to configure New Technology File System (NTFS) permissions. Legacy file systems, such as FAT32, do not support granular local file-level permissions or Access Control Lists (ACLs); they can only be protected using basic network Share permissions. Because the Security tab is missing entirely, the underlying storage volume is inherently incapable of supporting NTFS security, meaning it is formatted as FAT32.",
+    explanationIncorrect: {
+      A: "If a file inherited an Implicit Deny, the user might receive an \"Access Denied\" error when trying to open it, but the Security tab itself would still be visible to an administrator. Permission configuration does not cause the OS graphical interface tabs to vanish.",
+      C: "User Account Control (UAC) prompts for explicit consent to execute privileged tasks. Standard users might be prevented from changing settings on the Security tab, but the tab itself is always visible on NTFS volumes regardless of elevation status.",
+      D: "Security Identifiers (SIDs) are uniquely assigned to user accounts and security groups, not to physical storage drives. The LSA manages account authentication, not the formatting or availability of file system property tabs."
+    },
+    examTrap: "The \"Missing UI Element\" Trap. The exam tests your understanding that OS features (like the Security tab) are directly dependent on the underlying hardware/filesystem architecture (NTFS vs FAT32)."
+  },
+  {
+    id: "Q030",
+    topic: "Windows OS Security Settings (Inheritance)",
+    difficulty: "medium",
+    scenario: "An administrator is configuring NTFS permissions on a shared folder named \\\\SERVER\\HR_Data. The parent directory grants the \"Everyone\" group \"Read\" access. The administrator wants to restrict the HR_Data child folder so that only the \"HR_Group\" has access. The administrator selects the \"Everyone\" group in the Security tab of the HR_Data folder and clicks \"Remove,\" but an error pops up stating the permissions cannot be removed.",
+    prompt: "What must the administrator do FIRST to successfully remove the \"Everyone\" group from this specific folder?",
+    choices: [
+      { key: "A", text: "Configure an Explicit Deny for the \"Everyone\" group to override the configuration." },
+      { key: "B", text: "Disable permission inheritance via the Advanced Security Settings dialog." },
+      { key: "C", text: "Switch the folder's Share permission to Implicit Deny." },
+      { key: "D", text: "Temporarily add the \"Everyone\" group to the local Administrators group." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "parent directory grants... clicks Remove, but an error pops up stating the permissions cannot be removed",
+    explanationCorrect: "By default, NTFS permissions assigned to a parent folder are automatically inherited by all files and subfolders created beneath it. When a permission is inherited, it is greyed out and cannot be manually deleted or removed directly from the child object's basic Security tab. To successfully remove the inherited \"Everyone\" group, the administrator must first open the Advanced Permission tab and explicitly disable inheritance for that folder, which severs the link to the parent directory and allows the ACL to be modified.",
+    explanationIncorrect: {
+      A: "While applying an Explicit Deny for the \"Everyone\" group would technically block access, it is a poor administrative practice here because the HR users are also technically part of the \"Everyone\" group, meaning they would be accidentally locked out as well. Disabling inheritance is the correct structural fix.",
+      C: "Implicit Deny is the default state of a firewall or an empty ACL; it is not a setting you explicitly \"switch\" a Share permission to. Share permissions apply network-wide and do not resolve local NTFS inheritance conflicts.",
+      D: "Adding the \"Everyone\" group to the local Administrators group is a catastrophic security vulnerability that would give all users full control over the server. It would not solve the mechanical issue of inherited NTFS ACLs."
+    },
+    examTrap: "The \"Undeletable Permission\" Trap. You must recognize that inherited permissions cannot be deleted until the inheritance link is broken via the Advanced tab."
+  },
+  {
+    id: "Q031",
+    topic: "Microsoft Command-Line Tools (UAC / Elevation)",
+    difficulty: "hard",
+    scenario: "A Helpdesk technician is logged into a Windows 10 Pro workstation locally using their own account, \"Tech_JSmith,\" which is a member of the local Administrators group. The technician needs to grant an intern local administrative rights. The technician double-clicks the Command Prompt shortcut on the desktop, types the command net localgroup Administrators Intern_User /add, and presses Enter. The console returns a \"System error 5 has occurred. Access is denied\" message.",
+    prompt: "Why did the command fail, and what is the BEST remediation step?",
+    choices: [
+      { key: "A", text: "The technician's account lacks permissions; the technician must log in using the built-in \"Administrator\" account." },
+      { key: "B", text: "The command syntax is backward; the technician should type net user Intern_User Administrators /add." },
+      { key: "C", text: "The session lacks elevated privileges; the technician must open the Command Prompt by selecting \"Run as administrator.\"" },
+      { key: "D", text: "The workstation is on a domain; the technician must execute a gpupdate /force before altering local groups." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "member of the local Administrators group... double-clicks the Command Prompt shortcut... Access is denied",
+    explanationCorrect: "Even when a user logs in with an account belonging to the Administrators group, Windows applies the Principle of Least Privilege via User Account Control (UAC). By default, standard applications (like Command Prompt) run in a restricted context to protect against malicious scripts. Because adding a user to an administrative group is a highly privileged system change, the technician must explicitly elevate the Command Prompt session (e.g., right-click -> \"Run as administrator\" or CTRL+SHIFT+ENTER) to pass the UAC consent dialog and execute the command.",
+    explanationIncorrect: {
+      A: "The built-in \"Administrator\" account does bypass UAC by default, but it is standard security practice to leave it disabled. The technician's current account has the necessary underlying permissions; they simply failed to explicitly elevate the specific application instance.",
+      B: "The syntax provided in the scenario (net localgroup Administrators Intern_User /add) is 100% perfectly correct. The net user command is for managing individual accounts, not for adding accounts to security groups.",
+      D: "Being on a domain does not prevent a local administrator from managing local groups (unless explicitly blocked by a restrictive GPO). Furthermore, gpupdate simply refreshes policies; it does not grant the active command prompt session the elevated token required to bypass UAC."
+    },
+    examTrap: "The \"Admin Account vs Admin Context\" Trap. You must understand that simply being an administrator is not enough; UAC requires applications to be explicitly launched in an elevated context to perform privileged tasks."
+  },
+  {
+    id: "Q032",
+    topic: "Microsoft Command-Line Tools (Account Management)",
+    difficulty: "easy",
+    scenario: "An IT administrator receives an alert that an employee has suddenly been terminated. The employee has a local account on a critical standalone workstation in the financial department. The administrator needs to immediately revoke the employee's ability to log into the workstation via the command line, but must leave the account's Security ID (SID) fully intact so that an auditor can review the employee's encrypted local files next week.",
+    prompt: "Which command should the administrator execute?",
+    choices: [
+      { key: "A", text: "net user [username] /delete" },
+      { key: "B", text: "net user [username] /active:no" },
+      { key: "C", text: "net localgroup Users [username] /delete" },
+      { key: "D", text: "gpupdate /force /logoff" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "revoke the employee's ability to log into... must leave the account's Security ID (SID) fully intact",
+    explanationCorrect: "To prevent a user from authenticating while preserving their profile, files, and underlying Security ID (SID), the account must be disabled, not deleted. Using the net user command with the /active:no switch changes the account's status to disabled in the Security Account Manager (SAM) database. This locks the user out immediately while keeping all data and permissions perfectly intact for the auditor.",
+    explanationIncorrect: {
+      A: "The /delete switch entirely removes the user account from the SAM database. Doing this permanently destroys the account's unique SID, making it incredibly difficult for the auditor to seamlessly access the user's secured local files later.",
+      C: "Removing the user from the \"Users\" local group does not disable their account. It simply strips standard privileges, and the user could theoretically still log in if they belonged to other groups or had explicit access rights.",
+      D: "The gpupdate /force /logoff command forces an immediate refresh of Group Policy and logs the current user out of their active session. It does absolutely nothing to disable the terminated employee's account from being used again in the future."
+    },
+    examTrap: "The \"Disable vs Delete\" Trap. The exam tests your awareness that deleting an account destroys the SID, which breaks file permissions. Disabling is the safe remediation step."
+  },
+  {
+    id: "Q033",
+    topic: "Security Measures (Key Exchange)",
+    difficulty: "hard",
+    scenario: "Two remote branch offices of a financial firm need to establish a secure Site-to-Site Virtual Private Network (VPN) tunnel over the public Internet. The router at Site A needs to transmit a symmetric session key to the router at Site B so they can encrypt the bulk data stream using AES. Because the Internet is untrusted, Site A cannot simply send the secret key in plain text.",
+    prompt: "What cryptographic method should Site A use to securely transmit the symmetric session key to Site B?",
+    choices: [
+      { key: "A", text: "Encrypt the symmetric key using Site B's public key." },
+      { key: "B", text: "Encrypt the symmetric key using Site A's private key." },
+      { key: "C", text: "Hash the symmetric key using the SHA-256 algorithm." },
+      { key: "D", text: "Encrypt the symmetric key using an Implicit Deny ACL." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "transmit a symmetric session key... securely transmit... over the public Internet",
+    explanationCorrect: "Because symmetric ciphers are fast and efficient, they are used for bulk data encryption, but they suffer from the problem of secure key distribution. Key exchange is solved by using asymmetric encryption (which uses a key pair). By encrypting the symmetric secret key with the recipient's (Site B's) wildly available public key, Site A ensures that only Site B's closely guarded private key can mathematically decrypt and recover the session key.",
+    explanationIncorrect: {
+      B: "If Site A encrypted the session key with its own private key, anyone on the Internet with Site A's public key could decrypt it. Encrypting with a private key is used for digital signatures (proving origin), not for securely exchanging confidential keys.",
+      C: "A cryptographic hash (like SHA-256) is a one-way function. If Site A hashed the symmetric key, Site B would receive a fixed-length string of characters that is mathematically impossible to reverse, meaning Site B could never recover the original session key needed for the VPN.",
+      D: "An Implicit Deny ACL is a logical firewall rule that drops unapproved network traffic. It is a network filtering concept, not a cryptographic encryption cipher capable of protecting data in transit."
+    },
+    examTrap: "The \"Key Exchange Mechanism\" Trap. You must understand how Asymmetric cryptography (Public/Private keys) is utilized specifically to transport Symmetric keys safely."
+  },
+  {
+    id: "Q034",
+    topic: "Windows Networking Features (Logon Scripts)",
+    difficulty: "hard",
+    scenario: "A hospital IT Director implements a new security policy. If a nurse logs into a workstation and the workstation's antivirus definitions are more than 30 days out of date, the workstation must immediately abort the login process and deny access to the domain. The nurse enters correct Active Directory credentials, the authentication succeeds, but the desktop flashes briefly before a command prompt appears, checks the antivirus version, and forces an immediate sign-out.",
+    prompt: "Which of the following mechanisms is MOST likely responsible for this automated enforcement?",
+    choices: [
+      { key: "A", text: "A Roaming Profile corruption." },
+      { key: "B", text: "An Explicit Deny in the Active Directory NTFS permissions." },
+      { key: "C", text: "A customized Logon Script assigned via Group Policy." },
+      { key: "D", text: "A User Account Control (UAC) standard prompt failure." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "authentication succeeds... command prompt appears, checks the antivirus version, and forces an immediate sign-out",
+    explanationCorrect: "A logon script is a batch file, PowerShell script, or executable that runs automatically when a user successfully authenticates and their environment begins to load. Logon scripts can be utilized as a programmatic posture check to ensure the client machine meets security requirements (like updated antivirus software). If the script detects non-compliance, it is capable of executing a forced logoff command, behaving exactly as described in the scenario.",
+    explanationIncorrect: {
+      A: "Roaming profiles sync user data from a server to the local PC at logon. While a severely corrupted profile might cause a login to fail or hang, it would not purposefully launch a command prompt, check an antivirus version, and enforce a policy-based sign-out.",
+      B: "NTFS permissions dictate access to files and folders on a storage volume. An Explicit Deny blocks access to a specific file; it does not run scripts, check software versions, or force network logoffs upon authentication.",
+      D: "User Account Control (UAC) protects the system against unauthorized changes by prompting for consent. It does not run automated login scripts or perform posture checks on antivirus definitions."
+    },
+    examTrap: "The \"Post-Authentication Automation\" Trap. Test-takers must recognize that successful authentication can still be overridden by environmental logon scripts enforcing security policies."
+  },
+  {
+    id: "Q035",
+    topic: "Windows Networking Features (Hidden Shares)",
+    difficulty: "medium",
+    scenario: "A systems administrator is deploying a customized deployment image located on a file server (\\\\WDS-SERVER\\Images). The administrator wants to ensure that standard users browsing the network cannot see this folder, as it contains sensitive configuration files. However, the IT team still needs to be able to map a drive to it by typing the exact Universal Naming Convention (UNC) path into File Explorer.",
+    prompt: "What is the BEST correct configuration to achieve this?",
+    choices: [
+      { key: "A", text: "Disable Network Discovery on the file server's Private network profile." },
+      { key: "B", text: "Append a $ symbol to the end of the folder's share name." },
+      { key: "C", text: "Assign the \"Guest\" group an Explicit Deny permission in NTFS." },
+      { key: "D", text: "Configure the share to require a Security Assertions Markup Language (SAML) token." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "standard users browsing the network cannot see this folder... still needs to be able to map a drive to it by typing the exact... path",
+    explanationCorrect: "In a Windows network environment, administrators can create hidden shares that do not broadcast their existence to users browsing the network directory. By appending a dollar sign ($) to the end of the share name (e.g., Images$), the Server Message Block (SMB) protocol hides the share from general network browsing interfaces. The resource remains perfectly accessible to anyone who knows the exact UNC path (\\\\WDS-SERVER\\Images$) and possesses the correct credentials.",
+    explanationIncorrect: {
+      A: "Disabling Network Discovery on the server would hide the entire server and all of its shares from the network, severely disrupting normal operations. The goal is to hide a single specific folder, not the entire machine.",
+      C: "Assigning an Explicit Deny to the Guest group prevents unauthenticated users from opening the files, but it does not hide the folder itself from the network browsing list. Standard authenticated users would still physically see the folder icon.",
+      D: "SAML is a web-based Single Sign-On protocol used for federated cloud application access. It is not used to manage the visibility of local SMB file shares on an internal Windows file server."
+    },
+    examTrap: "The \"Hidden vs Secured\" Trap. Permissions secure data, but specific syntax (the $ symbol) hides it from discovery."
+  },
+  {
+    id: "Q036",
+    topic: "Security Measures (Authenticator Apps)",
+    difficulty: "medium",
+    scenario: "An enterprise organization is shifting from passwords to passwordless access using Microsoft Authenticator. An employee downloads the app on their personal smartphone. During the initial setup, the employee navigates to the corporate security portal on their laptop and is prompted to use their smartphone's camera to scan a Quick Response (QR) code displayed on the laptop screen.",
+    prompt: "What is the primary technical purpose of scanning this QR code during setup?",
+    choices: [
+      { key: "A", text: "It transmits a time-based synchronization clock to the smartphone." },
+      { key: "B", text: "It establishes a trust relationship by securely exchanging encryption keys." },
+      { key: "C", text: "It verifies the inherence factor of the user via biometric facial scanning." },
+      { key: "D", text: "It forces the smartphone to download an Explicit Allow ACL from the domain." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "initial setup... use their smartphone's camera to scan a Quick Response (QR) code",
+    explanationCorrect: "For a soft token or authenticator app to work securely, the service (the corporate portal) and the device (the smartphone) must be cryptographically linked. Scanning the QR code facilitates the initial registration process by passing a shared secret or encryption keys from the server to the app over a visual, out-of-band channel. This establishes a permanent trust relationship, allowing the app to generate valid cryptographic assertions or tokens for all future login attempts.",
+    explanationIncorrect: {
+      A: "While Time-based One Time Passwords (TOTP) do require accurate clocks, smartphones receive their clock synchronization from cellular networks or NTP servers, not from a static image like a QR code.",
+      C: "Scanning a QR code utilizes the camera to read a visual data matrix; it does not perform 3D infrared facial recognition or verify the user's inherence factor. The QR code links the device (possession factor).",
+      D: "Access Control Lists (ACLs) are permissions attached to files and folders on a Windows machine. Smartphones generating authentication tokens do not download NTFS ACLs."
+    },
+    examTrap: "The \"Under the Hood\" Trap. You must understand why you perform common actions (like scanning a QR code for 2FA setup), which is to securely exchange cryptographic keys."
+  },
+  {
+    id: "Q037",
+    topic: "Security Measures (Firewalls / Implicit Deny)",
+    difficulty: "hard",
+    scenario: "A network administrator receives an alert from the intrusion detection system. The firewall dropped a packet originating from an external IP address trying to access port 3389 (RDP) on an internal server. The administrator checks the firewall configuration and confirms there are no rules specifically blocking the external IP address, nor are there any rules blocking port 3389.",
+    prompt: "What is the MOST likely cause of the packet being dropped?",
+    choices: [
+      { key: "A", text: "The firewall processed an Explicit Allow rule that redirected the traffic." },
+      { key: "B", text: "The packet was caught by the default Implicit Deny rule." },
+      { key: "C", text: "The packet lacked a valid Security Assertions Markup Language (SAML) signature." },
+      { key: "D", text: "The firewall detected a missing Advanced Encryption Standard (AES) hash." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "confirms there are no rules specifically blocking... nor are there any rules blocking",
+    explanationCorrect: "Firewalls and Access Control Lists (ACLs) process rules sequentially from top to bottom. Security best practice dictates that systems operate on a principle of least privilege, meaning access is strictly prohibited unless expressly permitted. If a packet arrives and does not match any of the explicitly defined rules (allow or block), it hits the very bottom of the list and is handled by the default \"Implicit Deny\" rule, which drops the packet.",
+    explanationIncorrect: {
+      A: "If the firewall had processed an Explicit Allow rule, the packet would have been permitted into the network to reach the internal server. The scenario explicitly states the packet was dropped, meaning an allow rule was not triggered.",
+      C: "SAML is a web-based SSO authentication protocol used by web applications and Identity Providers. A network firewall dropping inbound RDP traffic at the Transport layer operates completely independently of web-layer SAML signatures.",
+      D: "AES is a symmetric encryption cipher, not a hashing algorithm (like SHA-256). Furthermore, firewalls drop traffic based on ACL port/IP rules, not by looking for missing encryption ciphers on standard unestablished inbound connection attempts."
+    },
+    examTrap: "The \"Implicit Deny\" Trap. The exam tests if you understand that the absence of a rule does not mean traffic is allowed; the absence of a rule guarantees the traffic is denied."
+  },
+  {
+    id: "Q038",
+    topic: "Microsoft Command-Line Tools (Group Policy Troubleshooting)",
+    difficulty: "easy",
+    scenario: "A Helpdesk technician receives a ticket from a user complaining that their desktop background keeps changing back to the corporate logo every morning, no matter how many times the user changes it to a personal photo. The technician suspects a domain policy is enforcing the background, but the user is placed in a complex nested Organizational Unit (OU) structure.",
+    prompt: "Which command is the BEST tool for the technician to discover exactly which policy is enforcing the desktop background?",
+    choices: [
+      { key: "A", text: "gpupdate /force" },
+      { key: "B", text: "net view /domain" },
+      { key: "C", text: "gpresult /r" },
+      { key: "D", text: "netstat -ano" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "discover exactly which policy is enforcing the desktop background",
+    explanationCorrect: "When a computer is part of an Active Directory domain, multiple Group Policy Objects (GPOs) can apply from different levels (Domain, Site, OU), creating a complex resultant set of policies (RSoP). The gpresult command is a diagnostic tool specifically designed to display the RSoP for a computer and user account. Running gpresult /r will output a list of exactly which GPOs are currently applied and which ones were filtered out, allowing the technician to locate the culprit policy.",
+    explanationIncorrect: {
+      A: "The gpupdate /force command is a remediation tool used to manually pull and apply new or changed policies from the domain controller immediately. It does not display a diagnostic list of which policies are applying.",
+      B: "The net view command displays a list of computers and shared resources available on the local network. It provides zero visibility into Group Policy Objects or local system configurations.",
+      D: "The netstat command displays active TCP/UDP network connections and listening ports. It is used for network troubleshooting, not for diagnosing operating system policies."
+    },
+    examTrap: "The \"Diagnostic vs Execution\" Trap. Test-takers often blindly select gpupdate anytime Group Policy is mentioned, but gpresult is the correct tool for gathering information during the initial troubleshooting phase."
+  },
+  {
+    id: "Q039",
+    topic: "Windows OS Security Settings (Delegation)",
+    difficulty: "hard",
+    scenario: "A large corporation uses Active Directory to manage thousands of users. The central IT department creates a container named \"Sales\" to hold all user and computer objects for the Sales department. The IT Director wants to empower the Sales Manager to quickly reset forgotten passwords for their own staff without having to submit a Helpdesk ticket. However, the Sales Manager must absolutely not be able to change the domain's 14-character minimum password complexity requirement.",
+    prompt: "What is the BEST policy-compliant solution to achieve this?",
+    choices: [
+      { key: "A", text: "Add the Sales Manager to the Domain Admins security group." },
+      { key: "B", text: "Delegate control of the \"Sales\" Organizational Unit (OU) to the Sales Manager." },
+      { key: "C", text: "Move the Sales Manager's account to the built-in Power Users group." },
+      { key: "D", text: "Configure the Sales Manager's account with a Just-In-Time (JIT) SAML assertion." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "empower the Sales Manager to quickly reset... must absolutely not be able to change the domain's... password complexity",
+    explanationCorrect: "An Organizational Unit (OU) is a container within Active Directory used to divide a domain into different administrative realms. By utilizing the \"Delegation of Control\" wizard on the specific \"Sales\" OU, the IT Director can grant the Sales Manager precise, least-privilege rights (such as resetting passwords) strictly over the objects inside that specific OU. The manager remains a standard user domain-wide and cannot alter overarching Domain GPOs (like password complexity).",
+    explanationIncorrect: {
+      A: "Adding the Sales Manager to the \"Domain Admins\" group is a massive violation of the principle of least privilege. This would give the manager full, unrestricted control over the entire domain, including the ability to change the password complexity policy, violating the prompt's explicit requirement.",
+      C: "The \"Power Users\" group is a legacy local group from older versions of Windows that currently grants the exact same permissions as standard users. It has no bearing on Active Directory domain administrative capabilities.",
+      D: "Just-In-Time (JIT) access grants privileges temporarily, but SAML is a web-based SSO protocol used for authenticating to external cloud services. Neither technology natively manages the granular delegation of AD object administration."
+    },
+    examTrap: "The \"OU Delegation\" Trap. You must understand that OUs are not just folders; they are the primary architectural mechanism used in Active Directory to safely delegate partial administrative authority."
+  },
+  {
+    id: "Q040",
+    topic: "Windows OS Security Settings (Effective Permissions)",
+    difficulty: "hard",
+    scenario: "A user named Alice belongs to the \"Marketing\" security group and the \"Contractors\" security group. She accesses a shared folder located at \\\\SERVER\\Campaigns via a mapped network drive. The network share permissions for the folder are set to grant the \"Everyone\" group \"Full Control.\" However, the local NTFS permissions on the folder grant the \"Marketing\" group \"Modify\" access, while the \"Contractors\" group has an \"Explicit Deny\" set for \"Write\" access. Alice can open and read files in the directory but receives an \"Access Denied\" error when trying to save a new document.",
+    prompt: "What is the MOST likely cause of this error?",
+    choices: [
+      { key: "A", text: "Share permissions are inherently more restrictive than NTFS permissions when accessed over a network." },
+      { key: "B", text: "The folder is stored on a FAT32 partition, which drops the Modify permissions." },
+      { key: "C", text: "The Explicit Deny NTFS permission assigned to the Contractors group overrides the Modify permission." },
+      { key: "D", text: "The mapped network drive requires Alice to authenticate with a time-based one-time password (TOTP)." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "grant the 'Marketing' group 'Modify' access, while the 'Contractors' group has an 'Explicit Deny'",
+    explanationCorrect: "When a user is a member of multiple security groups, Windows analyzes all inherited and explicitly assigned permissions to determine the most effective access rights. In the NTFS permissions hierarchy, an \"Explicit Deny\" is the most restrictive setting and will always override any \"Explicit Allow\" permissions (like Modify) granted by other group memberships. Because Alice is in the Contractors group, the explicit deny rule takes absolute precedence, blocking her ability to write or save data despite her membership in the Marketing group.",
+    explanationIncorrect: {
+      A: "While it is true that Windows applies the most restrictive combination of Share and NTFS permissions over a network connection, the Share permission here is set to \"Full Control\". The restriction is entirely caused by the conflicting NTFS permissions, not the Share permission limiting her access.",
+      B: "The FAT32 file system does not support granular local file-level permissions or Access Control Lists (ACLs). If the drive were formatted as FAT32, the administrator would not have been able to set the conflicting \"Modify\" and \"Explicit Deny\" NTFS rules in the first place.",
+      D: "A TOTP is a multifactor authentication method used to verify user identity during the initial login process. It does not dictate or interact with the local NTFS Access Control Lists (ACLs) governing file write permissions once the user is already authenticated."
+    },
+    examTrap: "The \"NTFS Hierarchy vs Share Overlap\" Trap. The exam tests whether you understand that Explicit Deny beats Explicit Allow, and that Share permissions (Full Control) do not blindly override strict local NTFS ACLs."
+  },
+  {
+    id: "Q041",
+    topic: "Microsoft Command-Line Tools (Persistent Mapping)",
+    difficulty: "medium",
+    scenario: "An employee is assigned to a temporary workstation and needs access to a legacy network file share hosted at \\\\FILESRV\\Archive. The Helpdesk technician runs a quick command to map the folder to the M: drive, and the employee successfully accesses the files. However, the next morning, the employee reboots the workstation, logs in, and discovers the M: drive has completely disappeared from File Explorer. The technician needs to execute a command to restore the drive and ensure it survives all future reboots.",
+    prompt: "Which of the following commands should the technician execute?",
+    choices: [
+      { key: "A", text: "net use M: \\\\FILESRV\\Archive /persistent:yes" },
+      { key: "B", text: "gpupdate /force /boot" },
+      { key: "C", text: "net view \\\\FILESRV\\Archive" },
+      { key: "D", text: "net user M: \\\\FILESRV\\Archive /add" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "ensure it survives all future reboots",
+    explanationCorrect: "The net use utility is a command-line tool used to connect to, configure, or remove shared network resources. By default, if the /persistent switch is not utilized, a mapped network drive will not stay mapped after the host machine restarts. Appending /persistent:yes forces Windows to save the mapping configuration in the user's profile and automatically reconnect the M: drive every time the user signs in.",
+    explanationIncorrect: {
+      B: "The gpupdate /force command is used to immediately reapply all new and old Group Policy Objects (GPOs) from a domain controller to a client computer. While GPOs can map drives, the scenario specifically asks for the command to map the drive manually, making this the incorrect tool.",
+      C: "The net view command is a diagnostic tool used to display a list of domains, computers, or shared resources available on a specific server. It only shows what is available; it does not actively mount or map a drive letter to those resources.",
+      D: "The net user command is utilized to add, disable, or modify local user accounts in the Windows Security Account Manager (SAM) database. It cannot be used to interact with or map Server Message Block (SMB) file shares."
+    },
+    examTrap: "The \"Volatile Mapped Drive\" Trap. Test-takers must recognize that net use connections are temporary by default unless explicitly made persistent."
+  },
+  {
+    id: "Q042",
+    topic: "Windows OS Security Settings (Windows Hello PIN)",
+    difficulty: "hard",
+    scenario: "A traveling sales director is on an airplane without Wi-Fi access. They turn on their company-issued, domain-joined laptop and attempt to sign in using their standard Microsoft account password, but the login fails, stating the network cannot be reached. The director then switches the sign-in option to their 6-digit Windows Hello PIN and successfully accesses the local desktop without any internet connectivity.",
+    prompt: "Why did the PIN authentication succeed while the password failed in this specific offline environment?",
+    choices: [
+      { key: "A", text: "The PIN acts as an asymmetric private key that decrypts the local Security Account Manager (SAM) database." },
+      { key: "B", text: "The PIN bypasses User Account Control (UAC) which normally requires network validation for standard users." },
+      { key: "C", text: "The PIN is evaluated locally using the computer's Trusted Platform Module (TPM) chip rather than relying on a network server." },
+      { key: "D", text: "The PIN triggers a cached Security Assertions Markup Language (SAML) assertion to approve the login." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "switches the sign-in option to their 6-digit Windows Hello PIN and successfully accesses the local desktop without any internet connectivity",
+    explanationCorrect: "A Windows Hello PIN is a unique security feature that is bound exclusively to the specific physical device it was configured on. The PIN is securely backed by the hardware-based Trusted Platform Module (TPM) on the motherboard, meaning the actual authentication verification happens entirely on the local device itself. Because it does not require contacting a Domain Controller or Microsoft's cloud servers to validate the credential, the PIN allows the user to log in seamlessly even when completely offline.",
+    explanationIncorrect: {
+      A: "The PIN is not an asymmetric private key decrypting the SAM database. The SAM database manages local user accounts and standard interactive logons, but Windows Hello relies on the TPM's separate hardware-backed encryption to protect the PIN from interception.",
+      B: "User Account Control (UAC) is a security feature designed to protect the system against malicious scripts by requiring explicit user consent before performing administrative tasks. It is an authorization mechanism for executing processes, not the initial sign-in authentication mechanism for unlocking the desktop.",
+      D: "SAML is a web-based Single Sign-On (SSO) protocol used to authenticate users to third-party cloud service providers via an Identity Provider. It explicitly requires network connectivity to pass digital XML assertions and is completely irrelevant to an offline workstation login."
+    },
+    examTrap: "The \"Cloud Password vs Local PIN\" Trap. The exam tests the understanding that Windows Hello PINs are not just shorter passwords; they are hardware-bound (TPM) factors specifically designed for secure local/offline authentication."
+  },
+  {
+    id: "Q043",
+    topic: "Windows Networking Features (Folder Redirection)",
+    difficulty: "medium",
+    scenario: "A hospital IT department manages a pool of shared workstations for its nursing staff. The staff currently uses Roaming Profiles so their personalized desktop shortcuts and document folders follow them to whichever computer they use. However, because the nurses frequently save massive high-resolution medical imaging files directly to their \"Documents\" folders, logging in and out of the computers now takes over 15 minutes as the network struggles to transfer the data. The IT Director mandates a solution that preserves the centralized storage of these files without causing network bottlenecks during the logon/logoff phases.",
+    prompt: "Which configuration is the BEST policy-compliant solution?",
+    choices: [
+      { key: "A", text: "Implement Folder Redirection via Group Policy." },
+      { key: "B", text: "Upgrade the roaming profile syntax to \\\\SERVER\\HOME$\\%USERNAME%." },
+      { key: "C", text: "Configure the file server with an Implicit Deny for all multimedia files." },
+      { key: "D", text: "Enable nearby sharing via Bluetooth PAN on all workstations." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "logging in and out of the computers now takes over 15 minutes as the network struggles to transfer the data... preserves the centralized storage... without causing network bottlenecks",
+    explanationCorrect: "Roaming profiles work by copying the entire user profile from a network share to the local PC at logon, and then pushing all changes back to the server at logoff, which heavily impacts network bandwidth if the profile contains large files. Folder Redirection solves this exact problem by changing the logical target of a personal folder (like Documents) directly to a network file share, meaning the files are accessed on-demand over the network rather than being copied in bulk during the login process. This completely eliminates the 15-minute login delay while keeping the data safely centralized on the server.",
+    explanationIncorrect: {
+      B: "The syntax \\\\SERVER\\HOME$\\%USERNAME% is used to map a private Home Folder as an additional drive letter, not to configure or upgrade a roaming profile. While a Home Folder provides centralized storage, it does not inherently redirect the \"Documents\" folder where the nurses are currently saving their massive files, so the roaming profile bottleneck would persist.",
+      C: "Configuring an Implicit Deny on the file server would simply result in the nurses being unable to access or save their required medical imaging files at all. While this would technically stop the network bottleneck, it breaks core hospital functionality and is not a valid administrative solution.",
+      D: "Nearby sharing uses a Bluetooth Personal Area Network (PAN) to casually exchange files between adjacent devices, saving them to the local Downloads folder. It does not provide the centralized, highly available server storage required for a hospital's roaming workstation environment."
+    },
+    examTrap: "The \"Roaming Profiles vs Folder Redirection\" Trap. You must distinguish between copying entire profiles locally (Roaming) versus pointing the OS profile paths natively to a network share (Redirection) to solve bandwidth issues."
+  },
+  {
+    id: "Q044",
+    topic: "Windows Networking Features (Network Profiles)",
+    difficulty: "easy",
+    scenario: "An employee takes their corporate Windows 10 laptop to a local coffee shop to work remotely. After connecting to the open \"Coffee_Guest\" Wi-Fi network, the employee opens File Explorer and clicks on the \"Network\" object to see if their smartphone is visible. File Explorer displays a warning notification stating that Network Discovery and File Sharing are currently turned off, and the employee cannot see any other devices on the network.",
+    prompt: "What is the MOST likely cause of this behavior?",
+    choices: [
+      { key: "A", text: "The local Security Account Manager (SAM) database lacks a Kerberos token." },
+      { key: "B", text: "The laptop's operating system has assigned the Wi-Fi connection a Public network profile." },
+      { key: "C", text: "The employee failed to provide an explicit administrative UAC consent prompt." },
+      { key: "D", text: "The coffee shop router has enforced a strict Access Control List (ACL) Implicit Deny." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "open 'Coffee_Guest' Wi-Fi network... File Explorer displays a warning notification stating that Network Discovery... turned off",
+    explanationCorrect: "When a Windows computer connects to a network, it assigns a network profile type (Private or Public) to determine the appropriate security posture. On a workgroup or untrusted network, if the network type is set to \"Public,\" Windows intentionally disables Network Discovery and File Sharing to protect the machine from other potentially malicious devices. The OS actively displays a notification in File Explorer alerting the user to this restricted state.",
+    explanationIncorrect: {
+      A: "The Security Account Manager (SAM) database is a local registry file used to verify local user credentials. Kerberos is a network authentication protocol used strictly in Active Directory domain environments. Neither of these components determines the local OS network discovery profile settings in a public coffee shop.",
+      C: "User Account Control (UAC) displays a Security Shield prompt requiring users to explicitly authorize administrative level tasks (like installing software). It does not cause File Explorer to quietly display a yellow banner regarding network discovery states.",
+      D: "While a router ACL could theoretically block peer-to-peer traffic via an Implicit Deny rule, the prompt explicitly states that File Explorer itself generated a local OS notification warning that discovery was turned off. This proves the restriction is coming from the local Windows OS profile, not the external router hardware."
+    },
+    examTrap: "The \"Public vs Private Profile\" Trap. The exam tests the fundamental understanding that Windows secures untrusted network connections by defaulting to the Public profile, thereby disabling discovery."
+  },
+  {
+    id: "Q045",
+    topic: "Security Measures (Encryption / Password Storage)",
+    difficulty: "hard",
+    scenario: "A junior database administrator is designing an Identity and Access Management (IAM) authentication system. To ensure confidentiality, the administrator decides to secure all employee passwords inside the database by encrypting them using the Advanced Encryption Standard (AES) with a single secret key. A senior security architect reviews the design, immediately flags it as a critical vulnerability, and demands the architecture be rewritten.",
+    prompt: "Why did the architect reject the use of AES, and what is the BEST remediation strategy for securing the passwords?",
+    choices: [
+      { key: "A", text: "AES requires a public and private key pair; the administrator should use RSA encryption to secure the database." },
+      { key: "B", text: "AES is easily reversible if the secret key is stolen; the administrator should use the SHA-256 algorithm to create irreversible fixed-length values." },
+      { key: "C", text: "AES is too slow for bulk database storage; the administrator should rely on Digital Signatures for password confidentiality." },
+      { key: "D", text: "AES generates an ephemeral session key that expires too quickly; the administrator should use Security Assertions Markup Language (SAML)." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "encrypting them using the Advanced Encryption Standard (AES) with a single secret key... immediately flags it as a critical vulnerability",
+    explanationCorrect: "AES is a symmetric encryption cipher, meaning it uses the exact same secret key to both encrypt and decrypt data. If a threat actor steals that single secret key, they can effortlessly reverse the encryption and read every password in plain text. For secure long-term credential storage, passwords should never be encrypted; they must be processed using a cryptographic hash function (like SHA-256) because hashing is a strict one-way mathematical function that makes it impossible to recover the original plain-text value.",
+    explanationIncorrect: {
+      A: "AES is a symmetric cipher, not an asymmetric cipher (which uses public/private key pairs like RSA). Furthermore, replacing AES with RSA is still flawed because RSA is also reversible encryption; passwords must be hashed (irreversible), not encrypted.",
+      C: "AES is actually extremely fast and efficient, which is exactly why it is heavily used for bulk data encryption. Digital signatures are used to prove the integrity and origin of a message using a hash encrypted by a private key; they are not used to secretly store a database of passwords.",
+      D: "While session keys used for in-transit encryption can be ephemeral (changed often), AES itself does not inherently force keys to expire. Furthermore, SAML is a federated Single Sign-On (SSO) protocol used to pass authentication XML assertions between identity and service providers, not an algorithm for securing at-rest passwords in a local database."
+    },
+    examTrap: "The \"Encryption vs. Hashing\" Trap. CompTIA tests whether you understand that symmetric encryption (AES) is two-way and dangerous for password storage, while cryptographic hashing (SHA) is one-way"
+  }
+
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
