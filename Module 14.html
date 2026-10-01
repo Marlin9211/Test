@@ -1,0 +1,2561 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+/* =========================
+   Question Bank (Embedded) - Part 1 of 3
+   ========================= */
+
+const QUESTION_BANK = [
+
+  {
+    id: "Q001",
+    topic: "Microsoft Command-Line Tools (Obj 1.5)",
+    difficulty: "medium",
+    scenario: "An executive working from a corporate branch office reports they can connect to an external vendor’s server by its IP address but cannot reach the server using its fully qualified domain name (FQDN). The technician confirms the user's host has a statically assigned IP address and that the default gateway is functioning. The technician suspects a configuration issue with the default name server and wants to interrogate the DNS server directly to verify the specific mail exchanger (MX) and name server (NS) records it is providing.",
+    prompt: "Which of the following command-line tools is the BEST choice for the technician to use to isolate this issue?",
+    choices: [
+      { key: "A", text: "ping" },
+      { key: "B", text: "tracert" },
+      { key: "C", text: "nslookup" },
+      { key: "D", text: "ipconfig /flushdns" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"interrogate the DNS server directly to verify the specific mail exchanger (MX) and name server (NS) records\"",
+    explanationCorrect: "The nslookup command is specifically designed to troubleshoot name resolution by querying a DNS server for various record types, such as MX or NS records. By using interactive mode or specifying switches like -type=mx or -type=ns, the technician can directly interrogate the DNS server to confirm whether it is returning accurate and updated records. This aligns with the troubleshooting methodology step of testing the theory to determine the precise cause of a higher-layer name resolution failure.",
+    explanationIncorrect: {
+      A: "The ping command can verify basic Layer 3 connectivity and can test whether an FQDN resolves to an IP address. However, it cannot query specific DNS record types such as MX or NS, nor can it directly interrogate the name server’s authoritative data.",
+      B: "The tracert utility identifies the routing path packets take to reach a destination. While useful for diagnosing routing or latency issues, it does not provide any capability to query DNS servers for specific record types.",
+      D: "The ipconfig /flushdns command clears the local DNS resolver cache, which is a valid remediation step. However, it does not allow the technician to directly query or verify the records currently stored on the DNS server itself."
+    },
+    examTrap: "Tool Selection Overlap. Students often reflexively select ipconfig /flushdns or ping when they see a DNS issue. The scenario explicitly requires interrogation of specific DNS record types, which exclusively requires nslookup."
+  },
+
+  {
+    id: "Q002",
+    topic: "Windows OS Features & Tools (Obj 1.4) — OS Management + Hardware Performance",
+    difficulty: "hard",
+    scenario: "A workstation used for rendering 3D graphics frequently becomes sluggish and unresponsive after several hours of continuous operation. A technician opens Task Manager and observes that CPU utilization occasionally peaks at 95% but immediately drops back down. However, the Available Bytes of memory has steadily declined to below 5% of the total installed RAM over the course of the day, even though the user has not opened any new applications. Furthermore, disk activity remains unusually high.",
+    prompt: "What is the MOST likely cause of this performance degradation, and how should the technician formally document this behavior for long-term analysis?",
+    choices: [
+      { key: "A", text: "The system is experiencing a memory leak; use Performance Monitor to create a Data Collector Set to track memory counters over time." },
+      { key: "B", text: "The CPU is underpowered and causing a bottleneck; use Resource Monitor to track % Privileged Time and % User Time." },
+      { key: "C", text: "The hard drive has bad sectors and is failing; use the Event Viewer System Log to verify disk read/write critical errors." },
+      { key: "D", text: "The physical disk is heavily fragmented; use the defrag utility to optimize contiguous file clusters and improve I/O speed." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Available Bytes of memory has steadily declined to below 5%... even though the user has not opened any new applications\"",
+    explanationCorrect: "A continuous decline in available memory without any new applications being launched is a primary indicator of a memory leak, where a process allocates memory but fails to release it. To document and analyze an intermittent, long-duration issue, Performance Monitor is the correct tool because it can create a Data Collector Set to log memory and disk counters over time. The unusually high disk activity is a secondary symptom caused by increased paging when physical RAM is exhausted.",
+    explanationIncorrect: {
+      B: "Short CPU spikes (such as 95%) can occur during normal workload bursts and do not indicate a bottleneck unless sustained. Resource Monitor is optimized for real-time snapshots; it is not the primary tool for long-term logging and baseline creation like a Data Collector Set in Performance Monitor.",
+      C: "Bad sectors can cause disk stalls and high disk activity, but the scenario’s root indicator is the steady decline in available RAM to under 5% with no new applications. The high disk activity is more consistent with paging due to memory exhaustion, not primary disk failure.",
+      D: "Fragmentation can slow mechanical disk I/O, but it does not explain a steady depletion of available memory. The memory counters provided point to a RAM consumption problem first, with disk symptoms following from paging."
+    },
+    examTrap: "Cascading Symptoms. High disk usage may distract toward storage causes, but the counters show RAM exhaustion as the root cause and disk paging as the downstream effect."
+  },
+
+  {
+    id: "Q003",
+    topic: "Remote Access Technologies (Obj 4.9) — Remote Access + Security Hardening",
+    difficulty: "medium",
+    scenario: "A Managed Service Provider (MSP) is deploying Remote Desktop Protocol (RDP) access for a client’s internal Windows 10 Pro machines. The systems administrator is concerned about potential Denial-of-Service (DoS) attacks, where a malicious actor might attempt to crash the servers by generating hundreds of pending, unauthenticated desktop connections, tying up system resources before a login even occurs.",
+    prompt: "Which of the following configurations MUST the administrator implement to secure the RDP servers against this specific threat?",
+    choices: [
+      { key: "A", text: "Configure RDP Restricted Admin (RDPRA) Mode." },
+      { key: "B", text: "Implement a Virtual Private Network (VPN) tunnel." },
+      { key: "C", text: "Require Network Level Authentication (NLA)." },
+      { key: "D", text: "Change the default RDP listening port from TCP 3389 to TCP 443." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"generating hundreds of pending, unauthenticated desktop connections, tying up system resources before a login even occurs\"",
+    explanationCorrect: "Network Level Authentication (NLA) mitigates pre-authentication resource exhaustion by requiring authentication before the system allocates full resources to create an RDP session. Without NLA, an attacker can repeatedly request sessions and force the server to allocate resources for each pending connection. Enabling NLA shifts the authentication earlier in the process and reduces the DoS surface described.",
+    explanationIncorrect: {
+      A: "Restricted Admin mode is intended to reduce credential exposure on compromised hosts (mitigating credential theft). It does not specifically prevent unauthenticated connection floods from consuming session resources.",
+      B: "A VPN is strong perimeter control and reduces direct exposure of RDP to the internet, but it does not change the RDP server’s session allocation and authentication sequence in the way required to stop the specific pre-authentication exhaustion described.",
+      D: "Changing ports is primarily obscurity and does not prevent scanning or the same attack on the new port. Moving RDP to TCP 443 without a proper tunneling design can also create conflicts with HTTPS services."
+    },
+    examTrap: "Confusing specific security mechanisms. The scenario tests NLA’s role in preventing pre-authentication resource exhaustion versus other controls that address different threat classes."
+  },
+
+  {
+    id: "Q004",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1)",
+    difficulty: "easy",
+    scenario: "A user reports that after a recent, unverified hardware driver update, their Windows 10 workstation immediately crashes with a Blue Screen of Death (BSoD) during the boot process. The crash occurs so early that the logon screen never appears. Because the system is configured to automatically restart upon a system failure, the machine reboots before the technician can read the specific STOP error code on the screen.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what should the technician do FIRST to properly identify the problem?",
+    choices: [
+      { key: "A", text: "Boot into the Windows Recovery Environment (WinRE) and run the Startup Repair tool." },
+      { key: "B", text: "Access the Advanced Options menu and select the Disable automatic restarts option." },
+      { key: "C", text: "Boot into Safe Mode and use Device Manager to roll back the display driver." },
+      { key: "D", text: "Use a System Repair Disk to run bootrec /fixboot from the command prompt." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"machine reboots before the technician can read the specific STOP error code\"",
+    explanationCorrect: "The first step in the troubleshooting methodology is to identify the problem by collecting accurate symptoms. Disabling automatic restart after system failure forces the STOP screen to remain visible so the technician can document the exact error code. That code is essential for targeted remediation rather than guessing at causes.",
+    explanationIncorrect: {
+      A: "Startup Repair can address boot configuration or startup problems, but running an automated repair before capturing the STOP code skips the identification step and risks masking the root cause.",
+      C: "Rolling back the driver may be the eventual fix, but doing so without first recording the STOP code is premature and can lead to incorrect changes if the driver is not the actual cause.",
+      D: "bootrec /fixboot targets boot sector issues; the scenario indicates a kernel/driver halt (BSoD) rather than a missing boot loader."
+    },
+    examTrap: "Skipping to Remediation. The question asks for the first step; the trap is selecting a plausible fix instead of gathering the STOP code to identify the problem properly."
+  },
+
+  {
+    id: "Q005",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — OS Networking + Diagnostic Tools",
+    difficulty: "hard",
+    scenario: "A user traveling for a conference connects their Windows 10 laptop to a hotel Wi-Fi network. The taskbar network icon displays a warning triangle indicating \"No Internet access.\" The technician uses ipconfig and verifies the adapter has received a valid IP address of 192.168.1.100 from the hotel's DHCP server. The technician successfully uses ping 192.168.1.1 to reach the default gateway, and then successfully pings Google's public DNS server at 8.8.8.8. Despite this, web pages fail to load by their domain names.",
+    prompt: "What is the MOST likely cause of the \"No Internet access\" status in Windows, and what underlying service is currently failing?",
+    choices: [
+      { key: "A", text: "The local network adapter is misconfigured with an APIPA address, preventing outbound routing." },
+      { key: "B", text: "The Network Connectivity Status Indicator (NCSI) cannot resolve the DNS query for www.msftconnecttest.com." },
+      { key: "C", text: "The router's firewall is blocking outbound ICMP echo requests to external networks." },
+      { key: "D", text: "The Windows DHCP client service has stalled and failed to renew its lease." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"successfully pings Google's public DNS server at 8.8.8.8. Despite this, web pages fail to load by their domain names.\"",
+    explanationCorrect: "Windows uses the Network Connectivity Status Indicator (NCSI) to validate internet access by performing a DNS resolution and connectivity check to Microsoft endpoints such as www.msftconnecttest.com. Because the system can ping an external IP (8.8.8.8), Layer 3 routing is functioning. The failure to load sites by name indicates DNS resolution is failing, which causes NCSI’s validation to fail and triggers the \"No Internet access\" indicator.",
+    explanationIncorrect: {
+      A: "APIPA addresses are in the 169.254.x.y range and indicate failure to obtain DHCP. The scenario explicitly states a valid DHCP lease (192.168.1.100), ruling APIPA out.",
+      C: "The technician successfully pinged 8.8.8.8, proving outbound ICMP is not blocked. Therefore ICMP filtering cannot be the cause.",
+      D: "A DHCP client failure would typically result in no valid lease or an APIPA address. The presence of a valid lease and successful gateway pings indicates DHCP functioned."
+    },
+    examTrap: "Misinterpreting Windows Status Indicators. The warning triangle can be triggered by DNS validation failure even when raw IP routing works correctly."
+  },
+
+  {
+    id: "Q006",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1)",
+    difficulty: "easy",
+    scenario: "A user restarts their desktop computer after a recent power outage. The screen immediately displays a \"No OS found\" error message. The technician notices that the hard drive activity LED blinks briefly when the system powers on, indicating the drive is receiving power, but the boot sequence halts. The user is panicked because they have unbacked-up project files on the local drive.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST first step the technician should take?",
+    choices: [
+      { key: "A", text: "Boot into the Windows Recovery Environment (WinRE) and run bootrec /fixmbr to repair the master boot record." },
+      { key: "B", text: "Access the system firmware (BIOS/UEFI) setup utility to verify the disk is detected and the boot order is correct." },
+      { key: "C", text: "Open the computer chassis and physically reseat the SATA data and power cables connected to the drive." },
+      { key: "D", text: "Boot from a recovery USB and run chkdsk /r to locate and quarantine bad sectors on the disk." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"No OS found\" error message... hard drive activity LED blinks briefly",
+    explanationCorrect: "A \"No OS found\" message means firmware completed POST but could not locate a valid boot loader on the selected boot device. The least invasive, highest-yield first step is verifying the drive is detected in BIOS/UEFI and the boot order is correct. This quickly distinguishes between a detection/configuration problem and a logical OS boot problem.",
+    explanationIncorrect: {
+      A: "bootrec /fixmbr can be valid if the boot record is corrupted, but running repairs before confirming the drive is even detected or selected as the boot device skips foundational diagnostics.",
+      C: "Reseating cables is a valid hardware step if the drive is undetected, but it is more invasive than checking BIOS/UEFI settings first.",
+      D: "chkdsk /r is a time-intensive disk repair step and is not the first action when the system cannot locate the boot loader."
+    },
+    examTrap: "Least Invasive First Step. The question tests whether simple firmware checks precede advanced command-line repairs."
+  },
+
+  {
+    id: "Q007",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Long-Term Performance Logging",
+    difficulty: "medium",
+    scenario: "An administrator is troubleshooting a Windows Server that occasionally freezes and drops network connections during peak afternoon hours. When the administrator currently checks Task Manager, CPU utilization is at a normal 40%, and memory is at 60%. Because the freezes are intermittent and unpredictable, the administrator needs to record the Average Disk Queue Length and % Processor Time continuously over the next 48 hours to establish a proper performance baseline.",
+    prompt: "Which tool should the administrator configure to achieve this long-term analysis?",
+    choices: [
+      { key: "A", text: "Resource Monitor" },
+      { key: "B", text: "Task Manager App history tab" },
+      { key: "C", text: "Performance Monitor" },
+      { key: "D", text: "Event Viewer System Log" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"record the Average Disk Queue Length and % Processor Time continuously over the next 48 hours\"",
+    explanationCorrect: "Performance Monitor (perfmon.exe) can create Data Collector Sets, such as Counter Logs, to continuously record selected performance counters to a file over long durations. This is the correct method for building baselines and analyzing intermittent problems that cannot be reliably captured with real-time snapshot tools.",
+    explanationIncorrect: {
+      A: "Resource Monitor provides detailed real-time views but is not designed to run long-duration background counter logging as a structured Data Collector Set.",
+      B: "The App history tab focuses on resource usage for certain application categories and is not designed to log hardware counters like disk queue length over 48 hours.",
+      D: "Event Viewer logs discrete events and errors. It does not poll and record performance counters such as disk queue length."
+    },
+    examTrap: "Tool Capability Boundaries. The scenario tests the distinction between snapshot monitoring and long-term counter logging."
+  },
+
+  {
+    id: "Q008",
+    topic: "Remote Access Technologies (Obj 4.9) — SSH Public Key Authentication",
+    difficulty: "hard",
+    scenario: "A systems administrator manages a Linux database server from a Windows 10 workstation using a Secure Shell (SSH) client. To comply with strict security hardening policies against brute-force attacks, the administrator has disabled password authentication on the server entirely. Instead, the server is configured with a list of authorized keys. When the administrator attempts to log in, the server generates a mathematical challenge.",
+    prompt: "What must the administrator's local client possess to successfully decrypt this challenge and complete the authentication process?",
+    choices: [
+      { key: "A", text: "The server's host key fingerprint." },
+      { key: "B", text: "The matching private encryption key." },
+      { key: "C", text: "A Kerberos granting ticket." },
+      { key: "D", text: "Network Level Authentication (NLA) credentials." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"server is configured with a list of authorized keys... server generates a mathematical challenge\"",
+    explanationCorrect: "In SSH public key authentication, the server stores authorized public keys and issues a challenge that can only be satisfied by the client proving possession of the matching private key. The client uses its private key to decrypt or sign the challenge, which proves identity without transmitting a password.",
+    explanationIncorrect: {
+      A: "The host key fingerprint helps the client verify the server’s identity to prevent man-in-the-middle attacks, but it does not authenticate the user or decrypt the server’s user authentication challenge.",
+      C: "Kerberos is common in Windows domain authentication, but SSH public key authentication relies on asymmetric key pairs rather than Kerberos tickets.",
+      D: "NLA is specific to RDP and is not a component of SSH authentication."
+    },
+    examTrap: "Cryptographic Key Roles. The scenario tests whether the candidate understands that the server holds public keys while the client must possess the private key."
+  },
+
+  {
+    id: "Q009",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — netstat Process Identification",
+    difficulty: "medium",
+    scenario: "A network technician suspects that a workstation is infected with malware running an unauthorized background file-sharing service. The technician opens an administrative command prompt and types netstat -an. The output shows a listening connection on TCP port 445. Because port 445 is also used by legitimate Windows SMB traffic, the technician needs to see exactly which executable file initiated this listener to confirm if it is a malicious payload.",
+    prompt: "Which command-line switch MUST the technician use with the netstat command to identify the specific executable?",
+    choices: [
+      { key: "A", text: "-b" },
+      { key: "B", text: "-o" },
+      { key: "C", text: "-e" },
+      { key: "D", text: "-s" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"see exactly which executable file initiated this listener\"",
+    explanationCorrect: "When run with administrative privileges, netstat -b displays the executable involved in creating each connection or listening port. This directly satisfies the requirement to identify the initiating executable (process binary) rather than only listing ports and addresses.",
+    explanationIncorrect: {
+      B: "The -o switch lists the Process ID (PID), which is useful but does not directly show the executable name. The scenario requires the executable itself without an extra lookup step.",
+      C: "The -e switch displays Ethernet statistics and does not map ports to executables.",
+      D: "The -s switch provides protocol statistics and does not identify which executable opened a port."
+    },
+    examTrap: "Switch Specific Recall. The distractor -o is plausible but only provides PID; -b provides the executable name."
+  },
+
+  {
+    id: "Q010",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Service Isolation",
+    difficulty: "hard",
+    scenario: "A user reports that their Windows 10 computer boots to the desktop perfectly, but approximately one minute after logging in, the entire system freezes and becomes unresponsive to mouse or keyboard inputs. A technician restarts the computer in Safe Mode, and the system runs smoothly for hours without freezing. The technician suspects a recently installed third-party background service is causing the crash during a normal boot.",
+    prompt: "What is the MOST appropriate next step to isolate and identify the exact service causing the freeze while operating in a normal boot environment?",
+    choices: [
+      { key: "A", text: "Open the System Configuration Utility (msconfig), choose Selective Startup, and systematically disable non-Microsoft items on the Services tab." },
+      { key: "B", text: "Use the rstrui.exe command to launch System Restore and roll back the registry to a date prior to the freezing behavior." },
+      { key: "C", text: "Open Event Viewer and clear the Application and System logs to see if the freeze generates a new Critical error code on the next reboot." },
+      { key: "D", text: "Run sfc /scannow from the Windows Recovery Environment (WinRE) command prompt to verify the integrity of the core OS files." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"isolate and identify the exact service causing the freeze while operating in a normal boot environment\"",
+    explanationCorrect: "Safe Mode stability indicates core OS components are functional and the issue likely involves third-party services or startup components. Using msconfig with Selective startup and disabling non-Microsoft services enables a controlled isolation approach. Systematically re-enabling services helps identify the exact culprit in a normal boot context.",
+    explanationIncorrect: {
+      B: "System Restore can revert the system to a prior state, but it skips isolation and identification of the root cause and may undo unrelated legitimate changes.",
+      C: "Clearing logs destroys valuable historical evidence and is not required to diagnose the issue. Reviewing logs is valid; deleting them is counterproductive.",
+      D: "sfc repairs core Windows files and is unlikely to address a third-party service issue suggested by Safe Mode stability."
+    },
+    examTrap: "Isolation vs Immediate Remediation. The scenario tests whether the candidate chooses a methodical isolation step rather than a broad rollback."
+  },
+
+  {
+    id: "Q011",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — Advanced Path Diagnostics",
+    difficulty: "medium",
+    scenario: "An employee complains of severe lag when accessing a centralized database hosted at a remote branch office over the company's WAN. The technician runs a standard ping to the database server, which confirms basic Layer 3 connectivity exists, though some replies seem delayed. To establish a more precise baseline, the technician needs a single command-line tool that will map out every router hop to the server and subsequently compute the exact percentage of packet loss and sustained link latency occurring at each individual router over a set period.",
+    prompt: "Which command-line tool is the MOST appropriate for gathering this specific statistical data?",
+    choices: [
+      { key: "A", text: "ping -t" },
+      { key: "B", text: "pathping" },
+      { key: "C", text: "tracert" },
+      { key: "D", text: "netstat -s" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"compute the exact percentage of packet loss and sustained link latency occurring at each individual router over a set period\"",
+    explanationCorrect: "pathping combines route tracing with sustained probing of each hop. It first maps the path and then pings each router for a period to compute packet loss and latency per hop. This directly meets the requirement for per-hop statistics over time.",
+    explanationIncorrect: {
+      A: "ping -t tests continuous connectivity to the final destination only and cannot attribute packet loss or latency to intermediate hops.",
+      C: "tracert discovers hops and provides limited RTT samples, but it does not compute sustained packet loss percentages at each hop over time.",
+      D: "netstat -s shows local protocol statistics and does not provide hop-by-hop path analysis."
+    },
+    examTrap: "Tool Capability Overlap. The requirement is sustained loss/latency per hop, which points to pathping rather than tracert."
+  },
+
+  {
+    id: "Q012",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Performance Counters: Paging",
+    difficulty: "hard",
+    scenario: "A user's Windows 10 desktop occasionally becomes so sluggish that the mouse cursor stutters. The user insists their hard drive is failing because they constantly hear it \"churning\" loudly when the lag occurs. A technician opens Performance Monitor and observes that CPU utilization is at a low 15%. However, physical Memory Available Bytes has dropped below 5%, the Paging File % Usage counter is sustaining above 85%, and Pages/sec is spiking well over 100.",
+    prompt: "What is the MOST likely cause of the hard drive churning and poor performance, and what is the best prevention strategy?",
+    choices: [
+      { key: "A", text: "The physical hard disk is heavily fragmented; the technician should schedule the defrag utility to optimize contiguous file clusters." },
+      { key: "B", text: "The hard drive contains physically failing sectors causing high read/write latency; the technician should clone and replace the disk with an SSD." },
+      { key: "C", text: "The system lacks sufficient physical RAM causing excessive hard page faults; the technician should install additional system memory." },
+      { key: "D", text: "A rogue background process is monopolizing the CPU's L2 cache; the technician should use Task Manager to end the stalled process." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Memory Available Bytes has dropped below 5%, the Paging File % Usage counter is sustaining above 85%, and Pages/sec is spiking well over 100\"",
+    explanationCorrect: "The counters indicate severe memory starvation. When RAM is exhausted, Windows relies heavily on the paging file, producing high paging activity (Pages/sec) and high paging file utilization. This creates sustained disk I/O, which sounds like \"churning\" on mechanical drives. The prevention strategy is adding RAM to reduce dependence on the paging file.",
+    explanationIncorrect: {
+      A: "Fragmentation affects file layout and I/O efficiency but does not explain RAM dropping below 5% or paging file utilization above 85%. The counters point to paging, not file fragmentation.",
+      B: "Bad sectors can cause disk stalls, but the provided memory and paging counters strongly indicate the disk is being used as virtual memory due to insufficient RAM, not necessarily failing media.",
+      D: "A CPU cache or CPU-bound process would manifest as high sustained CPU usage, but CPU is low (15%). The dominant symptom is paging due to low available RAM."
+    },
+    examTrap: "Misinterpreting Secondary Symptoms. The noise points to the disk, but the metrics show the disk is a victim of paging due to insufficient RAM."
+  },
+
+  {
+    id: "Q013",
+    topic: "Remote Access Technologies (Obj 4.9) — WinRM Security",
+    difficulty: "hard",
+    scenario: "A systems administrator is implementing an automated solution to forward application error logs from 50 remote Windows 10 laptops to a central management server. The administrator configures WinRM (Windows Remote Management) to facilitate this exchange. A junior security analyst reviews the deployment and issues a formal objection, stating that because WinRM is a SOAP-based protocol communicating over the default HTTP port, the sensitive log data will be transmitted in clear text across the network.",
+    prompt: "How should the systems administrator evaluate the security analyst's concern regarding the WinRM configuration?",
+    choices: [
+      { key: "A", text: "The concern is valid; the administrator must deploy third-party certificates to encapsulate all WinRM traffic inside an HTTPS tunnel." },
+      { key: "B", text: "The concern is unfounded; WinRM natively utilizes Kerberos authentication to seamlessly encrypt the traffic before passing it through the HTTP connection." },
+      { key: "C", text: "The concern is valid; the administrator must change the default WinRM listening port from TCP 80 to TCP 443 to automatically enforce TLS encryption." },
+      { key: "D", text: "The concern is unfounded; the administrator can mandate Network Level Authentication (NLA) on the clients to encrypt the pre-authentication log data." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"because WinRM is a SOAP-based protocol communicating over the default HTTP port, the sensitive log data will be transmitted in clear text\"",
+    explanationCorrect: "In a Windows domain environment, WinRM uses integrated authentication (commonly Kerberos), which provides encryption and integrity protection for the payload even when HTTP is used as the transport. Therefore the assumption that WinRM over HTTP is \"clear text\" is incorrect in the domain context described.",
+    explanationIncorrect: {
+      A: "Configuring WinRM over HTTPS with certificates is valid in some environments (especially outside a domain), but it does not mean HTTP-based WinRM is inherently clear text when Kerberos is in use.",
+      C: "Changing a port number does not enforce TLS encryption. TLS requires certificate bindings and explicit HTTPS configuration; port changes alone do not apply cryptography.",
+      D: "NLA is specific to RDP security and does not encrypt WinRM SOAP traffic."
+    },
+    examTrap: "Protocol Misconceptions. The scenario tests the difference between transport (HTTP) and payload security (Kerberos-based encryption/integrity)."
+  },
+
+  {
+    id: "Q014",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1)",
+    difficulty: "easy",
+    scenario: "A user's Windows 10 workstation downloads and installs a mandatory corporate display driver update. Upon restarting, Windows appears to boot normally, but after the sign-in phase, it only displays a completely black screen. The hard drive activity LED continues to blink periodically, and the monitor’s power indicator remains solid green, proving the monitor is receiving a video signal and the PC is powered on. The user has unsaved documents open and wants to avoid a hard reboot if possible.",
+    prompt: "What is the BEST immediate action the technician should take to test if the operating system is still responsive and attempt to reinitialize the display?",
+    choices: [
+      { key: "A", text: "Boot into the Windows Recovery Environment (WinRE) and run the Startup Repair tool." },
+      { key: "B", text: "Press WINDOWS + CTRL + SHIFT + B on the keyboard." },
+      { key: "C", text: "Press CTRL + ALT + DEL, open Task Manager, and manually restart the explorer.exe process." },
+      { key: "D", text: "Restart the computer in Safe Mode and roll back the display driver in Device Manager." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"only displays a completely black screen... monitor is receiving a video signal... test if the operating system is still responsive\"",
+    explanationCorrect: "WINDOWS + CTRL + SHIFT + B triggers Windows to reset the graphics driver and reinitialize the display pipeline. This is the least invasive step to test responsiveness and can recover a session without forcing a restart, which preserves the user’s open work if the OS is still running.",
+    explanationIncorrect: {
+      A: "Startup Repair targets boot problems; the OS has progressed beyond sign-in, implying boot completion. Entering WinRE is more disruptive than attempting the built-in graphics reset shortcut.",
+      C: "Restarting explorer.exe can help when the shell crashes, but a completely black screen after a driver update strongly suggests a graphics pipeline issue where CTRL+ALT+DEL may not render reliably.",
+      D: "Safe Mode rollback may be necessary long-term, but it requires a restart and will terminate the user session, violating the requirement to avoid a hard reboot if possible."
+    },
+    examTrap: "Least Invasive Diagnostic. The trap is selecting a long-term fix (rollback) rather than the immediate non-destructive display reset."
+  },
+
+  {
+    id: "Q015",
+    topic: "Remote Access Technologies (Obj 4.9) — Endpoint Management + Access Control",
+    difficulty: "easy",
+    scenario: "The Chief Information Security Officer (CISO) for a large, single enterprise mandates that the internal IT department must implement a centralized software suite to oversee both employee Windows workstations and corporate-issued Android smartphones. The CISO explicitly requires the solution to feature deep access control capabilities, meaning the software must dynamically evaluate OS update status and prevent non-compliant devices from connecting to the internal corporate network. The solution will be managed exclusively by internal staff.",
+    prompt: "Which of the following technologies is the MOST appropriate, policy-compliant solution for this enterprise?",
+    choices: [
+      { key: "A", text: "A Remote Monitoring and Management (RMM) tool." },
+      { key: "B", text: "Microsoft Remote Assistance (MSRA) configured over HTTPS." },
+      { key: "C", text: "A Mobile Device Management / Desktop Management (MDM) software suite." },
+      { key: "D", text: "Simple Protocol for Independent Computing Environments (SPICE) over TLS." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"oversee both employee Windows workstations and corporate-issued Android smartphones... prevent non-compliant devices from connecting\"",
+    explanationCorrect: "MDM/Desktop Management platforms are designed for centralized policy enforcement and device compliance across heterogeneous endpoints (Windows and Android). They can evaluate posture (updates, compliance) and apply conditional access or quarantine actions, matching the access control requirement under a single-enterprise internal IT model.",
+    explanationIncorrect: {
+      A: "RMM tools are commonly oriented toward MSP multi-tenant support workflows and remote maintenance, not enterprise-wide compliance-based access control across mixed device classes as the primary objective.",
+      B: "MSRA is a point-in-time remote support tool and has no centralized compliance enforcement or Android management capability.",
+      D: "SPICE is a remote display protocol for virtualized environments, not a policy engine for managing laptops and smartphones."
+    },
+    examTrap: "Differentiating Enterprise Management Tools. The scenario tests policy enforcement and compliance controls (MDM) versus remote support or virtualization protocols."
+  },
+
+  {
+    id: "Q016",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — ping Error Interpretation",
+    difficulty: "medium",
+    scenario: "A workstation with the IP address 192.168.1.100 cannot access a local file server located at 192.168.1.101. The technician opens a command prompt and runs ping 192.168.1.101. The immediate output returned is: Reply from 192.168.1.100: Destination host unreachable. The technician verifies that the file server is powered on and physically connected to the network switch.",
+    prompt: "Based on the specific command-line output, what is the MOST likely cause of the connection failure?",
+    choices: [
+      { key: "A", text: "The default gateway router has no forwarding information for the destination IP address." },
+      { key: "B", text: "The destination file server's firewall is explicitly configured to drop inbound ICMP echo requests." },
+      { key: "C", text: "The sending workstation's Address Resolution Protocol (ARP) probe failed to locate the MAC address of the destination." },
+      { key: "D", text: "The Windows Network Connectivity Status Indicator (NCSI) cannot resolve the DNS query for the file server." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Reply from 192.168.1.100: Destination host unreachable.\"",
+    explanationCorrect: "When the sender’s own IP reports \"Destination host unreachable\" for a local-subnet target, the sender could not deliver the packet at Layer 2 because it could not resolve the destination MAC address via ARP. This indicates a local link-layer failure such as ARP resolution failure due to a disconnected interface, wrong subnet mask, duplicate IP, or VLAN/port issues preventing ARP replies.",
+    explanationIncorrect: {
+      A: "A routing table problem would typically generate an unreachable response from the gateway’s IP, not the sender’s IP, especially when both endpoints are on the same subnet.",
+      B: "If ICMP echo requests are dropped by a firewall, ping usually results in \"Request timed out,\" not a local \"Destination host unreachable\" response from the sender.",
+      D: "NCSI is related to internet connectivity checks and DNS; this ping uses a raw IP address and bypasses DNS."
+    },
+    examTrap: "Interpreting CLI Error Strings. The scenario tests differentiating sender-generated unreachable errors (local ARP/L2 issue) from gateway-generated unreachable errors (routing issue)."
+  },
+
+  {
+    id: "Q017",
+    topic: "Windows OS Features & Tools (Obj 1.4) — PerfMon Privileged vs User Time",
+    difficulty: "hard",
+    scenario: "A user reports that their older desktop runs unacceptably slow when multitasking. A technician opens Performance Monitor to establish a baseline and observes that the % Processor Time counter is sustained at an average of 95% for extended periods. To investigate further, the technician examines the individual threads within the Processor object. The technician notes that % Privileged Time accounts for 85% of the total usage, while % User Time accounts for only 10%.",
+    prompt: "Based on these performance counters, what is the MOST likely cause of the sluggish performance?",
+    choices: [
+      { key: "A", text: "A third-party financial application is caught in an infinite loop and monopolizing the CPU." },
+      { key: "B", text: "The system is severely lacking in physical RAM, causing the disk drive to endlessly write to the pagefile." },
+      { key: "C", text: "The CPU is underpowered for the current operating system demands and is struggling to execute core Windows processes." },
+      { key: "D", text: "The physical hard drive has bad sectors, forcing the CPU to continuously wait for mechanical read/write operations." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"% Privileged Time accounts for 85% of the total usage, while % User Time accounts for only 10%\"",
+    explanationCorrect: "Sustained CPU usage dominated by % Privileged Time indicates the processor is spending most of its time executing kernel-mode work such as OS routines and drivers. This profile suggests the system is overwhelmed by core OS overhead rather than a user-mode application. In practice, this commonly indicates hardware that is insufficient for the OS workload or an extreme driver/kernel demand profile, making an underpowered CPU the most likely cause among the options.",
+    explanationIncorrect: {
+      A: "A user-mode application loop would primarily raise % User Time, not % Privileged Time.",
+      B: "RAM shortage typically manifests as high paging counters (Pages/sec, disk queue), not necessarily privileged CPU time dominance.",
+      D: "A failing disk tends to increase I/O wait and disk counters; it does not inherently drive privileged CPU time to 85%."
+    },
+    examTrap: "Advanced Metric Differentiation. The scenario tests whether candidates interpret Privileged vs User time to distinguish OS/kernel pressure from application pressure."
+  },
+
+  {
+    id: "Q018",
+    topic: "Remote Access Technologies (Obj 4.9) — RDP Credential Protection",
+    difficulty: "hard",
+    scenario: "A senior network administrator needs to perform emergency analysis on a remote Windows Server that is currently suspected of being infected with advanced malware. The administrator must connect to the server's desktop using the Remote Desktop Protocol (RDP). However, the administrator is highly concerned that the malware could harvest their elevated domain credentials (via a Pass-the-Hash attack) as soon as the session is established on the compromised machine.",
+    prompt: "Which of the following configurations MUST the administrator utilize to mitigate the risk of credential theft during this specific remote session?",
+    choices: [
+      { key: "A", text: "Require Network Level Authentication (NLA) on the target server." },
+      { key: "B", text: "Connect using RDP Restricted Admin (RDPRA) Mode." },
+      { key: "C", text: "Establish a Virtual Private Network (VPN) tunnel before launching the mstsc.exe client." },
+      { key: "D", text: "Configure WinRM to encapsulate the RDP traffic inside an encrypted SOAP/Kerberos tunnel." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"suspected of being infected with advanced malware... concerned that the malware could harvest their elevated domain credentials\"",
+    explanationCorrect: "RDP Restricted Admin mode (or related credential protection mechanisms) reduces exposure of reusable credentials on a remote host by altering how authentication material is handled during the session. In the context of a compromised target, this mitigates credential theft risks such as pass-the-hash by preventing the remote machine from receiving or storing the administrator’s full credential material in the typical way.",
+    explanationIncorrect: {
+      A: "NLA primarily prevents pre-authentication resource exhaustion and reduces exposure to unauthenticated session floods; it does not specifically protect credentials after the session is established on a compromised host.",
+      C: "A VPN protects data in transit but does not prevent malware on the remote host from harvesting credentials once an authenticated session is established.",
+      D: "WinRM is a separate management protocol and does not encapsulate RDP desktop sessions as described."
+    },
+    examTrap: "Distinguishing Security Tool Purposes. The scenario tests credential protection on compromised hosts (Restricted Admin) versus network-level protections (NLA/VPN)."
+  },
+
+  {
+    id: "Q019",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — UEFI/GPT vs Legacy Boot Repairs",
+    difficulty: "medium",
+    scenario: "A Windows 10 workstation utilizing a modern UEFI configuration abruptly loses power. Upon restarting, the screen displays a \"No OS found\" error. The technician enters the system firmware setup and verifies that the primary NVMe storage drive is detected and set as the priority boot device. The technician boots the system using a Windows recovery USB and opens the Windows Recovery Environment (WinRE) command prompt to manually repair the boot loader.",
+    prompt: "Which of the following bootrec commands MUST the technician explicitly AVOID using to repair this specific system?",
+    choices: [
+      { key: "A", text: "bootrec /fixboot" },
+      { key: "B", text: "bootrec /rebuildbcd" },
+      { key: "C", text: "bootrec /fixmbr" },
+      { key: "D", text: "diskpart (to verify the active partition)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"modern UEFI configuration... MUST the technician explicitly AVOID using\"",
+    explanationCorrect: "UEFI systems use GPT partitioning and do not rely on a legacy Master Boot Record for boot. The bootrec /fixmbr command targets legacy MBR repair and is not appropriate for a UEFI/GPT boot chain. Using it on a GPT disk is incompatible with the expected architecture and can lead to additional boot complications.",
+    explanationIncorrect: {
+      A: "bootrec /fixboot can be valid to write a new boot sector to the system partition, depending on the recovery context.",
+      B: "bootrec /rebuildbcd is a common and appropriate recovery action to rebuild the Boot Configuration Data store for Windows installations.",
+      D: "diskpart is a valid investigation tool in WinRE to inspect partitions; it is not a bootrec action and is not inherently harmful when used carefully."
+    },
+    examTrap: "Legacy vs Modern Environments. The scenario tests knowing that MBR-specific repairs are not appropriate for UEFI/GPT systems."
+  },
+
+  {
+    id: "Q020",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Profile Load Phase Diagnosis",
+    difficulty: "easy",
+    scenario: "A user states that their Windows 10 laptop boots up quickly, seamlessly passing the BIOS splash screen and immediately presenting the Windows sign-in prompt. However, after the user enters their password, the screen displays a \"Welcome\" spinning circle for over five minutes before the desktop icons and taskbar finally load. Once loaded, the system feels sluggish. The technician suspects file corruption rather than a hardware failure.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the MOST likely cause of the severe delay following the sign-in phase, and what is the best immediate remediation strategy?",
+    choices: [
+      { key: "A", text: "The WINLOAD.EXE process has stalled; the technician should use System Restore to roll back recent OS updates." },
+      { key: "B", text: "The registry settings file NTUSER.DAT is corrupted; the technician should rebuild the local user profile." },
+      { key: "C", text: "The BOOTMGR.EXE file is missing; the technician should boot to WinRE and rebuild the Boot Configuration Data (BCD)." },
+      { key: "D", text: "A startup background service is stuck in a boot loop; the technician should run sfc /scannow from the command prompt." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"after the user enters their password, the screen displays a \"Welcome\" spinning circle for over five minutes\"",
+    explanationCorrect: "Because the system reaches the sign-in screen quickly, the pre-login boot loader and kernel startup stages are functioning. A major delay after authentication indicates user-profile initialization problems, including loading user hives and startup items. NTUSER.DAT is a core per-user registry hive; corruption can cause long delays at the Welcome screen. Rebuilding the profile (creating a new profile and migrating data) is the targeted remediation.",
+    explanationIncorrect: {
+      A: "WINLOAD.EXE operates before the sign-in screen. A WINLOAD stall would prevent reaching sign-in quickly, which contradicts the scenario.",
+      C: "Missing BOOTMGR would prevent Windows from loading at all and would produce a boot error before sign-in.",
+      D: "sfc repairs core OS files, not necessarily corrupted user profile hives that load after sign-in; it is not the most direct immediate action for this symptom sequence."
+    },
+    examTrap: "Timeline Troubleshooting. The scenario tests mapping symptoms to boot phases: post-login delays point to profile initialization rather than boot loader files."
+  },
+
+  {
+    id: "Q021",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — DNS Cache Remediation",
+    difficulty: "medium",
+    scenario: "A company recently migrated its internal intranet portal to a new server with a different IP address. A user reports that when they type intranet.corp.local into their browser, they are still directed to the old, decommissioned website. The technician runs a ping intranet.corp.local command on the user's workstation, and the output shows replies coming from the old server's IP address. The network administrator confirms that the domain's authoritative DNS server has already been updated with the correct, new A record.",
+    prompt: "What is the BEST command-line action the technician should take to resolve this issue without rebooting the workstation?",
+    choices: [
+      { key: "A", text: "Run nslookup -type=A intranet.corp.local to force the host to query the new record." },
+      { key: "B", text: "Run ipconfig /flushdns to clear the local DNS resolver cache." },
+      { key: "C", text: "Run ipconfig /release followed by ipconfig /renew to pull the new IP address." },
+      { key: "D", text: "Run netstat -R to clear the routing table of the old IP path." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"authoritative DNS server has already been updated with the correct, new A record\"",
+    explanationCorrect: "If the authoritative DNS record is correct but the workstation still resolves to the old IP, the local resolver cache is likely holding a stale mapping. ipconfig /flushdns clears the local DNS cache, forcing fresh resolution from the DNS server without requiring a reboot.",
+    explanationIncorrect: {
+      A: "nslookup verifies DNS server responses but does not remove the cached record used by normal resolver behavior and applications; it is diagnostic, not corrective, for the cache.",
+      C: "ipconfig /release and /renew refresh DHCP addressing and do not directly clear stale name-to-IP cache entries.",
+      D: "netstat is for connections and does not clear DNS caches; routing tables are handled by different utilities."
+    },
+    examTrap: "Diagnostic vs Remediation Commands. The scenario already confirms server records are correct, so the required action is local cache remediation."
+  },
+
+  {
+    id: "Q022",
+    topic: "Remote Access Technologies (Obj 4.9) — Quick Assist + UAC Secure Desktop",
+    difficulty: "hard",
+    scenario: "A helpdesk technician utilizes the Windows 10 Quick Assist feature (via CTRL+WINDOWS+Q) to securely connect to a remote user's home computer over an encrypted HTTPS (TCP/443) connection. The connection establishes perfectly, and the technician can control the user's mouse. However, when the technician attempts to open Device Manager to update a driver, the technician's view of the screen pauses, and they cannot click or type anything. Over the phone, the user states that a greyed-out prompt has suddenly appeared on their screen asking for permission.",
+    prompt: "What is the underlying technical cause of this specific remote access limitation?",
+    choices: [
+      { key: "A", text: "Quick Assist dynamic ephemeral ports are being blocked by the Windows Defender Firewall." },
+      { key: "B", text: "Quick Assist cannot interact with the Secure Desktop feature of User Account Control (UAC)." },
+      { key: "C", text: "The remote host has Network Level Authentication (NLA) enforced for administrative sessions." },
+      { key: "D", text: "The user’s system is missing the correct local host key fingerprint in the SSH cache." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"greyed-out prompt has suddenly appeared on their screen asking for permission... technician's view of the screen pauses\"",
+    explanationCorrect: "UAC elevation prompts can switch Windows into Secure Desktop mode, isolating the prompt from standard user-mode interactions to prevent spoofing. Quick Assist operates in the user session context and cannot interact with Secure Desktop by design. Therefore, the remote view appears paused while the local user must approve or enter credentials.",
+    explanationIncorrect: {
+      A: "The connection is established and control is working, which indicates the network path is not blocked. The failure occurs when UAC triggers, not during session establishment.",
+      C: "NLA is an RDP-specific feature and does not apply to Quick Assist’s operation.",
+      D: "SSH host key fingerprints are unrelated to Quick Assist, which uses TLS over HTTPS rather than SSH."
+    },
+    examTrap: "Tool Limitations vs Security Features. The scenario tests recognizing Secure Desktop boundaries rather than assuming network failure."
+  },
+
+  {
+    id: "Q023",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Event Viewer for Hard Reboots",
+    difficulty: "easy",
+    scenario: "A user complains that their workstation periodically shuts down and restarts completely at random. There is no Blue Screen of Death (BSoD) displayed before the crash occurs. The user believes it happens specifically when they open a heavy proprietary database application, but the software vendor insists their application cannot cause a hard reboot. The technician decides to review the Windows logs to establish a theory of probable cause.",
+    prompt: "According to the CompTIA troubleshooting methodology, where is the BEST place for the technician to look FIRST to investigate this hard reboot behavior?",
+    choices: [
+      { key: "A", text: "Filter the Event Viewer Application log for \"Error\" level events." },
+      { key: "B", text: "Filter the Event Viewer System log for \"Critical\" level events." },
+      { key: "C", text: "Open Performance Monitor and run a Trace Log on the database application's PID." },
+      { key: "D", text: "Check the Event Viewer Security log for \"Audit Failure\" events." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"periodically shuts down and restarts completely at random... investigate this hard reboot behavior\"",
+    explanationCorrect: "Unexpected shutdowns and hard reboots are OS/hardware-level events recorded in the System log. Filtering for Critical events (such as Kernel-Power events) provides the most direct evidence of the reboot timing and cause signals. This supports building a theory of probable cause based on authoritative system events rather than user suspicion.",
+    explanationIncorrect: {
+      A: "Application logs capture user-mode application crashes. User-mode crashes typically close an app, not force an immediate hard reboot without a BSoD.",
+      C: "Performance Monitor is suitable for resource baselining, but it does not replace system crash event investigation for sudden power-loss reboots.",
+      D: "Security logs track authentication and audit events, not kernel power events or unexpected shutdowns."
+    },
+    examTrap: "Following the Misleading Symptom. The user blames an application, but the correct first log for hard reboots is the System log."
+  },
+
+  {
+    id: "Q024",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — USB Controller Resource Limits",
+    difficulty: "hard",
+    scenario: "A user purchases an unpowered, 7-port USB 3.0 hub and connects a high-definition webcam, a printer, and four external hard drives to it. Immediately upon plugging the hub into the workstation's front USB 3.0 port, Windows displays a \"USB controller resource warning\" and drops the connection to several of the drives. Task Manager shows CPU and Memory are both under 15%. The technician uses Device Manager to update the chipset and USB host controller drivers to the latest versions, but the exact same warning appears upon reboot.",
+    prompt: "What is the MOST likely cause of this error, and what is the best remediation strategy?",
+    choices: [
+      { key: "A", text: "The system is aggressively enforcing the USB Selective Suspend power management feature; the technician must disable this policy globally." },
+      { key: "B", text: "The single USB 3.0 controller has exhausted its maximum allowable device endpoints; the technician should move low-bandwidth devices to a USB 2.0 port." },
+      { key: "C", text: "The unpowered hub is drawing more wattage than the motherboard header can supply, causing a localized power fault; the technician should install a larger system power supply (PSU)." },
+      { key: "D", text: "The external hard drives contain heavily fragmented partitions that are causing read/write timeouts on the USB bus; the technician should run defrag on all external drives." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"USB controller resource warning... unpowered, 7-port USB 3.0 hub... updated drivers... exact same warning\"",
+    explanationCorrect: "A USB controller resource warning commonly indicates endpoint/resource exhaustion on a single host controller due to too many devices behind one port/hub. After verifying drivers are current, the practical remediation is distributing devices across different controllers/ports, moving lower-bandwidth peripherals to USB 2.0 ports to reduce endpoint pressure on the USB 3.0 controller.",
+    explanationIncorrect: {
+      A: "Selective Suspend concerns power-saving behavior during idle/sleep states and does not typically produce an immediate controller resource warning on insertion.",
+      C: "Power draw issues can occur with unpowered hubs, but the specific OS warning in the scenario is a controller resource warning, which is more directly tied to controller resource limits than system PSU capacity.",
+      D: "Disk fragmentation affects file layout and I/O performance, not USB controller resource allocation at device enumeration time."
+    },
+    examTrap: "Recognizing Specific OS Warning Strings. The scenario tests endpoint/resource exhaustion rather than general power or disk maintenance assumptions."
+  },
+
+  {
+    id: "Q025",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Boot Logging",
+    difficulty: "medium",
+    scenario: "A technician is troubleshooting a Windows 10 workstation that frequently hangs for three minutes during the boot process. The hang occurs immediately after the Windows logo appears but before the sign-in screen is presented. The technician suspects that a specific, non-essential hardware driver is stalling as it attempts to initialize. To prove this theory, the technician needs to generate a text file that records every driver as it loads during the startup sequence.",
+    prompt: "Which tool and configuration should the technician use to accomplish this?",
+    choices: [
+      { key: "A", text: "Open the System Configuration Utility (msconfig), navigate to the Boot tab, and check the \"Boot log\" box." },
+      { key: "B", text: "Boot into the Windows Recovery Environment (WinRE) and run bootrec /rebuildbcd." },
+      { key: "C", text: "Open Task Manager, navigate to the Startup tab, right-click the headers, and enable the \"Boot Time\" column." },
+      { key: "D", text: "Open the Services console (services.msc), locate the stalled driver, and change its Startup Type to \"Delayed Start.\"" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"generate a text file that records every driver as it loads during the startup sequence\"",
+    explanationCorrect: "msconfig can enable Boot log, which records driver load activity during startup into a text file (commonly %SystemRoot%\\ntbtlog.txt). This provides an ordered record of loaded drivers and can help identify the driver that stalls before the sign-in screen.",
+    explanationIncorrect: {
+      B: "bootrec /rebuildbcd repairs boot configuration data issues but does not create a driver load log file.",
+      C: "Task Manager Startup relates to post-login applications and does not log kernel-mode driver initialization during the boot sequence.",
+      D: "Changing a service to Delayed Start is a remediation step after identification and does not generate the requested driver load text file."
+    },
+    examTrap: "Feature Location Recall. The scenario tests knowing that Boot logging is configured in msconfig under the Boot tab."
+  },
+
+  {
+    id: "Q026",
+    topic: "Remote Access Technologies (Obj 4.9) — SSH First-Connection Warning",
+    difficulty: "hard",
+    scenario: "A technician is tasked with configuring a newly provisioned Linux branch office router. The technician uses a Windows 10 workstation and a Secure Shell (SSH) client to connect to the router's IP address for the very first time. Upon initiating the connection over TCP port 22, the terminal halts and displays a warning prompt: \"The server's host key was not found in the cache. You have no guarantee that the server is the computer you think it is.\" Due to a recent phishing campaign, the technician suspects an on-path (man-in-the-middle) attack is intercepting the session.",
+    prompt: "What is the MOST likely cause of this warning message, and what is the best immediate action?",
+    choices: [
+      { key: "A", text: "The client is missing the correct private key required for user authentication; the technician must run a key-generation utility before connecting." },
+      { key: "B", text: "A malicious proxy server is substituting its own digital certificate for the router's certificate; the technician must press \"Cancel\" and rebuild the connection over HTTPS." },
+      { key: "C", text: "The client machine has never connected to this specific server before; the technician should verify the key fingerprint out-of-band and press \"Yes\" to cache it." },
+      { key: "D", text: "The SSH server's public key has expired or been revoked by the Certificate Authority (CA); the technician should press \"No\" and update the keys via WinRM." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"newly provisioned... for the very first time\"",
+    explanationCorrect: "SSH clients cache server host keys to detect unexpected changes on later connections. On a first connection, the cache entry does not exist, so the client warns that it cannot verify the server identity yet. The correct action is verifying the fingerprint through an out-of-band trusted method and then accepting it so it can be cached for future integrity checks.",
+    explanationIncorrect: {
+      A: "Client private keys relate to user authentication, but this warning occurs during server identity verification before user authentication completes.",
+      B: "SSH uses host keys rather than web TLS certificates in the described mechanism; the more likely cause is a first-time connection cache miss.",
+      D: "SSH host keys are not typically managed via a central CA revocation model, and WinRM is unrelated to Linux SSH host key management."
+    },
+    examTrap: "Misinterpreting Expected Security Warnings. The scenario’s misleading context (recent phishing) tempts an active-attack conclusion when the first-time connection explanation is normal."
+  },
+
+  {
+    id: "Q027",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — DLL Registration",
+    difficulty: "medium",
+    scenario: "After an unexpected power outage, a Windows 10 workstation boots to the desktop, but a proprietary background application service fails to launch automatically. The technician checks the Event Viewer System log and finds a \"Service load failure\" entry. The event description states that the service failed to start because a dependent Dynamic Link Library (DLL) file is missing or unregistered. The technician navigates to the software's directory and verifies the DLL file is physically present and not corrupted.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST first step to resolve this specific application service failure without having to fully reinstall the software?",
+    choices: [
+      { key: "A", text: "Open an elevated command prompt and use the regsvr32 utility to manually re-register the software component." },
+      { key: "B", text: "Boot into the Windows Recovery Environment (WinRE) and run the sfc /scannow command to restore the file." },
+      { key: "C", text: "Open the System Configuration Utility (msconfig) and change the startup type for the service to \"Delayed Start.\"" },
+      { key: "D", text: "Open the Services console (services.msc) and change the service's Log On privileges to the Local System account." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"DLL file is missing or unregistered... verifies the DLL file is physically present\"",
+    explanationCorrect: "If the DLL is present but unregistered, the issue is commonly the registry linkage rather than the file itself. regsvr32 re-registers COM-capable DLL components, restoring the registry mapping the service relies on. This is a targeted, least-invasive fix consistent with testing a specific probable cause.",
+    explanationIncorrect: {
+      B: "sfc targets protected Windows system files and generally does not repair third-party application DLL registration or non-system components.",
+      C: "Delayed Start can help when services time out waiting for dependencies, but it does not correct an unregistered DLL dependency.",
+      D: "Changing logon accounts affects permissions and authentication; it does not resolve explicit DLL registration failures."
+    },
+    examTrap: "Tool Specificity. The scenario tests recognizing that sfc does not fix third-party DLL registration, while regsvr32 is the direct tool for the stated condition."
+  },
+
+  {
+    id: "Q028",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Domain Authentication + Time Sync",
+    difficulty: "easy",
+    scenario: "Several traveling executives return to the corporate headquarters after a month-long trip. When they connect their laptops to the internal network, they are unable to log into the Active Directory domain, receiving an \"Authentication failed\" error. The network administrator verifies their user accounts are active, their passwords are correct, and the domain controller is online. A local technician verifies the laptops have valid IP addresses, and successfully loads the company's internal intranet webpage on the machines. The technician then notices that the clock on the Windows taskbar on one of the laptops is currently reading six minutes behind the actual wall clock.",
+    prompt: "What is the MOST likely cause of this domain authentication failure?",
+    choices: [
+      { key: "A", text: "The laptop's Real-Time Clock (RTC) has drifted, causing the authentication system to reject the session due to a time discrepancy." },
+      { key: "B", text: "The laptop's local DNS resolver cache is corrupted and directing the logon request to an outdated domain controller IP address." },
+      { key: "C", text: "The users' cached Windows credentials have expired, requiring the local technician to unlock the accounts via the WinRM console." },
+      { key: "D", text: "A rogue background process is monopolizing the % Privileged Time on the CPU, causing the logon service to time out." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"clock... reading six minutes behind\"",
+    explanationCorrect: "Kerberos authentication depends on time synchronization to prevent replay attacks. If the client clock drifts beyond the allowed skew (commonly around five minutes), authentication can fail even with correct credentials. Long periods off the domain network make laptops susceptible to time drift, and the observed six-minute discrepancy directly supports this cause.",
+    explanationIncorrect: {
+      B: "DNS issues usually cause domain controller discovery errors rather than an explicit authentication failure, and the intranet success indicates internal name resolution is functioning at least broadly.",
+      C: "Cached credentials enable offline login; they are not typically \"unlocked\" via WinRM, and the scenario confirms the domain controller is reachable.",
+      D: "CPU issues could slow responsiveness, but the explicit clue is the time skew, which is a known Kerberos dependency."
+    },
+    examTrap: "Connecting Hardware Symptoms to Security Failures. The subtle clock drift is the decisive clue for Kerberos-based domain authentication."
+  },
+
+  {
+    id: "Q029",
+    topic: "Windows OS Features & Tools (Obj 1.4) — PerfMon User vs Privileged Time",
+    difficulty: "hard",
+    scenario: "An older Windows Server hosting a heavy, multi-threaded database application frequently becomes unresponsive during peak afternoon hours. To establish a baseline, the administrator configures a Data Collector Set in Performance Monitor. Reviewing the logs, the administrator notes that during the freezes, the overall % Processor Time is sustained at 99%. However, when examining the breakdown of that usage, the % Privileged Time remains steadily under 15%, while the % User Time averages above 84%.",
+    prompt: "Based strictly on these specific performance counters, what is the MOST likely cause of the server's unresponsiveness, and what is the best long-term remediation?",
+    choices: [
+      { key: "A", text: "The physical CPU is underpowered and struggling to execute core Windows system processes; the administrator must upgrade the server's processor." },
+      { key: "B", text: "The database application is overwhelming the processor; the administrator should limit the application's resource allocation or upgrade the server's CPU." },
+      { key: "C", text: "The system is experiencing excessive hard page faults due to exhausted RAM, forcing the CPU to wait on the paging file; the administrator must install more memory." },
+      { key: "D", text: "The server's physical hard disk is failing, causing read/write threads to stall and monopolize the kernel; the administrator should replace the drive with an SSD." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"% Privileged Time remains steadily under 15%, while the % User Time averages above 84%\"",
+    explanationCorrect: "High CPU usage dominated by % User Time indicates user-mode processes (applications) are consuming most CPU cycles. With privileged time low, the OS and drivers are not the primary consumers. Therefore the database application is the most likely cause, and long-term remediation involves throttling/optimizing its resource use or upgrading CPU capacity.",
+    explanationIncorrect: {
+      A: "If core OS processes and drivers were dominating, % Privileged Time would be high. The scenario explicitly shows privileged time is low.",
+      C: "RAM exhaustion is better indicated by paging counters (Pages/sec) and disk queue, and often produces I/O wait behaviors rather than user-mode CPU dominance.",
+      D: "Disk failure or I/O stalls typically raise disk counters and may reduce effective CPU utilization due to waiting, rather than driving user-mode CPU to 84%."
+    },
+    examTrap: "Granular Metric Interpretation. The scenario tests differentiating application CPU saturation (User time) from OS/driver saturation (Privileged time)."
+  },
+
+  {
+    id: "Q030",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — ping Gateway Unreachable",
+    difficulty: "medium",
+    scenario: "A workstation configured with the IP address 10.1.5.50 needs to transmit data to a vendor's server located at 203.0.113.15. The user complains the connection is failing. A technician opens a command prompt on the user's workstation and executes ping 203.0.113.15. The utility immediately returns the following four lines of output: Reply from 10.1.5.1: Destination net unreachable. Reply from 10.1.5.1: Destination net unreachable. Reply from 10.1.5.1: Destination net unreachable. Reply from 10.1.5.1: Destination net unreachable. The technician recognizes that 10.1.5.1 is the IP address of the local default gateway.",
+    prompt: "Based on this specific command-line output, what is the exact nature of the network failure?",
+    choices: [
+      { key: "A", text: "The local workstation failed to resolve the vendor server's MAC address via an Address Resolution Protocol (ARP) broadcast." },
+      { key: "B", text: "The vendor's remote web server is currently powered offline or is configured to explicitly drop inbound ICMP echo requests." },
+      { key: "C", text: "The local default gateway does not possess routing information for the 203.0.113.x network and dropped the packets." },
+      { key: "D", text: "The local workstation's DNS resolver cache is corrupted and has misdirected the ping to the router's interface." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Reply from 10.1.5.1: Destination net unreachable.\"",
+    explanationCorrect: "Because the unreachable message is generated by the gateway IP, the workstation successfully forwarded the traffic to the router. The router then determined it had no route to the destination network and returned an ICMP unreachable error. This indicates missing routing information or a failed upstream route for 203.0.113.0/24.",
+    explanationIncorrect: {
+      A: "ARP failures for the destination occur only on the local subnet. That would typically show an unreachable generated by the sender’s own IP for a local target, not by the gateway for a remote network.",
+      B: "If the destination were unreachable due to being offline or blocking ICMP, ping would typically time out rather than returning a gateway-generated \"net unreachable\" response.",
+      D: "The target is a raw IP, so DNS cache is irrelevant to this ping operation."
+    },
+    examTrap: "Parsing CLI Error Syntax. The scenario tests distinguishing gateway-generated unreachable errors (routing) from sender-generated unreachable errors (local delivery/ARP)."
+  },
+
+  {
+    id: "Q031",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Recovery Tool Scope",
+    difficulty: "easy",
+    scenario: "A user accidentally deletes an entire folder of critical .docx spreadsheets and .jpg image assets from their desktop. Desperate to recover the files, the user opens the System Restore utility and successfully reverts the workstation to an automatic restore point created four days prior. Upon rebooting, the user complains that the deleted files are still missing, and to make matters worse, a PDF editing application they installed yesterday is now gone.",
+    prompt: "According to the principles of Windows recovery tools, why did this troubleshooting step fail to recover the missing files?",
+    choices: [
+      { key: "A", text: "The restore point was corrupted due to a lack of available disk space, causing a partial rollback." },
+      { key: "B", text: "System Restore must be executed from the Windows Recovery Environment (WinRE) to recover user data." },
+      { key: "C", text: "The user failed to check the \"Restore Personal Files\" box within the Advanced System Properties menu." },
+      { key: "D", text: "System Restore only reverts system configurations and applications; it explicitly does not affect user data files." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"deletes... critical .docx... and .jpg... System Restore... deleted files are still missing\"",
+    explanationCorrect: "System Restore targets system state: registry, drivers, system files, and installed applications. It does not restore user data files such as documents or pictures. Therefore, the files remain deleted while recently installed applications can be removed by the rollback.",
+    explanationIncorrect: {
+      A: "A corrupted restore point typically causes System Restore to fail and report that no changes were made. The removal of the PDF app indicates the restore applied successfully within its scope.",
+      B: "Running System Restore from WinRE can be necessary if Windows cannot boot, but it does not change System Restore’s scope to include user file recovery.",
+      C: "No such System Restore option exists; personal files require separate backup/recovery tools such as File History or cloud backups."
+    },
+    examTrap: "Misunderstanding Tool Scope. The scenario tests knowing System Restore is not a user file recovery solution."
+  },
+
+  {
+    id: "Q032",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Event Viewer for App Crashes",
+    difficulty: "medium",
+    scenario: "An architect using a high-end Windows 10 workstation reports that a specialized, third-party 3D modeling application suddenly and cleanly closes to the desktop while rendering complex designs. The application does not freeze, and the entire workstation never reboots or displays a Blue Screen of Death (BSoD). The user suspects the system's power supply is failing under heavy graphical loads. The technician wants to verify the exact error code generated the moment the application drops.",
+    prompt: "Which of the following Event Viewer logs is the BEST place for the technician to look FIRST to investigate this specific behavior?",
+    choices: [
+      { key: "A", text: "The System log" },
+      { key: "B", text: "The Application log" },
+      { key: "C", text: "The Hardware Events log" },
+      { key: "D", text: "The Security log" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"application... cleanly closes to the desktop... workstation never reboots or displays a Blue Screen\"",
+    explanationCorrect: "A third-party application crash that returns to a stable desktop is a user-mode event and is recorded in the Application log. The System log is reserved for OS-level and driver/hardware events. Therefore, the Application log is the correct first place to find faulting module and exception codes for the app crash.",
+    explanationIncorrect: {
+      A: "System log entries are more appropriate for kernel-level failures, driver issues, and power events; the OS remains stable here.",
+      C: "Hardware Events would be relevant if the system experienced hardware-related shutdowns or device failures, which is not consistent with a clean app exit.",
+      D: "Security logs record audit events and authentication, not application stability faults."
+    },
+    examTrap: "Following Misleading User Diagnosis. The user blames power supply, but the symptom indicates an application crash recorded in the Application log."
+  },
+
+  {
+    id: "Q033",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Transitory Boot Errors",
+    difficulty: "hard",
+    scenario: "A user with an older desktop computer frequently leaves a USB flash drive connected to the front panel for daily backups. Periodically, when the user turns on the PC in the morning, the system halts with an \"Invalid boot disk\" error message. The user notes that if they simply press CTRL+ALT+DEL without touching the USB drive, the computer will reboot and load Windows perfectly on the second attempt.",
+    prompt: "What is the MOST likely cause of this transitory boot failure?",
+    choices: [
+      { key: "A", text: "The system firmware boot priority is incorrectly configured to boot from the USB drive first." },
+      { key: "B", text: "The Master Boot Record (MBR) on the primary hard disk is corrupted and requires the bootrec /fixmbr command." },
+      { key: "C", text: "The fixed hard disk is physically failing or the older system firmware is struggling to detect it in time." },
+      { key: "D", text: "The BOOTMGR file is missing from the hidden System Reserved partition." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Periodically... Invalid boot disk... warm reboot loads Windows perfectly\"",
+    explanationCorrect: "An intermittent \"Invalid boot disk\" that resolves on a warm reboot without changing devices strongly suggests a detection timing issue rather than permanent boot configuration or file corruption. On older systems, slow spin-up or marginal hardware can cause the drive to be undetected on cold boot. A warm reboot occurs after the drive is already spinning and detectable.",
+    explanationIncorrect: {
+      A: "A boot priority misconfiguration would cause the same failure consistently whenever the USB is connected, not intermittently resolved by a warm reboot while the USB remains attached.",
+      B: "MBR corruption is persistent and would prevent successful boots on subsequent attempts.",
+      D: "A missing BOOTMGR file would cause a consistent boot failure; the OS would not load on the second attempt."
+    },
+    examTrap: "Transitory vs Permanent Errors. The intermittent nature rules out static configuration/file issues and points to hardware detection/timing."
+  },
+
+  {
+    id: "Q034",
+    topic: "Remote Access Technologies (Obj 4.9) — Firewall Traversal",
+    difficulty: "medium",
+    scenario: "A helpdesk technician needs to remotely troubleshoot a laptop for a traveling sales representative currently staying at a hotel. The hotel's strict guest Wi-Fi network firewall explicitly blocks all incoming and outgoing traffic on dynamic ephemeral ports (49152–65535) and standard remote desktop ports. The technician needs a native, built-in Windows 10 tool that provides graphical remote control and can easily traverse this restrictive firewall.",
+    prompt: "Which of the following tools is the BEST choice for the technician to initiate this support session?",
+    choices: [
+      { key: "A", text: "Microsoft Remote Assistance (MSRA)" },
+      { key: "B", text: "Quick Assist" },
+      { key: "C", text: "Virtual Network Computing (VNC)" },
+      { key: "D", text: "Remote Desktop Protocol (RDP)" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"blocks... dynamic ephemeral ports... native, built-in Windows 10 tool... traverse this restrictive firewall\"",
+    explanationCorrect: "Quick Assist uses HTTPS (TCP 443), which is typically permitted through restrictive networks for web traffic. Because the hotel blocks ephemeral ports and standard remote desktop ports, Quick Assist is the best built-in option that can traverse the firewall without custom port openings.",
+    explanationIncorrect: {
+      A: "MSRA often relies on dynamically negotiated ports that can fall in the ephemeral range; this is incompatible with the stated firewall restrictions.",
+      C: "VNC is third-party and commonly uses TCP 5900, which is likely blocked in restrictive guest networks.",
+      D: "Standard RDP relies on TCP 3389, which the scenario states is blocked."
+    },
+    examTrap: "Protocol Port Dependencies. The scenario tests knowing Quick Assist uses TCP 443, unlike MSRA/RDP."
+  },
+
+  {
+    id: "Q035",
+    topic: "Remote Access Technologies (Obj 4.9) — SSH Key Management",
+    difficulty: "hard",
+    scenario: "A cybersecurity analyst is auditing a company's outward-facing Linux web servers. The analyst discovers that malicious threat actors have been consistently logging into an administrative account on a specific server without ever supplying a password. The analyst reviews the server's Secure Shell (SSH) daemon configuration file and confirms that standard password authentication has been completely disabled in favor of a stricter public key authentication scheme.",
+    prompt: "What is the MOST likely reason the threat actors are successfully bypassing password entry and gaining unauthorized access?",
+    choices: [
+      { key: "A", text: "The server's host key fingerprint has been spoofed, creating an evil-twin SSH server." },
+      { key: "B", text: "The WinRM service has been compromised, allowing unencrypted Kerberos packets to pass." },
+      { key: "C", text: "A compromised client public key has been left in the server's authorized user list." },
+      { key: "D", text: "The server's Network Level Authentication (NLA) cache has expired, defaulting to an open session." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"logging... without ever supplying a password... password authentication has been completely disabled... public key authentication\"",
+    explanationCorrect: "With SSH public key authentication, any client that possesses the matching private key for an authorized public key can authenticate without entering a password. If an authorized key was compromised or should have been revoked but remained in authorized_keys, an attacker can log in passwordlessly. This is a key lifecycle management failure.",
+    explanationIncorrect: {
+      A: "Host key spoofing relates to man-in-the-middle attacks against clients; it does not explain attackers authenticating to the real server without a password.",
+      B: "WinRM is a Windows management protocol and is unrelated to Linux SSH authentication.",
+      D: "NLA is an RDP mechanism and has no role in SSH authentication."
+    },
+    examTrap: "Key Management Vulnerabilities. The scenario tests that public key authentication is only as strong as key control and revocation practices."
+  },
+
+  {
+    id: "Q036",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — Viewing DNS Cache",
+    difficulty: "medium",
+    scenario: "A user states they cannot reach the internal corporate CRM server by navigating to crm.local in their browser. However, a local technician finds they can successfully reach the server by typing its IP address directly into the browser. The technician suspects that the workstation's local DNS resolver cache contains an outdated or poisoned name-to-IP mapping that is overriding the network's current DNS server records. Before clearing any data, the technician wants to visually verify the exact mappings currently stored on the local host to confirm this theory.",
+    prompt: "Which command MUST the technician run to view this specific cached information?",
+    choices: [
+      { key: "A", text: "nslookup -type=ns crm.local" },
+      { key: "B", text: "ipconfig /flushdns" },
+      { key: "C", text: "ipconfig /displaydns" },
+      { key: "D", text: "netstat -n" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"visually verify the exact mappings currently stored on the local host... before clearing any data\"",
+    explanationCorrect: "ipconfig /displaydns displays the contents of the local DNS resolver cache, including hostname-to-IP mappings and record details. This is the correct command to confirm whether the workstation is using an outdated or poisoned cached record before taking corrective action.",
+    explanationIncorrect: {
+      A: "nslookup queries DNS servers directly; it does not display the workstation’s local resolver cache contents.",
+      B: "ipconfig /flushdns clears the cache; it is corrective and would destroy the evidence the technician wants to inspect first.",
+      D: "netstat -n lists connections without name resolution and does not display DNS cache entries."
+    },
+    examTrap: "Diagnostic vs Remediation. The scenario tests knowing displaydns (view) versus flushdns (clear)."
+  },
+
+  {
+    id: "Q037",
+    topic: "Remote Access Technologies (Obj 4.9) — VM Remote Display Protocols",
+    difficulty: "hard",
+    scenario: "A systems administrator needs to implement a solution to remotely monitor and graphically interact with several centralized Virtual Machine (VM) environments located in an off-site datacenter. To comply with strict corporate security policies regarding data transit over the Internet, the solution must natively support TLS encryption and offer Kerberos authentication.",
+    prompt: "Which of the following remote access technologies is BEST suited and policy-compliant for this specific task?",
+    choices: [
+      { key: "A", text: "Microsoft Remote Assistance (MSRA)" },
+      { key: "B", text: "Simple Protocol for Independent Computing Environments (SPICE)" },
+      { key: "C", text: "Virtual Network Computing (VNC)" },
+      { key: "D", text: "Windows Remote Management (WinRM)" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"graphically interact with... Virtual Machine (VM) environments... natively support TLS encryption and offer Kerberos authentication\"",
+    explanationCorrect: "SPICE is designed for remote display and interaction with virtualized desktop/VM environments and can be configured with strong security mechanisms, including TLS and Kerberos in supported deployments. It matches the VM-focused remote display requirement with the stated security constraints.",
+    explanationIncorrect: {
+      A: "MSRA is intended for user-to-helpdesk desktop assistance sessions and is not a VM infrastructure remote display system with the specified enterprise security requirements.",
+      C: "VNC implementations vary; encryption and Kerberos support are not universally standard in baseline VNC deployments, making it less aligned with strict policy requirements.",
+      D: "WinRM is for remote command execution and management, not graphical VM interaction."
+    },
+    examTrap: "Recognizing Niche Remote Protocols. The scenario tests identifying SPICE by its VM-focused remote display use case and security capabilities."
+  },
+
+  {
+    id: "Q038",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Disk Bottleneck vs Paging",
+    difficulty: "medium",
+    scenario: "A user complains that their workstation runs incredibly slow when generating end-of-month financial reports. The user is convinced the workstation needs more RAM because the hard drive activity LED stays completely solid during the entire report generation. The technician opens Performance Monitor to investigate. The Memory Available Bytes counter remains consistently above 50% of the total installed RAM. However, the % Disk Time counter sustains an average of 99%, and the Average Disk Queue Length spikes severely. The Pages/sec counter remains near zero.",
+    prompt: "Based strictly on these performance counters, what is the MOST likely cause of the poor performance?",
+    choices: [
+      { key: "A", text: "The system is experiencing excessive hard page faults due to exhausted RAM." },
+      { key: "B", text: "A memory leak in the financial application is monopolizing system resources." },
+      { key: "C", text: "The physical hard drive is inherently too slow for the I/O demands or is experiencing a hardware fault." },
+      { key: "D", text: "The financial application is overwhelming the CPU, causing high % Privileged Time." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Memory Available Bytes... above 50%... % Disk Time... 99%... Pages/sec... near zero\"",
+    explanationCorrect: "High sustained % Disk Time and high disk queue length indicate the disk subsystem is saturated by I/O requests. Because Pages/sec is near zero and available memory is high, the disk activity is not caused by paging. Therefore the disk is the bottleneck (insufficient performance or hardware fault) rather than RAM shortage.",
+    explanationIncorrect: {
+      A: "If paging were the cause, Pages/sec would be elevated and available memory would be low; the counters show the opposite.",
+      B: "A memory leak would show a sustained decline in available memory over time; memory availability remains high.",
+      D: "CPU pressure would be indicated by high sustained % Processor Time and related counters, not dominant disk queue saturation with negligible paging."
+    },
+    examTrap: "Disproving the Misleading Symptom. The solid HDD LED tempts a RAM diagnosis, but the counters rule out paging and isolate disk I/O as the bottleneck."
+  },
+
+  {
+    id: "Q039",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Service Logon Failures",
+    difficulty: "hard",
+    scenario: "Following a mandatory corporate password rotation, a user logs into their Windows 10 workstation and discovers their third-party database service failed to start. The user opens the Services console (services.msc), locates the database service, and verifies its Startup Type is set to \"Automatic.\" When the user right-clicks the service and selects \"Start,\" a Windows error dialog appears stating that the service could not be started due to a logon failure.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST next step to resolve this specific service failure?",
+    choices: [
+      { key: "A", text: "Open the service properties, navigate to the Log On tab, and update the service to use the user's new password." },
+      { key: "B", text: "Run regsvr32 from an elevated command prompt to re-register the database's dependent dynamic link library (DLL) files." },
+      { key: "C", text: "Open the System Configuration Utility (msconfig) and change the service to \"Delayed Start.\"" },
+      { key: "D", text: "Open Event Viewer, filter the Application log for \"Critical\" errors, and reinstall the database software." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"password rotation... service could not be started due to a logon failure\"",
+    explanationCorrect: "Services configured to run under specific user/domain accounts store credentials. After password rotation, the stored credential can become invalid, causing explicit logon failure on service start. Updating the password in the service Log On properties is the direct corrective action aligned with the observed error and recent change.",
+    explanationIncorrect: {
+      B: "regsvr32 addresses DLL registration problems, not authentication errors. The explicit error is logon failure.",
+      C: "Delayed Start addresses timing/dependency loading issues, not incorrect credentials.",
+      D: "Reinstallation is a last resort and does not address the clear authentication symptom tied to password change context."
+    },
+    examTrap: "Connecting Context to Errors. The scenario tests using the password-rotation context and logon failure message to identify a stored-credential configuration issue."
+  },
+
+  {
+    id: "Q040",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Reset This PC (Keep my files)",
+    difficulty: "easy",
+    scenario: "A user's Windows 10 laptop becomes severely infected with malware that alters core system files, rendering the desktop entirely unstable. The technician decides the OS installation is beyond manual repair and needs a clean slate. However, the user desperately needs to retain their local personal files (documents, pictures) that were not backed up to the cloud. The system does not have an up-to-date custom recovery image.",
+    prompt: "Which recovery option MUST the technician select to repair the OS while preserving the user's data files?",
+    choices: [
+      { key: "A", text: "Run the System Restore utility from WinRE and select the oldest automatic restore point." },
+      { key: "B", text: "Boot to WinRE, select \"Reset This PC,\" and choose the \"Keep my files\" option." },
+      { key: "C", text: "Open the Backup and Restore applet in Control Panel and select \"Create a system image.\"" },
+      { key: "D", text: "Use the Advanced Boot Options to select \"Safe Mode with Command Prompt\" and run bootrec /rebuildbcd." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"OS... beyond manual repair... repair the OS while preserving the user's data files\"",
+    explanationCorrect: "Reset This PC with the \"Keep my files\" option reinstalls core Windows system files and removes applications and settings while preserving user data in the profile directories. This fits the requirement to rebuild the OS environment without deleting local documents and pictures.",
+    explanationIncorrect: {
+      A: "System Restore is not a guaranteed remediation for severe malware and does not serve as a clean reinstall approach. It also does not explicitly restore user files.",
+      C: "Creating a system image of an infected system would capture the malware along with the data and does not remediate the current instability.",
+      D: "bootrec repairs boot configuration and does not reinstall the OS or perform malware cleanup."
+    },
+    examTrap: "Recovery Tool Scopes. The scenario tests selecting the option that repairs the OS while explicitly preserving user data."
+  },
+
+  {
+    id: "Q041",
+    topic: "Microsoft Command-Line Tools (Obj 1.5) — netstat UDP Visibility",
+    difficulty: "medium",
+    scenario: "A network technician is troubleshooting a newly installed Voice over IP (VoIP) application on a Windows workstation. The software vendor specifies that the application relies on the User Datagram Protocol (UDP) to accept incoming connections. The application is currently failing to receive calls. To verify that the application has successfully opened the necessary port, the technician opens an administrative command prompt and executes the standard netstat command. However, the output is surprisingly brief and only displays a list of TCP connections, with no mention of the VoIP application's UDP port.",
+    prompt: "Which command-line switch MUST the technician append to the netstat command to successfully view the listening VoIP port?",
+    choices: [
+      { key: "A", text: "-b" },
+      { key: "B", text: "-n" },
+      { key: "C", text: "-e" },
+      { key: "D", text: "-a" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"relies on... UDP... output... only displays a list of TCP connections\"",
+    explanationCorrect: "netstat without switches can provide limited output. The -a switch expands output to show all connections and listening ports, including UDP endpoints. This is required to see the VoIP application's UDP listener.",
+    explanationIncorrect: {
+      A: "The -b switch shows the executable associated with a connection, but it does not by itself ensure UDP listeners are displayed if the output scope is otherwise limited.",
+      B: "The -n switch changes formatting to numeric output and does not add UDP/listening scope.",
+      C: "The -e switch shows Ethernet statistics, not a port list."
+    },
+    examTrap: "Tool Default Limitations. The scenario tests knowing which switch expands netstat output to include listening endpoints, including UDP."
+  },
+
+  {
+    id: "Q042",
+    topic: "Windows OS Features & Tools (Obj 1.4) — Task Manager Multi-User Diagnosis",
+    difficulty: "easy",
+    scenario: "A kiosk workstation in a corporate lobby is used by multiple visiting employees throughout the day to quickly check their webmail. An employee complains the system is suddenly responding extremely slowly. The technician opens Task Manager on the active session and observes the overall CPU utilization is sustained at 98%. However, the applications and background processes listed under the active employee's profile only account for about 5% of that CPU usage. The technician suspects a previous employee closed their web browser but did not properly sign out of their session.",
+    prompt: "Where MUST the technician navigate within Task Manager to verify this theory and manage the offending session?",
+    choices: [
+      { key: "A", text: "The App history tab" },
+      { key: "B", text: "The Users tab" },
+      { key: "C", text: "The Details tab" },
+      { key: "D", text: "The Services tab" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"multiple... employees... CPU... 98%... active employee... only 5%... previous employee... did not properly sign out\"",
+    explanationCorrect: "The Users tab aggregates resource usage by user session and identifies disconnected or other active users consuming CPU. From there, the technician can inspect the resource usage per user and sign off the offending session to release resources, which is the most direct verification and remediation path for the described multi-user situation.",
+    explanationIncorrect: {
+      A: "App history shows historical usage for certain apps and is not a real-time per-session diagnostic view.",
+      C: "Details lists processes and can show usernames, but it is less efficient for session-level management and lacks the direct session sign-off workflow.",
+      D: "Services focuses on service processes rather than interactive user sessions and is not the best view for identifying a prior user session consuming CPU."
+    },
+    examTrap: "Feature Location Specificity. The scenario tests knowing that session-level resource diagnosis is handled under the Users tab."
+  },
+
+  {
+    id: "Q043",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Network Reset Side Effects",
+    difficulty: "hard",
+    scenario: "A remote worker was experiencing severe, persistent Wi-Fi dropouts on their Windows 10 laptop. Following an online troubleshooting guide, the user navigated to Settings > Network & Internet > Status and clicked the \"Network reset\" button. Upon restarting, the laptop's Wi-Fi adapter stabilized, and the user successfully accessed the internet. However, the user now complains they can no longer reach the corporate file server located at the main office. The user insists the corporate firewall must be blocking their home IP address.",
+    prompt: "What is the MOST likely cause of this new connectivity failure?",
+    choices: [
+      { key: "A", text: "The \"Network reset\" command wiped all custom configurations, effectively deleting the user's corporate Virtual Private Network (VPN) profile." },
+      { key: "B", text: "The \"Network reset\" command flushed the local DNS resolver cache, breaking the static IP route to the corporate server." },
+      { key: "C", text: "The corporate file server relies on IPv6, which was permanently disabled by the \"Network reset\" command to stabilize the Wi-Fi." },
+      { key: "D", text: "The \"Network reset\" command automatically enabled a restrictive Windows Defender Firewall profile that drops outbound Server Message Block (SMB) traffic." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"clicked the 'Network reset' button... can no longer reach the corporate file server\"",
+    explanationCorrect: "Network reset reinstalls network adapters and clears custom network configurations, which can remove VPN profiles and client configurations. If the user relied on a VPN tunnel to access an internal corporate file server from home, losing the VPN profile would immediately break access even though general internet browsing still works.",
+    explanationIncorrect: {
+      B: "Flushing DNS cache is temporary and does not break routes; also, network reset is broader than a DNS flush and the issue described is sustained corporate resource access loss consistent with missing VPN.",
+      C: "Network reset restores defaults and does not permanently disable IPv6 as a stabilizing action; it would more likely re-enable defaults.",
+      D: "While network classification changes can influence firewall behavior, the most direct and expected effect impacting corporate file access for a remote worker is the loss of VPN configuration."
+    },
+    examTrap: "Collateral Damage of Recovery Tools. The scenario tests recognizing that reset actions can remove critical configurations like VPN profiles, despite restoring internet connectivity."
+  },
+
+  {
+    id: "Q044",
+    topic: "Troubleshoot Windows OS Issues (Obj 3.1) — Thermal Throttling Indicators",
+    difficulty: "hard",
+    scenario: "A user complains that their high-end rendering workstation occasionally freezes, becomes completely unresponsive, and then powers off instantly without displaying a Blue Screen of Death (BSoD) or warning message. The user believes the OS kernel is corrupted and wants to run sfc /scannow. The technician ignores the user's request and opens Task Manager to monitor the system during a heavy rendering task. The technician notices that while CPU utilization is pinned at 100%, the CPU Speed metric (in GHz) dynamically drops to less than half of its Base speed shortly before the system abruptly powers off.",
+    prompt: "Based on this specific metric, what is the TRUE cause of the system instability, and what is the BEST remediation?",
+    choices: [
+      { key: "A", text: "The system is experiencing hard page faults due to exhausted physical RAM; the technician should install more memory modules." },
+      { key: "B", text: "The CPU is heavily infected with kernel-level malware that is dodging detection; the technician should run Windows Defender offline." },
+      { key: "C", text: "The power management plan is aggressively engaging CPU throttling due to an overheating issue; the technician should check the chassis fans and clean out dust." },
+      { key: "D", text: "The system firmware is struggling to supply adequate voltage to the motherboard; the technician should replace the power supply unit (PSU)." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"CPU Speed... drops to less than half of its Base speed shortly before the system abruptly powers off\"",
+    explanationCorrect: "A significant dynamic drop in CPU frequency under sustained load is characteristic of thermal throttling, where the system reduces clock speed to control temperatures. If overheating continues, systems can perform emergency shutdowns without BSoD to prevent hardware damage. The best remediation is addressing cooling: checking fans, airflow, heatsink seating, and removing dust.",
+    explanationIncorrect: {
+      A: "RAM exhaustion causes paging and disk activity symptoms, not a direct reduction in CPU clock speed below base as a thermal response.",
+      B: "Malware can increase CPU usage but does not inherently cause hardware-enforced thermal throttling behavior reflected as a CPU Speed drop tied to thermal safeguards.",
+      D: "A failing PSU can cause abrupt shutdowns, but the observed pre-shutdown throttling behavior is more consistent with thermal management engagement than voltage collapse."
+    },
+    examTrap: "Connecting OS Metrics to Physical States. The scenario tests recognizing that a dropping GHz metric under load indicates thermal throttling rather than file corruption or purely software causes."
+  },
+
+  {
+    id: "Q045",
+    topic: "Remote Access Technologies (Obj 4.9) — Nearby Sharing",
+    difficulty: "medium",
+    scenario: "A traveling executive is sitting in a crowded airport lounge working on their Windows 10 laptop. Suddenly, a prompt appears on their screen asking to accept a confidential financial PDF from an unknown device named \"JSmith-Phone.\" The executive rejects the file and immediately calls the IT department, highly concerned that their laptop has been hacked or infected with malware since they are strictly using a cellular hotspot and are NOT connected to the airport's public Wi-Fi.",
+    prompt: "What built-in feature is MOST likely responsible for allowing this unsolicited transfer request, and how does it establish the connection?",
+    choices: [
+      { key: "A", text: "Quick Assist; it utilizes a reverse HTTPS tunnel over the cellular network." },
+      { key: "B", text: "Microsoft Remote Assistance (MSRA); it utilizes dynamic ephemeral ports over TCP." },
+      { key: "C", text: "AirDrop; it utilizes a hidden 802.11ac ad-hoc network for cross-platform transfers." },
+      { key: "D", text: "Nearby Sharing; it utilizes Bluetooth to negotiate a Wi-Fi Direct connection." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"prompt... accept... from an unknown device... NOT connected to the airport's public Wi-Fi\"",
+    explanationCorrect: "Nearby Sharing can discover nearby devices using Bluetooth proximity and then transfer data over a direct peer-to-peer Wi-Fi Direct link. Because it does not require joining the airport Wi-Fi, it can still present unsolicited transfer requests if configured to accept from \"Everyone nearby.\"",
+    explanationIncorrect: {
+      A: "Quick Assist is a remote support tool requiring a code-based session setup and does not generate unsolicited file transfer prompts.",
+      B: "MSRA requires an invitation workflow and is not a proximity-based file sharing feature.",
+      C: "AirDrop is an Apple ecosystem feature and does not apply as a built-in Windows mechanism for this prompt."
+    },
+    examTrap: "Recognizing Out-of-Band Protocols. The scenario tests understanding that Bluetooth/Wi-Fi Direct sharing can occur without connecting to local Wi-Fi networks."
+  }
+
+];
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
