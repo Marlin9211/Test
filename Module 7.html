@@ -1,0 +1,2537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+/* =========================
+   Question Bank (Embedded) - Part 1 of 3
+   ========================= */
+
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Networking Hardware - QoS/Routers",
+    difficulty: "medium",
+    scenario: "A company recently transitioned to a VoIP phone system. Users are complaining that their voice calls suffer from frequent drop-outs and garbled audio during the afternoon. A technician notices that this coincides with the marketing department downloading large video files. Web browsing remains fast, and the network switch shows no physical errors.",
+    prompt: "What is the MOST likely solution to ensure stable voice communication without completely blocking the marketing department's tasks?",
+    choices: [
+      { key: "A", text: "Upgrade the internet connection to a higher bandwidth tier." },
+      { key: "B", text: "Configure Quality of Service (QoS) on the router to prioritize audio traffic." },
+      { key: "C", text: "Switch the VoIP phones to a 5 GHz wireless network." },
+      { key: "D", text: "Implement a load balancer to distribute the video downloads." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"coincides with the marketing department downloading large video files\" and \"VoIP calls suffer from frequent drop-outs\"",
+    explanationCorrect: "VoIP communication requires consistent low latency and bandwidth to ensure smooth, real-time voice transmission. Configuring Quality of Service (QoS) rules on the router prioritizes critical VoIP voice packets over other less sensitive traffic, such as file downloads, ensuring clear and stable calls. This directly addresses the bandwidth competition causing the jitter and packet loss.",
+    explanationIncorrect: {
+      A: "Upgrading the internet connection is a technically valid long-term action that might alleviate congestion. However, it is not the BEST first step because it is expensive and does not guarantee that file downloads won't still consume the new maximum bandwidth, whereas QoS provides immediate, targeted traffic management.",
+      C: "Switching to a 5 GHz wireless network might provide faster local speeds and less interference for standard devices. However, VoIP problems are often caused by internet bandwidth competition at the router level, not local wireless congestion, and wired connections are inherently more stable for VoIP anyway.",
+      D: "A load balancer is designed to spread incoming tasks across multiple servers to prevent a single server from failing under heavy workload. It does not prioritize outbound or internal network traffic types (like voice over file transfers) across a router."
+    },
+    examTrap: "The \"Throw Money at the Problem\" trap. Upgrading bandwidth (Option A) is a common real-world reaction, but CompTIA expects you to use existing configuration tools (QoS) to resolve bandwidth competition first."
+  },
+  {
+    id: "Q002",
+    topic: "Ports, Protocols, Firewalls",
+    difficulty: "hard",
+    scenario: "A network administrator needs to set up a system to routinely exchange large datasets with a remote branch office over the internet. The security team mandates that the data must be encrypted in transit. Furthermore, the firewall administrator requests a solution that operates over a single connection port to simplify complex firewall rules.",
+    prompt: "Which of the following protocols should the administrator select?",
+    choices: [
+      { key: "A", text: "FTPS" },
+      { key: "B", text: "SFTP" },
+      { key: "C", text: "SMB" },
+      { key: "D", text: "HTTPS" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"operates over a single connection port to simplify complex firewall rules\" and \"exchange large datasets\"",
+    explanationCorrect: "SFTP (Secure File Transfer Protocol) is built on SSH and provides secure file transfers using a single encrypted connection over TCP port 22. Because it uses only one port for both the control and data channels, it is highly preferred for its easier firewall configuration compared to older protocols.",
+    explanationIncorrect: {
+      A: "FTPS is a secure version of traditional FTP that utilizes TLS encryption and digital certificates. However, FTPS still utilizes separate control and data channels, which makes firewall configuration significantly more complex.",
+      C: "SMB (Server Message Block) supports modern encryption and is the primary file-sharing protocol in business environments. However, it is designed for internal network sharing where files behave as if they are local, not for exchanging large datasets over the public internet between distinct systems.",
+      D: "HTTPS adds an encryption layer (TLS) to standard HTTP, making it secure for web traffic. While it can transfer files, it is primarily a protocol for fetching resources like HTML documents via a web server, not a dedicated large-dataset transfer protocol."
+    },
+    examTrap: "The \"Similar Acronym\" trap. Test-takers often confuse FTPS (FTP over SSL/TLS) with SFTP (SSH File Transfer Protocol), forgetting that FTPS uses multiple ports while SFTP uses a single port."
+  },
+  {
+    id: "Q003",
+    topic: "Ports and Protocols - NTP",
+    difficulty: "easy",
+    scenario: "A technician is auditing the network infrastructure of a manufacturing plant. Several security cameras are displaying timestamps that are five minutes out of sync with the primary domain controller. Upon checking the local internal enterprise time server, the technician sees its synchronization status is listed as \"Stratum 16.\"",
+    prompt: "What does this status indicate about the time server?",
+    choices: [
+      { key: "A", text: "It is directly connected to a GPS or atomic clock." },
+      { key: "B", text: "It is currently in an error state and the time is unreliable." },
+      { key: "C", text: "It is securely encrypting time data over port 4460." },
+      { key: "D", text: "It is successfully syncing from a Stratum 15 server." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"synchronization status is listed as Stratum 16.\"",
+    explanationCorrect: "In the Network Time Protocol (NTP) hierarchy, Stratum levels indicate the distance from the original time source. A designation of Stratum 16 explicitly means the device is not synchronized, the time is unreliable, and it is essentially in an error state.",
+    explanationIncorrect: {
+      A: "A server directly connected to a Stratum 0 device (like an atomic clock or GPS) is designated as a Stratum 1 server, not Stratum 16. Stratum 1 servers are highly accurate primary time servers.",
+      C: "Encrypting time data over port 4460 is a feature of Network Time Security (NTS), which is a newer, secure version of NTP. The stratum level refers to the hierarchy and accuracy of the time source, not the encryption protocol being used.",
+      D: "While each stratum level normally syncs from the level above it (e.g., Stratum 3 syncs from Stratum 2), the hierarchy caps functional syncing at Stratum 15. Reaching Stratum 16 means the chain is broken and it should not be used."
+    },
+    examTrap: "The \"Assumption of Sequence\" trap. A student might logically assume that if Stratum 2 syncs from 1, and 3 syncs from 2, then 16 must just be a device syncing from 15."
+  },
+  {
+    id: "Q004",
+    topic: "Security - AAA/Authentication",
+    difficulty: "medium",
+    scenario: "A corporate network administrator is configuring secure access for a fleet of new network switches. The company's strict security policy dictates that the entire authentication packet must be encrypted during transit to prevent eavesdropping. The policy also requires the system to provide granular control by separating authentication, authorization, and accounting processes.",
+    prompt: "Which of the following protocols MUST the administrator implement to meet these requirements?",
+    choices: [
+      { key: "A", text: "RADIUS" },
+      { key: "B", text: "LDAP" },
+      { key: "C", text: "TACACS+" },
+      { key: "D", text: "Telnet" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"entire authentication packet must be encrypted\" and \"separating authentication, authorization, and accounting.\"",
+    explanationCorrect: "TACACS+ is an authentication protocol commonly used for network device administration. It is explicitly characterized by its ability to encrypt the entire packet and its architecture that separates authentication, authorization, and accounting into distinct functions, allowing for more granular control.",
+    explanationIncorrect: {
+      A: "RADIUS is a highly common AAA framework protocol, especially for Wi-Fi authentication (802.1X). However, RADIUS only encrypts the password field (not the entire packet) and combines authentication and authorization, failing both of the strict security policies in the scenario.",
+      B: "LDAP (Lightweight Directory Access Protocol) is the language used to talk to directory servers to manage user access in on-premise environments. It is a directory protocol, not a dedicated AAA framework designed to separate authorization and accounting for network equipment administration.",
+      D: "Telnet is a legacy protocol used to log in to devices remotely. It utilizes in-the-clear communication, meaning no encryption is provided, making it entirely unsuitable for secure production systems."
+    },
+    examTrap: "The \"RADIUS vs TACACS+\" trap. Both are AAA protocols, but CompTIA tests the precise distinctions: RADIUS encrypts only the password and combines Auth/Authz, while TACACS+ encrypts the whole payload and separates them."
+  },
+  {
+    id: "Q005",
+    topic: "Troubleshoot common wireless connectivity issues",
+    difficulty: "hard",
+    scenario: "An employee is experiencing intermittent connectivity and slow speeds on their laptop when accessing local web servers. A helpdesk technician notes that wired desktop PCs connected to the same switch in the same room are experiencing no issues, and the DHCP server is online. The employee mentions their laptop drops connections more frequently when they take it into the adjacent breakroom.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the BEST next step to identify the cause?",
+    choices: [
+      { key: "A", text: "Perform a wire map on the network drops in the breakroom." },
+      { key: "B", text: "Verify the wireless signal strength using a Wi-Fi analyzer." },
+      { key: "C", text: "Check the ARP table on the default gateway." },
+      { key: "D", text: "Reconfigure the laptop's default VLAN assignment." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"wired desktop PCs... are experiencing no issues\" and \"drops connections more frequently when they take it into the adjacent breakroom.\"",
+    explanationCorrect: "According to the troubleshooting methodology, after establishing that the wired network is functioning normally, the theory of probable cause must shift to the wireless medium. Intermittent connectivity that worsens in specific physical locations is a classic symptom of weak signal strength or interference, which can be accurately pinpointed using a Wi-Fi analyzer tool. This tool will reveal the Received Signal Strength Indicator (RSSI) and identify overlapping channels.",
+    explanationIncorrect: {
+      A: "Performing a wire map checks the physical pins and continuity of a copper network cable. Since the reported issue strictly relates to the wireless network while the wired devices are functioning without issue, checking the wall drops is a waste of time.",
+      C: "Checking the ARP table on the default gateway is a valid step when troubleshooting severe network-wide routing or MAC address spoofing issues. Since local wired devices are working perfectly and the laptop's issue is intermittent based on physical location, the overall gateway configuration is not the root cause.",
+      D: "If the laptop was on the wrong VLAN, it would have limited connectivity (e.g., local access but no internet, or blocked from specific servers) permanently, not intermittently. Intermittent dropping indicates a physical layer wireless issue, not a logical VLAN misconfiguration."
+    },
+    examTrap: "The \"Scope of the Issue\" trap. By stating that wired devices work fine, the scenario forces you to immediately discard any answers related to the core network (DHCP, default gateways, physical cabling) and focus exclusively on wireless-specific tools."
+  },
+  {
+    id: "Q006",
+    topic: "Networking - SNMP monitoring",
+    difficulty: "medium",
+    scenario: "A systems administrator is managing a central network monitoring server. Currently, the server successfully queries the network's routers every 10 minutes to log CPU and memory utilization. However, the administrator needs the routers to proactively and immediately alert the monitoring server the moment a critical event occurs, such as a hardware fan failure, rather than waiting for the next 10-minute polling cycle.",
+    prompt: "Which of the following operations should be configured on the routers?",
+    choices: [
+      { key: "A", text: "SNMP GET" },
+      { key: "B", text: "Syslog UDP 514" },
+      { key: "C", text: "SNMP TRAP" },
+      { key: "D", text: "TLS TCP 990" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"proactively and immediately alert\" and \"rather than waiting for the next 10-minute polling cycle.\"",
+    explanationCorrect: "In the Simple Network Management Protocol (SNMP), a TRAP operation is used when a network device (the agent) automatically sends an alert to the SNMP manager. Unlike manual polling, TRAPs are generated spontaneously by the device to inform the manager of important issues like device failures or outages the moment they occur.",
+    explanationIncorrect: {
+      A: "An SNMP GET is a manual operation where the monitoring server asks the device for specific information. This is the process currently causing the 10-minute delay, as the manager must initiate the request rather than the device sending it automatically.",
+      B: "Syslog (UDP 514) is a standard protocol used to log messages, errors, and system activities to a central server. While it logs the error, SNMP TRAPs are specifically designed for the monitoring system's alerting mechanism to trigger immediate management actions, rather than just appending a line to a log file.",
+      D: "TCP 990 is the implicit port used for FTPS (File Transfer Protocol Secure), which utilizes TLS to secure data transfers. It has absolutely nothing to do with network monitoring or device alerting."
+    },
+    examTrap: "The \"GET vs TRAP\" distinction. CompTIA tests the understanding of push vs. pull network monitoring mechanisms. GET pulls data; TRAP pushes alerts."
+  },
+  {
+    id: "Q007",
+    topic: "Ports and Protocols - Email",
+    difficulty: "hard",
+    scenario: "A traveling executive configures their smartphone's email client to connect to the corporate mail server. They successfully download their inbox history and can read newly arriving messages seamlessly. However, whenever they attempt to reply to an email, the message sits permanently in the Outbox. The IT department recently audited the firewall and blocked all unencrypted legacy email transmission ports to comply with new security standards.",
+    prompt: "Which of the following is the MOST likely cause of the issue?",
+    choices: [
+      { key: "A", text: "The smartphone is configured to use port 110 for outbound mail." },
+      { key: "B", text: "The outgoing mail server is attempting to use port 25." },
+      { key: "C", text: "The incoming IMAP server is blocked on port 143." },
+      { key: "D", text: "The user lacks SPF (Sender Policy Framework) authorization." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"message sits permanently in the Outbox\" and \"blocked all unencrypted legacy email transmission ports\".",
+    explanationCorrect: "Email transmission from a client to a mail server relies on the Simple Mail Transfer Protocol (SMTP). Historically, SMTP utilized port 25, which was created before encryption was common and operates unencrypted. Because the firewall now blocks unencrypted legacy ports, the client's attempt to send mail via port 25 is failing, and they must reconfigure the client to use a secure sending port like 587.",
+    explanationIncorrect: {
+      A: "Port 110 is the default port for POP3 (Post Office Protocol version 3). POP3 is exclusively used to retrieve or download email messages from a server to a local client, not to send outgoing mail.",
+      C: "IMAP (Internet Message Access Protocol) handles the retrieval and synchronization of incoming mail. Because the scenario states the user \"can read newly arriving messages seamlessly,\" the incoming mail protocols (like IMAP on port 143 or 993) are functioning correctly.",
+      D: "SPF (Sender Policy Framework) is a DNS record that defines authorized senders for a domain to prevent email spoofing. If SPF was failing, the email would likely be delivered to the recipient's spam folder or rejected by the receiving server, but it would not cause the message to physically hang in the sender's local Outbox."
+    },
+    examTrap: "The \"Inbound vs Outbound\" port trap. You must identify that sending mail requires SMTP, and map SMTP to its legacy (25) and secure (587) ports, explicitly ruling out incoming protocols (POP3/IMAP) based on the symptoms."
+  },
+  {
+    id: "Q008",
+    topic: "Security - Appliances and DLP",
+    difficulty: "medium",
+    scenario: "A financial institution is upgrading its network security posture. They already have a Next-Generation Firewall and enterprise anti-virus software deployed. However, a recent compliance audit revealed that employees have been successfully attaching spreadsheets containing sensitive customer Social Security Numbers to personal webmail accounts.",
+    prompt: "Which of the following solutions should the organization implement to specifically target and halt this behavior?",
+    choices: [
+      { key: "A", text: "A Spam Gateway" },
+      { key: "B", text: "An Intrusion Detection System (IDS)" },
+      { key: "C", text: "A Data Loss Prevention (DLP) system" },
+      { key: "D", text: "A Universal Threat Management (UTM) appliance" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"attaching spreadsheets containing sensitive customer Social Security Numbers to personal webmail\".",
+    explanationCorrect: "Data Loss Prevention (DLP) systems provide an explicit layer of security designed specifically to monitor and prevent the unauthorized transmission or disclosure of sensitive data. A DLP solution can inspect the contents of outbound traffic (like emails) and block the transfer if it detects restricted data patterns, such as Social Security Numbers.",
+    explanationIncorrect: {
+      A: "A Spam gateway acts as a filter for unauthorized or unsolicited incoming email messages, often scanning for malware. It is designed to protect the network from inbound junk, not to prevent internal employees from leaking sensitive data outbound.",
+      B: "An Intrusion Detection System (IDS) monitors network or system activity to identify potential unauthorized or malicious activities. While an IDS might alert an administrator to a potential inbound attack, it is a passive monitoring tool and is not specifically designed to inspect and block outbound sensitive file transfers.",
+      D: "A Universal Threat Management (UTM) appliance is an all-in-one security device that typically includes a firewall, malware inspection, and URL filtering. While robust, the scenario states the company already has a next-gen firewall and anti-virus; they specifically lack the targeted outbound data inspection provided by a dedicated DLP system."
+    },
+    examTrap: "The \"Overlapping Security Appliances\" trap. CompTIA will list multiple valid security tools, but you must match the exact symptom (unauthorized transmission of sensitive internal data) to its specific solution (DLP)."
+  },
+  {
+    id: "Q009",
+    topic: "Troubleshoot common wired connectivity issues",
+    difficulty: "easy",
+    scenario: "A technician is troubleshooting a server that just underwent physical relocation to a new server rack. The server's operating system reports that it has network access, but the connection is highly unstable. Looking at the switch, the technician notices the port LED for the server is rapidly switching between an \"up\" and \"down\" state every few seconds.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The port speed and duplex settings are misconfigured." },
+      { key: "B", text: "The server has been assigned an APIPA address." },
+      { key: "C", text: "The server has been assigned to the wrong VLAN." },
+      { key: "D", text: "The patch cord is damaged or has loose connections." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"rapidly switching between an 'up' and 'down' state\" and \"just underwent physical relocation\".",
+    explanationCorrect: "The symptom of a port rapidly switching between an up and down state is known as \"port flapping\". When troubleshooting wired connectivity, especially after a physical move, most problems are physical first; port flapping is commonly caused by damaged patch cords, loose physical connections, or failing Network Interface Cards (NICs).",
+    explanationIncorrect: {
+      A: "Wrong duplex or speed settings between the NIC and the switch will cause severe performance degradation and slow traffic. However, a duplex mismatch typically results in a stable physical link with poor logical performance, not rapid physical up/down port flapping.",
+      B: "An APIPA (Automatic Private IP Addressing) address is automatically assigned when a DHCP server is unavailable, limiting traffic to the local subnet. This is a logical IP addressing issue and would not cause the physical link light on the switch to rapidly turn on and off.",
+      C: "Misconfigured VLANs can cause devices to only talk locally or block access to wider network resources. Being on the wrong VLAN simply isolates traffic; it does not cause the physical interface to rapidly flap between connection states."
+    },
+    examTrap: "The \"Physical vs Logical Symptoms\" trap. Students often jump to complex configuration issues (IPs, VLANs, Duplex), but CompTIA emphasizes checking Layer 1 (physical cables) first, especially when symptoms like port flapping are present."
+  },
+  {
+    id: "Q010",
+    topic: "Software Troubleshooting/Databases",
+    difficulty: "medium",
+    scenario: "A logistics company has installed hundreds of IoT sensors across their vehicle fleet to track GPS, engine temperature, and vibration logs in real-time. The development team reports that their current data storage solution, which relies on strict table structures with rows and columns, is experiencing critical performance failures because the sensor data is massive, messy, and constantly changing format.",
+    prompt: "What is the BEST architectural change to resolve this storage limitation?",
+    choices: [
+      { key: "A", text: "Migrate the data to a non-relational database." },
+      { key: "B", text: "Export the data into a flat file spreadsheet." },
+      { key: "C", text: "Implement SQL Server to manage the queries." },
+      { key: "D", text: "Route the sensor data through a proxy server." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"strict table structures... experiencing critical performance failures\" and \"sensor data is massive, messy, and constantly changing format.\"",
+    explanationCorrect: "Relational databases rely on strict table structures (rows and columns) which are excellent for organized, structured data, but fail when dealing with highly variable inputs. Non-relational databases store data in flexible formats (like documents or key-value pairs) and are specifically designed to be scalable and handle large, unstructured, and messy data sets like IoT sensor data and logs.",
+    explanationIncorrect: {
+      B: "A flat file is a simple storage mechanism, much like a basic spreadsheet. While it lacks strict relational rules, it is entirely unsuited for managing massive, constantly changing, and complex datasets from hundreds of real-time IoT sensors.",
+      C: "SQL (Structured Query Language) is the standard language used to manage relational databases. Implementing a SQL server would simply replicate the exact problem they are currently having, as it requires predictable, organized data stored in strict tables.",
+      D: "A proxy server sits between users and the internet to filter, monitor, or manage internet traffic. While it manages network flow, it has nothing to do with resolving the backend architectural limitations of how database records are formatted and stored."
+    },
+    examTrap: "The \"SQL is always the answer\" trap. Test takers assume SQL/Relational DBs are the superior enterprise choice, forgetting that non-relational (NoSQL) databases are the explicitly correct choice for IoT and unstructured data."
+  },
+  {
+    id: "Q011",
+    topic: "Networking - Proxies & Security",
+    difficulty: "hard",
+    scenario: "An organization implements a new content filtering web security gateway. The next morning, a user reports they can no longer browse any websites using Firefox, receiving a \"connection timed out\" error. However, the IT technician verifies that the user can still successfully ping external IP addresses, and their desktop email client continues to receive external messages normally. The IT department notes that the new gateway does not intercept traffic automatically.",
+    prompt: "Which of the following is the MOST appropriate action to restore the user's web browsing capability?",
+    choices: [
+      { key: "A", text: "Clear the browser's DNS cache." },
+      { key: "B", text: "Manually configure the browser with the proxy server's IP and port." },
+      { key: "C", text: "Change the SOCKS proxy settings to auto-detect." },
+      { key: "D", text: "Add the default gateway IP address to the workstation's network adapter." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"new gateway does not intercept traffic automatically\" and \"desktop email client continues to receive external messages normally.\"",
+    explanationCorrect: "A non-transparent proxy server requires the client device to be manually configured to point to it. Because the new gateway does not intercept traffic transparently, the user must manually connect to the proxy and enter the specific port number into their browser's connection settings to route HTTP/HTTPS traffic through the filter. The fact that pings and external email clients work proves the core network connection is alive, isolating the issue to the web browser's routing.",
+    explanationIncorrect: {
+      A: "Clearing the DNS cache resolves issues where a computer is mapping a website URL to an outdated or incorrect IP address. Since the web traffic is explicitly blocked by a new non-transparent proxy requirement, clearing local DNS will not bypass the gateway configuration requirement.",
+      C: "A SOCKS proxy is a universal proxy that handles many kinds of network traffic, not just websites. Setting it to \"auto-detect\" will fail because the scenario explicitly states the gateway \"does not intercept traffic automatically,\" requiring manual configuration rather than automatic discovery.",
+      D: "Adding the default gateway to the NIC is a fundamental networking step to allow traffic to leave the local subnet. Because the user can ping external IPs and receive external email, their default gateway configuration is already perfectly functional."
+    },
+    examTrap: "The \"Transparent vs Non-Transparent Proxy\" distinction. You must recognize that partial network loss (web fails, but email/ping works) following a security appliance installation indicates an application-level routing issue, specifically manual proxy configuration."
+  },
+  {
+    id: "Q012",
+    topic: "TCP/UDP ports and protocols - SMB/FTP",
+    difficulty: "medium",
+    scenario: "A marketing team needs to collaborate on a massive 50GB video project. Currently, team members are downloading the file using an FTP client, making edits, and re-uploading it to a central Linux server. This is causing severe version control issues and workflow delays. The IT director requests a solution that allows the team to open, edit, and save the video file simultaneously without downloading local copies.",
+    prompt: "Which of the following is the BEST solution to meet the IT director's requirement?",
+    choices: [
+      { key: "A", text: "Transition the server to use SFTP over port 22." },
+      { key: "B", text: "Map a network drive using the SMB/Samba protocol." },
+      { key: "C", text: "Access the file via a web browser using HTTPS." },
+      { key: "D", text: "Configure an RDP session to the Linux server." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"open, edit, and save the video file simultaneously without downloading local copies\" and \"Linux server\".",
+    explanationCorrect: "SMB (Server Message Block) is explicitly designed for internal network sharing, allowing users to map network drives and work on files in place. By using Samba (the Linux implementation of SMB), the marketing team can edit the file as if it were stored directly on their local computers, completely eliminating the need to download and re-upload the file.",
+    explanationIncorrect: {
+      A: "SFTP provides a secure, single-connection encrypted file transfer method. However, like standard FTP, it is a file transfer protocol meant for copying and moving datasets, not for live, in-place editing of a shared file.",
+      C: "HTTPS is used for securely fetching web resources like HTML documents over the internet. It does not provide the capability to map a local network drive for live, real-time video editing on a shared server system.",
+      D: "RDP (Remote Desktop Protocol) allows a user to remotely view and control the screen of another computer. It does not natively map network drives to the local machine for native file editing, and having multiple users RDP into a single file editing session would not solve the workflow requirement."
+    },
+    examTrap: "The \"File Transfer vs. File Sharing\" trap. The exam frequently tests the operational difference between FTP (copying files) and SMB (working on files live)."
+  },
+  {
+    id: "Q013",
+    topic: "Ports and Protocols / Security Appliances",
+    difficulty: "hard",
+    scenario: "An executive is staying at a hotel and connects to the guest Wi-Fi. They open their email client and can seamlessly read incoming messages from their corporate inbox. However, every time they attempt to reply, the message fails to send and stays in the outbox. A quick call to the corporate helpdesk reveals that the hotel's edge firewall aggressively blocks all unencrypted legacy communication ports to prevent network spam.",
+    prompt: "Which of the following configurations is MOST likely causing the outbound emails to fail?",
+    choices: [
+      { key: "A", text: "The client's SMTP server is set to port 25." },
+      { key: "B", text: "The client's IMAP server is set to port 143." },
+      { key: "C", text: "The client's POP3 server is set to port 110." },
+      { key: "D", text: "The corporate domain lacks an SPF record." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"message fails to send and stays in the outbox\" and \"firewall aggressively blocks all unencrypted legacy communication ports\".",
+    explanationCorrect: "Sending outbound email relies on the Simple Mail Transfer Protocol (SMTP). Historically, SMTP used port 25, which operates in the clear without encryption, making it a legacy port that is frequently blocked by modern security appliances and firewalls to prevent spam. Because the firewall blocks legacy unencrypted ports, the email client's attempt to route outgoing mail over port 25 is actively being dropped.",
+    explanationIncorrect: {
+      B: "IMAP uses port 143 (unencrypted) or 993 (secure) and is specifically used by the client to receive and manage inbox messages. Since the scenario states the user can \"seamlessly read incoming messages,\" the receiving protocol is functioning perfectly.",
+      C: "POP3 is another receiving protocol that downloads emails to the local client using port 110. Like IMAP, this protocol is only involved in inbound delivery, which is working fine according to the scenario symptoms.",
+      D: "Sender Policy Framework (SPF) records authorize specific servers to send mail on behalf of a domain to prevent spoofing. If an SPF record was missing, the email would leave the outbox and be rejected by the recipient's server, not hang locally on the user's device."
+    },
+    examTrap: "The \"Inbound vs Outbound Ports\" trap. You must identify that sending mail strictly requires SMTP, recognize that port 25 is the unencrypted legacy standard, and eliminate receiving protocols (IMAP/POP3) based on the specific symptoms."
+  },
+  {
+    id: "Q014",
+    topic: "Networking - SNMP/Syslog",
+    difficulty: "medium",
+    scenario: "A hospital IT department manages a large fleet of switches and routers. Currently, a monitoring server manually queries these devices every 15 minutes to check their CPU and memory performance. The IT director demands that if a critical event occurs—such as a router's cooling fan failing—the network device must immediately and automatically push an alert to the monitoring server without waiting for the next 15-minute polling cycle.",
+    prompt: "Which of the following protocols and operations should be configured?",
+    choices: [
+      { key: "A", text: "Syslog over UDP port 514" },
+      { key: "B", text: "SNMP GET" },
+      { key: "C", text: "SNMP TRAP" },
+      { key: "D", text: "NTP over UDP port 123" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"immediately and automatically push an alert to the monitoring server\".",
+    explanationCorrect: "In the Simple Network Management Protocol (SNMP), a TRAP operation is specifically designed for automatic alerting. When a critical event like a hardware failure occurs, the network device (agent) automatically sends a TRAP message to the manager to inform them of the issue instantly, acting much like a fire alarm.",
+    explanationIncorrect: {
+      A: "Syslog over UDP port 514 is a standard protocol used to record historical events, errors, and system activities to a central logging server. While important for troubleshooting, it does not function as an active, immediate management alerting mechanism in the way SNMP TRAPs do.",
+      B: "An SNMP GET is a manual operation where the manager must actively ask the device for specific information (like pulling the current CPU usage). This manual polling is exactly what the IT director wants to bypass for critical hardware failures.",
+      D: "Network Time Protocol (NTP) uses UDP port 123 solely to keep all computer clocks synchronized across a network. It has no network monitoring or alerting capabilities."
+    },
+    examTrap: "The \"Push vs Pull Monitoring\" trap. CompTIA wants to ensure you know the difference between an SNMP GET (manual pull) and an SNMP TRAP (automatic push/alert)."
+  },
+  {
+    id: "Q015",
+    topic: "Security - Network Authentication",
+    difficulty: "hard",
+    scenario: "A university is enforcing strict 802.1X authentication across its campus wired network. A student plugs their personal laptop (the supplicant) into a library wall jack, which connects to a managed switch (the authenticator). The switch blocks standard network traffic and must initiate a secure exchange of authentication messages before granting access.",
+    prompt: "Which of the following protocols does the switch enable to handle the exchange of these messages with the laptop?",
+    choices: [
+      { key: "A", text: "RADIUS" },
+      { key: "B", text: "TACACS+" },
+      { key: "C", text: "EAPOL" },
+      { key: "D", text: "LDAP" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"handle the exchange of these messages with the laptop\" between a \"supplicant\" and an \"authenticator\".",
+    explanationCorrect: "During 802.1X network authentication, EAPOL (Extensible Authentication Protocol over LAN) is the protocol enabled by the Network Access Point (the switch/authenticator) to communicate directly with the connecting device (the supplicant). EAPOL starts the authentication process and handles the local exchange of EAP messages over the wired link.",
+    explanationIncorrect: {
+      A: "RADIUS is the backend AAA server protocol that actually verifies the credentials and enforces the policies. The switch talks to the RADIUS server, but the protocol used locally between the switch and the laptop is EAPOL.",
+      B: "TACACS+ is an alternative AAA protocol used primarily for granular administration of network devices (like logging into a router via CLI). It is not the transport protocol used for end-user 802.1X device authentication.",
+      D: "LDAP (Lightweight Directory Access Protocol) is the language used by systems to query directory databases (like Active Directory) for user information. It does not facilitate the physical layer 2 authentication exchange on a switch port."
+    },
+    examTrap: "The \"802.1X Components\" trap. You must differentiate the front-end communication protocol (EAPOL between client and switch) from the back-end validation protocol (RADIUS between switch and server)."
+  },
+  {
+    id: "Q016",
+    topic: "Troubleshoot common wireless connectivity issues",
+    difficulty: "medium",
+    scenario: "Employees in a specific corner of an open-plan office complain that their laptops frequently drop their Wi-Fi connections and experience severe lag. A helpdesk technician visits the location and verifies that the laptop is connected to the correct 2.4 GHz SSID and the signal strength (RSSI) is excellent at -45 dBm.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST next step to resolve the intermittent connectivity?",
+    choices: [
+      { key: "A", text: "Use a Wi-Fi analyzer to identify overlapping networks." },
+      { key: "B", text: "Relocate the wireless access point closer to the users." },
+      { key: "C", text: "Assign static IP addresses to the affected laptops." },
+      { key: "D", text: "Check the DNS cache on the affected laptops." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"2.4 GHz SSID\", \"frequently drop\", and \"signal strength (RSSI) is excellent at -45 dBm\".",
+    explanationCorrect: "Wireless issues are typically caused by weak signals, misconfigurations, or interference. Since the signal strength is already excellent (-45 dBm), the theory of a weak signal can be discarded. The best next step is to use a Wi-Fi analyzer tool to view channel usage and identify if neighboring networks on the crowded 2.4 GHz band are broadcasting on the same channel, causing severe congestion and dropouts.",
+    explanationIncorrect: {
+      B: "Relocating the access point closer addresses weak signal issues. The scenario explicitly states the RSSI is already a very strong -45 dBm, so moving the hardware will not fix the dropouts.",
+      C: "Intermittent dropouts and lag are physical layer or radio frequency issues. Assigning static IP addresses resolves logical DHCP exhaustion problems, but would not stop a laptop's radio from randomly dropping its connection to the access point.",
+      D: "A corrupted DNS cache prevents users from navigating to websites by name, but it does not cause the physical Wi-Fi connection to randomly disconnect from the access point."
+    },
+    examTrap: "The \"Misleading Symptom\" trap. A strong signal (-45 dBm) tricks test-takers into ruling out the wireless environment entirely, but channel interference easily causes dropouts even with perfect signal strength."
+  },
+  {
+    id: "Q017",
+    topic: "Hardware - Embedded Systems",
+    difficulty: "easy",
+    scenario: "A water treatment facility is modernizing its Operational Technology (OT) network. The engineers need to install specialized \"mini brain\" computers directly onto the factory floor to autonomously control the mechanical opening and closing of water valves based on pressure sensor data.",
+    prompt: "Which of the following embedded systems should the engineers deploy for this task?",
+    choices: [
+      { key: "A", text: "A Programmable Logic Controller (PLC)" },
+      { key: "B", text: "A Supervisory Control and Data Acquisition (SCADA) system" },
+      { key: "C", text: "A Human-Machine Interface (HMI)" },
+      { key: "D", text: "A Unified Threat Management (UTM) appliance" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"autonomously control the mechanical opening and closing of water valves\".",
+    explanationCorrect: "A Programmable Logic Controller (PLC) is an embedded, special-purpose computer designed specifically to manage and control physical mechanical parts, such as motors, sensors, and valves in an industrial setting. It directly interacts with the hardware on the assembly line or plant floor.",
+    explanationIncorrect: {
+      B: "A SCADA system utilizes PCs to monitor and oversee multiple industrial systems from a centralized control room (like monitoring a power grid across cities). It relies on PLCs to do the actual mechanical labor on the ground.",
+      C: "An HMI is a touchscreen panel or interface that allows human operators to interact with and adjust factory machinery in real-time. It provides the interface, but the PLC handles the autonomous mechanical control.",
+      D: "A UTM is an all-in-one network security appliance (combining a firewall, URL filter, IDS, etc.). It has absolutely nothing to do with managing physical water valves in a treatment plant."
+    },
+    examTrap: "The \"Industrial Acronym\" trap. You must clearly differentiate between a PLC (micro-level mechanical control) and SCADA (macro-level network monitoring)."
+  },
+  {
+    id: "Q018",
+    topic: "Networking - Proxies",
+    difficulty: "medium",
+    scenario: "A corporation installs a new web security gateway to filter malicious URLs. The IT department pushes an update to all corporate-owned devices, and they connect successfully. However, a contractor brings in a personal laptop and finds they cannot access any web pages in Firefox, receiving a timeout error. The helpdesk informs the contractor they must open Firefox's network settings and explicitly point the browser to IP 192.168.1.5 on Port 8080.",
+    prompt: "Based on these instructions, what type of gateway has the corporation deployed?",
+    choices: [
+      { key: "A", text: "A Transparent Proxy" },
+      { key: "B", text: "A Non-Transparent Proxy" },
+      { key: "C", text: "A DNS Sinkhole" },
+      { key: "D", text: "A Load Balancer" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"open Firefox's network settings and explicitly point the browser to IP 192.168.1.5 on Port 8080.\"",
+    explanationCorrect: "A Non-Transparent Proxy requires the client user to manually connect to the proxy system. This is achieved by entering the proxy server's IP address and operating port number directly into the browser's manual proxy configuration settings. Because the contractor had to manually configure their browser, the proxy is non-transparent.",
+    explanationIncorrect: {
+      A: "A Transparent Proxy intercepts and filters network traffic entirely in the background. It requires absolutely no manual setup or port configuration on the user's device.",
+      C: "A DNS sinkhole intercepts DNS queries for known malicious domains and returns a false IP address. While it acts as a filter, it operates at the network's DNS resolution level and does not require users to configure manual proxy connection ports inside their web browsers.",
+      D: "A Load Balancer is a traffic manager used to distribute incoming requests evenly across a server farm to prevent overloading. It is not an outbound client content filtering system."
+    },
+    examTrap: "The \"Proxy Configuration\" trap. The defining line between transparent and non-transparent proxies in A+ material relies entirely on whether the client device requires manual configuration to function."
+  },
+  {
+    id: "Q019",
+    topic: "Security Appliances",
+    difficulty: "hard",
+    scenario: "A hospital recently failed a compliance audit because staff members were found casually uploading sensitive patient health records to unauthorized personal cloud storage accounts. The hospital already uses a Next-Generation Firewall, an Intrusion Detection System (IDS), and strict URL filtering.",
+    prompt: "Which of the following security solutions should the IT director implement to directly stop this specific unauthorized behavior?",
+    choices: [
+      { key: "A", text: "A Spam Gateway" },
+      { key: "B", text: "An Anti-malware solution" },
+      { key: "C", text: "A Data Loss Prevention (DLP) system" },
+      { key: "D", text: "A TACACS+ server" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"uploading sensitive patient health records to unauthorized personal cloud storage accounts\".",
+    explanationCorrect: "Data Loss Prevention (DLP) systems provide a specific layer of security designed exclusively to control the movement of sensitive data. A DLP solution monitors outgoing traffic and actively prevents the unauthorized disclosure, transmission, or exfiltration of sensitive information, such as patient health records.",
+    explanationIncorrect: {
+      A: "A spam gateway is designed to filter unauthorized or unsolicited incoming email messages before they reach a user's inbox. It protects against inbound annoyances and malware, not outbound data exfiltration.",
+      B: "Anti-malware software protects computers from malicious software infections like viruses and trojans. It does not inspect the contents of legitimate files (like health records) to see if an authorized user is uploading them to the wrong place.",
+      D: "TACACS+ is an authentication protocol used to securely control administrative access to network devices (like routers and switches). It does not monitor or filter the payload of network traffic for sensitive data."
+    },
+    examTrap: "The \"Overlapping Security Appliances\" trap. The exam lists many valid security tools, but the candidate must map the exact symptom (outbound sensitive data exfiltration) to the singular appliance designed to stop it (DLP)."
+  },
+  {
+    id: "Q020",
+    topic: "Ports and Protocols - NTP",
+    difficulty: "easy",
+    scenario: "A network technician is troubleshooting a Linux server that cannot authenticate to the domain because its system clock is five minutes behind. The technician checks the internal time server configuration and notices the synchronization status is reporting \"Stratum 16.\"",
+    prompt: "What does this status indicator mean regarding the time server?",
+    choices: [
+      { key: "A", text: "It is directly connected to a highly accurate atomic clock." },
+      { key: "B", text: "It is successfully syncing from a Stratum 15 server." },
+      { key: "C", text: "It is securely encrypting the time data using NTS." },
+      { key: "D", text: "It is not synchronized and the time is completely unreliable." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"synchronization status is reporting 'Stratum 16'\".",
+    explanationCorrect: "In the Network Time Protocol (NTP) hierarchy, stratum levels indicate how far away a device is from the original time source. A designation of Stratum 16 explicitly means the device is not synchronized, its time data is unreliable, and it is essentially in an error state. It should not be used as a time source.",
+    explanationIncorrect: {
+      A: "A server directly connected to an original time source (like an atomic or GPS clock) is designated as a Stratum 1 server, representing extreme accuracy.",
+      B: "While the hierarchy syncs downwards (Stratum 3 syncs from Stratum 2), the functional sequence ends at Stratum 15. If a device hits Stratum 16, it means the sync chain has broken.",
+      C: "Encrypting time data is a feature of Network Time Security (NTS), which operates over port 4460 using TLS. Stratum levels measure distance from the time source, not the encryption status of the protocol."
+    },
+    examTrap: "The \"Assumption of Sequence\" trap. Because Stratum 2 syncs from 1, and 3 from 2, candidates often assume 16 is just the next normal level down from 15, rather than recognizing it as a critical error code."
+  },
+  {
+    id: "Q021",
+    topic: "Troubleshoot common wired connectivity issues",
+    difficulty: "medium",
+    scenario: "A user's PC is moved to a newly wired office suite. The user reports they can log into the network, but accessing shared folders is unbearably slow. A technician checks the physical path; the Cat 6 cables are undamaged, and there is no electrical noise nearby. The port LED on the switch is solid green, with no signs of rapid connection dropping.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The PC has been assigned an APIPA address." },
+      { key: "B", text: "There is a duplex or speed mismatch between the NIC and the switch." },
+      { key: "C", text: "The switch port is experiencing port flapping." },
+      { key: "D", text: "The workstation is configured for the wrong VLAN." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"log into the network, but accessing shared folders is unbearably slow\" and \"port LED on the switch is solid green\".",
+    explanationCorrect: "A misconfiguration where the Network Interface Card (NIC) and the switch port have wrong duplex or speed settings will cause severe network bottlenecks, drastically slowing down traffic. Because the cables are good and connectivity exists (just very slowly), configuration mismatches at the hardware port level are the primary suspect.",
+    explanationIncorrect: {
+      A: "An APIPA address (169.254.x.x) is assigned when DHCP is unreachable. It restricts traffic strictly to the local subnet, meaning the user would generally have no access to routed network resources, not just slow access.",
+      C: "Port flapping occurs when a connection rapidly switches between up and down states, causing unstable connections and dropouts. The scenario explicitly rules this out by stating the port LED is solid green and there is no rapid dropping.",
+      D: "If the workstation was on the wrong VLAN, it would be logically separated from the shared folders entirely, preventing access completely, not merely slowing it down."
+    },
+    examTrap: "The \"Physical Cable vs Port Configuration\" trap. Slow speeds with undamaged cables often point to speed/duplex limits, whereas damaged cables typically result in port flapping or total failure."
+  },
+  {
+    id: "Q022",
+    topic: "Networking Hardware & Troubleshooting - VoIP",
+    difficulty: "hard",
+    scenario: "A company recently implemented a new VoIP phone system. During the morning hours, calls are perfectly clear. However, between 1:00 PM and 3:00 PM, users report that calls suffer from frequent drop-outs, high jitter, and noticeable voice delay. The network administrator observes that this coincides with the daily remote backup sequence, which saturates the router's outbound bandwidth.",
+    prompt: "What is the BEST immediate remediation to stabilize the voice communications?",
+    choices: [
+      { key: "A", text: "Implement a Load Balancer to distribute the backup traffic." },
+      { key: "B", text: "Re-terminate the router's Ethernet connection using Cat 6 cabling." },
+      { key: "C", text: "Configure Quality of Service (QoS) on the router." },
+      { key: "D", text: "Switch the VoIP traffic from UDP to TCP." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"frequent drop-outs, high jitter, and noticeable voice delay\" and \"saturates the router's outbound bandwidth\".",
+    explanationCorrect: "VoIP communication requires consistent, low-latency bandwidth to function smoothly. When other network tasks (like file backups) compete for bandwidth, it introduces jitter and packet loss to the voice stream. Configuring Quality of Service (QoS) on the router allows the administrator to prioritize critical VoIP voice packets over best-effort data traffic, guaranteeing voice stability during heavy network load.",
+    explanationIncorrect: {
+      A: "A load balancer spreads incoming network requests across a farm of multiple backend servers to prevent overloads. It does not prioritize outbound traffic types across a single WAN router link.",
+      B: "Re-terminating a physical cable addresses physical layer faults (like shorts or port flapping). The scenario clearly states the issue is bandwidth starvation caused by an overlapping schedule, not physical hardware damage.",
+      D: "VoIP relies entirely on UDP because it is a real-time protocol where speed is prioritized over guaranteed delivery. Switching to TCP would introduce massive overhead and completely break the real-time nature of voice calls by waiting for packet acknowledgments."
+    },
+    examTrap: "The \"Bandwidth Competition\" trap. Test-takers often assume network slowness requires hardware replacement, but CompTIA wants to see the application of administrative bandwidth control (QoS) to resolve protocol competition."
+  },
+  {
+    id: "Q023",
+    topic: "Security - Certificates",
+    difficulty: "medium",
+    scenario: "A user attempting to access a secure corporate banking portal receives a browser warning stating the website's identity cannot be verified. A junior security analyst believes the digital certificate might be a forgery. To confirm the certificate's true identity, the analyst searches the Google Certificate Transparency (CT) Logs.",
+    prompt: "Which specific value must the analyst match in the CT Logs to mathematically ensure the certificate's integrity has not been altered?",
+    choices: [
+      { key: "A", text: "The Common Name (CN)" },
+      { key: "B", text: "The SHA-256 Fingerprint" },
+      { key: "C", text: "The Organizational Unit (OU)" },
+      { key: "D", text: "The Certificate Signing Request (CSR)" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"mathematically ensure the certificate's integrity has not been altered\" and \"Certificate Transparency (CT) Logs\".",
+    explanationCorrect: "When verifying a digital certificate in public CT Logs, the analyst must check the SHA-256 Fingerprint. This fingerprint is a unique cryptographic hash that guarantees the certificate's integrity; if even one bit of the certificate was altered by an attacker, the fingerprint would mathematically change and fail to match the logs.",
+    explanationIncorrect: {
+      A: "The Common Name (CN) simply identifies the domain name the certificate covers (e.g., *.google.com). It is human-readable text and provides no mathematical cryptographic proof against tampering.",
+      C: "The Organizational Unit (OU) is merely an optional text field describing the internal department (like \"IT\" or \"Sales\") that requested the certificate. It is frequently left blank and offers no integrity verification.",
+      D: "A Certificate Signing Request (CSR) is the initial block of text generated by a server to request a certificate from an authority. It is the starting point of the process, not the final unique fingerprint used to verify the finished certificate's integrity in public logs."
+    },
+    examTrap: "The \"Certificate Anatomy\" trap. Knowing the difference between the human-readable fields (CN, O, OU) and the cryptographic verification fields (SHA-256 Fingerprint) is essential for security validation."
+  },
+  {
+    id: "Q024",
+    topic: "Compare and contrast common network ports and protocols",
+    difficulty: "medium",
+    scenario: "An accounting firm is transitioning its data from local computer hard drives to a centralized Windows server. The primary requirement is that multiple accountants must be able to map a network drive and open, edit, and save the exact same tax spreadsheet simultaneously. The current temporary solution involves users downloading the file, making edits, and re-uploading it, which constantly overwrites other users' work.",
+    prompt: "Which of the following protocols MUST the IT administrator configure to resolve this workflow issue?",
+    choices: [
+      { key: "A", text: "FTP" },
+      { key: "B", text: "SMB" },
+      { key: "C", text: "HTTP" },
+      { key: "D", text: "Telnet" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"map a network drive and open, edit, and save the exact same tax spreadsheet simultaneously\"",
+    explanationCorrect: "SMB (Server Message Block) is the primary protocol used in Windows networks for internal sharing, specifically designed for opening files directly from a shared folder and working on them in place. By utilizing SMB, the shared tax file behaves exactly like it is local to the accountant's PC, perfectly satisfying the requirement for live editing without downloading.",
+    explanationIncorrect: {
+      A: "FTP (File Transfer Protocol) is technically valid for moving large datasets between computers, making it plausible for basic file storage. However, FTP is strictly about copying files and uploading/downloading them, not working on them live, which is what causes the overwriting issue in the scenario.",
+      C: "HTTP is the standard protocol for fetching web resources, such as HTML documents, over the internet. While it allows users to access web portals, it does not provide the capability to map network drives to a Windows machine for native, live spreadsheet editing.",
+      D: "Telnet provides unencrypted, text-based terminal emulation to remotely log into network devices. It is used for command-line administrative access to old servers or switches, completely lacking the ability to share or edit graphical spreadsheet files."
+    },
+    examTrap: "The \"File Transfer vs. File Sharing\" trap. Test-takers often confuse FTP (moving copies of files) with SMB (live, in-place editing), but CompTIA explicitly tests this functional difference."
+  },
+  {
+    id: "Q025",
+    topic: "Security - Remote Access & Ports",
+    difficulty: "hard",
+    scenario: "A network engineer is working from a remote coffee shop and needs to configure several legacy Cisco routers located at corporate headquarters. The engineer plans to use a terminal emulation program (PuTTY) to open a command-line interface to interact with the devices. The company's strict security policy dictates that all remote management sessions must ensure data confidentiality and integrity to prevent eavesdropping across untrusted networks.",
+    prompt: "Which of the following protocols is the policy-compliant solution for this remote access?",
+    choices: [
+      { key: "A", text: "Telnet over port 23" },
+      { key: "B", text: "RDP over port 3389" },
+      { key: "C", text: "SSH over port 22" },
+      { key: "D", text: "SNMP over port 161" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"terminal emulation program (PuTTY) to open a command-line interface\" and \"ensure data confidentiality and integrity\"",
+    explanationCorrect: "SSH (Secure Shell) is a secure protocol specifically used to connect to and manage remote systems over an untrusted or unsecured network using a command-line interface. It actively protects the entire session with encryption, ensuring data confidentiality (so no one can read the data) and integrity (so no one can alter it), perfectly aligning with the company's security policy.",
+    explanationIncorrect: {
+      A: "Telnet is a plausible terminal emulation protocol that allows users to log into devices remotely for console access, which old Cisco routers often support. However, it relies on in-the-clear communication without encryption, directly violating the mandate to prevent eavesdropping and ensure confidentiality.",
+      B: "RDP (Remote Desktop Protocol) allows users to access and control a remote computer's screen, mouse, and keyboard graphically. While secure, it does not provide the text-based command-line interface (CLI) required by the engineer's terminal emulation software for managing network routers.",
+      D: "SNMP (Simple Network Management Protocol) is used to monitor and manage network devices, often collecting performance stats like CPU usage. It is not a terminal emulation protocol used by software like PuTTY to manually input CLI commands for device configuration."
+    },
+    examTrap: "The \"Telnet vs SSH\" legacy trap. The scenario mentions \"legacy Cisco routers,\" which baits candidates into choosing Telnet, but the strict encryption policy overrides this and demands SSH."
+  },
+  {
+    id: "Q026",
+    topic: "Troubleshoot common wired connectivity issues",
+    difficulty: "medium",
+    scenario: "A desktop PC is relocated from the Marketing department to the Sales department and plugged into a known-good wall port. The user submits a ticket stating they have limited connectivity. The helpdesk technician verifies that the user can ping other computers on the Sales floor and print to the local Sales printer, but they cannot reach the wider network, the Internet, or the main corporate file server.",
+    prompt: "Based on the CompTIA troubleshooting methodology and the scope of the issue, what is the MOST likely cause?",
+    choices: [
+      { key: "A", text: "The patch cord connecting the PC is damaged." },
+      { key: "B", text: "The PC has been placed on the wrong VLAN." },
+      { key: "C", text: "The PC has been assigned an APIPA address." },
+      { key: "D", text: "The switch is experiencing port flapping." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"can ping other computers on the Sales floor... but they cannot reach the wider network\"",
+    explanationCorrect: "When troubleshooting limited connectivity, misconfigured VLANs can cause devices to only talk locally to devices within the same broadcast domain, but fail to reach the wider network or Internet. Because the PC can communicate perfectly with other devices on the Sales floor, the hardware is functioning, but the logical VLAN boundary is improperly restricting its routing access to outside resources.",
+    explanationIncorrect: {
+      A: "A damaged patch cord causes physical layer failures, such as complete connectivity loss or rapid port flapping. Since the user can successfully ping local computers and use the local printer, the physical cable is perfectly intact.",
+      C: "An APIPA (Automatic Private IP Addressing) address is automatically assigned when a DHCP server is unavailable. While an APIPA address restricts traffic to the local subnet and blocks Internet access, a PC moved to a new physical location with an existing working network would normally pull a DHCP address unless the entire network was down, making a persistent port-based VLAN misconfiguration much more likely after a physical desk move.",
+      D: "Port flapping happens when a port rapidly switches between up and down states, typically due to bad cabling or a failing NIC. This leads to highly unstable or entirely dropped connections, not a stable connection that is simply limited to local traffic."
+    },
+    examTrap: "The \"Scope of Issue\" trap. By stating the user can talk to local devices, the question forces you to rule out physical layer issues (bad cables/NICs) and focus on logical routing/segmentation issues (VLANs)."
+  },
+
+  {
+    id: "Q027",
+    topic: "Hardware - Embedded Systems",
+    difficulty: "easy",
+    scenario: "A national energy provider is upgrading the embedded systems used to manage its infrastructure. The Chief Information Officer (CIO) wants to deploy a solution that allows operators to use standard PCs to monitor and control power grids across five different cities simultaneously from a single, centralized control room.",
+    prompt: "Which of the following systems is BEST suited for this specific requirement?",
+    choices: [
+      { key: "A", text: "SCADA (Supervisory Control and Data Acquisition)" },
+      { key: "B", text: "PLC (Programmable Logic Controller)" },
+      { key: "C", text: "HMI (Human-Machine Interface)" },
+      { key: "D", text: "Zigbee Hub" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"monitor and control power grids across five different cities simultaneously from a single, centralized control room\"",
+    explanationCorrect: "A SCADA system is specifically designed to use standard PCs to monitor and control multiple industrial systems from a central location. It is the exact technology used to oversee large-scale, geographically dispersed infrastructure, such as monitoring power grids across many cities from one control room.",
+    explanationIncorrect: {
+      B: "A Programmable Logic Controller (PLC) is a special-purpose embedded system that directly manages physical mechanical parts, like motors and sensors on an assembly line. It operates at the local machine level, not as the overarching multi-city centralized monitoring system.",
+      C: "An HMI (Human-Machine Interface) allows operators to interact with machines, often acting as a localized touchscreen panel used to adjust factory machinery in real-time. It is a local interface, not the centralized multi-site control system.",
+      D: "Zigbee is a low-power wireless communication standard commonly used for small-scale home automation devices, such as smart lightbulbs or locks. It is completely inadequate and unsuited for large-scale, mission-critical industrial power grid management."
+    },
+    examTrap: "The \"Industrial Acronym\" trap. Test-takers must clearly distinguish between micro-level local control (PLC) and macro-level centralized network monitoring (SCADA) within embedded industrial systems."
+  },
+
+  {
+    id: "Q028",
+    topic: "Security - Browser Indicators",
+    difficulty: "medium",
+    scenario: "A financial analyst is attempting to log into a new online banking portal to manage corporate funds. The analyst wants to verify the website's identity to prevent falling victim to a phishing attack. Upon loading the page, the analyst notices a green address bar displayed in the web browser.",
+    prompt: "What does this specific visual indicator verify about the website?",
+    choices: [
+      { key: "A", text: "The site is using a wildcard certificate for all subdomains." },
+      { key: "B", text: "The site is operating over an unencrypted HTTP connection." },
+      { key: "C", text: "The site has been issued an Extended Validation (EV) certificate." },
+      { key: "D", text: "The site's certificate fingerprint matches the CT Logs." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"green address bar displayed in the web browser\"",
+    explanationCorrect: "Browser indicators are visual signs used to help users know if a website is secure. When a green address bar appears in a browser, it explicitly means the site has an Extended Validation (EV) certificate, which provides the highest trust level regarding the site's authentic identity and security.",
+    explanationIncorrect: {
+      A: "A wildcard certificate allows a single certificate to secure a main domain and unlimited subdomains (indicated by an asterisk, like *.google.com). While secure, a wildcard certificate does not inherently trigger a green address bar; that feature is reserved strictly for EV certificates.",
+      B: "An unencrypted HTTP connection means the site is not secure and data is sent in plaintext. An insecure site would never display a green address bar or a padlock icon.",
+      D: "The certificate fingerprint (like a SHA-256 hash) is used by analysts to manually verify a certificate's integrity against public Certificate Transparency (CT) logs. The browser's green address bar does not manually confirm log matching to the end-user; it simply denotes the presence of EV vetting."
+    },
+    examTrap: "The \"Visual Security Indicator\" trap. CompTIA expects candidates to link the specific visual cue of a \"green address bar\" directly to the \"Extended Validation (EV)\" certificate type, distinguishing it from standard HTTPS padlocks."
+  },
+
+  {
+    id: "Q029",
+    topic: "Troubleshoot common wireless connectivity issues",
+    difficulty: "hard",
+    scenario: "A visiting consultant is attempting to connect their laptop to a corporate guest Wi-Fi network. The receptionist provides the network name and password, but the consultant cannot find the network name in their laptop's drop-down list of available Wi-Fi connections. A local employee sitting next to the consultant demonstrates that their own smartphone is currently connected to that exact guest network and has full internet access.",
+    prompt: "What is the MOST likely cause for the network not appearing on the consultant's laptop?",
+    choices: [
+      { key: "A", text: "The laptop is experiencing signal interference from a microwave." },
+      { key: "B", text: "The network's SSID broadcasts are administratively disabled." },
+      { key: "C", text: "The guest network's DHCP server has run out of IP addresses." },
+      { key: "D", text: "The network is overcrowded on Channel 6." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"cannot find the network name in their laptop's drop-down list\" and \"local employee... is currently connected to that exact guest network\"",
+    explanationCorrect: "The Service Set Identifier (SSID) is the name of the wireless network that is normally broadcasted to nearby devices. If the network administrator disables the SSID broadcasts for security or privacy reasons, the network name will not appear in the drop-down list of available wireless networks, requiring users to manually type the name to connect.",
+    explanationIncorrect: {
+      A: "Signal interference from appliances like microwaves can corrupt data and cause intermittent dropouts or slow speeds. However, severe interference would also affect the local employee sitting right next to them, rather than selectively hiding the network name from a single device.",
+      C: "If the DHCP server runs out of IP addresses, a device might connect to the radio signal but fail to get an IP, resulting in an APIPA address and limited connectivity. It would not prevent the SSID network name from showing up in the broadcast list entirely.",
+      D: "Overcrowded channels (like overlapping networks on Channel 6) create congestion, which leads to slow speeds and poor performance. Congestion does not cause a router to stop broadcasting its name to the local area."
+    },
+    examTrap: "The \"Hidden Network\" trap. When a known-working network simply doesn't appear in a scan list, test-takers must bypass physical interference theories and identify the administrative configuration (disabled SSID broadcast) causing the invisibility."
+  },
+
+  {
+    id: "Q030",
+    topic: "Networking Hardware - Load Balancers",
+    difficulty: "easy",
+    scenario: "A retail company’s e-commerce website recently crashed during a major holiday sale because their single web server was overwhelmed by inbound client requests. To prevent this, the IT team has deployed three identical web servers in a cluster. They now need a hardware appliance that will sit in front of these servers to manage the traffic, ensure no downtime if one server fails, and remain completely invisible to the customers.",
+    prompt: "Which of the following devices should the IT team implement?",
+    choices: [
+      { key: "A", text: "A Unified Threat Management (UTM) appliance" },
+      { key: "B", text: "A SOCKS5 proxy server" },
+      { key: "C", text: "A Load Balancer" },
+      { key: "D", text: "A RADIUS server" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"manage the traffic, ensure no downtime if one server fails, and remain completely invisible\"",
+    explanationCorrect: "A load balancer acts as a traffic manager for computer networks, specifically used in web server farms. It spreads incoming inbound client requests across multiple servers to distribute the workload evenly, which keeps the system running efficiently and enables fault tolerance so there is no downtime if a single server crashes.",
+    explanationIncorrect: {
+      A: "A UTM (Unified Threat Management) appliance is an all-in-one security device that combines features like a firewall, malware inspection, and spam filtering. It is deployed to block threats, not to dynamically distribute web traffic workloads across a farm of internal servers.",
+      B: "SOCKS5 is a universal proxy protocol that routes traffic between a client and a server, often used for content filtering or bypassing restrictions. It does not inherently provide fault tolerance or load distribution for incoming web server requests.",
+      D: "A RADIUS server is a centralized authentication server that stores user credentials and enforces network access policies. It handles user log-ins, not the balancing of inbound web traffic across multiple hosts."
+    },
+    examTrap: "The \"Infrastructure Function\" trap. CompTIA explicitly tests the ability to match the need for \"fault tolerance\" and \"workload distribution\" to the correct appliance (Load Balancer) rather than standard security firewalls."
+  },
+
+  {
+    id: "Q031",
+    topic: "Security - AAA Authentication",
+    difficulty: "medium",
+    scenario: "A corporate campus relies on a secure AAA framework to manage employee access. When an employee attempts to connect their laptop to a conference room switch, the switch blocks network access and forces the laptop to exchange EAPOL authentication messages. The switch then forwards these encrypted credentials to a central server that makes the final decision to allow or deny access.",
+    prompt: "In this specific 802.1X architecture, what role does the conference room switch play?",
+    choices: [
+      { key: "A", text: "It acts as the Supplicant." },
+      { key: "B", text: "It acts as the Network Access Server (NAS)." },
+      { key: "C", text: "It acts as the RADIUS Server." },
+      { key: "D", text: "It acts as the LDAP Directory." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"switch blocks network access... forwards these encrypted credentials to a central server\"",
+    explanationCorrect: "In an AAA communication framework, the Network Access Server (NAS)—often a switch or wireless access point—acts as the \"gatekeeper\" that controls physical access to the network. The NAS does not verify credentials itself; instead, it enables EAPOL to handle the initial exchange and then forwards the credentials to the backend AAA server for validation.",
+    explanationIncorrect: {
+      A: "The Supplicant is the user or device actually requesting access, which in this scenario is the employee's laptop, not the network switch.",
+      C: "The RADIUS server is the central AAA server that actually stores the credentials, performs the authentication, and makes the final decision to allow or deny access. The switch simply forwards the data to this server.",
+      D: "LDAP (Lightweight Directory Access Protocol) is the language used to talk to directory servers (like Active Directory) to manage user information. It is not the physical gatekeeper device handling the local EAPOL exchange at the edge of the network."
+    },
+    examTrap: "The \"AAA Component Roles\" trap. Candidates frequently confuse the device asking for passwords (the NAS/Authenticator) with the server actually validating them (RADIUS), but the distinction is a core concept."
+  },
+
+  {
+    id: "Q032",
+    topic: "Networking - Monitoring Servers",
+    difficulty: "medium",
+    scenario: "An IT auditor needs to review the security events of the past 30 days across a fleet of 50 corporate firewalls. The auditor requires detailed descriptions of system activities, warning events, and security alerts, all properly organized with timestamps. The auditor does not want real-time CPU or bandwidth performance graphs.",
+    prompt: "Which of the following systems is BEST suited to provide this specific data?",
+    choices: [
+      { key: "A", text: "An SNMP GET manager" },
+      { key: "B", text: "A SOCKS proxy server" },
+      { key: "C", text: "A Syslog server" },
+      { key: "D", text: "A Management Information Base (MIB)" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"detailed descriptions of system activities, warning events, and security alerts... properly organized with timestamps\"",
+    explanationCorrect: "Syslog is a standard protocol dedicated to logging messages, error events, and security alerts with exact timestamps in networked systems. A centralized Syslog server collects, stores, and manages these detailed historical text logs from many devices (like firewalls and routers), making it the perfect tool for an auditor looking for historical security events rather than real-time performance.",
+    explanationIncorrect: {
+      A: "An SNMP GET operation is a manual pull request used by a monitoring server to ask a network device for a specific piece of real-time performance information, such as current CPU usage or system uptime. It is used for real-time metric polling, not for collecting descriptive historical security logs.",
+      B: "A SOCKS proxy is a universal proxy used to route various types of network traffic between clients and the internet for filtering or anonymity. It is not a centralized logging database.",
+      D: "A Management Information Base (MIB) is a dictionary or database residing on a local network device that defines all the hardware features and data points SNMP is allowed to monitor. It is the dictionary for SNMP, not a central server holding historical security alerts."
+    },
+    examTrap: "The \"SNMP vs Syslog\" trap. CompTIA explicitly tests the key difference between SNMP (which detects issues and pulls real-time performance metrics) and Syslog (which records detailed historical logs and text descriptions for review)."
+  },
+
+  {
+    id: "Q033",
+    topic: "Ports and Protocols - Email",
+    difficulty: "hard",
+    scenario: "A user configures their corporate email account on a new tablet. They write a test email and successfully send it to a colleague. However, their inbox remains completely empty, and they cannot view any of their older saved messages or receive new replies. The email client is currently configured to use Port 587 and Port 110. The corporate IT policy states that all inbound email must support synchronization across multiple mobile devices.",
+    prompt: "Which configuration change is the MOST appropriate remediation for this issue?",
+    choices: [
+      { key: "A", text: "Change the outbound sending protocol to SMTP on Port 25." },
+      { key: "B", text: "Change the inbound receiving protocol to IMAP on Port 993." },
+      { key: "C", text: "Change the outbound sending protocol to IMAP on Port 143." },
+      { key: "D", text: "Change the inbound receiving protocol to POP3 on Port 110." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"inbox remains completely empty... support synchronization across multiple mobile devices\" and \"currently configured to use Port 587 and Port 110.\"",
+    explanationCorrect: "The user can successfully send emails because Port 587 is the correct secure sending port for SMTP. However, Port 110 is used for POP3, which provides only basic mail transfer and downloads emails locally rather than syncing them. Because the corporate policy strictly requires modern synchronization across multiple devices, the user must switch the incoming protocol to IMAP and use a secure port like 993 to properly manage and sync the inbox.",
+    explanationIncorrect: {
+      A: "Changing the outbound protocol to Port 25 utilizes the legacy, unencrypted version of SMTP. Not only is the user's sending capability already working on Port 587, but Port 25 is unsecure and frequently blocked by modern firewalls.",
+      C: "IMAP is strictly an incoming email protocol used to retrieve, read, and manage messages stored on a server. It has absolutely no outbound sending capability, so applying it to the outgoing server configuration would break the user's ability to send mail.",
+      D: "The client is already configured to use POP3 on Port 110, which is causing the problem. POP3 does not support the multi-device inbox synchronization mandated by the corporate policy, and simply reapplying the same broken setting will not fix the issue."
+    },
+    examTrap: "The \"POP3 vs IMAP sync\" trap. While both receive mail, POP3 (110) downloads it locally, whereas IMAP (143/993) is required for modern synchronization across multiple devices."
+  },
+
+  {
+    id: "Q034",
+    topic: "Wireless Standards/IoT",
+    difficulty: "easy",
+    scenario: "A homeowner wants to automate their residence by installing smart locks, temperature sensors, and remote-controlled lights. They need these devices to communicate efficiently with a central hub using a specialized wireless standard that is highly common in home automation environments.",
+    prompt: "Which of the following wireless standards is the MOST appropriate choice for these specific IoT smart devices?",
+    choices: [
+      { key: "A", text: "802.11ac" },
+      { key: "B", text: "Z-Wave" },
+      { key: "C", text: "Ethernet" },
+      { key: "D", text: "Telnet" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"specialized wireless standard that is highly common in home automation environments\"",
+    explanationCorrect: "Z-Wave is a specialized wireless communication standard explicitly designed for the Internet of Things (IoT). It is widely established and extremely common in home automation for connecting devices like smart locks, sensors, and lights to a central hub/control system.",
+    explanationIncorrect: {
+      A: "802.11ac is a high-speed Wi-Fi standard used for heavy data transmission (like video streaming) on traditional networks. While some IoT devices use Wi-Fi, Z-Wave is the specialized low-power standard requested for this specific sensor/lock automation network.",
+      C: "Ethernet provides a hardwired, physical cable connection between devices. The scenario specifically requests a \"wireless standard\" for the smart devices, making a physical cable incorrect.",
+      D: "Telnet is a legacy protocol used to remotely log into network devices via an unencrypted text-based command-line interface. It is not a wireless communication standard used by IoT sensors to talk to a hub."
+    },
+    examTrap: "The \"IoT Wireless Standard\" trap. CompTIA expects test-takers to immediately associate Z-Wave (and Zigbee) with low-power, localized home automation networks, distinct from heavy-duty 802.11 Wi-Fi."
+  },
+
+  {
+    id: "Q035",
+    topic: "Security - Proxy Servers",
+    difficulty: "medium",
+    scenario: "A school district implements a strict content filtering system to prevent students from accessing gambling and social media websites during class hours. The IT administrator deploys the system at the edge of the network. When students log on to their school-issued Chromebooks, the internet traffic is intercepted and filtered automatically in the background, without the students needing to configure any connection settings on their devices.",
+    prompt: "Based on this deployment method, which type of system has the school utilized?",
+    choices: [
+      { key: "A", text: "A Non-Transparent Proxy" },
+      { key: "B", text: "A SOCKS5 Proxy" },
+      { key: "C", text: "A Transparent Proxy" },
+      { key: "D", text: "A Remote Terminal Server" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"intercepted and filtered automatically in the background, without the students needing to configure any connection settings\"",
+    explanationCorrect: "A Transparent Proxy intercepts and handles network traffic without the user knowing it is happening. It requires absolutely no manual setup or port configuration on the user's device, which perfectly aligns with the seamless, background content filtering described in the scenario.",
+    explanationIncorrect: {
+      A: "A Non-Transparent Proxy performs similar content filtering, but it explicitly requires the user (or client device) to be manually configured to connect to it. The user would have to enter the proxy's IP address and operating port number into their browser settings, which contradicts the scenario.",
+      B: "A SOCKS5 proxy is a secure, universal proxy protocol that handles many kinds of network traffic, but utilizing it generally requires manual configuration in the client software (as seen in browser connection settings).",
+      D: "A Remote Terminal Server allows administrators to securely access the command-line interface of network equipment (like switches) from far away. It is used for device management via protocols like SSH, not for filtering outbound web content for end-users."
+    },
+    examTrap: "The \"Proxy Configuration\" trap. The defining difference between a transparent and non-transparent proxy in CompTIA material relies entirely on whether the end-user has to manually configure their browser settings to utilize it."
+  },
+
+  {
+    id: "Q036",
+    topic: "Troubleshoot common wired connectivity issues",
+    difficulty: "medium",
+    scenario: "An office recently reorganized, and several network cables were routed through a drop-ceiling that also houses heavy fluorescent lighting and industrial air conditioning motors. Users connected to these specific cable drops report extremely slow network speeds. A technician connects a network tap and an analyzer, which immediately reports a high number of damaged frames being transmitted. The nominal link speed still shows as 1 Gbps on the workstations.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The switch port and NIC are experiencing a duplex mismatch." },
+      { key: "B", text: "The cabling is experiencing crosstalk and external electromagnetic interference." },
+      { key: "C", text: "The network adapters are failing and causing rapid port flapping." },
+      { key: "D", text: "The workstations have been placed on an overcrowded VLAN." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"routed through a drop-ceiling that also houses heavy fluorescent lighting and industrial air conditioning motors\" and \"high number of damaged frames\".",
+    explanationCorrect: "Electrical noise from power lines, fluorescent lights, or heavy motors can severely corrupt data traversing nearby unshielded copper cables. This external interference directly causes the high number of damaged frames reported by the network analyzer, leading to dropped packets and slow network speeds as the system constantly forces retransmissions.",
+    explanationIncorrect: {
+      A: "A duplex mismatch between the NIC and the switch can cause slow network speeds and collisions. However, duplex mismatches are configuration errors, whereas the specific physical placement near heavy motors directly points to physical electromagnetic interference rather than a logical setting.",
+      C: "Port flapping occurs when a physical link rapidly transitions between \"up\" and \"down\" states, usually due to bad cabling or a failing NIC, resulting in total intermittent disconnections. The scenario states the link speed remains steadily established at 1 Gbps, meaning the connection isn't dropping, but the data inside it is being corrupted.",
+      D: "An overcrowded VLAN could cause congestion and slow down traffic due to high broadcast volume. However, logical VLAN congestion does not cause physical frame damage at the cable level, which is what the analyzer detected."
+    },
+    examTrap: "The \"Logical vs. Physical Interference\" trap. You must map the environmental clues (fluorescent lights/motors) directly to physical data corruption (damaged frames) rather than assuming a switch configuration error."
+  },
+
+  {
+    id: "Q037",
+    topic: "Security & Networking Hardware",
+    difficulty: "hard",
+    scenario: "A corporate security policy mandates that all wireless access points (WAPs) must authenticate connecting employee laptops without storing any user credentials locally on the access points themselves. Furthermore, the authentication traffic must combine the authentication and authorization processes into a single function for efficiency.",
+    prompt: "Which of the following protocols MUST the network administrator configure on the backend to achieve this compliance?",
+    choices: [
+      { key: "A", text: "TACACS+ over TCP port 49" },
+      { key: "B", text: "LDAP over TCP port 636" },
+      { key: "C", text: "RADIUS over UDP port 1812" },
+      { key: "D", text: "EAPOL over the local LAN" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"without storing any user credentials locally\" and \"combine the authentication and authorization processes\".",
+    explanationCorrect: "In an AAA (Authentication, Authorization, and Accounting) architecture, the network access points act as gatekeepers that do not verify or store credentials themselves; instead, they forward them to a central AAA server. RADIUS is the standard AAA protocol used for 802.1X Wi-Fi authentication, and it uniquely combines the authentication and authorization steps while operating over UDP port 1812.",
+    explanationIncorrect: {
+      A: "TACACS+ is an alternative AAA server protocol operating on TCP port 49. However, it explicitly separates authentication, authorization, and accounting into distinct processes, violating the requirement to combine them.",
+      B: "LDAP (Lightweight Directory Access Protocol) is used to query directory databases like Active Directory for user information. It is not a dedicated AAA framework designed to act as the central remote authentication dial-in server for network access hardware.",
+      D: "EAPOL (Extensible Authentication Protocol over LAN) is the protocol used locally between the client laptop (supplicant) and the access point (authenticator) to start the process. It does not act as the backend server protocol that fulfills the requirement of combining backend authentication and authorization."
+    },
+    examTrap: "The \"RADIUS vs. TACACS+\" distinction. CompTIA rigorously tests the differences: RADIUS combines auth/authz and is common for Wi-Fi, while TACACS+ separates them and is used for device administration."
+  },
+
+  {
+    id: "Q038",
+    topic: "Ports and Protocols",
+    difficulty: "medium",
+    scenario: "A helpdesk technician is troubleshooting a remote employee's email client. The employee can successfully download and read their entire inbox history, but every time they attempt to reply to a message, it fails to send. The company's firewall was recently updated to block all legacy, unencrypted communication protocols.",
+    prompt: "Which of the following configurations is MOST likely causing the outbound emails to fail?",
+    choices: [
+      { key: "A", text: "The client is using IMAP over port 993." },
+      { key: "B", text: "The client is using SMTP over port 25." },
+      { key: "C", text: "The client is using POP3 over port 110." },
+      { key: "D", text: "The client is using SMTP over port 587." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"fails to send\" and \"firewall was recently updated to block all legacy, unencrypted communication protocols.\"",
+    explanationCorrect: "The Simple Mail Transfer Protocol (SMTP) is exclusively responsible for sending outgoing emails. Historically, SMTP utilized TCP port 25, which transmits data insecurely in the clear without encryption. Because the new firewall blocks unencrypted legacy protocols, attempts to route outgoing mail over port 25 will be blocked, causing the sending failure.",
+    explanationIncorrect: {
+      A: "IMAP over port 993 is a secure protocol used exclusively for receiving and managing incoming mail, not sending it. Since the employee can successfully read their inbox, the inbound protocol is functioning correctly.",
+      C: "POP3 over port 110 is a legacy unencrypted protocol used to download incoming mail to a local client. Like IMAP, it plays no role in the outbound sending process that is currently failing.",
+      D: "SMTP over port 587 is the modern, secure standard for submitting outgoing email from a client to a server. If the client were correctly configured to use this secure port, the encrypted transmission would bypass the firewall's legacy block and succeed."
+    },
+    examTrap: "The \"Inbound vs. Outbound Ports\" trap. You must identify that sending mail strictly requires SMTP, recognize that port 25 is the unencrypted legacy standard, and eliminate receiving protocols (IMAP/POP3) based on the symptoms."
+  },
+
+  {
+    id: "Q039",
+    topic: "Troubleshoot common network issues - VoIP",
+    difficulty: "hard",
+    scenario: "A call center utilizes a software-based VoIP system for all customer service operations. Agents report that during the afternoon shift, customer voices frequently drop out or sound like \"robot chatter,\" with parts of the conversation arriving out of sequence. A network administrator runs a diagnostic and finds that jitter has spiked to 80 ms, coinciding with the marketing department pushing large video files to an external FTP server.",
+    prompt: "Which of the following is the BEST long-term remediation strategy to ensure stable voice quality?",
+    choices: [
+      { key: "A", text: "Transition the VoIP traffic from UDP to TCP." },
+      { key: "B", text: "Upgrade the call center's structured cabling to Cat 6a." },
+      { key: "C", text: "Configure Quality of Service (QoS) rules on the managed router." },
+      { key: "D", text: "Implement a unified threat management (UTM) appliance." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"jitter has spiked to 80 ms, coinciding with the marketing department pushing large video files\".",
+    explanationCorrect: "VoIP communication is highly sensitive to delays and relies on consistent, low-latency bandwidth to ensure smooth voice transmission. High jitter (variation in packet arrival times) occurs when bursty network traffic, like large FTP file transfers, competes for bandwidth and causes congestion. Configuring Quality of Service (QoS) on the router prioritizes critical VoIP packets over less sensitive data traffic, guaranteeing voice stability even during heavy network loads.",
+    explanationIncorrect: {
+      A: "VoIP relies on the User Datagram Protocol (UDP) because voice is a real-time application that requires immediate delivery. Switching to TCP would introduce massive overhead and delays by forcing packet acknowledgments and retransmissions, completely ruining real-time voice quality.",
+      B: "Upgrading structured cabling addresses physical layer bandwidth limitations or interference issues. The symptom is explicitly tied to simultaneous bandwidth competition (FTP uploads), not a physical cabling fault.",
+      D: "A Unified Threat Management (UTM) appliance consolidates security functions like firewalls, intrusion detection, and antivirus into a single device. It does not natively prioritize internal network protocol traffic to resolve VoIP jitter."
+    },
+    examTrap: "The \"Bandwidth Competition\" trap. Test-takers often assume network slowness requires a hardware upgrade, but CompTIA tests the application of administrative bandwidth control (QoS) to resolve protocol competition."
+  },
+
+  {
+    id: "Q040",
+    topic: "Hardware - Embedded Systems",
+    difficulty: "easy",
+    scenario: "A regional water utility company uses a centralized control room to monitor pressure sensors and autonomously manage the opening and closing of water valves across three different city treatment plants. The IT director is upgrading the software that runs on the standard PCs in this central control room.",
+    prompt: "What type of system is the IT director upgrading?",
+    choices: [
+      { key: "A", text: "A Programmable Logic Controller (PLC)" },
+      { key: "B", text: "A Data Loss Prevention (DLP) System" },
+      { key: "C", text: "A Supervisory Control and Data Acquisition (SCADA) system" },
+      { key: "D", text: "A Unified Threat Management (UTM) system" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"centralized control room to monitor... across three different city treatment plants\" and \"standard PCs\".",
+    explanationCorrect: "A SCADA (Supervisory Control and Data Acquisition) system is a large-scale industrial control network that typically runs as software on ordinary computers. It is explicitly designed to gather data from and manage multiple industrial sites from a central, macro-level location, exactly like monitoring water plants across several cities.",
+    explanationIncorrect: {
+      A: "A Programmable Logic Controller (PLC) is the localized \"micro-level\" embedded computer physically sitting on the assembly line that directly controls the mechanical valves. The SCADA system in the central control room sends instructions to the remote PLCs.",
+      B: "A Data Loss Prevention (DLP) system scans outgoing network traffic to block the unauthorized transfer of confidential or sensitive data. It has no role in industrial mechanical automation.",
+      D: "A Unified Threat Management (UTM) appliance combines multiple security features like firewalls, IDS, and malware scanning into one device. It secures a network but does not monitor or control industrial water valves."
+    },
+    examTrap: "The \"Industrial Acronym\" trap. You must differentiate between the micro-level local hardware doing the mechanical work (PLC) and the macro-level software monitoring it from afar (SCADA)."
+  },
+
+  {
+    id: "Q041",
+    topic: "Security - Proxy Servers",
+    difficulty: "medium",
+    scenario: "A public high school uses a web security gateway to block student access to social media and streaming websites. The system works flawlessly on all school-issued desktop computers. However, a guest speaker brings a personal laptop and finds they cannot access any websites at all. The IT technician instructs the speaker to open their browser's network settings and manually enter the IP address 10.0.0.5 on Port 8080.",
+    prompt: "Based on the required configuration, what type of gateway has the school deployed?",
+    choices: [
+      { key: "A", text: "A Transparent Proxy" },
+      { key: "B", text: "A Non-Transparent Proxy" },
+      { key: "C", text: "A SOCKS5 VPN" },
+      { key: "D", text: "A Load Balancer" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"manually enter the IP address... on Port 8080\" in the browser's network settings.",
+    explanationCorrect: "A non-transparent proxy requires the client device to be manually configured to connect to the proxy service. The user must explicitly enter the proxy server's IP address and operating port number (often 8080) directly into their browser's connection settings to access the internet through the filter.",
+    explanationIncorrect: {
+      A: "A transparent proxy intercepts and handles network traffic seamlessly in the background. It requires absolutely no manual setup or port configuration on the user's device, which directly contradicts the instructions given to the guest speaker.",
+      C: "SOCKS5 is a universal proxy protocol that handles various network traffic, but it is not inherently a VPN (Virtual Private Network), which creates an encrypted tunnel for the entire device rather than just filtering browser content via a manual proxy port.",
+      D: "A load balancer is a traffic manager used to distribute incoming requests evenly across a farm of backend servers to prevent overloading and ensure fault tolerance. It is not an outbound client content filtering system."
+    },
+    examTrap: "The \"Proxy Behavior\" trap. The defining line between transparent and non-transparent proxies hinges entirely on whether end-user manual configuration is required in the browser."
+  },
+
+  {
+    id: "Q042",
+    topic: "Troubleshoot common wired connectivity issues",
+    difficulty: "hard",
+    scenario: "An accountant's workstation is physically relocated to a newly wired desk on the same floor. Upon logging in, the accountant notices a \"Limited Connectivity\" warning in Windows. The technician verifies the patch cables are secure and undamaged. The accountant can successfully ping the local department printer located in the same room, but they cannot reach the wider corporate network, the internet, or the main file server.",
+    prompt: "Based on the CompTIA troubleshooting methodology, what is the MOST likely cause of this isolated access?",
+    choices: [
+      { key: "A", text: "The DHCP server has exhausted its pool of available IP addresses." },
+      { key: "B", text: "The workstation is configured with an APIPA address." },
+      { key: "C", text: "The switch port is assigned to the wrong VLAN." },
+      { key: "D", text: "The workstation's network interface card is experiencing port flapping." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"can successfully ping the local department printer... but they cannot reach the wider corporate network\".",
+    explanationCorrect: "When a device can communicate with local devices on the same switch but cannot reach the wider network or the internet, it is often a logical boundary issue. If a switch port is configured with the wrong VLAN ID, it isolates the host to a specific broadcast domain, allowing local communication but blocking access to broader routed resources like default gateways or internet servers.",
+    explanationIncorrect: {
+      A: "If the DHCP server exhausted its pool, the workstation would fail to get an IP and would fall back to an APIPA address.",
+      B: "While an APIPA address (169.254.x.x) causes a \"Limited Connectivity\" warning and restricts traffic to the local subnet, the scenario states the user moved to a newly wired desk on a working network. Typically, if DHCP fails, local routing to managed enterprise printers might also fail unless everything is on APIPA. However, VLAN misconfiguration is the textbook cause for a moved PC physically working but logically isolated from the wider network while still hitting local Layer 2 devices.",
+      D: "Port flapping occurs when a physical connection rapidly drops and reconnects, usually due to bad cabling. The user has a stable connection to the local printer, meaning the physical link layer is perfectly intact."
+    },
+    examTrap: "The \"Scope of Issue\" trap. By noting the user can ping local hardware, the scenario forces you to rule out physical cable breaks and focus on logical switch segmentation errors (VLANs)."
+  },
+
+  {
+    id: "Q043",
+    topic: "Networking - SNMP/Syslog",
+    difficulty: "medium",
+    scenario: "A hospital IT department manages dozens of critical routers and firewalls. Currently, a central server manually queries these devices every 10 minutes to pull CPU and memory statistics. The IT director demands an immediate change: if a hardware component fails, the network device must proactively and instantly push an alert to the management server, bypassing the 10-minute polling cycle.",
+    prompt: "Which of the following operations MUST be configured to meet this requirement?",
+    choices: [
+      { key: "A", text: "An SNMP GET request" },
+      { key: "B", text: "A Syslog UDP port 514 configuration" },
+      { key: "C", text: "An SNMP TRAP operation" },
+      { key: "D", text: "A TLS TCP port 443 tunnel" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"proactively and instantly push an alert to the management server, bypassing the 10-minute polling cycle.\"",
+    explanationCorrect: "In the Simple Network Management Protocol (SNMP), a TRAP operation is used when an agent (the network device) needs to spontaneously send an alert to the manager. Unlike manual polling, TRAPs are generated automatically by the device to inform the manager of critical events, like port failures, the moment they occur.",
+    explanationIncorrect: {
+      A: "An SNMP GET is a manual operation where the manager requests specific information from the device. This \"pull\" method is exactly what is currently causing the 10-minute delay.",
+      B: "Syslog over UDP 514 is used to aggregate historical event messages and errors to a central log collector. While it logs the error, SNMP TRAPs are specifically designed for the monitoring system's alerting mechanism to trigger immediate management actions.",
+      D: "TLS over TCP 443 is the standard protocol for securing web traffic (HTTPS). It provides encryption for web browsing but has nothing to do with automating hardware failure alerts from network infrastructure."
+    },
+    examTrap: "The \"Push vs Pull Monitoring\" trap. CompTIA explicitly tests the difference between SNMP GET (manager manually pulls data) and SNMP TRAP (device automatically pushes alerts)."
+  },
+
+  {
+    id: "Q044",
+    topic: "Networking Hardware - Load Balancers",
+    difficulty: "easy",
+    scenario: "A major retailer's inventory database crashed during a holiday sale because the single server was overwhelmed by thousands of simultaneous queries. To ensure high availability, the IT team deploys three identical database servers. They now need a network appliance to sit in front of these servers to distribute the incoming workload evenly and ensure fault tolerance if one server goes offline.",
+    prompt: "Which of the following devices should the IT team implement?",
+    choices: [
+      { key: "A", text: "A Unified Threat Management (UTM) appliance" },
+      { key: "B", text: "A RADIUS Server" },
+      { key: "C", text: "A Network Access Server (NAS)" },
+      { key: "D", text: "A Load Balancer" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"distribute the incoming workload evenly and ensure fault tolerance if one server goes offline.\"",
+    explanationCorrect: "A load balancer is a traffic manager deployed in front of a server farm to distribute incoming client requests across multiple nodes. This ensures workloads are handled efficiently, scaling performance, and providing fault tolerance so that if one server fails, the load balancer simply redirects traffic to the remaining healthy servers without downtime.",
+    explanationIncorrect: {
+      A: "A UTM (Unified Threat Management) appliance centralizes security functions like firewalls, IDS, and malware scanning. It secures the network against attacks but does not distribute backend database traffic workloads.",
+      B: "A RADIUS server is an authentication server that securely stores user credentials and enforces network access policies. It handles logins, not the balancing of heavy database queries.",
+      C: "A Network Access Server (NAS) acts as a gateway (like a switch or VPN) that controls physical or logical access to a network, often passing credentials to a RADIUS server. It does not manage application server workloads."
+    },
+    examTrap: "The \"Infrastructure Function\" trap. You must map the need for \"fault tolerance\" and \"workload distribution\" to the specific appliance (Load Balancer) rather than standard security firewalls."
+  },
+
+  {
+    id: "Q045",
+    topic: "Security - Certificates",
+    difficulty: "hard",
+    scenario: "An executive is traveling and connects to a hotel's public Wi-Fi. When attempting to access the corporate HTTPS web portal, their browser displays a severe warning indicating the site's digital certificate cannot be verified. A remote security analyst suspects a Man-in-the-Middle (MitM) attack is attempting to use a forged certificate.",
+    prompt: "Which specific certificate detail MUST the analyst match against the public Certificate Transparency (CT) Logs to mathematically prove the certificate's integrity has been altered?",
+    choices: [
+      { key: "A", text: "The Common Name (CN)" },
+      { key: "B", text: "The SHA-256 Fingerprint" },
+      { key: "C", text: "The Organizational Unit (OU)" },
+      { key: "D", text: "The Validity Period" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"mathematically prove the certificate's integrity has been altered\" and \"Certificate Transparency (CT) Logs\".",
+    explanationCorrect: "The SHA-256 fingerprint is a unique cryptographic hash generated from the certificate's contents. When an analyst verifies a certificate against trusted public CT logs, matching this specific fingerprint mathematically ensures the certificate's integrity; if an attacker alters even a single bit of the certificate, the fingerprint will change entirely, exposing the forgery.",
+    explanationIncorrect: {
+      A: "The Common Name (CN) simply identifies the domain name the certificate is issued to cover (e.g., *.google.com). It is human-readable text and provides no mathematical cryptographic proof against tampering.",
+      C: "The Organizational Unit (OU) is merely an optional, human-readable text field describing the internal department (like \"IT\") that requested the certificate. It is frequently left blank and offers no integrity verification.",
+      D: "The Validity Period simply shows the dates between which the certificate is considered active. While important for expiration warnings, an attacker could forge a certificate with valid dates; only the cryptographic fingerprint proves mathematical integrity."
+    },
+    examTrap: "The \"Certificate Anatomy\" trap. Knowing the difference between the human-readable fields (CN, O, OU) and the cryptographic verification fields (SHA-256 Fingerprint) is essential for security validation."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
