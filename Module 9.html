@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+window.QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Example",
+    difficulty: "hard",
+    scenario: "A user reports that their Android smartphone is suddenly running extremely hot, the battery drains from 100% to empty in under three hours, and they received a notification from their carrier that their 5GB monthly cellular data limit was reached in just four days. The user recently installed a third-party application outside of the Google Play Store. The screen brightness is set to auto, and the user has not been streaming media.",
+    prompt: "What is the MOST likely cause of these combined symptoms?",
+    choices: [
+      { key: "A", text: "The Li-ion battery has exceeded its maximum charge cycles and is failing." },
+      { key: "B", text: "The cellular radio is struggling to find a signal, causing battery drain and heat." },
+      { key: "C", text: "A rogue application is performing unauthorized background data collection." },
+      { key: "D", text: "The device's location services are actively using the GPS sensor." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"recently installed a third-party application outside of the Google Play Store\" combined with \"data limit was reached in just four days.\"",
+    explanationCorrect: "A rogue application (malware) installed from an untrusted source is highly likely to run unauthorized processes in the background, such as transmitting personal data over the cellular network. This continuous, hidden network transmission explains the massive spike in cellular data usage, while the constant CPU utilization required for these background tasks generates excess heat and rapidly depletes the lithium-ion battery. This accurately aligns with the CompTIA troubleshooting step of identifying the problem by recognizing the classic tri-fold symptoms of mobile malware: heat, rapid battery drain, and excessive data transmission.",
+    explanationIncorrect: {
+      A: "A failing lithium-ion battery will definitely exhibit a shortened lifespan and may cause the device to shut down unexpectedly. However, a failing battery does not consume cellular data, making this answer technically plausible for power issues but incorrect for the specific symptoms provided.",
+      B: "It is true that a device constantly searching for a cellular signal in a low-coverage area will consume more battery power and generate some heat. However, struggling to find a tower does not actively consume gigabytes of the user's data allowance, effectively ruling this out as the primary cause.",
+      C: "",
+      D: "While it is technically true that heavy reliance on a GPS sensor for location services will drain the battery faster than normal, it uses passive reception from satellites. Active GPS usage does not independently cause massive cellular data overages, meaning this does not explain all the symptoms in the scenario."
+    },
+    examTrap: "Ignoring the combination of symptoms. Students might see \"battery drain\" and jump to hardware failure, missing the crucial detail about the cellular data spike."
+  },
+  {
+    id: "Q002",
+    topic: "Laptop Hardware & Safety",
+    difficulty: "medium",
+    scenario: "A user brings a laptop to the IT helpdesk complaining that the device \"wobbles\" when placed flat on a desk. Additionally, the user notes that the touchpad feels stiff and is unresponsive to physical clicks. The user states the laptop still boots up and functions if an external mouse is attached.",
+    prompt: "What is the BEST first step the technician should take?",
+    choices: [
+      { key: "A", text: "Update the touchpad drivers in the Device Manager." },
+      { key: "B", text: "Discontinue use and power off the device immediately." },
+      { key: "C", text: "Re-calibrate the touchpad sensitivity using OS settings." },
+      { key: "D", text: "Replace the bottom chassis plastic frame to fix the wobble." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"device 'wobbles' when placed flat on a desk\" and \"touchpad feels stiff.\"",
+    explanationCorrect: "A laptop that wobbles on a flat surface and features a deformed or stiff touchpad is exhibiting the classic physical symptoms of a swollen Lithium-ion (Li-ion) battery pushing up against the internal chassis. Swollen batteries indicate a failure in the charging circuit and present a severe fire or explosion hazard if punctured or stressed. Therefore, the absolute best first step in the troubleshooting methodology (specifically, identifying the problem and ensuring safety) is to power off the device immediately to mitigate the risk of a thermal event.",
+    explanationIncorrect: {
+      A: "Updating touchpad drivers is a valid software troubleshooting step for a highly sensitive or non-responsive digitizer. However, software updates cannot resolve physical chassis deformation caused by internal pressure.",
+      B: "",
+      C: "Re-calibrating sensitivity is a proper fix for \"ghost cursors\" or typing vibration issues. It completely ignores the severe physical safety hazard described by the wobbling chassis and stiff mechanical clicker.",
+      D: "While the plastic frame may appear warped, the chassis itself is rarely the root cause of a sudden deformation unless physically dropped. Replacing the frame ignores the underlying safety issue of the swollen battery causing the deformation in the first place."
+    },
+    examTrap: "Safety over functionality. CompTIA always prioritizes personnel and environmental safety over returning a device to a functional state."
+  },
+  {
+    id: "Q003",
+    topic: "Laptop Storage Upgrade",
+    difficulty: "hard",
+    scenario: "A technician is tasked with upgrading the storage in an ultraportable laptop. The current drive is a 2.5\" SATA HDD. The user requests the new drive offer the highest possible bus transfer speeds available on the market, rather than simply maximizing capacity. The laptop motherboard features an empty expansion slot that measures 22 mm wide and 80 mm long.",
+    prompt: "Which of the following form factors and interfaces should the technician select to meet the user's requirements?",
+    choices: [
+      { key: "A", text: "mSATA SSD utilizing the SATA bus." },
+      { key: "B", text: "M.2 2280 SSD utilizing the PCI Express bus." },
+      { key: "C", text: "2.5\" SSD utilizing the PCI Express bus." },
+      { key: "D", text: "M.2 2280 SSD utilizing the SATA bus." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"highest possible bus transfer speeds\", \"22 mm wide and 80 mm long.\"",
+    explanationCorrect: "The dimensions 22 mm by 80 mm specifically denote the M.2 2280 form factor adapter card. To achieve the absolute highest transfer speeds, an M.2 drive must interface with the internal PCI Express (PCIe) bus rather than the legacy SATA bus. This configuration bypasses the 6 Gb/s bottleneck of the SATA interface, allowing for NVMe-level performance which perfectly satisfies the user's requirement for maximum speed.",
+    explanationIncorrect: {
+      A: "An mSATA (Mini-SATA) card is a valid solid-state storage option for older laptops. However, it relies entirely on the SATA bus, meaning its maximum throughput is hard-capped at 6 Gb/s, failing the requirement for the highest possible speed.",
+      B: "",
+      C: "A 2.5\" SSD is a standard drop-in replacement for a 2.5\" magnetic HDD. However, standard 2.5\" laptop form factor drives utilize the SATA interface, not the PCI Express bus, meaning they cannot achieve the speeds requested.",
+      D: "An M.2 2280 form factor is physically correct for the empty slot described. However, M.2 drives can be keyed to use either the SATA bus or the PCIe bus; choosing the SATA bus version will severely bottleneck the drive to older legacy speeds."
+    },
+    examTrap: "Confusing form factor with interface. M.2 is just a shape; the underlying bus (PCIe vs SATA) dictates the speed."
+  },
+  {
+    id: "Q004",
+    topic: "Mobile Email Configuration & Security",
+    difficulty: "hard",
+    scenario: "A corporate user needs to manually configure an email client on their smartphone to connect to the company's internal mail gateway, which does not support autodiscover. The user requires the ability to read, organize, and delete emails on their phone, and have those exact changes seamlessly reflect when they log into their desktop PC later. Because the user travels frequently, the connection must protect credentials over public Wi-Fi hotspots.",
+    prompt: "Which of the following configurations MUST the technician apply?",
+    choices: [
+      { key: "A", text: "POP3 on port 110." },
+      { key: "B", text: "IMAP with TLS enabled." },
+      { key: "C", text: "POP3 with TLS enabled." },
+      { key: "D", text: "Exchange ActiveSync without TLS." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"changes seamlessly reflect when they log into their desktop PC\" and \"protect credentials over public Wi-Fi.\"",
+    explanationCorrect: "The Internet Mail Access Protocol (IMAP) is specifically designed to leave messages on the server, allowing multiple client devices to sync state changes (like organizing or deleting emails) simultaneously. Because the user is connecting over open, untrusted public Wi-Fi networks, Transport Layer Security (TLS) must be manually enabled to encrypt the session and protect the plaintext credentials and confidential corporate data from packet sniffing.",
+    explanationIncorrect: {
+      A: "Post Office Protocol (POP3) is designed to download mail to the local device and remove it from the server, making it impossible to sync changes across multiple devices. Furthermore, port 110 is unencrypted, failing the security requirement.",
+      B: "",
+      C: "Using POP3 with TLS would successfully secure the connection over a public hotspot. However, POP3 still removes the emails from the server, breaking the user's requirement to have their folder organization sync with their desktop PC.",
+      D: "Exchange ActiveSync (EAS) is a robust protocol for syncing mail, contacts, and calendars across devices. However, the scenario explicitly states the gateway does not support autodiscover (a hallmark of Exchange), and disabling TLS over public Wi-Fi is a severe security violation."
+    },
+    examTrap: "Balancing functional protocol requirements (IMAP vs POP3) with security requirements (TLS)."
+  },
+  {
+    id: "Q005",
+    topic: "Laptop Touchpad Troubleshooting",
+    difficulty: "medium",
+    scenario: "While typing a long document on a laptop, a user notices the cursor randomly drifting across the screen and occasionally clicking on other windows, interrupting their work. The user plugs in a USB external mouse, but the \"ghost cursor\" issue persists while they continue typing on the laptop's built-in keyboard.",
+    prompt: "What is the BEST first step to resolve this issue?",
+    choices: [
+      { key: "A", text: "Replace the integrated digitizer panel." },
+      { key: "B", text: "Disconnect the touchpad ribbon cable from the motherboard." },
+      { key: "C", text: "Decrease the touchpad sensitivity in the OS settings." },
+      { key: "D", text: "Clean the laptop screen with a microfiber cloth and isopropyl alcohol." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"cursor randomly drifting across the screen... while they continue typing.\"",
+    explanationCorrect: "On a laptop, an overly sensitive touchpad can register the physical vibrations of typing on the keyboard as touch input, resulting in unexpected cursor drift or \"ghost\" clicks. Adjusting the input sensitivity within the operating system's device settings is the most appropriate, least invasive first step to prevent typing vibrations from interfering with pointer control. This aligns with the CompTIA methodology of testing a theory to determine the cause using software solutions before assuming hardware failure.",
+    explanationIncorrect: {
+      A: "Replacing the digitizer panel is a highly invasive hardware repair reserved for shattered screens or entirely dead touch panels. It violates the troubleshooting methodology rule of starting with the simplest, least invasive fix first.",
+      B: "Disconnecting the internal ribbon cable would technically stop the touchpad from sending signals, but it completely removes the device's intended functionality. This is an extreme workaround, not a proper configuration fix.",
+      C: "",
+      D: "Cleaning a touchscreen is a valid step if oils or moisture are causing false inputs on a tablet or phone. However, the scenario points to typing vibrations affecting the laptop touchpad, making screen cleaning irrelevant."
+    },
+    examTrap: "Recognizing the difference between a failing hardware component and a poorly configured OS driver."
+  },
+  {
+    id: "Q006",
+    topic: "Mobile Security & BYOD",
+    difficulty: "hard",
+    scenario: "A company is adopting a Bring Your Own Device (BYOD) model. The security team is worried that employees might copy sensitive text from their corporate email application and paste it into their personal social media applications on the same smartphone.",
+    prompt: "Which of the following solutions should the IT administrator deploy to prevent this specific action?",
+    choices: [
+      { key: "A", text: "Mobile Device Management (MDM) with remote wipe capabilities." },
+      { key: "B", text: "Geolocation tracking and geofencing." },
+      { key: "C", text: "Mobile Application Management (MAM) with Data Loss Prevention (DLP)." },
+      { key: "D", text: "Enforce a complex alphanumeric lock screen passcode." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"copy sensitive text from their corporate email... paste it into their personal social media.\"",
+    explanationCorrect: "Mobile Application Management (MAM) specifically creates an enterprise-managed workspace or container that isolates corporate apps from personal apps on the same device. By applying Data Loss Prevention (DLP) policies within this MAM container, administrators can actively restrict clipboard functions, preventing data from being copied out of the secure corporate email app and pasted into an unauthorized personal app. This is the exact technological solution required for secure BYOD environments.",
+    explanationIncorrect: {
+      A: "Mobile Device Management (MDM) focuses on full-device security, such as enforcing encryption, requiring passcodes, or issuing remote wipes if the device is lost. MDM does not typically provide the granular, app-to-app data isolation required to stop clipboard copying between specific applications.",
+      B: "Geolocation tracking allows the company to see where the physical device is located. While useful for asset recovery, it does absolutely nothing to prevent a user from sharing corporate data to an unauthorized app.",
+      C: "",
+      D: "An alphanumeric passcode protects the device from unauthorized access if it is physically stolen or lost. It has no bearing on what an authorized, authenticated user does with the data once the device is unlocked."
+    },
+    examTrap: "Differentiating between device-level control (MDM) and application-level isolation (MAM/Workspace)."
+  },
+  {
+    id: "Q007",
+    topic: "Laptop Wi-Fi Hardware",
+    difficulty: "medium",
+    scenario: "A technician recently opened a laptop chassis to upgrade the internal Wi-Fi adapter card to a newer 802.11ac model. After booting the machine and installing the correct drivers, the OS recognizes the card, but the Wi-Fi signal is incredibly weak, dropping connection entirely unless the laptop is placed within three feet of the wireless router.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The new Wi-Fi card was inserted into an mSATA slot." },
+      { key: "B", text: "The antenna wires in the chassis were not properly reconnected." },
+      { key: "C", text: "The hardware Wi-Fi toggle switch on the laptop keyboard is disabled." },
+      { key: "D", text: "The laptop's internal battery is failing to supply enough power." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"signal is incredibly weak, dropping connection entirely unless... within three feet.\"",
+    explanationCorrect: "Internal laptop Wi-Fi cards require delicate physical antenna wires (usually routed up into the display bezel) to properly broadcast and receive radio frequency signals. If the technician forgot to snap these tiny wires back onto the terminals of the new adapter card during the upgrade, the card will still be recognized by the OS but will suffer massive signal degradation, resulting in the exact symptom described. This requires immediate physical remediation to fix.",
+    explanationIncorrect: {
+      A: "While mSATA and Mini PCIe slots look physically similar, they use completely different bus architectures. If the Wi-Fi card were placed in an mSATA storage slot, the OS would likely not recognize the networking device at all, rather than recognizing it with a weak signal.",
+      B: "",
+      C: "If the hardware Wi-Fi toggle switch or Fn key combo is disabled, the radio is turned off entirely at the hardware level. The OS would show no Wi-Fi networks available, rather than showing a weak signal near the router.",
+      D: "A failing laptop battery will cause unexpected shutdowns or short runtimes when disconnected from AC power. It does not cause a localized, component-specific failure like a weak Wi-Fi signal."
+    },
+    examTrap: "Understanding the physical architecture of laptop networking components vs software driver issues."
+  },
+  {
+    id: "Q008",
+    topic: "Laptop Accessories & Docking",
+    difficulty: "easy",
+    scenario: "An engineer uses a lightweight ultraportable laptop while visiting job sites. When returning to their desk, they need to connect the laptop to an external monitor, a mechanical keyboard, an RJ-45 network drop, and a proprietary, full-size PCIe expansion card used for 3D rendering.",
+    prompt: "Which of the following accessories MUST the engineer utilize at their desk?",
+    choices: [
+      { key: "A", text: "A USB-C port replicator." },
+      { key: "B", text: "A proprietary docking station." },
+      { key: "C", text: "A KVM switch." },
+      { key: "D", text: "A near-field communication (NFC) pad." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"full-size PCIe expansion card used for 3D rendering.\"",
+    explanationCorrect: "A docking station is a sophisticated hardware peripheral that securely connects to a laptop and provides desktop-like capabilities. Crucially, unlike basic port replicators, advanced docking stations feature media bays and physical internal space to host full-size desktop expansion cards (like a PCIe GPU for rendering), bridging them to the laptop's motherboard. This makes it the only correct accessory for the engineer's requirements.",
+    explanationIncorrect: {
+      A: "A port replicator is excellent for providing external monitor connections, USB ports for keyboards, and an RJ-45 jack. However, a port replicator merely extends existing ports; it does not contain the internal architecture or space to house a full-size PCIe expansion card.",
+      B: "",
+      C: "A Keyboard, Video, Mouse (KVM) switch allows a user to control multiple different computers with a single monitor and keyboard setup. It does not add hardware capabilities like PCIe expansion to a single laptop.",
+      D: "Near-field communication (NFC) is a wireless technology used for very short-range data exchange, such as mobile payments or pairing headsets. It cannot handle the massive data throughput required for 3D rendering, nor can it physically host a PCIe card."
+    },
+    examTrap: "The technical distinction between a Port Replicator (extends ports) and a Docking Station (adds desktop-level hardware capabilities)."
+  },
+  {
+    id: "Q009",
+    topic: "Mobile Liquid Damage Remediation",
+    difficulty: "medium",
+    scenario: "A user accidentally drops their smartphone into a swimming pool. The smartphone has an IP67 rating. The user retrieves it after five minutes, wipes off the exterior, and attempts to turn the screen on. The screen flashes briefly and then the device powers down and becomes completely unresponsive.",
+    prompt: "What is the NEXT best step the user should take?",
+    choices: [
+      { key: "A", text: "Connect the device to a wall charger to attempt a forced reboot." },
+      { key: "B", text: "Power off the device entirely, dry it, and disassemble it to dry internal components." },
+      { key: "C", text: "Place the device in a bag of rice to passively draw out the internal moisture." },
+      { key: "D", text: "Use a hairdryer on high heat to evaporate water trapped behind the display panel." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"screen flashes briefly and then the device powers down\" despite the \"IP67 rating.\"",
+    explanationCorrect: "An IP67 rating indicates the device is protected from immersion in up to 1 meter of water, but the flashing screen and sudden shutdown indicate that liquid has successfully breached the seals and is short-circuiting the motherboard. Because the device is unresponsive and liquid is inside, the immediate remediation step is to ensure it remains powered off to prevent further electrical shorts, and then disassemble the chassis so the internal circuit boards and contacts can properly air dry.",
+    explanationIncorrect: {
+      A: "Connecting a wet device to a high-voltage wall charger is extremely dangerous. Introducing AC power to a circuit board covered in liquid will almost certainly cause a severe short circuit, permanently destroying the device and creating a fire hazard.",
+      B: "",
+      C: "Placing a device in rice is a common myth. It is ineffective at drawing out moisture deep within a tightly sealed smartphone chassis and often introduces starch and dust into the charging ports, complicating repairs.",
+      D: "Using a hairdryer on high heat will melt the delicate adhesives holding the smartphone's display and battery in place. Furthermore, it risks overheating the volatile Li-ion battery, posing a severe safety risk."
+    },
+    examTrap: "Understanding that an IP rating is not a guarantee against liquid damage, and applying the correct sequence for liquid damage remediation."
+  },
+  {
+    id: "Q010",
+    topic: "Mobile Network Connectivity",
+    difficulty: "easy",
+    scenario: "An executive is traveling internationally and wants to avoid exorbitant roaming charges from their cellular provider. However, they still need to connect to the hotel's wireless network to download documents and use their wireless earbuds for a conference call.",
+    prompt: "Which of the following configurations is the BEST solution for the executive?",
+    choices: [
+      { key: "A", text: "Enable Airplane mode and do not change any other settings." },
+      { key: "B", text: "Remove the physical SIM card from the device." },
+      { key: "C", text: "Disable the cellular data radio via the OS settings menu." },
+      { key: "D", text: "Enable the Mobile Wi-Fi Hotspot feature." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"avoid exorbitant roaming charges\" while needing to \"connect to the hotel's wireless network... and use wireless earbuds.\"",
+    explanationCorrect: "Modern mobile operating systems allow users to individually toggle specific radio antennas. By navigating to the notification shade or settings menu and explicitly disabling the cellular data radio, the executive completely halts any background data usage over the international carrier network, avoiding roaming charges. This allows the Wi-Fi and Bluetooth radios to remain fully operational for the hotel network and earbuds.",
+    explanationIncorrect: {
+      A: "Enabling Airplane mode disables all wireless features simultaneously (Cellular, Wi-Fi, and Bluetooth). While the user can selectively re-enable Wi-Fi and Bluetooth afterward, simply enabling Airplane mode without further action leaves them unable to connect to the hotel network or use their earbuds.",
+      B: "Physically removing the SIM card will successfully stop the device from connecting to the cellular network. However, this is an unnecessarily invasive hardware step that risks losing the tiny SIM card while traveling, when a simple software toggle achieves the exact same result safely.",
+      C: "",
+      D: "Enabling a Mobile Wi-Fi Hotspot (tethering) does the exact opposite of what the executive wants. It uses the device's cellular data connection to broadcast Wi-Fi to other devices, which would immediately incur massive international roaming charges."
+    },
+    examTrap: "Recognizing the granularity of modern radio controls vs the blanket approach of Airplane mode."
+  },
+  {
+    id: "Q011",
+    topic: "Laptop Display Troubleshooting",
+    difficulty: "hard",
+    scenario: "A technician is diagnosing an older laptop where the user claims the screen is entirely black. Upon closer inspection in a dark room, the technician can faintly see the Windows desktop icons. The technician connects the laptop to an external desktop monitor via an HDMI cable, and the OS displays perfectly on the external monitor.",
+    prompt: "Based on these symptoms, which internal component has MOST likely failed?",
+    choices: [
+      { key: "A", text: "The Graphics Processing Unit (GPU)." },
+      { key: "B", text: "The digitizer panel." },
+      { key: "C", text: "The inverter or LED backlight." },
+      { key: "D", text: "The main internal battery." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"faintly see the Windows desktop icons\" and \"displays perfectly on the external monitor.\"",
+    explanationCorrect: "If an image is faintly visible on the laptop screen, it proves that the graphics adapter is successfully rendering the video signal. The fact that the image is barely visible indicates that the backlight (either an LED array or an older fluorescent tube powered by an inverter) has completely failed, preventing the screen from illuminating the LCD pixels. The successful test with the external HDMI monitor further isolates the issue strictly to the laptop's internal display illumination components.",
+    explanationIncorrect: {
+      A: "The GPU is responsible for generating the video signal. Because an image is faintly visible on the built-in screen, and a perfect image is displaying on the external monitor, the GPU is functioning perfectly.",
+      B: "The digitizer is the glass panel overlaid on the screen that registers touch inputs. A failed digitizer would result in an unresponsive touchscreen, not a loss of screen illumination.",
+      C: "",
+      D: "If the main internal battery failed, the laptop would simply lose power the moment it was unplugged from the AC adapter. It would not cause the screen to lose backlighting while the OS continues to run."
+    },
+    examTrap: "Hardware isolation using external monitors to differentiate between GPU failure and Display Assembly failure."
+  },
+  {
+    id: "Q012",
+    topic: "Laptop Power Supply Troubleshooting",
+    difficulty: "medium",
+    scenario: "An employee states that their laptop displays a BIOS warning message immediately at boot time and the battery takes significantly longer to charge than normal. The employee mentions they left their original charger at home and grabbed a spare from the shared IT closet.",
+    prompt: "What is the MOST likely cause of these symptoms?",
+    choices: [
+      { key: "A", text: "A 110V adapter was plugged into a 220V power outlet." },
+      { key: "B", text: "The shared IT closet adapter has a physically damaged USB-C connector." },
+      { key: "C", text: "A 65W AC adapter was plugged into a laptop requiring a 90W supply." },
+      { key: "D", text: "The laptop's internal charging circuit is continuously trickle-charging." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"displays a BIOS warning message immediately at boot\" and \"grabbed a spare.\"",
+    explanationCorrect: "Laptops require AC adapters that supply a specific wattage to effectively run the system components and charge the battery simultaneously. If a user grabs an underpowered spare adapter (e.g., using a 65W charger on a high-performance system requiring 90W), the laptop's power management system will detect the voltage discrepancy, display a warning at boot, and charge the battery very slowly due to the lack of sufficient current. This is a classic symptom of mismatched OEM hardware.",
+    explanationIncorrect: {
+      A: "Plugging a fixed-input 110V adapter into a 220V international outlet will instantly blow the fuse inside the adapter or cause catastrophic electrical damage. It will not result in a slow charge or a polite BIOS warning message.",
+      B: "If the USB-C connector or DC jack were physically damaged, the connection would be intermittent or non-existent. The battery would simply fail to charge, rather than charging slowly and generating a specific hardware mismatch warning.",
+      C: "",
+      D: "Trickle-charging is a normal, intended function that occurs when a laptop is powered on and the battery is nearing full capacity. It does not generate BIOS warning messages, and an overly aggressive trickle charge would degrade battery health over years, not instantly trigger a boot error."
+    },
+    examTrap: "Understanding the specific symptoms of wattage mismatch vs total component failure."
+  },
+  {
+    id: "Q013",
+    topic: "Tablet Touchscreen Troubleshooting",
+    difficulty: "medium",
+    scenario: "A user states that their tablet's touchscreen is completely unresponsive in the bottom-left corner and the stylus occasionally skips across the screen. They note the device has never been dropped. However, they recently installed a new heavy-duty case and a tempered glass overlay to protect the device while working on sandy job sites.",
+    prompt: "What is the BEST first step the technician should take?",
+    choices: [
+      { key: "A", text: "Replace the integrated digitizer panel behind the glass." },
+      { key: "B", text: "Verify the screen protector is fully adhered without any air bubbles or lifts." },
+      { key: "C", text: "Recalibrate the touch settings within the tablet's operating system." },
+      { key: "D", text: "Move the tablet indoors to eliminate electromagnetic interference (EMI)." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"recently installed a new heavy-duty case and a tempered glass overlay\" and \"never been dropped.\"",
+    explanationCorrect: "When a user reports digitizer unresponsiveness immediately following the application of a screen protector, the physical barrier is the primary suspect. A tempered glass overlay that is not securely adhered, or one that has air bubbles and lifts trapped underneath, will interrupt the capacitive connection between the user's finger/stylus and the digitizer grid. Checking the physical application of this accessory is the least invasive and most logical first step in the CompTIA troubleshooting methodology before assuming hardware failure.",
+    explanationIncorrect: {
+      A: "Replacing the digitizer panel is a highly invasive and expensive hardware repair. Because the device has never been dropped and the issue began after applying an accessory, jumping straight to part replacement violates the troubleshooting methodology of testing simple, probable causes first.",
+      B: "",
+      C: "Recalibrating the touch screen is a valid software troubleshooting step for a misaligned cursor. However, calibration cannot fix dead zones caused by the physical separation of the finger and digitizer due to an improperly seated glass protector.",
+      D: "While it is true that severe electromagnetic interference (EMI) can cause erratic digitizer behavior, there is no indication that a sandy outdoor job site generates high EMI. Furthermore, EMI causes random ghost touches rather than a persistent dead zone in one specific corner."
+    },
+    examTrap: "Skipping the physical environment/accessories. Students often rush to software settings or hardware replacement without considering how user-applied accessories (cases/protectors) interfere with sensors."
+  },
+  {
+    id: "Q014",
+    topic: "Mobile Data Usage Troubleshooting",
+    difficulty: "hard",
+    scenario: "An employee is using a company-issued smartphone with a 5GB monthly cellular data limit. In the middle of the month, they receive an alert that their data allowance is exhausted. The employee claims they only use the phone to take high-resolution photos of job sites and check email occasionally. They never stream audio or video.",
+    prompt: "What is the MOST likely cause of this excessive data usage, and what is the BEST prevention strategy?",
+    choices: [
+      { key: "A", text: "Malware is covertly streaming data; the device must be wiped and enrolled in an MDM." },
+      { key: "B", text: "The roaming radio is stuck actively searching for towers; disable the cellular data toggle entirely." },
+      { key: "C", text: "High-resolution photos are automatically synchronizing to cloud storage; configure the cloud backup app to sync over Wi-Fi only." },
+      { key: "D", text: "The POP3 email client is downloading uncompressed attachments; reconfigure the client to use IMAP." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"take high-resolution photos of job sites\" and \"data allowance is exhausted.\"",
+    explanationCorrect: "Modern smartphones are often configured by default to seamlessly back up user data, including media files, to cloud services (like iCloud or Google Drive) to prevent data loss. High-resolution photos generate massive file sizes, and uploading dozens of them over the cellular network will rapidly consume a 5GB monthly data cap. The proper long-term administrative prevention strategy is to access the account synchronization settings and restrict media backups so they only trigger when the device is connected to an unmetered Wi-Fi network.",
+    explanationIncorrect: {
+      A: "Malware can indeed cause data spikes by exfiltrating information in the background. However, the scenario explicitly mentions the user taking high-resolution photos, providing a far more likely and common benign cause for massive data transfers.",
+      B: "If a device is struggling to find a tower or roaming, it will rapidly drain the lithium-ion battery. Searching for a tower does not inherently transmit gigabytes of user data, making this technically incorrect for the symptoms described.",
+      C: "",
+      D: "POP3 does download full messages and attachments to the local device. While this consumes some data, typical email usage rarely exhausts a 5GB cap in two weeks compared to the massive bandwidth required by continuous high-res photo uploads."
+    },
+    examTrap: "Understanding the hidden bandwidth costs of automated cloud synchronization features on modern mobile operating systems."
+  },
+  {
+    id: "Q015",
+    topic: "Mobile Payment Technology",
+    difficulty: "easy",
+    scenario: "A user wants to utilize contactless point-of-sale (PoS) payments at a coffee shop using their smartphone's digital wallet app. The smartphone has a robust cellular data connection and Bluetooth is currently toggled off. When the user taps the phone against the terminal, the payment fails to initiate.",
+    prompt: "What is the MOST likely reason for this failure?",
+    choices: [
+      { key: "A", text: "Bluetooth must be paired with the PoS terminal prior to tapping the device." },
+      { key: "B", text: "The user's smartphone is currently locked." },
+      { key: "C", text: "The digital wallet requires an active Wi-Fi Direct connection to secure the token." },
+      { key: "D", text: "The PoS terminal requires an mSATA module to process the digital token." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"taps the phone against the terminal, the payment fails to initiate.\"",
+    explanationCorrect: "Contactless mobile payments utilize Near-Field Communication (NFC) chips to transmit a one-time secure token to the merchant's reader. Because this token is linked directly to the user's financial accounts, mobile operating systems require strict authentication; the device must be unlocked (via PIN, fingerprint, or facial recognition) to authorize and initiate any transaction over a certain threshold. Without unlocking the device, the NFC transmission is blocked for security purposes.",
+    explanationIncorrect: {
+      A: "Bluetooth creates a Personal Area Network (PAN) with a range of up to 10 meters and requires a manual pairing process. Contactless PoS payments rely exclusively on NFC, which operates instantly within 20 cm, meaning Bluetooth status is completely irrelevant.",
+      B: "",
+      C: "Wi-Fi Direct is a high-bandwidth peer-to-peer protocol used for casting video or transferring large files directly between devices without a router. It is never used for the tiny, short-range data bursts required by PoS payment terminals.",
+      D: "An mSATA (Mini-SATA) module is an internal solid-state storage drive format. It has absolutely nothing to do with the wireless transmission or cryptographic processing of NFC payment tokens."
+    },
+    examTrap: "Recognizing the security prerequisites (device unlocking) required for standard NFC wallet functionality."
+  },
+  {
+    id: "Q016",
+    topic: "Laptop Memory Upgrade",
+    difficulty: "hard",
+    scenario: "An IT technician is upgrading the memory in a three-year-old ultraportable laptop. The device currently has one 8GB DDR4 SODIMM module installed. The technician retrieves a spare 8GB DDR3 SODIMM from the IT closet and attempts to install it into the empty secondary expansion slot, but the module will not physically seat into the connector.",
+    prompt: "What is the technical reason for this issue?",
+    choices: [
+      { key: "A", text: "The technician is not inserting the module at a 45-degree angle." },
+      { key: "B", text: "The empty slot on the motherboard is configured for an mSATA expansion card." },
+      { key: "C", text: "The DDR3 module has a different physical keying notch than the DDR4 slot." },
+      { key: "D", text: "The laptop's secondary memory bank is permanently soldered to the motherboard." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"currently has one 8GB DDR4 SODIMM\" and \"spare 8GB DDR3 SODIMM... will not physically seat.\"",
+    explanationCorrect: "Different generations of Double Data Rate (DDR) memory operate on different voltages and timings and are completely incompatible with one another. To prevent users from accidentally installing the wrong generation of RAM and causing catastrophic electrical damage to the motherboard, manufacturers deliberately place the physical keying notch on the bottom edge of the SODIMM module in a different location for DDR3 than for DDR4. The slot is physically blocking the incorrect module from seating.",
+    explanationIncorrect: {
+      A: "While it is true that laptop SODIMMs must be inserted at a 45-degree angle before being pressed flat into the retention clips, the specific detail that the technician is trying to put a DDR3 stick into a DDR4 system identifies the keying notch as the true physical barrier.",
+      B: "An mSATA storage slot does look somewhat similar to older expansion slots (like Mini PCIe), but it is significantly smaller than a standard SODIMM memory slot. A technician would immediately visually recognize the size discrepancy, not just a seating issue.",
+      C: "",
+      D: "While many modern ultraportables do have soldered memory to save space, the scenario explicitly states the technician is attempting to install the module into an \"empty secondary expansion slot,\" proving a physical slot exists."
+    },
+    examTrap: "Understanding that physical connector constraints (keying) are deliberately designed to enforce generational electrical compatibility."
+  },
+  {
+    id: "Q017",
+    topic: "Laptop Thermal Management",
+    difficulty: "medium",
+    scenario: "A user frequently uses their high-end laptop for intensive 3D modeling tasks. Recently, the laptop has been randomly shutting down without any OS warning after about 30 minutes of modeling. The battery icon shows it is fully charged. During use, the laptop rests flat on a plush leather sofa.",
+    prompt: "What is the BEST first step to resolve this issue?",
+    choices: [
+      { key: "A", text: "Relocate the laptop to a hard, flat desk to ensure proper vent airflow." },
+      { key: "B", text: "Replace the Li-ion battery, as it can no longer sustain a load." },
+      { key: "C", text: "Underclock the laptop's CPU in the BIOS to reduce thermal output." },
+      { key: "D", text: "Disassemble the chassis and reapply thermal paste to the GPU." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"randomly shutting down without any OS warning\" and \"rests flat on a plush leather sofa.\"",
+    explanationCorrect: "High-end laptops generate significant heat during intensive tasks like 3D modeling. They rely on intake vents (often located on the bottom of the chassis) and exhaust vents to passively and actively cycle cool air. Placing a laptop on a soft surface like a plush sofa causes the material to compress and completely block these vents, turning the chassis into an insulator. The system's protective circuitry is detecting a critical thermal limit and forcing an immediate hardware shutdown to prevent permanent damage. Moving the laptop to a hard surface is the immediate, non-invasive remediation step.",
+    explanationIncorrect: {
+      B: "A failing battery will indeed cause unexpected shutdowns, but the prompt notes the battery is fully charged. Furthermore, a battery issue does not typically wait 30 minutes into a specific, high-intensity processing task to manifest, whereas thermal buildup does.",
+      C: "Underclocking the CPU would technically reduce heat, but it severely degrades the performance the user needs for 3D modeling. It attempts to bypass the hardware symptom rather than fixing the environmental root cause.",
+      D: "Reapplying thermal paste is a valid late-stage hardware repair for chronic overheating. However, disassembling the laptop is highly invasive and violates the troubleshooting rule of starting with the simplest environmental fixes (removing it from the sofa) first."
+    },
+    examTrap: "Recognizing environmental factors (soft surfaces) as the primary cause of thermal shutdowns before assuming internal hardware failure."
+  },
+  {
+    id: "Q018",
+    topic: "Mobile Device Lockdown & MDM",
+    difficulty: "hard",
+    scenario: "A logistics corporation issues Android smartphones to its delivery drivers. The IT director mandates that these devices must solely be used for a proprietary corporate routing application. Drivers must be physically blocked from accessing the Google Play Store to download games or social media apps that could distract them while driving.",
+    prompt: "Which of the following is the BEST solution to enforce this policy?",
+    choices: [
+      { key: "A", text: "Require a complex biometric fingerprint scan every time the device is unlocked." },
+      { key: "B", text: "Deploy Mobile Device Management (MDM) to push a Restricted Apps profile." },
+      { key: "C", text: "Configure an enterprise workspace using Mobile Application Management (MAM)." },
+      { key: "D", text: "Instruct the drivers to keep the phones in Airplane mode during their shifts." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"solely be used for a proprietary corporate routing application\" and \"physically blocked from accessing the Google Play Store.\"",
+    explanationCorrect: "Mobile Device Management (MDM) (or Enterprise Mobility Management - EMM) suites provide administrative visibility and control over fleet devices. By utilizing an MDM, the IT administrator can push a strict device configuration profile that explicitly defines a Restricted Apps list. This allows the administrator to permanently disable or hide native apps like the Google Play Store, turning the smartphone into a dedicated-purpose device (kiosk mode) and completely preventing unauthorized software installations.",
+    explanationIncorrect: {
+      A: "A biometric fingerprint scan secures the lock screen against unauthorized physical access if the device is lost or stolen. Once the authorized driver unlocks the phone, biometrics do nothing to prevent them from opening the Play Store and downloading a game.",
+      B: "",
+      C: "Mobile Application Management (MAM) is used to create a secure, encrypted \"sandbox\" for corporate data (like emails) to sit alongside personal apps on a BYOD device. It does not lock down the entire operating system or block the native app store from being used.",
+      D: "Enabling Airplane mode would technically prevent downloading apps by cutting off the internet. However, it also disables the cellular data and GPS radios, which are absolutely essential for a cloud-connected routing application to function, breaking the device's primary purpose."
+    },
+    examTrap: "Distinguishing between full-device lockdown capabilities (MDM/Kiosk) and app-level data segregation (MAM/Workspaces)."
+  },
+  {
+    id: "Q019",
+    topic: "Laptop Antenna Damage",
+    difficulty: "medium",
+    scenario: "A user accidentally dropped their laptop, severely cracking the plastic bezel surrounding the display screen. The LCD panel itself is intact and displays the OS perfectly. However, the user reports that they can no longer connect to the office Wi-Fi network unless they are sitting in the exact same room as the wireless router.",
+    prompt: "What is the MOST likely cause of this sudden connectivity drop?",
+    choices: [
+      { key: "A", text: "The physical impact toggled the hardware Wi-Fi switch on the chassis to the \"off\" position." },
+      { key: "B", text: "The digitizer panel was cracked, causing electromagnetic interference with the wireless card." },
+      { key: "C", text: "The delicate Wi-Fi antenna wires routed through the display lid were damaged or severed." },
+      { key: "D", text: "The internal mini PCIe wireless adapter became completely unseated from the motherboard." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"cracking the plastic bezel surrounding the display\" and \"connect... unless they are sitting in the exact same room.\"",
+    explanationCorrect: "In laptop architecture, the Wi-Fi adapter card is located on the motherboard, but to ensure maximum signal reception, its two delicate antenna wires are routed up through the hinges and around the edges of the display bezel. A physical drop that shatters the display bezel is highly likely to sever or detach these internal antenna wires. Without the antenna, the Wi-Fi card can still technically function but will suffer catastrophic signal degradation, meaning it can only pick up networks a few feet away.",
+    explanationIncorrect: {
+      A: "If the hardware Wi-Fi toggle switch (or Fn key combination) were triggered, the wireless radio would be disabled entirely at the hardware level. The OS would see no networks at all, rather than seeing a weak signal in the same room as the router.",
+      B: "A digitizer is the glass touch-input layer on top of a screen. While cracked glass affects touch sensitivity, it does not emit electromagnetic interference (EMI) that would overpower a Wi-Fi radio signal.",
+      C: "",
+      D: "If the mini PCIe (or M.2) wireless adapter were completely jarred loose from its motherboard slot, the operating system would no longer recognize the hardware component. Device Manager would show the adapter as missing, and no connection could be made, regardless of proximity to the router."
+    },
+    examTrap: "Correlating physical damage in a specific zone (display bezel) with the components routed through that zone (antennas)."
+  },
+  {
+    id: "Q020",
+    topic: "Laptop Power Adapter Failure",
+    difficulty: "easy",
+    scenario: "A technician is examining a laptop that exhibits no indicator lights and will not power on when plugged into a wall outlet. The user recently brought the laptop back from an overseas trip where they used a cheap travel plug adapter to force the laptop's power cord into a 240V wall outlet. The label on the laptop's power brick clearly states \"Input: 110-120V ONLY\".",
+    prompt: "Based on the scenario, what has MOST likely occurred?",
+    choices: [
+      { key: "A", text: "The laptop's internal motherboard was fried by a 240V power surge." },
+      { key: "B", text: "The Li-ion battery is completely discharged and requires a 24-hour trickle charge." },
+      { key: "C", text: "The power management driver has locked the DC jack to prevent overheating." },
+      { key: "D", text: "The external AC adapter's internal fuse blew due to the high voltage supply." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"Input: 110-120V ONLY\" plugged into a \"240V wall outlet\" and \"exhibits no indicator lights.\"",
+    explanationCorrect: "Laptop AC adapters act as power supplies that convert alternating current (AC) from the wall into direct current (DC) for the laptop. While many modern adapters are universal (auto-switching between 110V and 240V), older or specific models are fixed-input. Plugging a fixed-input 110V adapter into a 240V supply will overwhelm the adapter's internal circuitry, instantly blowing its fuse or destroying its transformer. Because the adapter is dead, no power reaches the laptop, resulting in no indicator lights.",
+    explanationIncorrect: {
+      A: "The external AC adapter acts as a buffer between the wall and the laptop. When overvoltaged, the adapter fails catastrophically before passing that high voltage to the laptop. The motherboard is likely perfectly fine once a new, correct AC adapter is acquired.",
+      B: "While a completely discharged battery would prevent the laptop from booting off battery power, plugging a working AC adapter into the wall would immediately illuminate the charging LED. The lack of any lights points to a failure of AC power delivery.",
+      C: "A power management driver is a software component within the operating system that regulates charging levels (e.g., stopping at 80% to save battery lifespan). Software drivers cannot function if the machine has no power to boot, nor can they physically lock out a DC jack.",
+      D: ""
+    },
+    examTrap: "Recognizing that external AC adapters serve as the point of failure during overvoltage events, protecting the internal components."
+  },
+  {
+    id: "Q021",
+    topic: "Cellular Signal Troubleshooting",
+    difficulty: "medium",
+    scenario: "An employee complains that their smartphone frequently drops cellular phone calls specifically when they sit in the building's basement breakroom. However, the corporate Wi-Fi network works flawlessly in that same room. The IT technician wants to verify if the breakroom is a cellular \"dead zone.\"",
+    prompt: "Which of the following tools should the technician select to investigate this issue?",
+    choices: [
+      { key: "A", text: "A Wi-Fi Analyzer application." },
+      { key: "B", text: "A Cell Tower Analyzer application." },
+      { key: "C", text: "The built-in ipconfig utility." },
+      { key: "D", text: "A hardware toner probe." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"drops cellular phone calls... Wi-Fi network works flawlessly\" and \"verify if the breakroom is a cellular 'dead zone'.\"",
+    explanationCorrect: "Cellular radios operate on completely different, licensed radio frequency bands (such as 700 MHz, 1900 MHz, or 2.5 GHz for LTE/5G) than local 802.11 Wi-Fi networks. To map the specific signal strength (measured in dBm) of the provider's cellular towers and determine if the physical architecture of the basement is blocking those specific frequencies, the technician must use a dedicated Cell Tower Analyzer or GSM Signal Monitor app.",
+    explanationIncorrect: {
+      A: "A Wi-Fi Analyzer is an excellent tool for mapping the strength and channel overlap of 802.11 wireless networks (2.4GHz and 5GHz). However, the scenario explicitly states Wi-Fi is working flawlessly, and the tool cannot measure licensed cellular provider bands.",
+      B: "",
+      C: "The ipconfig command-line utility is used to view TCP/IP network configuration details (like IP address, subnet mask, and default gateway) on a Windows machine. It cannot measure wireless radio frequency signal strength.",
+      D: "A toner probe (tone generator and probe) is a physical networking tool used to trace a specific copper cable through a wall or dense server rack. It is used for wired networking, not for diagnosing wireless atmospheric signal degradation."
+    },
+    examTrap: "Distinguishing between different wireless analysis tools based on the specific radio frequency (Cellular vs Wi-Fi) being queried."
+  },
+  {
+    id: "Q022",
+    topic: "Mobile Location Services & Battery",
+    difficulty: "easy",
+    scenario: "A user installs a new third-party weather app on their iOS device. The next day, the user notices their battery is draining twice as fast as normal. Additionally, the small arrow icon indicating Location Services is constantly visible in the status bar at the top of the screen, even when the weather app is closed.",
+    prompt: "What is the BEST administrative action to resolve this issue without uninstalling the app?",
+    choices: [
+      { key: "A", text: "Disable the Global Positioning System (GPS) radio completely in the Control Center." },
+      { key: "B", text: "Navigate to the OS Privacy settings and change the app's location permissions to \"While Using.\"" },
+      { key: "C", text: "Force stop the application and clear its cached credential data." },
+      { key: "D", text: "Enroll the device in a Mobile Device Management (MDM) workspace." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"arrow icon indicating Location Services is constantly visible... even when the weather app is closed.\"",
+    explanationCorrect: "Apps operate within a sandbox and must be explicitly granted permissions to access hardware sensors. A weather app constantly polling the GPS sensor in the background will cause a massive drain on the lithium-ion battery. The correct, granular administrative fix is to access the mobile operating system's Privacy or Location settings and revoke the app's persistent background access, restricting it to only query the GPS sensor when the app is actively on screen (\"While Using\").",
+    explanationIncorrect: {
+      A: "Disabling the GPS radio entirely will certainly stop the battery drain. However, this is a blanket approach that ruins the functionality of other legitimate apps (like mapping or rideshare apps) that the user may need.",
+      B: "",
+      C: "Force stopping an app will temporarily halt its background processes until the next time the device reboots or the OS restarts the service. Clearing cached credentials will log the user out, but it does not alter the underlying hardware permissions that cause the root issue.",
+      D: "MDM enrollment is a corporate-level deployment strategy used to enforce broad security policies on fleet devices. It is an extreme, complex overreaction to a single app possessing overly aggressive location permissions on a user's phone."
+    },
+    examTrap: "Applying granular software permissions via OS settings rather than disabling hardware globally."
+  },
+  {
+    id: "Q023",
+    topic: "Laptop Palmrest & Biometrics",
+    difficulty: "hard",
+    scenario: "A technician replaces a laptop's cracked palm rest assembly, which features an integrated touchpad, a fingerprint reader, and an NFC scanner. After reassembling the chassis, the keyboard and touchpad work perfectly. However, the OS reports \"Biometric sensor not found,\" and attempting to pair an NFC headset by tapping it on the palm rest fails.",
+    prompt: "What is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The replacement palm rest requires a firmware flash to be authenticated by the BIOS." },
+      { key: "B", text: "The technician failed to secure the specific flat ribbon cable for the secondary board to the motherboard." },
+      { key: "C", text: "The NFC antenna is generating electromagnetic interference (EMI), disabling the fingerprint scanner." },
+      { key: "D", text: "The new touchpad input drivers are conflicting with the biometric software registry." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"touchpad work[s] perfectly\" but \"Biometric sensor not found... and NFC... fails.\"",
+    explanationCorrect: "In laptop architecture, large assemblies like a palm rest often contain multiple discrete components. While the touchpad may have its own connection, auxiliary components like a fingerprint reader board and NFC scanner typically share a separate, delicate flat ribbon cable that routes data back to the motherboard. If the technician forgot to snap this specific ribbon cable into its ZIF (Zero Insertion Force) connector, or failed to lock the retention latch during reassembly, those specific sensors will receive no power or data path, resulting in the exact symptoms described.",
+    explanationIncorrect: {
+      A: "While certain high-security Apple devices pair biometric sensors to the logic board for security, standard PC laptops do not require a BIOS firmware flash simply to replace a basic palm rest and USB-interfaced fingerprint scanner.",
+      B: "",
+      C: "NFC operates by creating a very short-range, low-power magnetic field (usually under 20 cm) for brief data transmission. It does not generate constant, aggressive EMI that would be capable of disabling a hardwired biometric sensor on the same board.",
+      D: "Touchpads, fingerprint readers, and NFC chips all use completely discrete drivers and system resources. Updating or installing a driver for a generic touchpad does not cause registry conflicts that would make a biometric sensor entirely disappear from the hardware manager."
+    },
+    examTrap: "Understanding the physical cabling architecture of laptops, specifically that single plastic assemblies often require multiple, distinct ribbon cables to power separate modules."
+  },
+  {
+    id: "Q024",
+    topic: "Mobile Tethering",
+    difficulty: "easy",
+    scenario: "A field technician is working on a construction site with no Wi-Fi infrastructure. Their corporate laptop does not have an internal cellular adapter card. The technician connects their Android smartphone to the laptop using a USB-C cable, navigates to the smartphone's network settings, and successfully routes the phone's 5G internet connection to the laptop over the cable.",
+    prompt: "What specific technology is the technician configuring?",
+    choices: [
+      { key: "A", text: "Mobile Wi-Fi Hotspot" },
+      { key: "B", text: "Bluetooth PAN" },
+      { key: "C", text: "Near-Field Communication (NFC)" },
+      { key: "D", text: "USB Tethering" }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"connects their Android smartphone to the laptop using a USB-C cable... routes the phone's 5G internet.\"",
+    explanationCorrect: "Tethering is the specific technical process of sharing a mobile device's cellular data connection with another computer. When this data sharing is accomplished via a physical, hardwired connection (such as a USB-C or Lightning cable), it is explicitly referred to as USB tethering. This method provides a highly stable connection and has the added benefit of charging the smartphone from the laptop's battery simultaneously.",
+    explanationIncorrect: {
+      A: "A Mobile Wi-Fi Hotspot achieves the same underlying goal (sharing cellular data), but it does so by turning the smartphone into a wireless router that broadcasts an 802.11 SSID for the laptop to join wirelessly. The scenario specifically notes the use of a USB cable to pass the data.",
+      B: "A Bluetooth Personal Area Network (PAN) allows for wireless tethering by pairing the two devices over Bluetooth radio. Because of Bluetooth's low bandwidth, it is much slower than USB or Wi-Fi, and again, operates completely wirelessly.",
+      C: "Near-Field Communication (NFC) is a short-range wireless technology used for contactless payments or passing pairing tokens. It cannot be used over a USB cable, nor does it have the bandwidth to supply an internet connection to a laptop.",
+      D: ""
+    },
+    examTrap: "Differentiating between the three main methods of sharing a cellular connection (Wi-Fi, Bluetooth, and USB) based on the physical transport medium described."
+  },
+  {
+    id: "Q025",
+    topic: "Mobile Location Accuracy",
+    difficulty: "hard",
+    scenario: "A user working inside a massive underground shopping mall complains that their smartphone's mapping application places their blue location dot several miles away in a different town. The device's Global Positioning System (GPS) toggle is turned on, but the user manually disabled Wi-Fi and Bluetooth to save battery power during their shopping trip.",
+    prompt: "What is the BEST configuration change to resolve this location inaccuracy?",
+    choices: [
+      { key: "A", text: "Turn on Wi-Fi and Bluetooth scanning to enable the Indoor Positioning System (IPS)." },
+      { key: "B", text: "Clear the cached location history in the OS privacy settings to force a satellite resync." },
+      { key: "C", text: "Change the app's location permission from \"While Using\" to \"Always Allow\"." },
+      { key: "D", text: "Recalibrate the device's internal magnetometer by moving it in a figure-eight motion." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"inside a massive underground shopping mall\" and \"manually disabled Wi-Fi and Bluetooth\".",
+    explanationCorrect: "GPS signals rely on a network of orbital satellites and generally suffer from weaker signals indoors or in areas with dense buildings. To compensate when GPS signals are weak or unreliable, mobile devices use an Indoor Positioning System (IPS) that calculates location by triangulating proximity to other radio sources, such as Wi-Fi access points and Bluetooth beacons. Because the user disabled Wi-Fi and Bluetooth, the IPS cannot function, meaning the device must rely on weak or nonexistent indoor GPS signals; turning these radios back on will immediately restore accurate indoor triangulation.",
+    explanationIncorrect: {
+      A: "",
+      B: "Clearing location history is a privacy consideration used to erase tracking data. It does not enhance real-time location accuracy or fix signal penetration issues caused by being inside a massive concrete structure.",
+      C: "Changing the permission to \"Always Allow\" simply allows the app to poll location data in the background when not actively on screen. It does absolutely nothing to improve the physical reception of the radio signals required to determine that location.",
+      D: "A magnetometer sensor is used to provide accurate compass directions (which way the user is facing). While useful for orientation, it does not calculate latitude and longitude coordinates, which is the root cause of the map placing the user in the wrong town."
+    },
+    examTrap: "Recognizing that modern location services rely on more than just the GPS chip, specifically requiring Wi-Fi and Bluetooth for indoor triangulation."
+  }, 
+{
+    id: "Q026",
+    topic: "Laptop Memory Access",
+    difficulty: "medium",
+    scenario: "A technician is tasked with upgrading the system memory in a laptop from 8GB to 16GB. After removing the screw plate on the underside of the chassis, the technician locates only a single Small Outline Dual In-line Memory Module (SODIMM) slot, which is currently occupied by an 8GB stick. The manufacturer's service documentation explicitly states this laptop model supports dual-channel memory with two slots.",
+    prompt: "What is the MOST likely reason the technician cannot find the second slot?",
+    choices: [
+      { key: "A", text: "The second module must be installed in an available M.2 slot." },
+      { key: "B", text: "The secondary memory bank requires extensive disassembly of the chassis to access." },
+      { key: "C", text: "The manufacturer requires a BIOS flash to unlock the virtual memory bank." },
+      { key: "D", text: "The secondary memory is packaged in a Mini-DIMM format beneath the battery." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"removing the screw plate on the underside\" and \"only a single... slot\".",
+    explanationCorrect: "Laptop motherboards are incredibly compact and tightly integrated, requiring creative placement of components. It is very common in laptop architecture for one memory slot to be easily accessible via a panel on the bottom cover, while the second slot is located on the opposite side of the motherboard, requiring more extensive disassembly of the chassis (such as removing the keyboard) to access. The technician must consult the repair guide to safely dismantle the device further.",
+    explanationIncorrect: {
+      A: "An M.2 slot is a modern, versatile connector used for Solid State Drives (SSDs) and wireless adapter cards. It interfaces with the PCI Express or SATA bus, not the dedicated memory bus, and cannot accept a SODIMM RAM module.",
+      B: "",
+      C: "System memory is a physical hardware component. A BIOS flash updates the motherboard's firmware; it cannot magically generate a physical slot or \"virtual\" memory bank that replaces dedicated RAM.",
+      D: "While Mini-DIMM and Micro-DIMM are valid, smaller memory form factors used on some ultraportables, memory slots of the same generation and channel on a single motherboard must match to ensure electrical compatibility. If one slot is a SODIMM, the hidden slot is also a SODIMM."
+    },
+    examTrap: "Understanding the physical layout realities of laptops vs desktop computers, specifically hidden or inverted components."
+  },
+  {
+    id: "Q027",
+    topic: "Email Protocol Configuration",
+    difficulty: "hard",
+    scenario: "A user is manually configuring a corporate email account on their tablet because the gateway does not support autodiscovery. They successfully input the incoming IMAP server address and port number. However, when attempting to send an outgoing test email, the app immediately throws a connection error. The user is currently connected to a public Wi-Fi hotspot at an airport.",
+    prompt: "What configuration setting MUST the technician verify to resolve the outgoing mail failure?",
+    choices: [
+      { key: "A", text: "Verify the Simple Mail Transfer Protocol (SMTP) server address and port number." },
+      { key: "B", text: "Verify that Exchange ActiveSync (EAS) is enabled for the account." },
+      { key: "C", text: "Verify the Post Office Protocol (POP3) connection security settings." },
+      { key: "D", text: "Verify that the incoming port is set to 110." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"successfully input the incoming IMAP\" but \"attempting to send an outgoing test email... throws a connection error\".",
+    explanationCorrect: "Email systems rely on different protocols for receiving and sending messages. While IMAP or POP3 are used as the incoming mail server, the Simple Mail Transfer Protocol (SMTP) is exclusively used as the outgoing server. Because the incoming IMAP settings were successful but the outgoing mail failed, the technician must manually verify that the FQDN or IP address for the SMTP server, along with its specific secure port (such as 465), is configured correctly.",
+    explanationIncorrect: {
+      A: "",
+      B: "Exchange ActiveSync (EAS) is a proprietary Microsoft protocol that syncs mail, calendars, and contacts across devices. If the user is manually configuring IMAP, they are not using EAS, making this irrelevant to the current outgoing mail failure.",
+      C: "Post Office Protocol (POP3) is strictly an incoming mail protocol that downloads mail to the device and removes it from the server. Troubleshooting POP3 will not fix an outgoing mail transmission error.",
+      D: "Port 110 is the insecure default port for POP3 incoming mail. The user is utilizing IMAP for incoming mail, and more importantly, changing an incoming port will not resolve an outgoing transmission issue."
+    },
+    examTrap: "Differentiating between the roles of incoming protocols (IMAP/POP3) and outgoing protocols (SMTP) during manual configuration."
+  },
+  {
+    id: "Q028",
+    topic: "Laptop Battery Management",
+    difficulty: "medium",
+    scenario: "A company issues identical laptops to its employees. After two years, IT notices a trend: laptops used by field technicians (who constantly discharge and recharge their batteries) maintain healthy battery life. However, laptops used by office workers (who leave them plugged into docking stations 100% of the time) are suffering from severely degraded battery capacity and occasional chassis deformation.",
+    prompt: "What is the BEST preventative action the IT department should take for the office workers' laptops?",
+    choices: [
+      { key: "A", text: "Instruct the office workers to fully discharge their batteries to 0% weekly to prevent the \"memory effect\"." },
+      { key: "B", text: "Deploy a power management driver to configure Balanced Mode, stopping the trickle charge at 80%." },
+      { key: "C", text: "Issue lower wattage AC adapters to the office workers to reduce the electrical load on the motherboard." },
+      { key: "D", text: "Replace the standard docking stations with USB port replicators to isolate power delivery." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"leave them plugged into docking stations 100% of the time\" causing \"degraded battery capacity and occasional chassis deformation\".",
+    explanationCorrect: "Lithium-ion (Li-ion) battery life is negatively affected by being held continually at 100% charge, and persistent trickle charging can eventually lead to battery failure or dangerous swelling that deforms the chassis. The optimal administrative prevention strategy is to utilize the device's power management driver to enable a \"Balanced\" or \"Maximum Lifespan\" charging mode, which automatically stops the charging cycle at 60% or 80% to balance performance and prolong battery health for devices mostly used while plugged in.",
+    explanationIncorrect: {
+      A: "Unlike older Nickel-Cadmium batteries, modern Lithium-ion batteries do not suffer from the \"memory effect\". In fact, allowing a Li-ion battery to fully discharge regularly actually reduces its overall lifespan, making this terrible advice.",
+      B: "",
+      C: "Laptops require AC adapters with a specific wattage rating. Providing an underpowered adapter (e.g., 65W for a 90W system) will cause inefficient charging, trigger a BIOS warning at boot time, and fail to run the system optimally.",
+      D: "A docking station provides power and advanced connectivity, while a port replicator usually only extends I/O without powering the laptop directly. Swapping docks for replicators removes the user's ability to easily charge their device, hampering productivity without solving the root battery management issue."
+    },
+    examTrap: "Understanding the specific charging characteristics and vulnerabilities of modern Li-ion batteries compared to legacy battery chemistry."
+  },
+  {
+    id: "Q029",
+    topic: "Airplane Mode Configuration",
+    difficulty: "easy",
+    scenario: "An executive is preparing to board a commercial flight. The airline insists that devices must be completely disconnected from cellular networks during take-off. However, the executive wants to continue listening to a downloaded podcast using their wireless Bluetooth headphones.",
+    prompt: "How can the executive comply with the airline's rules while maintaining their audio connection?",
+    choices: [
+      { key: "A", text: "Turn off the device completely and use a wired 3.5mm headset instead." },
+      { key: "B", text: "Enable Airplane mode, then selectively re-enable the Bluetooth radio via the notification shade." },
+      { key: "C", text: "Disable the cellular data roaming option within the OS network settings." },
+      { key: "D", text: "Remove the physical Subscriber Identity Module (SIM) card from the device." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"disconnected from cellular networks during take-off\" but wants to continue using \"wireless Bluetooth headphones\".",
+    explanationCorrect: "Airplane mode is designed to quickly comply with airline regulations by disabling all wireless features, including cellular data, Wi-Fi, GPS, Bluetooth, and NFC. However, modern mobile operating systems allow users to selectively re-enable specific, low-range personal area network services (like Bluetooth) while leaving the prohibited cellular radio safely disabled. This allows the executive to use their peripheral without violating the flight rules.",
+    explanationIncorrect: {
+      A: "While turning off the device complies with the rules, it prevents the user from listening to their podcast entirely. Airplane mode was specifically designed so users don't have to power down their devices completely.",
+      B: "",
+      C: "Disabling \"data roaming\" only prevents the phone from connecting to foreign, non-provider cell towers to avoid international fees. It does not turn off the cellular radio, meaning the device will still actively try to connect to local towers during take-off, violating the airline policy.",
+      D: "Removing the SIM card does technically stop the phone from authenticating to the cellular network. However, this requires a specialized tiny tool, is physically cumbersome, and risks losing the delicate chip on an airplane, making it an absurd approach when a single software toggle exists."
+    },
+    examTrap: "Knowing that Airplane mode is a blanket toggle, but individual radios can be overridden and turned back on if needed."
+  },
+  {
+    id: "Q030",
+    topic: "Laptop Storage Migration",
+    difficulty: "hard",
+    scenario: "A user wants to upgrade their laptop's storage to improve boot times. The laptop currently relies on a mechanical 5400 RPM Hard Disk Drive (HDD). The user insists that their entire OS, personal files, and installed applications must be moved to the new drive exactly as they are, without having to reinstall any software. The new Solid State Drive (SSD) purchased is smaller in total storage capacity than the original HDD.",
+    prompt: "What limits the technician's ability to fulfill this request using a standard drive image migration?",
+    choices: [
+      { key: "A", text: "A system image cannot be applied across different hardware storage technologies (magnetic to flash)." },
+      { key: "B", text: "The migration process requires the new drive to be the exact same size or larger than the old drive unless specialized cloning software is used to shrink the partition." },
+      { key: "C", text: "The SATA interface on the laptop motherboard will physically reject the SSD connection." },
+      { key: "D", text: "A drive replacement requires that only user data be backed up, necessitating a clean OS install on the new drive." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"moved... exactly as they are, without having to reinstall\" and \"new Solid State Drive (SSD) purchased is smaller in total storage capacity\".",
+    explanationCorrect: "Migration involves using backup software to create an exact image or clone of the old drive to apply to the new drive. Because an image captures the entire partition structure of the source drive, the standard rule is that the new destination drive must be the same size or larger than the original. If the destination drive is smaller, the image will fail to restore unless the technician uses specialized cloning tools capable of dynamically shrinking the source volume during the transfer.",
+    explanationIncorrect: {
+      A: "A system image is entirely technology neutral at the hardware level. An image taken from a spinning magnetic HDD can be perfectly restored to an NVMe or SATA SSD without issue.",
+      B: "",
+      C: "Many laptop SSDs are explicitly manufactured in the 2.5\" form factor utilizing the exact same SATA data and power connectors as legacy HDDs to facilitate easy drop-in upgrades.",
+      D: "While a clean install (Replacement) is one valid method of upgrading a drive, the scenario explicitly states the user wants an exact clone (Migration) to avoid reinstalling applications. Migration is a fully supported technical process."
+    },
+    examTrap: "Understanding the strict volume size limitations inherent in 1:1 drive imaging/cloning."
+  },
+  {
+    id: "Q031",
+    topic: "Mobile Device Malware Symptoms",
+    difficulty: "medium",
+    scenario: "A user reports that their mobile device is running incredibly slowly, and the battery is draining from 100% to dead in less than three hours. Additionally, they received a text from their carrier stating they hit their 5GB monthly data limit in just two days, despite only reading local e-books. The device is slightly warm to the touch.",
+    prompt: "What is the MOST likely cause of these symptoms?",
+    choices: [
+      { key: "A", text: "A failing Li-ion battery is suffering from the memory effect." },
+      { key: "B", text: "The device's ventilation ports are completely blocked by dust." },
+      { key: "C", text: "Malware is running hidden background processes and transmitting data." },
+      { key: "D", text: "The device's location services are actively using the GPS sensor." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"hit their 5GB monthly data limit in just two days, despite only reading local e-books.\"",
+    explanationCorrect: "When a device exhibits a sudden combination of high resource utilization (slow performance), excessive power drain (heat and short battery life), and massive, unexplained data transmission overlimits, it is a classic sign of a malware infection. Rogue apps or malware routinely collect personal data in the background and transmit it to attackers over the cellular network, utilizing the CPU heavily and draining the battery in the process.",
+    explanationIncorrect: {
+      A: "A failing Li-ion battery will certainly exhibit a shortened lifespan. However, failing hardware does not spontaneously consume 5GB of cellular data. Furthermore, Li-ion batteries do not suffer from the \"memory effect\".",
+      B: "Blocked passive cooling vents will cause a device to overheat and potentially slow down due to thermal throttling. However, blocked vents cannot cause massive cellular data transmission spikes.",
+      C: "",
+      D: "Active reliance on a GPS sensor will drain the battery faster than normal. However, GPS uses passive reception from satellites; it does not independently transmit gigabytes of the user's data allowance over the cellular network."
+    },
+    examTrap: "Holistic troubleshooting. Students must look at the combination of symptoms (battery + heat + data limit) rather than jumping at a single symptom (battery)."
+  },
+  {
+    id: "Q032",
+    topic: "Mobile Payment Technology",
+    difficulty: "easy",
+    scenario: "A user wants to configure their Android smartphone to pay for groceries at checkout terminals using a mobile wallet app.",
+    prompt: "Which wireless technology enables this specific contactless payment functionality?",
+    choices: [
+      { key: "A", text: "Wi-Fi Direct" },
+      { key: "B", text: "Bluetooth PAN" },
+      { key: "C", text: "Near-Field Communication (NFC)" },
+      { key: "D", text: "5G Cellular" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"pay for groceries at checkout terminals using a mobile wallet app.\"",
+    explanationCorrect: "Near-field communication (NFC) chips allow for very short-range data transmission (up to about 20 cm) and are the foundational technology used by mobile wallet apps (like Google Pay or Apple Pay) to interact with contactless point-of-sale (PoS) merchant readers. When the device is tapped, the NFC chip transmits a secure, one-time token to authorize the payment.",
+    explanationIncorrect: {
+      A: "Wi-Fi Direct is a peer-to-peer protocol used to connect two devices without a wireless router, typically used for casting video or transferring large files. It is not used for short-range payment terminals.",
+      B: "A Bluetooth Personal Area Network (PAN) is used to connect accessories like headsets or keyboards over a range of up to 10 meters. It requires a pairing process and is not the standard for instant, tap-to-pay PoS transactions.",
+      C: "",
+      D: "5G Cellular is used for wide-scale, high-speed internet connectivity over long distances via provider cell towers. It is not a proximity-based protocol used for local hardware handshakes."
+    },
+    examTrap: "Direct objective recall regarding the specific use-case of NFC vs other wireless protocols."
+  },
+  {
+    id: "Q033",
+    topic: "BYOD & MAM",
+    difficulty: "hard",
+    scenario: "A corporation is deploying an Enterprise Mobility Management (EMM) suite. The security director wants to ensure that employees using their personal smartphones (BYOD) can access corporate email and calendars securely, but explicitly demands that the IT department must not have the ability to perform a full device wipe or view personal applications installed on the employees' phones.",
+    prompt: "Which of the following EMM features MUST be implemented to meet these requirements?",
+    choices: [
+      { key: "A", text: "Mobile Device Management (MDM) with a Restricted Apps profile." },
+      { key: "B", text: "Mobile Application Management (MAM) utilizing an enterprise workspace." },
+      { key: "C", text: "A required biometric fingerprint lock on the device lock screen." },
+      { key: "D", text: "Managed Google Play coupled with Apple Business Manager." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"must not have the ability to perform a full device wipe or view personal applications.\"",
+    explanationCorrect: "Mobile Application Management (MAM) focuses strictly on app-level control. By configuring an enterprise-managed container or workspace, the MAM suite isolates corporate apps (like work email and calendars) and data entirely from the user's personal apps. This allows the IT department to control, secure, and selectively wipe only the corporate data inside the container, perfectly satisfying the requirement to respect the privacy of the user's personal BYOD device.",
+    explanationIncorrect: {
+      A: "Mobile Device Management (MDM) operates at the device level, giving IT full visibility and control to enforce hardware usage, push profiles, and execute remote wipes of the entire phone. This directly violates the security director's privacy mandate.",
+      B: "",
+      C: "Enforcing a biometric lock secures the device from unauthorized physical access if stolen. It is a device-level setting that does nothing to segregate corporate data from personal data or fulfill the EMM administrative requirements.",
+      D: "Managed Google Play and Apple Business Manager are distribution channels used to push private, approved apps to devices. While useful, simply distributing an app does not create the secure, isolated data container required by the scenario."
+    },
+    examTrap: "Distinguishing the granular boundaries between Mobile Device Management (full device control) and Mobile Application Management (sandboxed container control)."
+  },
+  {
+    id: "Q034",
+    topic: "Tablet Digitizer Failure",
+    difficulty: "medium",
+    scenario: "A user drops their tablet on a hard floor. The glass screen is completely shattered. Miraculously, the underlying LCD panel still displays the operating system perfectly. However, the tablet no longer responds to any touch inputs or swipes.",
+    prompt: "Based on the symptoms, which specific component has failed and requires replacement?",
+    choices: [
+      { key: "A", text: "The Inverter" },
+      { key: "B", text: "The Graphics Processing Unit (GPU)" },
+      { key: "C", text: "The Digitizer" },
+      { key: "D", text: "The Magnetometer" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"LCD panel still displays the operating system perfectly\" but \"no longer responds to any touch inputs\".",
+    explanationCorrect: "Touchscreens rely on two distinct layers working together: the display panel (which produces the visual output) and the digitizer (which is the transparent grid layer that detects physical touch/gesture input and converts it to digital signals). Because the OS is visually rendering perfectly, the display panel itself is functioning. The lack of touch response isolated alongside the shattered glass directly points to a destroyed digitizer matrix.",
+    explanationIncorrect: {
+      A: "An inverter is an older component used to convert DC power to AC power to illuminate a fluorescent backlight on legacy screens. If the inverter failed, the screen would be almost entirely dark, which contradicts the scenario stating it displays perfectly.",
+      B: "The GPU renders the actual video graphics sent to the display. If the GPU failed, there would be no image on the screen, or severe visual artifacts.",
+      C: "",
+      D: "A magnetometer is a sensor used to provide accurate compass directions for navigation apps. It has absolutely no bearing on detecting touch inputs on a screen."
+    },
+    examTrap: "Isolating failures in a display assembly by understanding the discrete functions of the digitizer (touch) vs the LCD/LED panel (visual)."
+  },
+  {
+    id: "Q035",
+    topic: "Laptop Wi-Fi Antenna Placement",
+    difficulty: "easy",
+    scenario: "An IT technician is tasked with replacing a faulty Wi-Fi adapter card inside a laptop. After removing the bottom panel and locating the M.2 Wi-Fi card, the technician notices two delicate black and white wires snapped onto the top of the card.",
+    prompt: "Where do these wires route to, and what is their primary function?",
+    choices: [
+      { key: "A", text: "They route to the battery to provide direct DC power to the wireless radio." },
+      { key: "B", text: "They route around the edges of the display bezel to act as the Wi-Fi antenna." },
+      { key: "C", text: "They route to the motherboard to transmit data across the PCIe bus." },
+      { key: "D", text: "They route to the keyboard assembly to enable the hardware Wi-Fi toggle switch." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"two delicate black and white wires snapped onto the top of the card.\"",
+    explanationCorrect: "To ensure the wireless radio can pick up the strongest signal possible, laptop manufacturers do not trap the Wi-Fi antennas beneath the dense, interference-heavy motherboard. Instead, the antenna consists of two delicate wires connected directly to the Wi-Fi chip that are then routed up through the hinges and around the edges of the laptop's display lid, maximizing their atmospheric exposure. When replacing the card, the technician must carefully re-snap these antenna wires to the new module.",
+    explanationIncorrect: {
+      A: "Adapter cards seated in an M.2 or Mini PCIe slot draw their electrical power directly from the motherboard bus slot itself. They do not require dedicated power wires routed from the battery.",
+      B: "",
+      C: "Data transmission between the Wi-Fi card and the CPU is handled by the metal pins on the bottom of the card interfacing directly with the M.2 slot on the motherboard.",
+      D: "The hardware Wi-Fi toggle switch (or Fn key) sends an electrical interrupt to the OS to disable the radio via the motherboard circuitry. The tiny wires on the card itself are strictly for RF antenna reception."
+    },
+    examTrap: "Understanding the physical architecture of laptop networking components and the specific placement of antennas."
+  },
+  {
+    id: "Q036",
+    topic: "Mobile Compass Calibration",
+    difficulty: "medium",
+    scenario: "A user is navigating a dense city on foot using their smartphone's mapping application. The blue dot representing their location is perfectly accurate and moves smoothly down the street. However, the \"viewing cone\" on the app that indicates which direction the user is facing is permanently stuck pointing 90 degrees to the left of their actual orientation, causing them to walk the wrong way.",
+    prompt: "What is the MOST likely cause of this specific navigational error?",
+    choices: [
+      { key: "A", text: "The device's internal magnetometer requires recalibration." },
+      { key: "B", text: "The Indoor Positioning System (IPS) is overriding the satellite signal." },
+      { key: "C", text: "The GPS sensor is struggling to receive data from orbital satellites." },
+      { key: "D", text: "The location permissions for the mapping app are set to \"While Using\" instead of \"Always Allow.\"" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"location is perfectly accurate\" but \"viewing cone... is permanently stuck pointing 90 degrees to the left.\"",
+    explanationCorrect: "Mobile devices utilize a combination of sensors to provide navigation. While the GPS calculates the exact latitude and longitude (the blue dot), it is the internal magnetometer sensor that acts as a digital compass to determine the physical orientation or direction the device is facing. If the compass direction is inaccurate while the location dot remains perfectly correct, the magnetometer has become misaligned and requires recalibration (typically done by moving the phone in a figure-eight motion), making this the precise technical cause of the symptom.",
+    explanationIncorrect: {
+      A: "",
+      B: "The Indoor Positioning System (IPS) triangulates location using Wi-Fi, Bluetooth, and cellular towers when GPS is weak. If IPS were malfunctioning, the user's actual location (the blue dot) would jump erratically; it would not solely affect the compass direction.",
+      C: "The Global Positioning System (GPS) measures distances to multiple satellites to pinpoint exact location. The scenario explicitly states that the blue location dot is \"perfectly accurate and moves smoothly,\" proving the GPS sensor is receiving excellent data.",
+      D: "Location permissions dictate when an app can access sensor data. Because the app is actively open and successfully tracking the user's location on the screen, the \"While Using\" permission is working flawlessly and is not the cause of the directional error."
+    },
+    examTrap: "Differentiating between the specific roles of navigation sensors. Students often lump all navigation issues under \"GPS,\" completely missing the distinct role of the magnetometer."
+  },
+  {
+    id: "Q037",
+    topic: "Android USB File Transfer",
+    difficulty: "easy",
+    scenario: "A user connects their Android smartphone to their Windows 10 desktop using a known-good, data-capable USB-C cable. The user wants to drag and drop several gigabytes of MP3 files from the PC to the phone's internal storage. The phone beeps and shows it is charging, but when the user opens Windows File Explorer, the smartphone's internal storage drive does not appear.",
+    prompt: "What configuration change MUST the user make on the smartphone to resolve this?",
+    choices: [
+      { key: "A", text: "Enable the Mobile Wi-Fi Hotspot feature to broadcast the file system." },
+      { key: "B", text: "Change the USB connection option from \"Charge this device\" to \"Transfer files (MTP).\"" },
+      { key: "C", text: "Authorize the Windows PC via a Near-Field Communication (NFC) tap." },
+      { key: "D", text: "Change the USB connection option from \"Charge this device\" to \"Transfer photos (PTP).\"" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"phone beeps and shows it is charging, but... internal storage drive does not appear.\"",
+    explanationCorrect: "When an Android device is plugged into a PC via USB, modern security defaults dictate that the connection is strictly limited to drawing power (\"Charge only\") to prevent unauthorized data theft. To allow the host PC's operating system to read, write, and manage standard files (like MP3 audio) on the mobile device's internal storage, the user must explicitly change the USB configuration mode to Media Transfer Protocol (MTP). This establishes the necessary data bridge for standard drag-and-drop file transfers.",
+    explanationIncorrect: {
+      A: "A Mobile Wi-Fi Hotspot is used to share the phone's cellular internet connection with the PC by acting as a wireless router. It does not mount the phone's internal hard drive to the PC's file explorer.",
+      B: "",
+      C: "Near-Field Communication (NFC) is a short-range wireless technology used for contactless payments or quick Bluetooth pairing. It is entirely unrelated to mounting a physical USB file system to a desktop computer.",
+      D: "Picture Transfer Protocol (PTP) is a valid USB mode, but it is strictly limited to transferring image files (treating the phone like a digital camera). It will not allow the user to easily transfer and manage general data files like MP3s."
+    },
+    examTrap: "Recognizing the default USB security posture of modern mobile OSs (Charge Only) and distinguishing between specific data transfer protocols (MTP vs PTP)."
+  },
+  {
+    id: "Q038",
+    topic: "Dual SIM / eSIM",
+    difficulty: "hard",
+    scenario: "A corporate executive travels extensively between a headquarters in New York and a branch office in London. They need to have two separate, active cellular phone numbers (one US, one UK) on a single corporate smartphone simultaneously to avoid exorbitant international roaming charges. The executive is notoriously clumsy and frequently loses physical items like keys and flash drives, so the IT department wants to avoid issuing them multiple tiny, interchangeable hardware components.",
+    prompt: "Which of the following technologies provides the BEST solution for this executive?",
+    choices: [
+      { key: "A", text: "Configure the device with an embedded SIM (eSIM) hosting multiple profiles." },
+      { key: "B", text: "Utilize Mobile Application Management (MAM) to create a dual-workspace environment." },
+      { key: "C", text: "Issue a device with dual physical Nano-SIM slots." },
+      { key: "D", text: "Enable Wi-Fi Calling and disable the cellular data radio entirely." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"active cellular phone numbers... simultaneously on a single corporate smartphone\" and \"avoid issuing them multiple tiny, interchangeable hardware components.\"",
+    explanationCorrect: "An embedded SIM (eSIM) is a microchip permanently soldered into the mobile device's motherboard that performs the exact same authentication functions as a traditional physical SIM card. Crucially, modern devices supporting eSIM technology allow users to securely download and store multiple cellular profiles on that single embedded chip. This allows the executive to seamlessly switch between their US and UK phone numbers without ever needing to physically touch, swap, or keep track of tiny, easily lost plastic SIM cards.",
+    explanationIncorrect: {
+      A: "",
+      B: "Mobile Application Management (MAM) is used to create encrypted, sandboxed workspaces to separate corporate app data from personal app data. It operates at the software level and has absolutely no capability to provision or authenticate cellular phone numbers on provider networks.",
+      C: "A dual-SIM device would technically accomplish the goal of having two active numbers. However, the scenario explicitly warns that the executive frequently loses small items and IT wants to avoid issuing \"tiny, interchangeable hardware components.\" Issuing physical Nano-SIMs introduces the exact hardware liability the department is trying to avoid.",
+      D: "Wi-Fi Calling allows users to route calls over a local wireless network, which is useful in dead zones. However, disabling the cellular radio entirely means the executive would have zero mobile service the moment they stepped out of a Wi-Fi hotspot, defeating the purpose of a cellular phone."
+    },
+    examTrap: "Balancing the technical capability of a solution (Dual SIM vs eSIM) against the specific behavioral constraints of the user outlined in the scenario."
+  },
+  {
+    id: "Q039",
+    topic: "Laptop Disassembly",
+    difficulty: "medium",
+    scenario: "A field technician is attempting to upgrade the internal RAM on a ruggedized laptop. After consulting the manufacturer's documentation, the technician places the laptop face-down on an anti-static mat and removes all visible Phillips-head screws from the bottom chassis. However, when the technician gently attempts to pry the bottom plastic panel off, it remains firmly anchored to the chassis near the four corners.",
+    prompt: "What is the MOST likely reason the panel will not detach?",
+    choices: [
+      { key: "A", text: "The technician must use a metal prying tool to break the factory-sealed adhesive strips." },
+      { key: "B", text: "The memory is soldered to the motherboard, so the chassis is permanently locked." },
+      { key: "C", text: "Additional retaining screws are hidden beneath the laptop's rubber non-slip feet." },
+      { key: "D", text: "The panel is locked in place by the internal laptop battery, which must be fully discharged first." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"removes all visible Phillips-head screws\" but \"remains firmly anchored to the chassis near the four corners.\"",
+    explanationCorrect: "Laptop manufacturers frequently design external chassis plastics to look sleek and seamless, often hiding assembly screws to prevent tampering or to improve aesthetics. It is a standard industry practice for screws to be cleverly concealed beneath rubber or plastic tabs, most commonly under the rubber non-slip pads located at the corners of the base. The technician must carefully peel back these rubber feet to expose and remove the final screws before the panel will release.",
+    explanationIncorrect: {
+      A: "Plastic panels and clips are easily damaged, and technicians should explicitly use plastic prying tools (spudgers), never metal tools, to avoid gouging the case or shorting internal components. Furthermore, standard access panels for RAM are screwed down, not permanently glued.",
+      B: "While some modern ultraportables do feature soldered RAM, this does not mean the entire bottom chassis is permanently welded shut. The chassis must still be removable to access the battery, cooling fans, or storage drives.",
+      C: "",
+      D: "The physical locking mechanism of a chassis panel has nothing to do with the electrical charge state of the battery. While a removable battery should definitely be taken out before disassembly, waiting for it to discharge will not magically unlock physical screws."
+    },
+    examTrap: "Recognizing the physical realities and manufacturer tricks of laptop disassembly (hidden screws) before resorting to damaging force."
+  },
+  {
+    id: "Q040",
+    topic: "Contact Sync & File Format",
+    difficulty: "hard",
+    scenario: "A user's company transitions to a new cloud-based email and CRM provider. The user exports 5,000 corporate contacts from their old desktop application into a standard Comma Separated Values (CSV) file, and imports them into the new cloud account. When the user opens their smartphone the next day to call a client, they find that while the names synchronized perfectly, all the phone numbers and street addresses have been jumbled into a single \"Notes\" field, making them unsearchable.",
+    prompt: "What is the MOST likely cause of this synchronization error, and how should it be prevented in the future?",
+    choices: [
+      { key: "A", text: "The smartphone's storage limit was exceeded; the user must clear cache space." },
+      { key: "B", text: "The CSV field mapping failed; the user should export the data using the vCard format instead." },
+      { key: "C", text: "The MDM policy blocked data transfer; the user must utilize a MAM workspace." },
+      { key: "D", text: "The cloud service failed to sync; the user must force an iCloud backup." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"exported... into a standard Comma Separated Values (CSV) file\" and \"phone numbers and street addresses have been jumbled into a single 'Notes' field.\"",
+    explanationCorrect: "Synchronizing complex data structures like contacts across different platforms is notoriously difficult. When using generic CSV files, the data columns (fields) from the old system often do not perfectly align with the columns of the new system, resulting in mismatched data being dumped into generic text fields like \"Notes\". To resolve this, the standard and widely supported method for flawlessly exchanging contact records across different hardware and OS ecosystems is to use the dedicated vCard format, which standardizes how the data is parsed and displayed.",
+    explanationIncorrect: {
+      A: "If the smartphone's physical storage limit had been reached, the synchronization process would halt entirely, or no new contacts would appear at all. It would not cause the device to selectively jumble specific fields of text while successfully syncing the contact names.",
+      B: "",
+      C: "MDM policies and MAM workspaces are used to segregate and secure data (e.g., preventing a user from copying a corporate contact into their personal address book). A security policy block would prevent the sync entirely; it would not intentionally scramble the formatting of a successful sync.",
+      D: "The fact that the user is looking at the jumbled data on their smartphone proves that the cloud synchronization did happen successfully. The issue is the formatting of the underlying data file (CSV), not a failure of the cloud network transport."
+    },
+    examTrap: "Understanding the specific file formats required for successful data migration (vCard for contacts, ICS for calendars) rather than just understanding the network sync process."
+  },
+  {
+    id: "Q041",
+    topic: "Tablet Thermal Issues",
+    difficulty: "medium",
+    scenario: "A delivery driver mounts their company-issued tablet to the dashboard of their truck, directly behind the windshield. The driver complains that every day around 2:00 PM, the tablet's screen dims drastically, the routing application drops to a crawl, and eventually, the tablet abruptly powers off completely. The battery indicator routinely shows around 75% charge when this happens.",
+    prompt: "What is the MOST likely cause of this sequence of symptoms?",
+    choices: [
+      { key: "A", text: "A rogue background application is causing excessive battery drain." },
+      { key: "B", text: "The Li-ion battery has degraded and can no longer sustain peak CPU voltage." },
+      { key: "C", text: "The device is experiencing thermal throttling and automatic shutdown due to environmental heat." },
+      { key: "D", text: "The Mobile Device Management (MDM) profile has a time-based curfew configured." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"mounts... directly behind the windshield\", \"screen dims drastically, the routing application drops to a crawl\", and \"abruptly powers off.\"",
+    explanationCorrect: "Mobile devices (like tablets) rely entirely on passive cooling to dissipate internal heat. Mounting a device directly behind a glass windshield exposes it to extreme direct sunlight and ambient environmental heat. As the internal temperature climbs, the operating system will attempt to save the device via thermal throttling—dimming the screen and drastically slowing the CPU to generate less heat. When it reaches the maximum safe limit, the protective circuitry forces an abrupt hardware shutdown to prevent the Li-ion battery from swelling or exploding. Relocating the device is the required remediation.",
+    explanationIncorrect: {
+      A: "A rogue application can certainly cause high CPU usage and some heat. However, the specific environmental clue of being mounted behind the windshield in the afternoon points directly to external environmental heat as the primary catalyst, not a software bug.",
+      B: "While a degraded Li-ion battery can cause unexpected shutdowns, the scenario notes the battery is at 75% charge. Furthermore, battery failure does not typically manifest with the classic pre-shutdown symptoms of severe thermal throttling (screen dimming and system crawling) exactly at the hottest part of the day.",
+      C: "",
+      D: "MDM policies can restrict application access during off-hours. However, an MDM policy would simply lock the screen or block the app; it would not cause the screen to dim and the entire operating system to crash and power down."
+    },
+    examTrap: "Recognizing the progressive hardware symptoms of thermal throttling (dimming, slowing, shutting down) and linking them to environmental factors rather than internal part failure."
+  },
+  {
+    id: "Q042",
+    topic: "Exchange ActiveSync Configuration",
+    difficulty: "hard",
+    scenario: "A user is attempting to manually configure a corporate email account on their Android smartphone using Exchange ActiveSync (EAS) because the company's server does not support autodiscovery. The user has entered the correct host address provided by IT, along with their correct Active Directory password and the username jsmith. However, the server continuously rejects the authentication attempt.",
+    prompt: "What configuration adjustment MUST the technician make to successfully authenticate?",
+    choices: [
+      { key: "A", text: "Prefix the username with the corporate domain and a backslash (e.g., CORP\\jsmith)." },
+      { key: "B", text: "Change the incoming mail server protocol from Exchange to POP3." },
+      { key: "C", text: "Disable Transport Layer Security (TLS) in the advanced server settings." },
+      { key: "D", text: "Change the outgoing SMTP server port to 465." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"manually configure... Exchange ActiveSync\", \"username jsmith\", and \"continuously rejects the authentication.\"",
+    explanationCorrect: "When manually configuring a Microsoft Exchange email account on a mobile device, authentication often relies on the corporate Active Directory structure. If the manual setup provides only a single field for the username (rather than separate fields for Domain and Username), the user cannot simply enter their first initial and last name. The technician must manually explicitly define the domain boundary by prefixing the username with the domain name and a backslash, formatted as Domain\\Username. Once formatted correctly, the Exchange server will recognize the credential path and authenticate.",
+    explanationIncorrect: {
+      A: "",
+      B: "The scenario states the user wants to configure Exchange ActiveSync (EAS), which is a robust, proprietary protocol for syncing mail, calendars, and contacts. Switching to POP3 is a massive downgrade that only downloads mail and deletes it from the server, entirely breaking the user's intended Exchange sync functionality.",
+      C: "Transport Layer Security (TLS) encrypts the session to protect the user's password and corporate data over the internet. Disabling TLS is a severe security risk and is actually likely to cause modern Exchange servers to reject the connection outright, not fix an authentication error.",
+      D: "Port 465 is indeed a secure port used for SMTP (outgoing mail). However, the scenario indicates the user's initial authentication to the Exchange server is being rejected, meaning they haven't even successfully connected the account yet. Furthermore, Exchange ActiveSync handles both incoming and outgoing traffic natively; it does not require separate SMTP port configurations like IMAP/POP3 do."
+    },
+    examTrap: "Knowing the specific, legacy syntax formatting (Domain\\Username) required for manual Exchange/Active Directory authentication on mobile clients."
+  },
+  {
+    id: "Q043",
+    topic: "Laptop Hinge Failure",
+    difficulty: "easy",
+    scenario: "A user brings their three-year-old laptop to the helpdesk. They complain that every time they open the laptop lid past a 90-degree angle, the screen slowly falls backward until it is completely flat against the desk. The user notes that the operating system runs perfectly, and the display image is flawless without any flickering or artifacts.",
+    prompt: "Based on the symptoms provided, which component requires replacement?",
+    choices: [
+      { key: "A", text: "The display panel inverter." },
+      { key: "B", text: "The internal display assembly hinges." },
+      { key: "C", text: "The digitizer glass panel." },
+      { key: "D", text: "The motherboard's video ribbon cable." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"screen slowly falls backward until it is completely flat\" and \"display image is flawless.\"",
+    explanationCorrect: "The physical stability of a laptop's display lid is maintained by mechanical friction hinges located at the base of the screen assembly. Over years of continuous opening and closing, these mechanical hinges can loosen or wear out entirely. When they can no longer support the physical weight of the display panel, the screen will flop backward. Because the image itself is completely unaffected, the issue is purely mechanical, and replacing the worn hinge assemblies is the precise hardware fix.",
+    explanationIncorrect: {
+      A: "An inverter is an electronic component found in older laptops that converts DC power to AC power to illuminate a fluorescent backlight. If the inverter failed, the screen would be almost completely dark. It has no bearing on the physical rigidity of the laptop lid.",
+      B: "",
+      C: "The digitizer is the transparent layer of glass covering the screen that registers touch inputs. While it can crack or lose sensitivity, it is not a mechanical joint and does not support the structural weight of the display lid.",
+      D: "The video ribbon cable carries data from the motherboard to the LCD panel. If this cable were failing, pinched, or unseated by the movement of the lid, the screen would flicker, artifact, or go black. The prompt explicitly states the image is \"flawless,\" ruling out data cable issues."
+    },
+    examTrap: "Differentiating between electrical/data display issues and purely mechanical/structural chassis wear-and-tear."
+  },
+  {
+    id: "Q044",
+    topic: "MDM App Restriction",
+    difficulty: "medium",
+    scenario: "A logistics company issues Android tablets to its warehouse workers. The devices are enrolled in a Mobile Device Management (MDM) solution. The IT director wants to ensure that employees can use the Google Play Store to download approved inventory tracking apps, but explicitly wants to prevent them from installing a specific, highly popular mobile game that is causing distractions.",
+    prompt: "Which of the following is the BEST administrative action to achieve this?",
+    choices: [
+      { key: "A", text: "Configure a \"Restricted Apps\" policy in the MDM utilizing the game's app bundle ID." },
+      { key: "B", text: "Deploy an enterprise workspace using Mobile Application Management (MAM)." },
+      { key: "C", text: "Initiate a remote wipe on any device that installs the game." },
+      { key: "D", text: "Disable the tablet's Wi-Fi radio during the employees' shift hours." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"prevent them from installing a specific... game\" while allowing them to \"browse the standard Google Play Store.\"",
+    explanationCorrect: "Enterprise Mobility Management (EMM) tools like Microsoft Intune allow administrators to establish granular device restrictions over a fleet of hardware. By configuring a \"Restricted Apps\" profile, the administrator can explicitly blacklist specific applications by referencing their URL or unique app bundle ID. This surgical approach prevents the OS from downloading or executing that specific game, while perfectly preserving the user's ability to browse the app store for approved logistics tools as requested by the scenario.",
+    explanationIncorrect: {
+      A: "",
+      B: "Mobile Application Management (MAM) is used to create an isolated, encrypted sandbox for corporate data (like emails) to prevent it from bleeding into personal apps. It does not proactively block the installation of a game from the public app store onto the device's main OS.",
+      C: "A remote wipe is a catastrophic \"nuclear option\" designed to securely erase all data on a device if it is physically lost or stolen. Erasing an entire warehouse tablet simply because an employee downloaded a game is a massive overreaction and destroys productivity.",
+      D: "Disabling the Wi-Fi radio entirely would indeed stop the user from downloading the game. However, it also cuts off all internet connectivity, making it impossible for the workers to use their approved inventory tracking apps or download updates, destroying the functional purpose of the tablet."
+    },
+    examTrap: "Understanding the granularity of MDM controls (blacklisting specific App IDs) versus applying blanket, destructive actions (wipes/disabling radios)."
+  },
+  {
+    id: "Q045",
+    topic: "Universal Power Adapter",
+    difficulty: "hard",
+    scenario: "A corporate executive is permanently relocating from the company's US office (110V wall power) to a newly opened branch in London (240V wall power). The executive brings their current company laptop and asks the IT helpdesk to purchase a heavy-duty \"step-down power transformer\" so their machine doesn't fry when plugged into the UK walls. The technician inspects the laptop's power brick, and the label clearly reads: \"Input: 100-240V ~ 50/60Hz\".",
+    prompt: "What is the BEST, most cost-effective action the technician should take?",
+    choices: [
+      { key: "A", text: "Issue a passive, physical plug adapter to alter the prong shape for the UK outlet." },
+      { key: "B", text: "Purchase the requested step-down transformer to protect the sensitive motherboard." },
+      { key: "C", text: "Issue a brand-new 240V-specific AC adapter designed exclusively for the UK market." },
+      { key: "D", text: "Replace the internal Li-ion battery with a high-voltage European model." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"Input: 100-240V ~ 50/60Hz\" and \"step-down power transformer so their machine doesn't fry.\"",
+    explanationCorrect: "The label \"Input: 100-240V\" indicates that the laptop's AC adapter is a universal, auto-switching power supply. It contains internal circuitry designed to automatically detect and adapt to any input voltage between 100V and 240V without sustaining any damage. Therefore, the executive's fear of \"frying\" the machine is unfounded, and purchasing an expensive step-down transformer is entirely unnecessary. The only remediation required is a cheap, passive physical plug adapter that changes the flat US prongs into the thick, rectangular prongs required to physically fit into a UK wall socket.",
+    explanationIncorrect: {
+      A: "",
+      B: "Purchasing a step-down transformer (which converts 240V to 110V before it reaches the charger) is completely redundant and a waste of IT budget. The auto-switching AC adapter already performs this exact function internally, making external conversion unnecessary.",
+      C: "Because the current adapter is already universal and fully supports 240V, buying a brand-new AC adapter just for the UK is an unnecessary expense. The current adapter functions perfectly anywhere in the world, provided it can physically plug into the wall.",
+      D: "Laptop batteries operate on low DC voltage (e.g., 11V or 14V) regardless of what country the laptop is in. The external AC adapter handles all the high-voltage AC wall conversion before passing the safe DC current to the battery. There is no such thing as a \"European\" high-voltage laptop battery."
+    },
+    examTrap: "Recognizing auto-switching hardware specifications (\"100-240V\") and eliminating technically plausible but financially wasteful steps (buying transformers/new parts) when a simple mechanical fix exists."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
