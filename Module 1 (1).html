@@ -1,0 +1,2537 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+ {
+    id: "Q001",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A user reports that their laptop immediately displays a \"blue screen\" upon booting into the Windows operating system. The user urgently mentions they downloaded an unrecoverable, mission-critical financial report to their local desktop folder just minutes before the crashing began. The IT specialist gathers information and verifies that the system has not been synced to the cloud in over a month.",
+    prompt: "What should the IT specialist do FIRST before attempting to repair the file system or uninstall any recent drivers?",
+    choices: [
+      { key: "A", text: "Boot into Safe Mode and run a diagnostic utility to locate the cause of the blue screen." },
+      { key: "B", text: "Establish a theory of probable cause by checking the system installation and event logs." },
+      { key: "C", text: "Perform a backup of the local hard drive to secure the user's data." },
+      { key: "D", text: "Swap the local hard drive with a \"known good\" duplicate drive to test the hardware's functionality." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "unrecoverable, mission-critical financial report to their local desktop folder",
+    explanationCorrect: "Option C is correct because, according to the very first step of the CompTIA troubleshooting methodology (Identify the problem), an IT professional must perform backups before making configuration changes to a system. Because the user has highly sensitive, unrecoverable data stored locally that hasn't been synced, protecting that data takes absolute priority over diagnosing the technical fault. Making changes to the operating system or hardware before securing the data could result in catastrophic data loss.",
+    explanationIncorrect: {
+      A: "Booting into Safe Mode is a technically valid step for diagnosing a blue screen symptom. However, it is incorrect in this scenario because it skips the critical backup phase of Step 1, risking the loss of the unrecoverable financial report if the drive is actively failing.",
+      B: "Checking logs is an excellent way to determine why the blue screen is happening and aligns with Step 2 of the methodology. However, it is the incorrect first step here because the technician has not yet secured the critical local data by performing a backup, which must be completed during Step 1.",
+      C: "",
+      D: "Testing with a known good duplicate is a recommended troubleshooting technique for hardware. However, physically removing and swapping drives without first attempting to back up the data ignores the immediate business consequence of potential data loss, making it an invalid first step."
+    },
+    examTrap: "The \"Immediate Technical Fix vs. Data Preservation\" Trap. Test-takers are often tempted to jump straight into fixing the obvious symptom (the blue screen) while ignoring critical administrative prerequisites like performing backups."
+  },
+  {
+    id: "Q002",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A technician is troubleshooting a custom-built workstation that randomly shuts off completely during heavy processing. The technician originally established a theory that the power supply was failing and replaced it, but the sudden shutdowns are still occurring. No \"known good\" duplicate motherboards or CPUs are currently available on-site for a direct swap.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST next step for the technician to take?",
+    choices: [
+      { key: "A", text: "Escalate the issue to the manufacturer's warranty department to request a replacement motherboard." },
+      { key: "B", text: "Take the workstation down to its base configuration and add components back one by one to isolate the fault." },
+      { key: "C", text: "Document the findings so far and close the ticket since the primary theory was disproven and replacement parts are unavailable." },
+      { key: "D", text: "Implement a workaround by assigning the user a temporary laptop until the exact failing component is identified." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "replaced it, but the sudden shutdowns are still occurring",
+    explanationCorrect: "Option B is correct because CompTIA methodology Step 3 dictates that if a theory is not confirmed, the technician must reestablish a new theory or escalate. In complex, intractable hardware scenarios where parts aren't available, taking the system down to its base configuration (the minimum needed to run) is the officially prescribed method to establish a new theory. By adding components back one by one and testing after each, the technician can systematically isolate the fault without relying on duplicate spare parts.",
+    explanationIncorrect: {
+      A: "Escalating to a vendor is a valid methodology step when a technician cannot solve an issue themselves. However, it is premature here because the technician hasn't yet isolated the actual failing component (it could be RAM, CPU, or a peripheral, not just the motherboard), so an RMA request cannot be accurately filed.",
+      B: "",
+      C: "Documenting findings is a mandatory final step. However, closing the ticket is completely incorrect because the problem remains unresolved and the user's consequence (work stoppage) has not been addressed.",
+      D: "Providing a workaround (like a temporary laptop) is an excellent business-focused decision to keep the user working. However, from a strict troubleshooting methodology standpoint for repairing this specific machine, the technician must first formulate a new theory after the previous one failed before abandoning the hardware repair entirely."
+    },
+    examTrap: "The \"Premature Escalation\" Trap. The scenario notes that the obvious fix failed and no spare parts are available, baiting the test-taker into giving up and escalating, rather than using deeper diagnostic techniques like a base-configuration rebuild."
+  },
+  {
+    id: "Q003",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist is responding to a user whose PC was infected with malware after downloading a disguised executable attached to an urgent invoice email. The technician has successfully removed the malware, and the system now boots normally. A secondary malware scan shows no remaining threats, and the technician verifies the user can safely access their files and the internet.",
+    prompt: "To complete the problem-solving process according to CompTIA methodology, which sequence of actions must the technician perform NEXT?",
+    choices: [
+      { key: "A", text: "Establish a plan of action to implement email filtering at the network level, then verify full-system functionality." },
+      { key: "B", text: "Verify the antivirus software is updating automatically, train the user to avoid email malware risks, and then document the findings." },
+      { key: "C", text: "Document the lessons learned in the ticketing system, and then establish a new theory of probable cause regarding the firewall." },
+      { key: "D", text: "Consult the system event logs to find the malware's origin, and then apply a software patch." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "verifies the user can safely access their files",
+    explanationCorrect: "Option B is correct because it perfectly aligns with Steps 5 and 6 of the troubleshooting methodology. The technician has just verified system functionality. The very next requirement in Step 5 is to implement preventive measures, which explicitly includes ensuring antivirus software updates regularly and training users to avoid malware risks. Following prevention, Step 6 requires the technician to document the findings, actions, and outcomes.",
+    explanationIncorrect: {
+      A: "Establishing a plan of action is Step 4 of the methodology, which has already been completed since the malware is successfully removed. Reverting to Step 4 after system verification breaks the logical flow of the troubleshooting model.",
+      B: "",
+      C: "While documenting lessons learned is the correct final step, establishing a new theory is Step 2. Because the system is already fixed and verified, establishing a new theory of probable cause is completely unnecessary and out of sequence.",
+      D: "Consulting event logs is an investigative action performed during Step 2 (Establish a theory). Since the malware is already gone and functionality is verified, investigating the origin point is a backward step that ignores the need for user training and final documentation."
+    },
+    examTrap: "The \"Out of Sequence\" Trap. All answer choices contain real CompTIA methodology steps, but only one option provides the correct sequence of steps following system verification."
+  },
+  {
+    id: "Q004",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A company’s main database server cannot be reached by desktop clients. Through systematic testing, the IT specialist confirms that a newly installed network firewall is blocking port 1433. The specialist has identified the exact firewall rule that needs to be modified to restore connectivity. The organization operates under strict standard operating procedures (SOPs) for infrastructure modifications.",
+    prompt: "What is the MOST appropriate next step before actively modifying the firewall rule?",
+    choices: [
+      { key: "A", text: "Modify the firewall rule to unblock port 1433, verify database connectivity from the client desktops, and document the fix." },
+      { key: "B", text: "Research the firewall vendor’s documentation to ensure the command-line syntax will properly execute the change." },
+      { key: "C", text: "Assess potential impacts on the rest of the system and seek proper authorization for the plan of action." },
+      { key: "D", text: "Check to see if there are any environmental or infrastructure changes initiated by a different support group." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "organization operates under strict standard operating procedures (SOPs)",
+    explanationCorrect: "Option C is correct because the technician is currently at Step 4 of the troubleshooting methodology: Establish a plan of action and implement the solution. When a proposed solution affects enterprise infrastructure (like a firewall), best practices and change management dictate that the technician must assess how the change impacts the rest of the network and seek proper authorization within corporate constraints before making the change. Failing to assess impact or get approval could cause unintended downtime for other interconnected systems.",
+    explanationIncorrect: {
+      A: "Modifying the rule immediately without authorization violates the strict SOPs mentioned in the scenario. Bypassing change management to immediately implement a solution is a critical error in enterprise environments, even if the technical fix is known to be correct.",
+      B: "While referring to vendor instructions is a component of implementing a solution, it is not the most appropriate next step when strict SOPs and infrastructure changes are involved. The technician already knows exactly which rule needs modifying; they must get authorization first.",
+      C: "",
+      D: "Checking for recent infrastructure changes belongs to Step 1 (Gather information) and Step 2 (Establish a theory). The technician has already definitively confirmed the firewall is the cause, so investigating past changes is regressive and redundant."
+    },
+    examTrap: "The \"Cowboy IT\" Trap. Technicians often want to immediately fix a problem once they find the root cause. CompTIA tests heavily on the administrative requirement to follow change management policies and assess collateral impact before touching enterprise equipment."
+  },
+  {
+    id: "Q005",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "A user reports that an application they need for a project is fully responsive, but it repeatedly fails to locate a specific file. The technician clicks the mouse and confirms the local computer is functioning properly. The user mentions that the file they are trying to access is stored on a centralized file server located at the company's headquarters across town.",
+    prompt: "Based on the CompTIA troubleshooting methodology, which of the following is the BEST initial theory of probable cause to investigate?",
+    choices: [
+      { key: "A", text: "The local installation of the project application is corrupted and requires an uninstallation and reinstallation." },
+      { key: "B", text: "The local PC’s hard disk drive is experiencing a mechanical fault, preventing the operating system from reading the data." },
+      { key: "C", text: "The user inadvertently altered the local system configuration and deleted the necessary project file." },
+      { key: "D", text: "The network connection linking the user's building to the headquarters building is currently offline or disrupted." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "stored on a centralized file server located at the company's headquarters across town",
+    explanationCorrect: "Option D is correct because Step 2 of the troubleshooting methodology requires the technician to establish a theory of probable cause by evaluating the infrastructure and questioning the obvious. Since the local machine is confirmed to be powered on and functioning, but the specific file is housed across town, the most logical initial theory is that the wide-area network connection between the two buildings has failed. This matches a classic networking troubleshooting scenario where the cause is infrastructural rather than local hardware.",
+    explanationIncorrect: {
+      A: "While software corruption is a valid technical issue, it is not the best initial theory here. The scenario states the application is fully responsive and functioning; it simply cannot \"locate\" a file that is known to exist on a remote server, pointing to a network path issue, not a corrupted local executable.",
+      B: "A faulty hard drive would typically present symptoms like a blue screen, local application crashes, or odd noises. Since the local computer is functioning properly, a localized mechanical drive failure is highly unlikely to be the cause of a missing remote file.",
+      C: "Questioning user changes is a valid part of Step 1 of the methodology. However, because the file is housed on a remote centralized server, a local system configuration change by a standard user is unlikely to be the root cause of the missing remote asset compared to a broader network outage.",
+      D: ""
+    },
+    examTrap: "The \"Ignoring the Topology\" Trap. The SBMQ presents local symptoms (application can't find a file) but drops a subtle geographic clue. Test-takers who don't read carefully will assume a local storage or OS error instead of recognizing the client-server network dependency."
+  },
+  {
+    id: "Q006",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "A user reports that their workstation cannot connect to the internal network share. The workstation was functioning perfectly the day before. The IT specialist notes that the building's maintenance crew performed a massive rewiring of the electrical system on that floor overnight, requiring servers and switches to be temporarily unplugged.",
+    prompt: "According to the first step of the CompTIA troubleshooting methodology, what should the technician investigate to establish the scope of this issue?",
+    choices: [
+      { key: "A", text: "Establish a theory that the workstation's network interface card (NIC) failed during the night." },
+      { key: "B", text: "Inquire regarding environmental or infrastructure changes initiated by a different support group." },
+      { key: "C", text: "Perform a full system backup before testing the workstation's local connectivity." },
+      { key: "D", text: "Test the theory by replacing the network cable connecting the workstation to the wall jack." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "maintenance crew performed a massive rewiring of the electrical system on that floor overnight",
+    explanationCorrect: "Option B is correct because the first step of the troubleshooting methodology, \"Identify the problem,\" explicitly requires technicians to inquire regarding environmental or infrastructure changes. Because the symptom directly follows a major facility-wide electrical rewiring where network hardware was unplugged, investigating this infrastructure change is the most logical starting point. Assessing changes made by other groups prevents the technician from wasting time diagnosing local hardware that is likely perfectly fine.",
+    explanationIncorrect: {
+      A: "Establishing a theory of probable cause is Step 2 of the methodology, making it out of sequence. Furthermore, assuming a hardware failure immediately ignores the obvious clue that a massive environmental change just occurred.",
+      B: "",
+      C: "While performing backups is a crucial part of Step 1, it is meant to precede making changes to the system. In this specific context, simply investigating an infrastructure outage does not risk local data, making an immediate backup an inefficient first response to a network disconnect.",
+      D: "Testing a theory by using a known good duplicate cable is a valid action during Step 3. However, testing hardware is premature when the technician has not yet finished identifying the problem by assessing the recent environmental changes."
+    },
+    examTrap: "The \"Ignoring the Environment\" Trap. Test-takers often rush to diagnose local hardware faults while ignoring explicit clues about broad infrastructure changes that are highly likely to be the actual root cause."
+  },
+  {
+    id: "Q007",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "An IT specialist is attempting to resolve an intractable issue with a proprietary, highly confidential corporate database server. The technician has exhausted all internal documentation and consulted with senior internal subject matter experts, but the problem persists. The technician decides to escalate the issue by seeking help from an external support contractor forum.",
+    prompt: "Which of the following policy-compliant actions MUST the technician take before posting the server's error logs to the public forum?",
+    choices: [
+      { key: "A", text: "Obtain a returned materials authorization (RMA) ticket to validate the support request with the external forum." },
+      { key: "B", text: "Ensure that no proprietary, confidential, or personal information is disclosed in the public post." },
+      { key: "C", text: "Document the findings and close the internal support ticket so a new external ticket can be tracked." },
+      { key: "D", text: "Implement a workaround to keep the server running while waiting for the forum responses." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "proprietary, highly confidential corporate database server",
+    explanationCorrect: "Option B is correct because corporate security policies strictly dictate how data is handled during the escalation process. When escalating an issue to social media or public forums, a technician must ensure they do not disclose proprietary, confidential, or personal information. Posting raw error logs from a highly confidential database could result in a massive data breach or violation of compliance regulations.",
+    explanationIncorrect: {
+      A: "An RMA ticket is used when returning broken hardware to a vendor for a replacement under warranty. It has absolutely nothing to do with posting software error logs to an external support forum.",
+      B: "",
+      C: "Documenting findings is necessary, but closing the ticket is completely incorrect because the issue is still unresolved. A ticket should only be closed once the problem is fully resolved and customer acceptance is obtained.",
+      D: "Implementing a workaround is a valid business strategy if a repair is not immediately viable. However, the immediate necessity when dealing with public forums and confidential servers is sanitizing the data; a workaround does not address the security risk of posting the logs."
+    },
+    examTrap: "The \"Security Blindspot during Escalation\" Trap. The question tests whether the technician remembers to integrate security principles (data confidentiality) while executing troubleshooting methodology steps (escalation)."
+  },
+  {
+    id: "Q008",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist at a third-party support company spends three hours diagnosing a rare operating system failure on a client's workstation. The specialist eventually discovers that a recent update to a niche accounting application corrupted a shared registry key. The specialist repairs the key, and the system functions perfectly. The client confirms they can work again.",
+    prompt: "What is the MOST critical reason the specialist must now complete a detailed log including findings, actions, and outcomes?",
+    choices: [
+      { key: "A", text: "To establish a new theory of probable cause for the next time the accounting application updates." },
+      { key: "B", text: "To provide the vendor with an RMA request for the corrupted software application." },
+      { key: "C", text: "To prove the value achieved in the service contract and aid future troubleshooting efforts." },
+      { key: "D", text: "To reverse the changes made during the implementation phase to ensure system stability." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "third-party support company",
+    explanationCorrect: "Option C is correct because documenting findings, lessons learned, actions, and outcomes is the mandatory final step of the methodology. This documentation is particularly important for third-party support companies to demonstrate the value achieved in service contracts to their customers. Furthermore, adding this rare solution to a Knowledge Base or FAQ ensures that if the problem recurs, other technicians can resolve it quickly.",
+    explanationIncorrect: {
+      A: "Establishing a theory is Step 2 of the methodology and is used when a problem is still active. Because the problem is already fully resolved, establishing a new theory is out of sequence and unnecessary.",
+      B: "An RMA (Returned Materials Authorization) is utilized specifically to return physically broken hardware for replacement. Software corruption does not require an RMA, making this administrative action completely invalid for this scenario.",
+      C: "",
+      D: "Reversing changes is an action taken during Step 4 if a proposed solution fails to fix the problem. Since the registry repair was successful and verified, reversing the change would recreate the exact problem the technician just solved."
+    },
+    examTrap: "The \"Why We Document\" Trap. Test-takers know documentation is the last step, but this question tests the business rationale behind documentation, specifically highlighting the needs of third-party contractors to prove service value."
+  },
+  {
+    id: "Q009",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A critical payroll server is failing to process direct deposits due to a known bug in its background services. The IT specialist researches the issue and finds a software patch provided by the vendor that explicitly resolves the bug. The specialist formulates a plan to install the patch immediately so payroll can go out on time.",
+    prompt: "What is the primary risk of implementing this plan of action without further assessment?",
+    choices: [
+      { key: "A", text: "The patch might cause other interconnected programs or services on the network to fail." },
+      { key: "B", text: "The patch might require the technician to establish a new theory of probable cause." },
+      { key: "C", text: "The patch will prevent the IT specialist from performing a backup before making changes." },
+      { key: "D", text: "The patch will require the server to be taken down to its base hardware configuration." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "install the patch immediately so payroll can go out on time",
+    explanationCorrect: "Option A is correct because when establishing a plan of action, a technician must carefully consider the potential impacts on the rest of the system. A typical example is applying a software patch, which might resolve the immediate problem but inadvertently cause other interconnected programs to stop working. Proceeding without assessing this collateral impact or seeking proper authorization could cause catastrophic downtime across the enterprise.",
+    explanationIncorrect: {
+      A: "",
+      B: "Establishing a new theory only happens if the proposed solution completely fails to solve the issue. While a possibility, the primary documented risk of patching enterprise systems is the collateral impact on other services, not the methodology loop.",
+      C: "Performing a backup is an independent action taken during Step 1 of the methodology. Installing a patch does not technically prevent a technician from running a backup first; the technician's haste is the risk, not the patch itself.",
+      D: "Taking a system down to its base configuration is a lengthy diagnostic step used to isolate hardware faults when an issue is particularly intractable. Applying a software patch to fix a known bug does not require stripping the server of its hardware peripherals."
+    },
+    examTrap: "The \"Collateral Damage\" Trap. Technicians often view vendor-supplied patches as a silver bullet for software bugs. CompTIA requires technicians to anticipate how a fix might negatively impact the broader network ecosystem before implementing it."
+  },
+  {
+    id: "Q010",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A desktop computer is randomly rebooting. The IT specialist suspects the power supply is failing and has established a theory of probable cause. To test this theory efficiently without causing unnecessary downtime, the specialist wants to verify if the power supply is indeed the failing component.",
+    prompt: "Which of the following is the BEST technique to test this specific hardware theory?",
+    choices: [
+      { key: "A", text: "Use a multimeter to measure the data transfer speeds of the hard drive." },
+      { key: "B", text: "Test the theory by substitution using a \"known good\" duplicate power supply." },
+      { key: "C", text: "Take the computer down to its base configuration by removing the CPU and RAM." },
+      { key: "D", text: "Check the system event logs to see if a recent software update caused the reboots." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "test this theory efficiently without causing unnecessary downtime",
+    explanationCorrect: "Option B is correct because the most efficient and basic technique when troubleshooting a suspected faulty component is to have a \"known good\" duplicate on hand. By testing the theory through substitution (swapping the suspect power supply with one known to work), the technician can immediately confirm or deny if the power supply is the root cause. This directly aligns with Step 3 of the methodology: Test the theory to determine cause.",
+    explanationIncorrect: {
+      A: "While a multimeter is a standard IT tool, it measures electrical properties like voltage and continuity, not hard drive data transfer speeds. Furthermore, the theory is centered on the power supply, making hard drive diagnostics irrelevant here.",
+      B: "",
+      C: "Taking a system down to its base configuration is a valid but highly disruptive and time-consuming procedure reserved for intractable problems. It involves leaving the CPU and RAM installed (as they are required to run), making the distractor technically inaccurate and an inefficient choice compared to a simple part substitution.",
+      D: "Checking event logs is a valid diagnostic step, but it belongs in Step 2 (Establish a theory). The technician has already established the hardware theory; moving backward to check software logs disrupts the troubleshooting sequence."
+    },
+    examTrap: "The \"Tool Misalignment\" Trap. The question provides technically valid IT concepts (multimeters, base configurations, event logs) but applies them incorrectly to the specific hardware theory being tested."
+  },
+  {
+    id: "Q011",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "The CEO of a company cannot print an urgent, time-sensitive contract because the only high-end laser printer in the executive suite has experienced a mechanical failure. The IT specialist determines that a proprietary gear has broken and replacing it will take at least three days because the part must be shipped from the manufacturer.",
+    prompt: "Keeping business consequences in mind, what is the MOST appropriate next step for the IT specialist to take?",
+    choices: [
+      { key: "A", text: "Establish a new theory of probable cause since the repair cannot be completed today." },
+      { key: "B", text: "Provide a workaround by mapping the CEO's computer to a functioning printer in an adjacent department." },
+      { key: "C", text: "Escalate the issue to a senior subject matter expert to see if they can fix the gear faster." },
+      { key: "D", text: "Document the broken gear in the ticketing system and close the incident until the part arrives." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "urgent, time-sensitive contract",
+    explanationCorrect: "Option B is correct because resolving the consequences or business impact of a problem is often more important than solving the original cause immediately. If a repair or replacement is not cost-effective or is too time-consuming, the best approach is to find a workaround. Mapping the CEO to another printer instantly resolves the business stoppage (inability to print the urgent contract) while the technician waits for the replacement part.",
+    explanationIncorrect: {
+      A: "Establishing a new theory is only necessary if the initial theory is proven false. Here, the theory is definitively proven (a broken gear), so establishing a new theory is completely illogical.",
+      B: "",
+      C: "Escalation is used when a technician lacks the knowledge or authorization to solve a problem. Since the technician already knows exactly what the problem is and how to fix it (order a part), escalating to a senior expert wastes personnel resources.",
+      D: "An incident ticket should never be closed until the problem is fully resolved and the customer accepts the fix. Closing it before the printer is actually repaired violates proper documentation procedures."
+    },
+    examTrap: "The \"Technical Fix vs. Business Need\" Trap. Technicians often focus entirely on repairing the broken hardware. CompTIA emphasizes that keeping the user productive via a workaround takes priority over waiting for a perfect technical repair."
+  },
+  {
+    id: "Q012",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A user complains that an internal web application is loading incredibly slowly. The IT specialist observes the user and notices that while the internal app is sluggish, external websites load instantly. The specialist needs to systematically isolate the problem by establishing a theory of probable cause.",
+    prompt: "According to the CompTIA troubleshooting methodology, how should the specialist compartmentalize this investigation to find the probable cause most efficiently?",
+    choices: [
+      { key: "A", text: "Eliminate non-causes by prioritizing an investigation into the local workstation's power supply and memory." },
+      { key: "B", text: "Attempt to reproduce the problem exactly as the user experienced it before looking at system logs." },
+      { key: "C", text: "Step through the problem by questioning the obvious and isolating the investigation to the internal network infrastructure." },
+      { key: "D", text: "Re-establish a new theory by taking the workstation down to its base configuration." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "internal app is sluggish, external websites load instantly",
+    explanationCorrect: "Option C is correct because during Step 2 (Establish a theory), a key technique is to \"question the obvious\" and break the troubleshooting process into compartments. Because external websites load perfectly fine, the obvious conclusion is that the local workstation hardware and the external internet connection are both functioning normally. Therefore, by eliminating non-causes, the technician can efficiently isolate the investigation specifically to the internal network infrastructure or the internal server hosting the app.",
+    explanationIncorrect: {
+      A: "While eliminating non-causes is a valid technique, prioritizing the local power supply is the exact opposite of what the symptoms suggest. If external websites load perfectly, the local workstation hardware is clearly functioning, making this compartment a non-cause.",
+      B: "Reproducing the problem is a great technique when symptoms are no longer apparent. However, the scenario states the specialist already \"observes the user and notices\" the sluggish behavior, meaning the problem has already been reproduced and observed.",
+      C: "",
+      D: "Taking a system to its base configuration is a last-resort step for intractable local hardware issues. It is entirely inappropriate and highly disruptive for a network-specific routing or server issue."
+    },
+    examTrap: "The \"Failure to Compartmentalize\" Trap. The SBMQ tests if the candidate can logically eliminate broad categories of technology (local hardware, WAN) based on a specific symptom (internal vs external routing)."
+  },
+  {
+    id: "Q013",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist is responding to a ticket where a desktop PC repeatedly blew its power supply fuse. The specialist replaces the power supply unit, powers on the PC, and successfully verifies full-system functionality by opening applications and browsing the network.",
+    prompt: "To properly complete Step 5 of the troubleshooting methodology, what action MUST the specialist take next?",
+    choices: [
+      { key: "A", text: "Document the findings, actions, and outcomes in the IT department's knowledge base." },
+      { key: "B", text: "Check to see if there are any environmental power problems in the building causing the electrical fault." },
+      { key: "C", text: "Establish a plan of action to seek proper authorization before putting the PC back into production." },
+      { key: "D", text: "Provide the user with a temporary workaround laptop so they can continue working." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "successfully verifies full-system functionality",
+    explanationCorrect: "Option B is correct because Step 5 of the methodology dictates that after verifying full-system functionality, the technician must implement preventive measures. Implementing preventive measures means eliminating any factors that could cause the problem to reoccur. If a PC blows a fuse, merely replacing the hardware isn't enough; the technician must check the building's environmental power to ensure the new hardware doesn't suffer the exact same fate.",
+    explanationIncorrect: {
+      A: "Documentation is Step 6 of the methodology. While crucial, it is out of sequence here because the technician has not yet completed the second half of Step 5: implementing preventive measures.",
+      B: "",
+      C: "Establishing a plan of action and seeking authorization occurs during Step 4, prior to implementing the solution. Since the power supply is already replaced and verified, stepping backward to seek authorization is illogical.",
+      D: "A workaround is utilized when a repair or replacement is not immediately possible. Because the PC is already repaired and functioning, a workaround is no longer necessary."
+    },
+    examTrap: "The \"Stopping at Verification\" Trap. Many technicians assume their job is done the moment the machine boots up. CompTIA tests the requirement to proactively prevent future recurrences before moving to the documentation phase."
+  },
+  {
+    id: "Q014",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "An IT specialist is tasked with troubleshooting a complex routing error on a core enterprise switch. The specialist does not have deep experience with this specific brand of switch and calls the vendor's support helpline. The vendor provides a lengthy set of command-line instructions to reconfigure the switch's routing tables.",
+    prompt: "What is the MOST critical action the IT specialist must take before executing these commands?",
+    choices: [
+      { key: "A", text: "Ask the vendor to provide an RMA ticket so the switch can be replaced if the commands fail." },
+      { key: "B", text: "Make sure they properly understand the steps they are being asked to take by the vendor." },
+      { key: "C", text: "Reproduce the exact circumstances that produced the routing error to prove to the vendor it exists." },
+      { key: "D", text: "Disassemble the switch to physically inspect the internal components for damage." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "does not have deep experience with this specific brand",
+    explanationCorrect: "Option B is correct because when an IT specialist implements a solution under instruction from a vendor's support service, they must make sure they properly understand the steps they are being asked to take. This is especially critical if the reconfiguration involves unfamiliar software or hardware. Blindly executing unfamiliar commands on a core enterprise switch could lead to severe network outages if the technician makes a typo or misunderstands the syntax.",
+    explanationIncorrect: {
+      A: "An RMA is only used for returning physically broken hardware. A routing error is a software/configuration issue, so requesting a hardware return ticket before attempting a software fix is entirely inappropriate.",
+      B: "",
+      C: "Reproducing the problem is a diagnostic technique used in Step 2 to establish a theory. Since the technician is already on the phone with the vendor executing a specific plan of action (Step 4), moving backward to recreate the symptom is inefficient and out of sequence.",
+      D: "Disassembling hardware is a drastic and risky step, particularly for enterprise switches. Since the vendor is providing command-line configuration steps, opening the physical chassis is completely irrelevant to the proposed software solution."
+    },
+    examTrap: "The \"Blind Obedience\" Trap. The scenario presents a situation where an authoritative figure (the vendor) gives instructions. The exam tests whether the candidate knows their professional responsibility to understand the changes they are making to their own network."
+  },
+  {
+    id: "Q015",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "A user calls the IT helpdesk in a panic, stating that their laptop has a \"blue screen\" and they cannot do any work. The user is frantic because they have a deadline in one hour. The IT specialist arrives at the desk and prepares to diagnose the issue.",
+    prompt: "To properly identify the problem, what is the FIRST action the specialist should take?",
+    choices: [
+      { key: "A", text: "Check the system event logs to identify the exact error code causing the blue screen." },
+      { key: "B", text: "Establish a theory that the operating system drivers have been recently corrupted." },
+      { key: "C", text: "Spend time gathering information from the user by asking them to describe the circumstances and symptoms." },
+      { key: "D", text: "Use a search engine to consult external support resources and forums for well-known fixes." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "To properly identify the problem",
+    explanationCorrect: "Option C is correct because the very first action within Step 1 of the troubleshooting methodology (Identify the problem) is to gather information from the user. The user is one of the best sources of information, and asking them the right questions—such as what changes were made or what error messages appeared—provides the foundation for the entire troubleshooting process. Skipping this step leads to blind guessing.",
+    explanationIncorrect: {
+      A: "Checking system logs and diagnostic tools is an action performed during Step 2 (Establish a theory of probable cause). A technician must gather basic information from the user first before diving into technical log analysis.",
+      B: "Establishing a theory is Step 2 of the methodology. Guessing a cause without first talking to the user to identify the symptoms and circumstances violates the structured approach of the methodology.",
+      C: "",
+      D: "Conducting external research is a sub-step of Step 2 (Establish a theory). Researching fixes is impossible if the technician hasn't yet gathered the specific symptoms from the user."
+    },
+    examTrap: "The \"Skipping the Human\" Trap. IT technicians are often eager to dive into technical diagnostics (logs, drivers, research). CompTIA stresses that the human user is the most critical initial diagnostic tool."
+  },
+  {
+    id: "Q016",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A user reports that their workstation has crashed and is displaying a \"blue screen\" operating system error. The user is frantic because they were in the middle of editing a highly sensitive, un-saved, and un-backed-up financial spreadsheet when the crash occurred. A preliminary check reveals the hard disk drive is exhibiting a \"sick\" clicking sound.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST first step the IT specialist should take before taking the PC apart or changing system configurations?",
+    choices: [
+      { key: "A", text: "Establish a theory of probable cause by isolating the hardware subsystem causing the clicking sound." },
+      { key: "B", text: "Attempt to reproduce the exact circumstances that produced the failure to see if the error code changes." },
+      { key: "C", text: "Perform a backup of the local system's drive to preserve the sensitive financial data." },
+      { key: "D", text: "Escalate the issue to a senior subject matter expert who specializes in physical hard drive repair." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "un-saved, and un-backed-up financial spreadsheet",
+    explanationCorrect: "Option C is correct because the very first step of the CompTIA troubleshooting methodology (Identify the problem) requires technicians to consider the importance of data stored on the local computer and perform a backup before changing the system configuration. Because the drive is making noises indicating a physical fault and the user has un-backed-up critical data, securing that data is the absolute highest priority. Making changes or disassembling the system before attempting a backup could result in permanent data loss.",
+    explanationIncorrect: {
+      A: "Establishing a theory is Step 2 of the methodology. While identifying the failing hardware subsystem is technically necessary, it is out of sequence because the technician has not yet secured the vulnerable user data required in Step 1.",
+      B: "Reproducing a problem is a valid diagnostic technique used when symptoms are no longer apparent. However, the symptom (blue screen and clicking drive) is currently active, and forcing a failing drive to reproduce a crash risks destroying the un-backed-up data.",
+      C: "",
+      D: "Escalating to a Subject Matter Expert (SME) is a valid action if a problem is intractable or the technician lacks authorization. However, escalation is premature here because the technician must first perform basic Step 1 tasks, such as attempting a non-destructive data backup."
+    },
+    examTrap: "The \"Technical Fix vs. Data Preservation\" Trap. Technicians often rush to diagnose the hardware (the clicking drive) and skip the administrative prerequisite of protecting the user's data first."
+  },
+  {
+    id: "Q017",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "A user complains that a specialized project application on their local desktop is open and responsive, but it repeatedly fails to locate a specific working file. The IT specialist notes the PC is functioning perfectly. The user mentions the specific file they need is housed on a centralized server located at the company's headquarters across town. The IT specialist happens to know the headquarters area is currently experiencing severe rolling blackouts.",
+    prompt: "By systematically questioning the obvious, what is the MOST likely cause of this issue?",
+    choices: [
+      { key: "A", text: "The local installation of the project application is corrupted and needs repair." },
+      { key: "B", text: "The network connection between the local building and headquarters is down due to a power outage." },
+      { key: "C", text: "The local PC's hard drive has developed a physical defect, preventing the file from being read." },
+      { key: "D", text: "The user inadvertently altered their local file system configurations and deleted the file." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "housed on a centralized server located at the company's headquarters across town... severe rolling blackouts",
+    explanationCorrect: "Option B is correct because establishing a theory requires the technician to step through the problem methodically and question the obvious. If the local application is responsive but cannot reach a file stored on a remote server in an area experiencing a power outage, the most obvious and probable cause is that the remote server cannot be accessed due to that power failure. This effectively isolates the issue to a network/infrastructure compartment rather than a local hardware failure.",
+    explanationIncorrect: {
+      A: "While application corruption is a plausible software issue, it is incorrect here because the scenario states the application is fully responsive. The inability to find a remote file points to connectivity, not local software corruption.",
+      B: "",
+      C: "A faulty hard drive would present local symptoms like crashes or read/write errors across multiple local applications. Since the local PC is functioning perfectly, this is a highly unlikely cause for missing a remotely hosted file.",
+      D: "Gathering user changes is part of Step 1. However, because the missing file resides on a remote server across town, local file system changes made by a standard user would not cause a centralized server outage."
+    },
+    examTrap: "The \"Ignoring the Topology\" Trap. The symptoms present locally (app can't find a file), but the context clues point to a wide-area network/environmental issue."
+  },
+  {
+    id: "Q018",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A technician is working on an intractable problem where a high-end graphics workstation randomly reboots. The technician initially established a theory that the power supply was failing, but after testing the theory by installing a replacement unit, the random reboots continue. The technician does not have any known good duplicate motherboards or CPUs available for a quick swap.",
+    prompt: "According to the CompTIA troubleshooting methodology, what is the BEST next step to locate the cause of this intractable issue?",
+    choices: [
+      { key: "A", text: "Request a Returned Materials Authorization (RMA) from the vendor to replace the motherboard." },
+      { key: "B", text: "Escalate the issue to a senior network infrastructure subject matter expert." },
+      { key: "C", text: "Take the system down to its base configuration and add peripheral components back one by one." },
+      { key: "D", text: "Implement a workaround by assigning the user a temporary laptop until the exact failing component is identified." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "intractable problem... testing the theory... random reboots continue... no known good duplicate",
+    explanationCorrect: "Option C is correct because when an initial theory is not confirmed, Step 3 of the methodology states the technician must reestablish a new theory or escalate. For particularly intractable hardware problems where simple substitution isn't possible, the officially recommended procedure is to take the system down to its base configuration (the minimum needed to run). The technician can then add peripherals and subsystems back one by one, testing after each addition, until the specific fault is isolated.",
+    explanationIncorrect: {
+      A: "An RMA ticket is used to return a broken part for replacement under warranty. Requesting an RMA for the motherboard is premature because the technician has not yet proven the motherboard is the actual cause of the random reboots.",
+      B: "Escalation is a valid methodology step. However, escalating a local, standalone hardware issue (workstation reboots) to a network infrastructure expert is a complete misalignment of technical domains and a waste of resources.",
+      C: "",
+      D: "Providing a workaround is an excellent business decision. However, the question asks for the best next step to locate the cause of the problem. A workaround mitigates the business consequence but does absolutely nothing to diagnose the intractable hardware fault."
+    },
+    examTrap: "The \"Premature Escalation/Replacement\" Trap. Test-takers are baited into giving up and ordering replacement parts before executing the lengthy, but necessary, diagnostic step of stripping a machine to its base configuration."
+  },
+  {
+    id: "Q019",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "An enterprise database server is failing to process queries due to a known bug in a specific background service. The IT specialist researches the issue and finds an official software patch provided by the vendor that explicitly resolves the bug. The specialist formulates a plan to apply the patch immediately to restore normal operations. The organization operates under a strict change and configuration management system.",
+    prompt: "What is the primary risk of implementing this plan of action without further assessment?",
+    choices: [
+      { key: "A", text: "The patch might resolve the bug but inadvertently cause other interconnected programs or services to fail." },
+      { key: "B", text: "The patch might prevent the IT specialist from performing a full system backup prior to installation." },
+      { key: "C", text: "The patch will require the technician to establish a new theory of probable cause from scratch." },
+      { key: "D", text: "The patch will require the database server to be taken down to its base hardware configuration." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "organization operates under a strict change and configuration management system",
+    explanationCorrect: "Option A is correct because when establishing a plan of action (Step 4), a technician must assess the potential impacts on the rest of the system. A primary risk in enterprise IT is that applying a software patch might fix the immediate symptom, but the solution could cause further problems—such as interconnected programs failing—which could be worse than the original issue. The technician must use the configuration management system to understand these interconnections and seek proper authorization before proceeding.",
+    explanationIncorrect: {
+      A: "",
+      B: "Performing a backup is an independent administrative action in Step 1. Applying a software patch does not physically or logically prevent a technician from choosing to run a backup first.",
+      C: "Establishing a new theory is only required if the proposed solution fails during testing. It is not a guaranteed consequence or primary risk of applying a vendor-supplied patch.",
+      D: "Taking a system down to its base configuration is a diagnostic technique for intractable hardware issues. It is entirely irrelevant to applying a software patch for a known bug."
+    },
+    examTrap: "The \"Collateral Damage\" Trap. Technicians often view vendor patches as risk-free silver bullets. CompTIA requires understanding that solutions in complex environments can easily break interconnected systems."
+  },
+  {
+    id: "Q020",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist is responding to a user whose workstation was infected with a severe malware variant. The technician uses specialized removal tools to eradicate the virus. Following the removal, the technician verifies that the system functions normally, web browsing is restored, and local files are accessible.",
+    prompt: "To properly complete Step 5 of the troubleshooting methodology, which action MUST the technician perform next?",
+    choices: [
+      { key: "A", text: "Establish a plan of action to seek proper authorization for a network-wide firewall change." },
+      { key: "B", text: "Document the findings, actions, and lessons learned in the corporate electronic ticketing system." },
+      { key: "C", text: "Ensure the system's antivirus software is updating regularly and train the user to avoid malware risks." },
+      { key: "D", text: "Re-establish a new theory of probable cause by checking the installation and event logs." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "verifies that the system functions normally",
+    explanationCorrect: "Option C is correct because Step 5 of the methodology explicitly dictates that after verifying full-system functionality, the technician must implement preventive measures. In the context of a malware infection, implementing preventive measures specifically means eliminating factors that cause recurrences, such as ensuring antivirus software is updating automatically and users are trained to recognize and avoid future risks.",
+    explanationIncorrect: {
+      A: "Establishing a plan of action and seeking authorization occurs during Step 4, before implementing a solution. Since the malware is already removed and functionality is verified, stepping backward to seek authorization is out of sequence.",
+      B: "Documentation is critical, but it is Step 6 of the methodology. Moving straight to documentation skips the mandatory requirement in Step 5 to implement preventive measures first.",
+      C: "",
+      D: "Establishing a new theory is required only if the implemented solution fails to fix the problem. Because the technician verified the system functions normally, a new theory is completely unnecessary."
+    },
+    examTrap: "The \"Stopping at Verification\" Trap. Many technicians assume their job is done the moment the PC boots up cleanly. CompTIA tests the administrative requirement to proactively prevent future recurrences."
+  },
+  {
+    id: "Q021",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "An IT specialist working for a third-party support contractor spends hours diagnosing a rare configuration error on a client's server. The specialist successfully resolves the issue, verifies system functionality, and implements preventive measures. The client confirms they can access the server again.",
+    prompt: "What is the primary business rationale for completing a detailed problem log regarding this specific incident?",
+    choices: [
+      { key: "A", text: "It proves the value achieved in the service contract between the third-party support company and the client." },
+      { key: "B", text: "It allows the technician to request an RMA ticket from the vendor for the faulty configuration file." },
+      { key: "C", text: "It establishes a new theory of probable cause for when the server experiences a different error." },
+      { key: "D", text: "It provides the proper authorization required to implement the solution on the client's network." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "working for a third-party support contractor",
+    explanationCorrect: "Option A is correct because documenting findings, actions, and outcomes (Step 6) serves a critical business function beyond just technical reference. A primary value of a detailed log is that it demonstrates what the support department is doing to help the business, which is particularly important for third-party support companies who must prove the value achieved in their service contracts to their clients.",
+    explanationIncorrect: {
+      A: "",
+      B: "An RMA (Returned Materials Authorization) is utilized specifically to return physically broken hardware. Software configuration errors do not require an RMA, making this administrative action invalid.",
+      C: "Establishing a theory is Step 2, used when diagnosing an active problem. Documentation (Step 6) happens after resolution; it does not retroactively establish a theory for unrelated future errors.",
+      D: "Seeking authorization occurs during Step 4 (Establish a plan of action) before implementing a fix. Documentation in Step 6 records what was done; it does not grant the upfront permission to do it."
+    },
+    examTrap: "The \"Why We Document\" Trap. Test-takers know documentation is the final step, but this question tests the business rationale behind documentation, specifically highlighting third-party contractor dynamics."
+  },
+  {
+    id: "Q022",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist is troubleshooting an intractable performance issue on a proprietary, highly confidential corporate database server. After exhausting all internal documentation and consulting with senior network developers, the specialist decides to escalate the issue by seeking assistance on an external vendor's public social media support forum.",
+    prompt: "Which policy-compliant action MUST the IT specialist take before posting the server's diagnostic logs to the public forum?",
+    choices: [
+      { key: "A", text: "Implement a temporary workaround to ensure the database remains online while awaiting responses." },
+      { key: "B", text: "Strip all proprietary, confidential, or personal information from the logs prior to posting." },
+      { key: "C", text: "Obtain an RMA ticket from the vendor to validate the external support request." },
+      { key: "D", text: "Reverse any configuration changes made during the initial diagnostic phase." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "proprietary, highly confidential... external vendor's public social media support forum",
+    explanationCorrect: "Option B is correct because escalating an issue to social media, websites, or public forums carries severe security risks. Standard security policies strictly dictate that a technician must obtain authorization and ensure they do not disclose proprietary, confidential, or personal information when discussing an internal corporate issue publicly. Failing to sanitize logs could result in a massive data breach.",
+    explanationIncorrect: {
+      A: "Implementing a workaround is a valid troubleshooting concept. However, keeping the server online does not address the immediate security compliance requirement of protecting confidential data before posting to a public space.",
+      B: "",
+      C: "An RMA ticket is required when returning broken hardware for replacement. It has absolutely nothing to do with validating software logs posted to a social media help forum.",
+      D: "Reversing changes is an action taken during Step 4 if a proposed solution fails. It is not a policy requirement for safely escalating an issue to an external entity."
+    },
+    examTrap: "The \"Security Blindspot during Escalation\" Trap. The question tests whether the technician remembers to integrate core security principles (data confidentiality) while executing standard troubleshooting methodology steps (escalation)."
+  },
+  {
+    id: "Q023",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "A user submits a ticket stating their custom inventory application abruptly stopped connecting to the main database at 9:00 AM on Monday. The application worked perfectly on Friday. The IT specialist happens to know that the enterprise network infrastructure group performed unannounced routing maintenance over the weekend.",
+    prompt: "According to the first step of the CompTIA troubleshooting methodology, what should the specialist investigate FIRST?",
+    choices: [
+      { key: "A", text: "Establish a theory that the local workstation's network interface card failed over the weekend." },
+      { key: "B", text: "Attempt to reproduce the problem by reinstalling the custom inventory application." },
+      { key: "C", text: "Perform a full system backup of the database server before checking its physical connection." },
+      { key: "D", text: "Inquire if the recent infrastructure changes instigated by the network group caused the connectivity drop." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "network infrastructure group performed unannounced routing maintenance over the weekend",
+    explanationCorrect: "Option D is correct because Step 1 (Identify the problem) requires the technician to inquire regarding environmental or infrastructure changes. Because the application failure directly correlates with weekend maintenance performed by a different group within the company, investigating those unannounced changes is the most efficient and logical starting point. This prevents the technician from wasting time diagnosing a perfectly functional local PC.",
+    explanationIncorrect: {
+      A: "Establishing a theory is Step 2, making it out of sequence. Furthermore, assuming localized hardware failure immediately ignores the obvious clue that broad network maintenance just occurred.",
+      B: "Reinstalling software is an intrusive Step 4 action. Attempting it before gathering information about infrastructure changes is premature and inefficient.",
+      C: "While performing backups is part of Step 1, it is meant to precede making configuration changes. Simply inquiring about a network outage does not risk server data, making an immediate backup an inefficient first response.",
+      D: ""
+    },
+    examTrap: "The \"Ignoring the Environment\" Trap. Test-takers often rush to diagnose local hardware or software faults while ignoring explicit clues about broad infrastructure changes that are highly likely to be the root cause."
+  },
+  {
+    id: "Q024",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "The CEO is attempting to print an urgent, time-sensitive contract that must be signed within 30 minutes. The high-end laser printer in the executive suite experiences a mechanical failure, and a proprietary gear shatters. The IT specialist determines that replacing the gear will require an RMA and the part will take three days to arrive.",
+    prompt: "Keeping business priorities and consequences in mind, what is the MOST appropriate next step for the IT specialist to take?",
+    choices: [
+      { key: "A", text: "Establish a new theory of probable cause since the physical repair cannot be completed today." },
+      { key: "B", text: "Escalate the issue to a senior subject matter expert to see if they can bypass the broken gear." },
+      { key: "C", text: "Document the broken gear in the ticketing system and wait for the replacement part." },
+      { key: "D", text: "Provide a workaround by mapping the CEO's computer to a functioning printer in the adjacent department." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "urgent, time-sensitive contract that must be signed within 30 minutes",
+    explanationCorrect: "Option D is correct because resolving the consequences or business impact of a problem is often more important than solving the original cause immediately. If a replacement part is not available and the repair is not cost-effective in the given timeframe, the best approach is to find a workaround. Mapping the CEO to another printer instantly resolves the business stoppage (inability to print the contract) while the technician waits for the RMA part to arrive.",
+    explanationIncorrect: {
+      A: "Establishing a new theory is only necessary if the initial theory is proven false. Here, the theory is definitively proven (a shattered gear), so establishing a new theory is illogical.",
+      B: "Escalation is used when a technician lacks the knowledge to solve a problem. The technician already knows exactly what is wrong; escalating wastes time when a simple workaround is available.",
+      C: "While documenting is necessary, simply waiting for three days completely ignores the CEO's 30-minute urgent deadline. It fails to address the immediate business consequence.",
+      D: ""
+    },
+    examTrap: "The \"Technical Fix vs. Business Need\" Trap. Technicians naturally focus on repairing broken hardware. CompTIA emphasizes that keeping the user productive via a workaround takes priority over waiting for a perfect technical repair."
+  },
+  {
+    id: "Q025",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "An IT specialist is diagnosing a desktop PC that cannot connect to the network. The specialist establishes a theory that the physical Ethernet cable connecting the PC to the wall jack has an internal break. The specialist wants to test this theory as efficiently as possible before moving on to software configurations.",
+    prompt: "Which of the following is the BEST tool or technique to test this specific hardware theory?",
+    choices: [
+      { key: "A", text: "Use a multimeter to measure the data transfer speeds across the physical wire." },
+      { key: "B", text: "Test by substitution using a \"known good\" duplicate Ethernet cable." },
+      { key: "C", text: "Use a toner probe to locate where the cable terminates in the server room." },
+      { key: "D", text: "Run the command-line utility ipconfig to verify the port numbers are open." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "test this theory as efficiently as possible",
+    explanationCorrect: "Option B is correct because a basic, highly efficient technique when troubleshooting a suspected faulty cable, connector, or device is to have a \"known good\" duplicate on hand. By testing the theory through substitution (swapping the suspect cable with one known to work), the technician can instantly confirm or deny if the physical cable is the root cause without using complex tools.",
+    explanationIncorrect: {
+      A: "A multimeter is a valid IT tool used to measure electrical properties like voltage and continuity. It is not capable of measuring network data transfer speeds, making it an incorrect tool choice.",
+      B: "",
+      C: "A toner probe is used to trace physical cables through walls to a patch panel. Tracing the cable does not efficiently test if the short patch cable between the PC and the wall jack is internally broken.",
+      D: "The ipconfig tool is used to view local IP configuration settings, not to verify physical cable continuity or open port numbers (which would be netstat). It does not efficiently test the physical hardware theory."
+    },
+    examTrap: "The \"Overcomplicating the Solution\" Trap. The question provides technically valid IT tools (multimeters, toner probes, CLI utilities) but tests whether the candidate knows that simple part substitution is the fastest, standard method for cable testing."
+  },
+  {
+    id: "Q026",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "An IT specialist is tasked with troubleshooting a complex routing error on a core enterprise switch. The specialist is unfamiliar with this specific brand's proprietary operating system and calls the vendor's support helpline. The vendor provides a lengthy set of command-line instructions to reconfigure the switch's internal routing tables.",
+    prompt: "What is the MOST critical action the IT specialist must take before executing these commands?",
+    choices: [
+      { key: "A", text: "Disassemble the switch chassis to physically inspect the internal components for damage." },
+      { key: "B", text: "Reproduce the exact circumstances that produced the routing error to prove to the vendor it exists." },
+      { key: "C", text: "Ask the vendor to provide an RMA ticket so the switch can be replaced if the commands fail." },
+      { key: "D", text: "Ensure they properly understand the steps they are being asked to take by the vendor." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "unfamiliar with this specific brand's proprietary operating system",
+    explanationCorrect: "Option D is correct because when an IT specialist implements a solution under instruction from a vendor's support service, best practices dictate they must make sure they properly understand the steps they are being asked to take. This is especially critical if the reconfiguration involves software or hardware the technician is not familiar with. Blindly executing unfamiliar commands on a core enterprise switch could lead to severe network outages.",
+    explanationIncorrect: {
+      A: "Disassembling hardware is a drastic step, particularly for enterprise switches. Since the vendor is providing command-line configuration steps for a routing error, opening the physical chassis is completely irrelevant and dangerous.",
+      B: "Reproducing the problem is a diagnostic technique used in Step 2. Since the technician is already on the phone with the vendor executing a specific plan of action (Step 4), moving backward to recreate the symptom is inefficient.",
+      C: "An RMA is strictly used for returning physically broken hardware. A routing error is a software/configuration issue, so requesting a hardware return ticket is entirely inappropriate.",
+      D: ""
+    },
+    examTrap: "The \"Blind Obedience\" Trap. The scenario presents an authoritative figure (the vendor) giving instructions. CompTIA tests whether the candidate knows their professional responsibility to understand the changes they are making to their own enterprise network."
+  },
+  {
+    id: "Q027",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A user reports that their workstation locked up and became completely unresponsive yesterday afternoon, requiring a hard reboot. Today, the IT specialist arrives to investigate, but the system is running smoothly. The system event logs have rolled over and do not contain any useful error codes from yesterday.",
+    prompt: "Because the symptoms of the problem are no longer apparent, what is the BEST next step for the specialist to take to establish a theory?",
+    choices: [
+      { key: "A", text: "Attempt to reproduce the exact circumstances that produced the failure." },
+      { key: "B", text: "Take the system down to its base configuration to test the hardware." },
+      { key: "C", text: "Escalate the issue to a senior systems administrator." },
+      { key: "D", text: "Implement a workaround by issuing the user a new workstation." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "symptoms of the problem are no longer apparent",
+    explanationCorrect: "Option A is correct because during Step 2 (Establish a theory), if the symptoms of a problem are transitory, intermittent, or no longer apparent, a basic troubleshooting technique is to attempt to reproduce the problem. By having the user repeat the exact circumstances or actions that produced the failure yesterday, the technician can actively observe the fault, making it possible to establish a reliable theory of probable cause.",
+    explanationIncorrect: {
+      A: "",
+      B: "Stripping a PC to its bare components is a time-consuming, disruptive step reserved for intractable problems. Doing this before simply trying to reproduce the error is a massive overreaction.",
+      C: "Escalation is meant for problems a technician cannot solve after attempting diagnostics. Escalating a problem immediately just because it is intermittent, without even trying to reproduce it, is an abdication of duty.",
+      D: "While providing a workaround is useful when hardware is broken, completely replacing a PC over a single un-reproduced lockup is highly inefficient and not cost-effective."
+    },
+    examTrap: "The \"Ghost Problem\" Trap. When a problem disappears before the tech arrives, candidates often guess wildly or give up. CompTIA expects the technician to methodically attempt to reproduce the environment that caused the error."
+  },
+  {
+    id: "Q028",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist at a corporate helpdesk receives two urgent calls simultaneously. An executive calls frantically, stating their local PC hard drive is making a clicking sound and they cannot access their files. Moments later, an automated alert fires, indicating the main data center has suddenly lost power, knocking all corporate servers offline.",
+    prompt: "What is the BEST first step for the IT specialist to take?",
+    choices: [
+      { key: "A", text: "Address the executive's PC immediately because executive hardware issues always take administrative precedence." },
+      { key: "B", text: "Address the data center power loss because problems must be dealt with according to priority and severity of business impact." },
+      { key: "C", text: "Address the executive's PC because a single faulty disk drive is a faster repair than a facility-wide power issue." },
+      { key: "D", text: "Establish a workaround for the data center by routing traffic to the executive's functioning network port." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "main data center has suddenly lost power\" vs. \"local PC hard drive",
+    explanationCorrect: "Option B is correct because the CompTIA troubleshooting methodology requires that problems be dealt with according to priority and severity. A single hardware issue, such as a faulty disk drive affecting only one user, cannot take priority over an infrastructure failure with a wider business impact, such as a data center losing power. The technician must focus on the issue that affects the entire enterprise first.",
+    explanationIncorrect: {
+      A: "While executives often demand immediate attention, prioritizing a single user's localized hardware fault over a complete enterprise network outage violates standard IT severity protocols. The data center takes precedence regardless of the user's job title.",
+      B: "",
+      C: "Efficiency is important, but dealing with easy or fast tickets first while a massive outage is actively occurring is a poor business decision. Prioritization is based on impact, not the speed of the repair.",
+      D: "A workaround is a valid troubleshooting technique. However, routing enterprise data center traffic through a single executive's local network port is technically impossible and logically invalid for resolving a facility power loss."
+    },
+    examTrap: "The \"VIP Trap.\" The scenario baits the test-taker with a frantic executive, testing whether the candidate understands that objective business severity always overrides a single user's status."
+  },
+  {
+    id: "Q029",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A user complains that an engineering application crashes upon launch. The IT specialist establishes a theory of probable cause and formulates a plan of action to modify the Windows registry to fix a suspected missing key. The specialist implements the change, but upon testing, the application still crashes exactly as before. The specialist decides to try updating the system's background services instead.",
+    prompt: "What MUST the IT specialist do before modifying the background services?",
+    choices: [
+      { key: "A", text: "Reverse the registry change that was just made and record the actions taken." },
+      { key: "B", text: "Escalate the issue to the application's software developer." },
+      { key: "C", text: "Take the computer down to its base hardware configuration." },
+      { key: "D", text: "Perform a full backup of the user's hard drive to protect their engineering data." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "implements the change, but upon testing, the application still crashes",
+    explanationCorrect: "Option A is correct because during Step 4 (Implement a plan of action), if a change does not fix the problem, the technician must reverse it and then try something else. Leaving failed changes in place while applying new fixes can cause a cascade of configuration errors, placing the technician in a tricky position where they don't know which change caused which symptom.",
+    explanationIncorrect: {
+      A: "",
+      B: "Escalation is used when a problem is intractable or the technician lacks authorization. It is premature to escalate here because the technician simply needs to reverse their failed change and attempt their secondary theory (updating services) first.",
+      C: "Taking a system down to its base configuration is a highly disruptive diagnostic step used for isolating physical hardware faults. It is entirely inappropriate for diagnosing a pure software application crash.",
+      D: "Performing a backup is a crucial step. However, it belongs in Step 1 (Identify the problem) and should have been done before the technician ever touched the registry. It is out of sequence as an immediate follow-up to a failed registry change."
+    },
+    examTrap: "The \"Configuration Cascade\" Trap. Technicians often frantically try multiple software fixes in a row without undoing the ones that failed. CompTIA requires strict adherence to reversing failed implementations before moving forward."
+  },
+  {
+    id: "Q030",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist is tasked with troubleshooting a complex workstation that frequently freezes. The specialist decides to systematically break the troubleshooting process into categories. They first verify the power supply is stable, then eliminate the operating system by booting to a live USB, and finally focus entirely on the physical hard disk and its connectors.",
+    prompt: "Which specific troubleshooting technique is the specialist utilizing to establish a theory of probable cause?",
+    choices: [
+      { key: "A", text: "Testing the theory by utilizing a known good duplicate." },
+      { key: "B", text: "Compartmentalizing the issue by eliminating non-causes." },
+      { key: "C", text: "Reestablishing a new theory after a failed implementation." },
+      { key: "D", text: "Taking the system down to its base configuration to test peripherals." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "break the troubleshooting process into categories... verify... eliminate",
+    explanationCorrect: "Option B is correct because the technician is explicitly using the technique of breaking the troubleshooting process into compartments or categories (such as power, hardware, OS, network). By systematically eliminating non-causes (verifying power is fine, eliminating the OS), the technician can successfully isolate their investigation to a particular subsystem (the hard disk) and troubleshoot the problem much more quickly.",
+    explanationIncorrect: {
+      A: "A \"known good duplicate\" involves swapping a suspect part with a verified working part to see if the issue resolves. The scenario describes isolating a subsystem, not physically swapping components.",
+      B: "",
+      C: "Reestablishing a theory occurs in Step 3 when an initial test fails. The technician in this scenario is still actively building their initial theory by narrowing down the scope of the problem.",
+      D: "Taking a system down to its base configuration involves physically removing all non-essential hardware (leaving only CPU, RAM, etc.) and adding parts back one by one. The technician is categorizing the system logically, not stripping the physical chassis."
+    },
+    examTrap: "The \"Terminology Confusion\" Trap. Both compartmentalization and base configurations involve isolating problems, but compartmentalization (Step 2) is a logical deduction process, whereas base configuration (Step 3) is a drastic physical tear-down."
+  },
+  {
+    id: "Q031",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "An IT specialist is dispatched to repair a network drop in a user's office. The wall jack appears physically intact, but it provides no connectivity. The specialist traces the run to a messy corporate server room, but the massive patch panel is completely unlabeled, making it impossible to visually locate which of the 100 cables leads to the user's office.",
+    prompt: "Which of the following tools is BEST suited to help the specialist locate the correct cable on the patch panel?",
+    choices: [
+      { key: "A", text: "Multimeter" },
+      { key: "B", text: "Cable tester" },
+      { key: "C", text: "Toning probe" },
+      { key: "D", text: "Electronic trouble ticket system" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "massive patch panel is completely unlabeled, making it impossible to visually locate",
+    explanationCorrect: "Option C is correct because a toning probe (often paired with a tone generator) is the specific IT tool designed to trace cables through walls and locate specific wire terminations on unorganized patch panels. By sending an audible tone down the wire from the office, the technician can use the probe at the patch panel to find the exact cable.",
+    explanationIncorrect: {
+      A: "A multimeter is an essential IT tool used to measure electrical properties like voltage, current, and continuity. While it can check if a wire is broken, it is not practical for tracing a single unlabeled wire among hundreds on a patch panel.",
+      B: "A cable tester is used to verify that a cable is wired correctly and that all pins have continuity. It requires plugging into both ends of the cable simultaneously, which is impossible if the technician doesn't yet know which cable on the patch panel belongs to the user.",
+      C: "",
+      D: "A ticket system is a software tool used for tracking issues and maintaining documentation. It is an administrative tool, not a physical diagnostic tool for tracing network cables in a server room."
+    },
+    examTrap: "The \"Related Tool\" Trap. The question provides multiple tools (multimeter, cable tester, toning probe) that are all valid for networking, forcing the candidate to match the specific tool to the specific symptom (locating vs. testing)."
+  },
+  {
+    id: "Q032",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT manager is preparing a budget proposal to replace a specific brand of enterprise network switches, suspecting they fail more often than acceptable. The manager needs hard evidence to justify this expensive organizational change to the executive board.",
+    prompt: "According to the troubleshooting methodology, where is the BEST place for the manager to gather these statistics?",
+    choices: [
+      { key: "A", text: "The vendor's standard operating procedure (SOP) documentation." },
+      { key: "B", text: "The electronic trouble ticket system logs." },
+      { key: "C", text: "The local event logs on the users' affected desktop PCs." },
+      { key: "D", text: "The returned materials authorization (RMA) ticket from a single faulty switch." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "needs hard evidence to justify this expensive organizational change",
+    explanationCorrect: "Option B is correct because completing documentation (Step 6) in an electronic trouble ticket system provides a historical record of findings, actions, and outcomes. This centralized log is specifically useful for analyzing the IT infrastructure by gathering statistics on what types of problems occur and how frequently. The manager can pull these reports to prove the switches fail excessively.",
+    explanationIncorrect: {
+      A: "SOPs are established processes created by management to ensure repeatable troubleshooting steps are followed. They dictate how to fix a problem; they do not contain historical failure statistics for the company's equipment.",
+      B: "",
+      C: "Local PC event logs record local OS errors and software crashes. They will not contain comprehensive enterprise-wide statistics regarding physical core network switch failures.",
+      D: "An RMA is used to return a single broken part for replacement. A single RMA ticket only proves one switch broke; it does not provide the broad statistical evidence needed to justify a massive infrastructure replacement."
+    },
+    examTrap: "The \"Value of Documentation\" Trap. Candidates often think documentation is only for the technician's future reference. CompTIA tests the business value of documentation, specifically its role in broader IT infrastructure analysis."
+  },
+  {
+    id: "Q033",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A company recently received a shipment of 50 identical laptops and deployed them to the sales team. Within two weeks, 12 different users report that their laptops are completely dead, and the IT specialist determines that the physical solid-state drives in all 12 machines have suffered catastrophic mechanical failures.",
+    prompt: "Rather than treating each failure as an isolated incident, what is the MOST likely underlying probable cause the specialist should investigate?",
+    choices: [
+      { key: "A", text: "A problem within the supply chain or manufacturing environment for that specific batch of drives." },
+      { key: "B", text: "The users in the sales department inadvertently altering their local file system configurations." },
+      { key: "C", text: "A sudden loss of power affecting the company's centralized server room." },
+      { key: "D", text: "The network infrastructure group making unannounced configuration changes." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "shipment of 50 identical laptops... 12 different users report... exact same catastrophic mechanical failures",
+    explanationCorrect: "Option A is correct because the troubleshooting methodology dictates that the cause of a specific problem might actually be a symptom of a much larger problem. When multiple identical physical hardware failures occur simultaneously on brand-new equipment from the same shipment, the most probable cause is a broader issue, such as a manufacturing defect or a problem in the supply chain.",
+    explanationIncorrect: {
+      A: "",
+      B: "While user changes are a common cause of software issues, users altering local file systems cannot cause a \"catastrophic mechanical failure\" of the physical solid-state drive hardware.",
+      C: "A data center power loss would prevent users from accessing network resources. It would not cause the physical, local solid-state drives inside the remote laptops to mechanically destroy themselves.",
+      D: "Unannounced network changes can cause routing errors and application failures. However, network configuration changes cannot induce physical mechanical failure in local storage media."
+    },
+    examTrap: "The \"Symptom vs. Root Cause\" Trap. The scenario presents a localized symptom (broken drive) but provides context clues (identical batches, rapid failure) to test if the candidate can escalate their diagnostic thinking to environmental or supply chain root causes."
+  },
+  {
+    id: "Q034",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A critical security vulnerability is discovered in an enterprise database server. The vendor releases an emergency software patch to resolve the issue. The IT specialist establishes a plan of action to deploy this patch immediately to secure the system.",
+    prompt: "According to change and configuration management principles, what is the primary risk of implementing this patch without further assessment?",
+    choices: [
+      { key: "A", text: "The patch might resolve the security vulnerability but inadvertently cause other interconnected programs to fail." },
+      { key: "B", text: "The patch might require the database server to be taken down to its base hardware configuration." },
+      { key: "C", text: "The patch will prevent the IT specialist from performing a full system backup before installation." },
+      { key: "D", text: "The patch will require the IT specialist to return the software to the vendor via an RMA ticket." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "deploy this patch immediately to secure the system",
+    explanationCorrect: "Option A is correct because when establishing a plan of action, a technician must carefully consider potential impacts on the rest of the system. A typical example is applying a software patch, which might successfully fix a given problem (or vulnerability) but inadvertently cause other interconnected programs or services to stop working. Assessing these interconnected risks via configuration management is mandatory before deployment.",
+    explanationIncorrect: {
+      A: "",
+      B: "Taking a system to its base configuration is a diagnostic step for isolating intractable physical hardware faults. It has nothing to do with applying a software security patch.",
+      C: "Performing a backup is a best practice executed during Step 1. Applying a software patch does not logically or physically prevent a technician from choosing to run a backup beforehand.",
+      D: "An RMA (Returned Materials Authorization) is used to return physically broken hardware for replacement. It is not used for software patches or digital updates."
+    },
+    examTrap: "The \"Silver Bullet\" Trap. Technicians often view vendor patches as universally beneficial. CompTIA requires the understanding that solutions in complex enterprise environments can cause devastating collateral damage to interconnected systems."
+  },
+  {
+    id: "Q035",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "A user's desktop computer completely powers off and will not turn back on. The IT specialist investigates and discovers that the power cable connecting the PC to the wall has blown a fuse. The specialist replaces the fuse, plugs the computer back in, and verifies that the system boots normally and has full network connectivity.",
+    prompt: "To fully complete the troubleshooting process, what must the specialist do NEXT before documenting the ticket?",
+    choices: [
+      { key: "A", text: "Reestablish a new theory of probable cause regarding the internal power supply." },
+      { key: "B", text: "Check to see if there are power problems in the building that caused the fault." },
+      { key: "C", text: "Take the system down to its base configuration to check for motherboard damage." },
+      { key: "D", text: "Train the user to avoid downloading malware risks in the future." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "verifies that the system boots normally... fully complete the troubleshooting process",
+    explanationCorrect: "Option B is correct because Step 5 of the methodology states that after verifying system functionality, the technician must implement preventive measures to eliminate factors that could cause the problem to reoccur. If a power cable blows a fuse, simply replacing it is not enough; the technician must actively check if environmental power problems in the building caused the fuse to blow in the first place.",
+    explanationIncorrect: {
+      A: "Establishing a new theory only occurs in Step 3 if the proposed solution fails to fix the problem. Because the technician verified the PC booted normally, reestablishing a theory is unnecessary and out of sequence.",
+      B: "",
+      C: "Taking a system down to its base configuration is an extensive diagnostic technique used for intractable hardware failures. Since the PC is already fixed and booting normally, tearing it apart is entirely illogical.",
+      D: "Training users to avoid malware is a valid preventive measure for a virus infection. However, a malware infection cannot cause a physical fuse in a power cable to blow, making this action irrelevant to the scenario."
+    },
+    examTrap: "The \"Stopping at Verification\" Trap. Many technicians close the ticket the moment the PC powers on. CompTIA explicitly requires technicians to investigate environmental root causes to prevent the immediate recurrence of the problem."
+  },
+  {
+    id: "Q036",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "An IT specialist is responsible for application support. A user complains that a proprietary financial application on their desktop is suddenly failing to reach its external cloud database. The local PC has internet access, and the application has not been updated in months. The specialist notes that the network infrastructure group was working in the main switch room last night.",
+    prompt: "What is the MOST logical action for the IT specialist to take to establish a theory of probable cause?",
+    choices: [
+      { key: "A", text: "Conclude that the application's software has become corrupt and reinstall it." },
+      { key: "B", text: "Consult the network infrastructure group to see if they made changes without issuing proper notice." },
+      { key: "C", text: "Use a toning probe to trace the user's network drop back to the main switch room." },
+      { key: "D", text: "Implement a workaround by giving the user a new local hard drive to bypass the cloud database." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "network infrastructure group was working in the main switch room last night",
+    explanationCorrect: "Option B is correct because Step 1 and Step 2 of the methodology emphasize investigating environmental or infrastructure changes initiated by different groups within the company. If a previously working application suddenly loses specific external connectivity immediately following maintenance by the network team, the most probable cause is that the network infrastructure group made a configuration change (like a firewall rule) without issuing proper notice.",
+    explanationIncorrect: {
+      A: "Software can become corrupt, but reinstalling it is an intrusive Step 4 action. It is an illogical initial theory when there is an explicit, obvious clue pointing to an infrastructure routing change.",
+      B: "",
+      C: "A toning probe is used to locate specific cables on a patch panel. Because the scenario states the local PC currently has general internet access, the physical cable is clearly intact, making tracing the wire a waste of time.",
+      D: "Providing workarounds is a valid business strategy. However, assigning a local hard drive does not resolve the user's need to access a centralized cloud database, nor does it help the specialist diagnose the actual connectivity error."
+    },
+    examTrap: "The \"Tunnel Vision\" Trap. Application specialists often default to troubleshooting the software itself. The methodology requires technicians to step back and assess broader environmental changes enacted by other IT silos."
+  },
+  {
+    id: "Q037",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "An IT specialist is troubleshooting an expensive, proprietary copy machine. Because the machine is highly specialized, the specialist contacts the vendor's support helpline. The vendor directs the specialist to disassemble the internal fuser assembly and reconfigure several mechanical gears. The specialist has never repaired this type of machine before.",
+    prompt: "What MUST the IT specialist do before touching the machine?",
+    choices: [
+      { key: "A", text: "Establish a new theory of probable cause since the vendor's instructions are too complex." },
+      { key: "B", text: "Take the copy machine down to its base configuration." },
+      { key: "C", text: "Ensure they properly understand the steps they are being asked to take by the vendor." },
+      { key: "D", text: "Obtain a returned materials authorization (RMA) ticket for the entire copy machine." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "vendor directs the specialist to disassemble... specialist has never repaired this type of machine before",
+    explanationCorrect: "Option C is correct because when an IT professional implements a solution under instruction from a vendor's support service, they must make sure they properly understand the steps they are being asked to take. This is especially critical if the procedure requires the disassembly of a component or reconfiguration of hardware that the technician is not familiar with. Blindly pulling apart complex machinery can cause permanent damage.",
+    explanationIncorrect: {
+      A: "Establishing a new theory is only required if a tested solution fails. The technician is actively in the process of implementing a plan provided by an expert; abandoning it before trying simply because it is complex is poor practice.",
+      B: "Taking a system down to its base configuration is a diagnostic step for isolating faults. The vendor already knows the fault is in the fuser assembly; stripping the entire machine is unnecessary and destructive.",
+      C: "",
+      D: "An RMA is used to return broken parts. The vendor is actively instructing the technician on how to repair the machine on-site; requesting a return authorization before attempting the repair skips the troubleshooting process entirely."
+    },
+    examTrap: "The \"Blind Obedience\" Trap. Just because a vendor provides instructions does not absolve the IT specialist of their responsibility to understand the mechanical or software changes they are making to the equipment."
+  },
+  {
+    id: "Q038",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "An IT specialist notes that their branch office frequently loses productivity because internet outages prevent users from reaching the centralized file server at headquarters. The specialist researches the cost and technical requirements of purchasing a new local server for the branch office to bypass this issue.",
+    prompt: "To be most effective, how should the specialist communicate this elaborate suggestion to their management?",
+    choices: [
+      { key: "A", text: "By making a quick phone call to the company's executive board." },
+      { key: "B", text: "By posting the suggestion on the vendor's external social media support forum." },
+      { key: "C", text: "By updating the company's internal knowledge base with the new server details." },
+      { key: "D", text: "By writing a detailed email to their supervisor presenting the research and costs." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "researches the cost and technical requirements... elaborate suggestion",
+    explanationCorrect: "Option D is correct because professional communication skills require matching the delivery method to the complexity of the idea. While simple fixes can be communicated via a quick phone call, elaborate ideas that require business expenditures (like purchasing a new server) are most effectively communicated through written communication, such as a detailed email. This allows the specialist to present all necessary financial research and configuration requirements to their supervisor clearly.",
+    explanationIncorrect: {
+      A: "A phone call is ideal for rapidly disseminating quick suggestions or immediate alerts. However, it is a poor medium for presenting complex financial research and technical requirements, as details can easily be lost or forgotten.",
+      B: "Escalating to public forums is used for seeking technical troubleshooting help, and it requires strict adherence to security policies regarding confidential data. It is entirely inappropriate for internal corporate infrastructure proposals.",
+      C: "A knowledge base (or FAQ) is a repository for documenting resolved technical troubleshooting steps so other technicians can reference them. It is not a communication channel for requesting budget approvals from management.",
+      D: ""
+    },
+    examTrap: "The \"Medium is the Message\" Trap. CompTIA tests an IT specialist's soft skills, ensuring they understand that complex, costly infrastructure changes require organized, written documentation to be properly evaluated by management."
+  },
+  {
+    id: "Q040",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A user submits a ticket stating their workstation locked up and became completely unresponsive yesterday afternoon, forcing them to perform a hard reboot. The IT specialist arrives today to establish a theory, but the system is currently functioning perfectly. The system's event logs have rolled over and do not contain any useful error codes from the previous day.",
+    prompt: "Because the symptoms of the problem are no longer apparent, what is the BEST basic technique for the specialist to utilize next?",
+    choices: [
+      { key: "A", text: "Attempt to reproduce the problem by having the user repeat the exact circumstances that caused the failure." },
+      { key: "B", text: "Break the troubleshooting process into compartments by eliminating the network connection." },
+      { key: "C", text: "Escalate the ticket to a senior subject matter expert for deep system analysis." },
+      { key: "D", text: "Implement a workaround by issuing the user a completely different workstation." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "symptoms of the problem are no longer apparent",
+    explanationCorrect: "Option A is correct because during Step 2 (Establish a theory), if the symptoms of a problem are transitory, intermittent, or no longer apparent, a basic troubleshooting technique is to attempt to reproduce the problem. By having the user repeat the exact circumstances or workflow that produced the failure yesterday, the technician hopes to force the error to occur again so it can be accurately observed and diagnosed.",
+    explanationIncorrect: {
+      A: "",
+      B: "Compartmentalization is a valid Step 2 technique for isolating active problems. However, if the PC is currently running perfectly, you cannot eliminate subsystems because there is no active symptom to test them against.",
+      C: "Escalation is appropriate when a problem is intractable or beyond a technician's skill level. Escalating an intermittent lockup before even attempting to reproduce the symptoms locally is an inefficient waste of senior staff resources.",
+      D: "Workarounds are used when repairs are not cost-effective or parts are delayed. Completely replacing a functioning workstation over a single, un-reproduced lock-up is a massive overreaction and highly cost-inefficient."
+    },
+    examTrap: "The \"Ghost Problem\" Trap. When a problem disappears before the tech arrives, candidates often guess wildly or escalate immediately. CompTIA expects the technician to methodically attempt to recreate the environment that caused the error to make it visible again."
+  },
+  {
+    id: "Q041",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "easy",
+    scenario: "An employee submits a high-priority ticket stating that their dual-monitor workstation is \"broken.\" The IT specialist arrives and observes that the primary monitor displays the Windows desktop perfectly, but the secondary monitor simply reads \"No Signal.\" The power indicator light on the secondary monitor is illuminated and blinking amber.",
+    prompt: "According to Step 1 of the troubleshooting methodology, what is the BEST first action the IT specialist should take?",
+    choices: [
+      { key: "A", text: "Swap the display cable on the secondary monitor with a \"known good\" duplicate to test for a physical short." },
+      { key: "B", text: "Check the operating system's event logs to identify if the graphics driver has recently crashed." },
+      { key: "C", text: "Ask the user if they recently disconnected any cables or moved their desk around." },
+      { key: "D", text: "Update the graphics card drivers to the latest version to ensure multi-monitor compatibility." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "According to Step 1 of the troubleshooting methodology...",
+    explanationCorrect: "Option C is correct because the very first action within Step 1 (Identify the problem) is to gather information from the user, specifically inquiring about user changes. Asking the user if they moved their desk or touched any cables addresses the most common reason a peripheral suddenly stops receiving a signal. Skipping this human element leads to unnecessary technical diagnostics.",
+    explanationIncorrect: {
+      A: "Testing a theory with a known good duplicate is a highly effective diagnostic technique, but it belongs in Step 3 (Test the theory). It is premature to physically swap parts before asking the user basic questions about environmental or physical changes.",
+      B: "Checking system logs is a valid action performed during Step 2 (Establish a theory of probable cause). A technician must gather basic human information first before diving into operating system log analysis.",
+      C: "",
+      D: "Updating drivers is an intrusive action taken during Step 4 (Implement a plan of action). Applying software updates before gathering initial information or establishing a theory violates the structured approach of the methodology."
+    },
+    examTrap: "The \"Skipping the Human\" Trap. IT technicians are often eager to dive right into technical diagnostics (swapping cables, checking logs). CompTIA stresses that gathering information from the user is a mandatory prerequisite to forming a technical theory."
+  },
+  {
+    id: "Q042",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A payroll specialist complains that their newly issued external USB numeric keypad is defective. While the standard letter keys on their laptop work perfectly, pressing the numbers on the external keypad does not type any digits; instead, it simply moves the cursor up, down, left, and right across the spreadsheet.",
+    prompt: "By applying the methodology technique to \"question the obvious,\" what is the MOST likely probable cause?",
+    choices: [
+      { key: "A", text: "The laptop's USB port is experiencing an intermittent physical power failure." },
+      { key: "B", text: "The device drivers for the external keypad have become corrupted and need repairing." },
+      { key: "C", text: "The user has accidentally toggled off the NumLock key on the keypad." },
+      { key: "D", text: "The internal membrane under the numeric keys has suffered physical wear and tear." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "moves the cursor up, down, left, and right across the spreadsheet",
+    explanationCorrect: "Option C is correct because Step 2 of the methodology (Establish a theory) requires the technician to \"question the obvious.\" The symptom described—a number pad moving the cursor rather than typing numbers—is the exact, intended behavior of a standard keyboard when the \"NumLock\" (Number Lock) key is disabled. Because the simplest explanation is often the correct one, checking this obvious user-facing toggle is the most logical probable cause.",
+    explanationIncorrect: {
+      A: "If the USB port were failing, the keypad would not register any input at all. Because the keypad is successfully sending cursor-movement commands to the PC, the USB connection is clearly transmitting data and power successfully.",
+      B: "While driver corruption can cause peripherals to malfunction, standard USB keypads utilize generic plug-and-play Windows drivers. It is highly unlikely a corrupt driver would perfectly remap number keys to directional arrow keys.",
+      C: "",
+      D: "Physical wear would result in keys sticking, feeling mushy, or failing to register a keystroke entirely. It would not cause the keys to cleanly register as directional arrows, making this physical hardware theory invalid."
+    },
+    examTrap: "The \"Over-engineering the Diagnosis\" Trap. The scenario presents a \"broken\" device, baiting the test-taker into selecting complex hardware or driver failures. CompTIA requires technicians to check the simplest, most obvious configuration settings first."
+  },
+  {
+    id: "Q043",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "hard",
+    scenario: "A workstation cannot access the internal corporate intranet. The IT specialist establishes a theory that the local DNS settings are incorrect. To implement a fix, the specialist executes an ipconfig /flushdns command and manually assigns a new static DNS IP address in the network adapter settings. After applying these settings, the specialist tests the connection, but the workstation still cannot reach the intranet. The specialist now suspects the network switch port is misconfigured.",
+    prompt: "According to change management principles, what MUST the technician do before investigating the switch port?",
+    choices: [
+      { key: "A", text: "Reestablish a new theory of probable cause regarding the core enterprise router." },
+      { key: "B", text: "Reverse the static DNS IP assignment back to its original configuration." },
+      { key: "C", text: "Perform a full system backup of the local workstation's hard drive." },
+      { key: "D", text: "Escalate the issue to the senior network infrastructure team." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "tests the connection, but the workstation still cannot reach... now suspects the network switch port",
+    explanationCorrect: "Option B is correct because Step 4 (Implement a plan of action) strictly dictates that when you make a change to a system to implement a solution, and that change does not fix the problem, you must reverse it before trying something else. Leaving a failed, guessed static IP address on the network adapter while moving on to troubleshoot the switch port will likely cause future network conflicts and creates a situation where the technician will not know which change caused which symptom.",
+    explanationIncorrect: {
+      A: "While establishing a new theory is required (Step 3) when a test fails, the technician has already established their new theory (suspecting the switch port). The mandatory action they skipped was undoing their previous failed implementation.",
+      B: "",
+      C: "Performing a backup is an administrative action belonging to Step 1. While important, performing a backup now does not undo the incorrect network configuration the technician just applied to the adapter.",
+      D: "Escalation is used when a problem is intractable or the technician lacks authorization. Escalating the issue while leaving a failed, unauthorized static IP configuration on the workstation is poor practice; the technician must clean up their failed attempt first."
+    },
+    examTrap: "The \"Configuration Cascade\" Trap. Technicians often frantically try multiple software fixes in a row without undoing the ones that failed. CompTIA requires strict adherence to reversing failed implementations before moving forward to new theories."
+  },
+  {
+    id: "Q044",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "Ten minutes before a major presentation to a prospective client, the ceiling-mounted projector in the executive conference room suddenly powers off. The IT specialist investigates and confirms the projector's internal bulb has shattered. The specialist realizes that retrieving a replacement bulb from the warehouse, setting up a ladder, and installing it safely will take at least 45 minutes.",
+    prompt: "Keeping business priorities in mind, what is the MOST appropriate next step for the IT specialist to take?",
+    choices: [
+      { key: "A", text: "Expedite a returned materials authorization (RMA) ticket for the projector bulb." },
+      { key: "B", text: "Establish a new theory of probable cause since the physical repair cannot be completed in time." },
+      { key: "C", text: "Document the shattered bulb in the incident log and close the ticket to reflect the delayed repair." },
+      { key: "D", text: "Implement a workaround by rolling a large, portable flat-screen TV cart into the conference room." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "Ten minutes before a major presentation... repair... will take at least 45 minutes",
+    explanationCorrect: "Option D is correct because the CompTIA methodology explicitly states that resolving the consequences or business impact of a problem is often more important than solving the original cause. Since replacing the part is not cost-effective in terms of time (the presentation is in 10 minutes), the best approach is to find a workaround. Providing a portable TV instantly resolves the business stoppage, allowing the client pitch to proceed while the technician handles the lengthy projector repair later.",
+    explanationIncorrect: {
+      A: "An RMA is used to return broken parts under warranty. While the bulb may eventually need an RMA, doing administrative paperwork right now completely ignores the executives' urgent business need to present in 10 minutes.",
+      B: "Establishing a new theory is only necessary if the initial theory is proven false. Here, the theory is definitively proven (the bulb shattered). Creating a fake theory simply because the repair takes too long is illogical.",
+      C: "A ticket should never be closed until the problem is fully resolved and the customer accepts the fix. Closing it prematurely violates proper documentation procedures and leaves the users stranded.",
+      D: ""
+    },
+    examTrap: "The \"Technical Fix vs. Business Need\" Trap. Technicians naturally focus entirely on repairing the broken hardware. CompTIA emphasizes that keeping the users productive via a workaround takes ultimate priority when a repair is delayed."
+  },
+  {
+    id: "Q045",
+    topic: "CompTIA Troubleshooting Methodology",
+    difficulty: "medium",
+    scenario: "A user's laptop was severely slowed down by a rogue background malware program they inadvertently downloaded. The IT specialist uses a specialized software tool to eradicate the malicious files. The specialist reboots the machine, opens several applications, and successfully verifies that the laptop is now running at its normal, optimal speed.",
+    prompt: "To fully complete Step 5 of the troubleshooting methodology, what action MUST the specialist take next?",
+    choices: [
+      { key: "A", text: "Document the specific removal tools used in the IT department's Knowledge Base." },
+      { key: "B", text: "Ensure the local antivirus definitions are updating and train the user on malware risks." },
+      { key: "C", text: "Take the laptop down to its base hardware configuration to ensure no thermal damage occurred." },
+      { key: "D", text: "Re-establish a new theory of probable cause by checking the system event logs." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "successfully verifies that the laptop is now running at its normal, optimal speed",
+    explanationCorrect: "Option B is correct because Step 5 of the methodology dictates two parts: verifying full system functionality AND implementing preventive measures. Implementing preventive measures means eliminating factors that could cause the problem to reoccur. In the case of a virus, the official methodology specifically requires the technician to ensure antivirus software is updating regularly and to train the user to avoid malware risks in the future.",
+    explanationIncorrect: {
+      A: "Creating Knowledge Base articles and FAQs is a crucial action, but it belongs to Step 6 (Document findings). Moving straight to documentation skips the mandatory Step 5 requirement to implement preventive measures first.",
+      B: "",
+      C: "Taking a system to its base configuration is a highly disruptive diagnostic step used in Step 3 for intractable hardware failures. Since the laptop is already fixed and verified as running normally, tearing it apart is entirely illogical.",
+      D: "Establishing a new theory is only required in Step 3 if the proposed solution fails. Because the technician just verified that the removal tool successfully fixed the laptop, formulating a new theory is unnecessary and out of sequence."
+    },
+    examTrap: "The \"Stopping at Verification\" Trap. Many technicians assume their job is finished the moment the PC boots up cleanly. CompTIA tests the administrative requirement to proactively prevent future recurrences before moving to the documentation phase."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
