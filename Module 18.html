@@ -1,0 +1,2560 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "hard",
+    scenario: "A financial institution is upgrading its enterprise wireless network. The Chief Information Security Officer (CISO) mandates the implementation of the strongest available multifactor authentication. The new policy requires that the authentication system establish a trust relationship using digital certificates before transmitting any credentials, and the wireless devices must securely store their private keys in hardware using a PIN or bio gesture for access. A junior administrator suggests configuring WPA3-SAE with a 14-character passphrase and Kerberos SSO to meet these requirements.",
+    prompt: "Which of the following is the BEST configuration to meet the CISO’s requirements, and why is the junior administrator's suggestion inadequate?",
+    choices: [
+      { key: "A", text: "Implement WPA2-Enterprise with a RADIUS server using PEAP, as it encrypts the username and password in transit." },
+      { key: "B", text: "Configure WPA3-Enterprise using EAP-TLS, because it requires both server and client digital certificates, and the client’s private key can be stored in a Trusted Platform Module (TPM)." },
+      { key: "C", text: "Retain the junior administrator's suggestion of WPA3-SAE, as it uses perfect forward secrecy to generate a new key for every transmission, fulfilling the hardware requirement." },
+      { key: "D", text: "Deploy a screened subnet (DMZ) for the wireless access points and configure MAC filtering alongside WPA2-PSK to establish mutual hardware trust." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"establish a trust relationship using digital certificates\", \"securely store their private keys in hardware\"",
+    explanationCorrect: "Option B is correct because EAP with Transport Layer Security (EAP-TLS) is one of the strongest types of multifactor authentication, requiring both the server and the wireless supplicant to be issued an encryption key pair and digital certificate. To satisfy the hardware requirement, EAP-TLS securely stores the private key in a Trusted Platform Module (TPM) or USB key, requiring the user to authenticate with a PIN or bio gesture before the key can be used. This process establishes a mutual trust relationship where both the server and the supplicant validate each other's certificates before access is granted.",
+    explanationIncorrect: {
+      A: "WPA2-Enterprise with a RADIUS server is a technically valid enterprise authentication method that protects credentials. However, it is incorrect in this scenario because standard PEAP typically only requires a server-side certificate, whereas the scenario explicitly mandates a trust relationship using certificates on both sides and hardware-based private key storage.",
+      B: "",
+      C: "WPA3-SAE (Simultaneous Authentication of Equals) does indeed use perfect forward secrecy, making the 4-way handshake much more secure against offline cracking. However, this is a \"Personal\" mode of authentication that relies on a shared passphrase rather than digital certificates, completely failing to meet the CISO's strict multifactor and hardware storage requirements.",
+      D: "A screened subnet (DMZ) is a valid architectural concept used to isolate hosts accessible from the Internet, and MAC filtering is a basic wireless control. However, this option is incorrect because WPA2-PSK relies on a pre-shared key, which fails to provide the requested certificate-based trust relationship, and MAC addresses can be easily spoofed, offering no true hardware-backed multifactor authentication."
+    },
+    examTrap: "Confusing Enterprise authentication protocols (EAP-TLS vs. PEAP) and misidentifying the capabilities of WPA3-Personal (SAE) when certificate-based mutual authentication is required."
+  },
+  {
+    id: "Q002",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks",
+    difficulty: "medium",
+    scenario: "A remote worker notices unusual activity on their home network. After running a vulnerability scan from an external IP, the worker discovers that their SOHO router's management interface is exposed to the Internet via HTTP. Furthermore, several unknown port-forwarding rules have recently appeared in the router's configuration table, despite the user never manually creating them. The user mentions that they recently connected a new gaming console that boasts \"zero-configuration online multiplayer.\"",
+    prompt: "To remediate the immediate vulnerabilities and prevent the automatic creation of unauthorized external access rules, which of the following is the BEST set of actions to take?",
+    choices: [
+      { key: "A", text: "Enable WPA3-SAE on the router to encrypt management traffic and configure a screened subnet (DMZ) for the gaming console." },
+      { key: "B", text: "Implement MAC address filtering on the LAN ports and hide the SSID to prevent unauthorized internal device configuration." },
+      { key: "C", text: "Disable Universal Plug-and-Play (UPnP) on the firewall, change the default administrative password, and ensure management access is restricted to the internal LAN over HTTPS." },
+      { key: "D", text: "Configure dynamic host configuration protocol (DHCP) reservations for all legitimate devices and initiate a port-triggering rule for the gaming console." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"management interface is exposed to the Internet via HTTP\", \"unknown port-forwarding rules have recently appeared\", \"zero-configuration online multiplayer\"",
+    explanationCorrect: "Option C is correct because the automatic creation of port-forwarding rules by devices like gaming consoles is facilitated by the Universal Plug-and-Play (UPnP) framework, which is associated with many security vulnerabilities and should be disabled if unauthorized rules are appearing. Furthermore, to secure the router's management interface, the administrator must change the default password and ensure that remote WAN access is disabled, forcing management to occur only from the internal LAN using encrypted HTTPS rather than unencrypted HTTP.",
+    explanationIncorrect: {
+      A: "Enabling WPA3-SAE is a best practice for securing the local wireless network. However, it does nothing to protect the router's WAN-facing management interface, and placing the console in a DMZ actually exposes it entirely to the Internet without firewall protection, which is the opposite of securing the network.",
+      B: "Hiding the SSID and using MAC filtering are valid, albeit weak, methods to obscure a wireless network from casual observers. They are incorrect here because the attack surface being exploited is the external WAN interface and the UPnP protocol, neither of which are mitigated by local Wi-Fi obfuscation techniques.",
+      C: "",
+      D: "DHCP reservations are excellent for ensuring a device keeps the same internal IP address, which is useful when manually setting up port forwarding. However, setting up port triggering does not fix the exposed management interface or address the root cause of the unauthorized rules being generated dynamically by UPnP."
+    },
+    examTrap: "Distinguishing between WAN-side vulnerabilities (UPnP, remote management) and LAN-side security features (WPA3, MAC filtering). Students often select Wi-Fi encryption options when they see \"router security,\" missing the external scope of the threat."
+  },
+  {
+    id: "Q003",
+    topic: "2.1 Summarize various security measures and their purposes",
+    difficulty: "easy",
+    scenario: "A high-security research facility has upgraded its physical access control vestibule to prevent tailgating. To authenticate, personnel must look into a specialized camera that shines an infrared light into their eye to map the highly complex arrangement of blood vessels. One senior researcher, who recently returned from medical leave following cataract surgery, is suddenly experiencing persistent \"Access Denied\" errors, despite their authorization remaining active in the database.",
+    prompt: "Based on the technology described, what is the MOST likely cause of the authentication failure?",
+    choices: [
+      { key: "A", text: "The facial recognition scanner is failing to match the user's template due to slight facial swelling from the surgery." },
+      { key: "B", text: "The iris scanner is unable to read the user's eye due to a reflection caused by new prescription eyeglasses." },
+      { key: "C", text: "The retina scanner is producing a false negative because the user's recent eye disease or surgery altered the required physiological pattern." },
+      { key: "D", text: "The palmprint scanner is failing because the user is no longer making the required intentional gesture to authenticate." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"shines an infrared light into their eye to map the highly complex arrangement of blood vessels\", \"cataract surgery\"",
+    explanationCorrect: "Option C is correct because the scenario explicitly describes a retina scanner, which functions by shining an infrared light into the eye to identify the complex pattern of blood vessels. While retinal patterns typically do not change from birth to death, making them highly accurate, false negatives can be produced by specific eye diseases or injuries, such as cataracts, which directly explains the researcher's sudden authentication failures.",
+    explanationIncorrect: {
+      A: "Facial recognition is a valid, highly secure biometric method that compares a captured image of the face against stored templates. However, the technology described in the scenario relies on mapping blood vessels via infrared light in the eye, not capturing overall facial geometry.",
+      B: "Iris scanning is a real biometric technology, and reflections from glasses can theoretically cause issues. However, the source material and the specific mechanism described (blood vessel mapping) explicitly define this as a retina scanner, not an iris scanner.",
+      C: "",
+      D: "A palmprint scanner is a contactless camera-based scanner that uses infrared light to record vein patterns. This is incorrect because the scenario specifically states the user must look into a camera to scan their eye, not their hand."
+    },
+    examTrap: "Differentiating between closely related biometric modalities (Retina vs. Iris vs. Facial) based on their specific underlying operational mechanisms and physical limitations."
+  },
+  {
+    id: "Q004",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities (Integrated with 2.3 Wireless Security)",
+    difficulty: "hard",
+    scenario: "Several executives at a corporate campus report that when they select the company's wireless network name from their devices, their browsers redirect to an unusual page demanding their Active Directory credentials to \"install a required certificate update.\" A security analyst investigates and discovers a rogue access point broadcasting the exact same SSID as the corporate network. The rogue device is utilizing an open authentication method and a stronger signal to force client devices to associate with it.",
+    prompt: "What type of attack is occurring, and what specific protocol implementation on the legitimate corporate network would BEST mitigate the underlying vulnerability that allows attackers to manipulate client connections?",
+    choices: [
+      { key: "A", text: "A Denial of Service (DoS) attack; mitigate by configuring port forwarding rules to block spoofed inbound requests." },
+      { key: "B", text: "A Cross-Site Scripting (XSS) attack; mitigate by ensuring the access point sanitizes user input and implements a Content Security Policy (CSP)." },
+      { key: "C", text: "An Evil Twin attack; mitigate by implementing WPA3, which mandates the use of Protected Management Frames to prevent deauthentication and spoofing." },
+      { key: "D", text: "A Whaling attack; mitigate by implementing EAP-TLS with a RADIUS server to ensure executives use smart cards for authentication." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"browser redirect to an unusual page demanding their Active Directory credentials\", \"rogue access point broadcasting the exact same SSID\"",
+    explanationCorrect: "Option C is correct because an evil twin is a rogue wireless access point that spoofs the legitimate network's SSID to harvest credentials via a fake captive portal. The best mitigation for the underlying vulnerability is upgrading to WPA3, which mandates the encryption of management frames (Protected Management Frames); this prevents threat actors from spoofing the frames used for association and forcing stations to disconnect from the legitimate network.",
+    explanationIncorrect: {
+      A: "A DoS attack attempts to make a service unavailable by overloading it with spoofed requests. While an evil twin might use a DoS technique (like a deauth attack) to initially disconnect users, the primary attack described is an evil twin aimed at credential harvesting, and port forwarding is a routing feature, not a DoS mitigation tool.",
+      B: "Cross-Site Scripting (XSS) involves injecting malicious scripts into a trusted web application to steal data or deface the site, which can be mitigated by a CSP. This is incorrect because the attack is occurring at the wireless network association layer using a rogue hardware AP, not via code injection into an existing trusted web application.",
+      C: "",
+      D: "Whaling is a specific type of social engineering phishing attack directed at upper management (CEOs, executives). While executives are the targets here, the attack vector is a rogue wireless access point (Evil Twin), not a targeted electronic communication (email) typical of whaling."
+    },
+    examTrap: "Domain Integration (Networking + Security). Students must successfully identify a specific spoofing/social engineering threat (Evil Twin) and pair it with its precise technical countermeasure (WPA3 Management Frames)."
+  },
+  {
+    id: "Q005",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "A software development team is reviewing the security logs of their newly deployed dynamic web application. They notice that a threat actor submitted the string ' or 1=1--# into the application's username field. Because the application did not validate the input properly, this submission modified the backend query, causing the application to return a complete list of all registered users in the database instead of authenticating the user.",
+    prompt: "Which of the following vulnerabilities was exploited, and what is the BEST long-term preventative measure the developers should implement?",
+    choices: [
+      { key: "A", text: "Cross-Site Scripting (XSS); the developers should implement client-side code validation and mandate a Content Security Policy (CSP)." },
+      { key: "B", text: "SQL Injection; the developers should implement input sanitization and utilize parameterized queries to treat user input strictly as data." },
+      { key: "C", text: "Dictionary Attack; the developers should enforce strict password complexity requirements and implement cryptographic hashing." },
+      { key: "D", text: "Zero-day Exploit; the developers should run a vulnerability scanner to detect non-compliant systems and reduce the attack surface." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "' or 1=1--#, \"modified the backend query\", \"return a complete list of all registered users\"",
+    explanationCorrect: "Option B is correct because a SQL injection attack occurs when a threat actor adds manipulative code to a web app's input, causing it to execute arbitrary database queries, such as using 1=1 (which is always true) to dump database contents. The best prevention strategy is to implement input sanitization to remove special characters and use parameterized queries so the server treats the user's entry strictly as data rather than executable SQL code.",
+    explanationIncorrect: {
+      A: "Cross-Site Scripting (XSS) is a web vulnerability where malicious scripts are executed in a victim's browser, and implementing a Content Security Policy (CSP) is the correct mitigation for it. However, this scenario describes an attack on the backend database queries, not a malicious script running in a client's browser, making XSS incorrect.",
+      B: "",
+      C: "A dictionary attack attempts to recover a plaintext password from a hash by matching it against a list of common words. While enforcing password complexity prevents dictionary attacks, the attack described is an injection of logic into a database query field to bypass authentication entirely, not an attempt to mathematically crack a stored password hash.",
+      D: "A zero-day is a vulnerability exploited before the vendor is aware of it or can release a patch, and vulnerability scanners are used to find non-compliant systems. While technically this could be a new flaw in their custom app, the specific mechanism described is a well-known SQL injection flaw, and running a scanner does not fix the underlying poor coding practices required to prevent it."
+    },
+    examTrap: "Recognizing specific application attack syntax (' or 1=1--#) and matching the attack to the correct software-layer mitigation (parameterized queries vs. CSP vs. Hashing)."
+  },
+  {
+    id: "Q006",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks",
+    difficulty: "medium",
+    scenario: "A remote worker is setting up a multiplayer gaming server on their SOHO router. They want the server accessible to the internet but are struggling with NAT configurations. A forum post suggests placing the gaming PC's static IP into the router's \"DMZ\" to solve the connectivity issue quickly. The user implements this, and the game works perfectly. A week later, however, the PC is severely infected with ransomware originating from an automated internet scan.",
+    prompt: "What is the MOST likely cause of the rapid infection, and what was the BEST appropriate configuration the user should have applied instead to allow game traffic?",
+    choices: [
+      { key: "A", text: "The router's DMZ created a screened subnet that failed to isolate the LAN; the user should have used Universal Plug-and-Play (UPnP) to dynamically build a secure firewall rule." },
+      { key: "B", text: "The DMZ setting completely removed the PC from the router's default firewall protection; the user should have configured a port-forwarding rule specifically for the gaming server's required ports." },
+      { key: "C", text: "The router's default outbound content filter blocked the game traffic; the user should have configured port triggering to allow inbound FTP traffic." },
+      { key: "D", text: "The PC's dynamic IP address changed, breaking the DMZ rule; the user should have implemented a DHCP reservation to keep the PC secure." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"placing the gaming PC's static IP into the router's 'DMZ'\"",
+    explanationCorrect: "Option B is correct because on a standard home router, configuring a \"DMZ host\" strips the device of all firewall protections, making it fully accessible and vulnerable to any host on the Internet. The most secure and appropriate method to allow external traffic to a specific local service is to use port forwarding, which instructs the router to pass requests for only specific TCP/UDP ports to the designated LAN host, keeping the rest of the OS protected.",
+    explanationIncorrect: {
+      A: "A true screened subnet uses multiple firewalls to establish a separate secure network segment, which is an enterprise concept, whereas a SOHO DMZ merely exposes the host directly to the internet. Furthermore, UPnP is associated with severe security vulnerabilities and should be disabled, not relied upon as a secure alternative.",
+      B: "",
+      C: "Outbound content filtering restricts which websites or IPs internal hosts are permitted to visit based on reputation databases, which has nothing to do with allowing inbound multiplayer gaming connections. Additionally, port triggering is meant for applications requiring multiple ports like FTP, not for persistent server hosting.",
+      D: "While configuring a DHCP reservation is a great way to ensure a device keeps the same internal IP address for routing purposes, it provides absolutely zero security benefits. Keeping a static IP in a SOHO DMZ ensures the machine remains permanently exposed to the internet."
+    },
+    examTrap: "The \"DMZ\" Terminology Trap. CompTIA tests the critical difference between an enterprise DMZ (a highly secure, firewalled subnet) and a SOHO router DMZ (a feature that turns off the firewall completely for one host)."
+  },
+  {
+    id: "Q007",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "hard",
+    scenario: "A security analyst is performing a post-incident review on a compromised Windows workstation. The analyst discovers that the attacker exfiltrated the %SystemRoot%\\System32\\config\\SAM file. To understand how the attacker escalated privileges so quickly, the analyst runs a tool called Hashcat against the captured file. The software successfully recovers the local administrator's plaintext password in under three minutes by comparing the system's hashes against a large text document containing local sports team names, common dates, and corporate terminology.",
+    prompt: "What specific type of attack did the analyst simulate, and what is the BEST long-term policy the company should implement to mitigate this specific cracking method?",
+    choices: [
+      { key: "A", text: "A brute-force attack; mitigate by enforcing a minimum password length of exactly 8 characters utilizing only lowercase letters." },
+      { key: "B", text: "An on-path (MitM) attack; mitigate by implementing EAP-TLS with a digital certificate stored securely in a TPM." },
+      { key: "C", text: "A cross-site scripting (XSS) attack; mitigate by implementing parameterized queries and output encoding on the local workstation." },
+      { key: "D", text: "A dictionary attack; mitigate by educating users to use long passphrases and strictly prohibiting the use of personal or predictable information." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"SAM file\", \"comparing the system's hashes against a large text document containing local sports team names\"",
+    explanationCorrect: "Option D is correct because a dictionary attack explicitly works by matching cryptographic hashes to those generated from ordinary words, dates, or naive user data found in a compiled list. The best defense against this offline cracking method is to enforce strict password requirements and use long passphrases that do not contain recognizable dictionary words or personal information.",
+    explanationIncorrect: {
+      A: "A brute-force attack mathematically attempts to guess every possible character combination, rather than relying on a targeted list of pre-compiled words or sports teams. Additionally, an 8-character password utilizing only lowercase letters lacks complexity and could be cracked via brute-force in minutes.",
+      B: "An on-path attack occurs when an adversary covertly intercepts network traffic between two hosts to read or modify packets in transit. This scenario involves the offline cracking of a locally stored database file, not the interception of active network transmissions.",
+      C: "Cross-site scripting (XSS) is a web application vulnerability where a malicious script is injected into a trusted website to be executed by a victim's browser. The SAM file is an underlying Windows OS credential store, not a dynamic web application, making XSS irrelevant here.",
+      D: ""
+    },
+    examTrap: "Differentiating between password cracking methodologies (Brute Force vs. Dictionary) based strictly on the input mechanics (every combination vs. a wordlist)."
+  },
+  {
+    id: "Q008",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "easy",
+    scenario: "The Chief Executive Officer (CEO) of a logistics company receives an urgent SMS text message claiming their corporate financial account has been frozen due to suspicious activity. The message includes an image of a 2D matrix barcode and instructs the CEO to scan it immediately with their smartphone's camera to authenticate and unlock the account. The panicked CEO scans the image, which instantly redirects their mobile browser to a highly convincing but fake Office 365 login page designed to capture their password.",
+    prompt: "Which combination of threat types accurately describes the multiple layers of this social engineering attack?",
+    choices: [
+      { key: "A", text: "Vishing, Whaling, and a Denial of Service (DoS) attack." },
+      { key: "B", text: "Smishing, Whaling, and Quishing (QR code phishing)." },
+      { key: "C", text: "Spear-phishing, Tailgating, and an Evil Twin attack." },
+      { key: "D", text: "Impersonation, Dumpster Diving, and a Replay attack." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Chief Executive Officer (CEO)\", \"SMS text message\", \"image of a 2D matrix barcode\"",
+    explanationCorrect: "Option B is correct because the attack specifically targets a high-level executive (CEO), which classifies the targeting method as Whaling. The delivery mechanism is an SMS text message, classifying it as Smishing. Finally, the payload relies on tricking the user into scanning a malicious QR code to reach a fake website, which is the definition of Quishing.",
+    explanationIncorrect: {
+      A: "Vishing relies on voice communication channels, such as VoIP or traditional telephone calls, whereas this attack used an SMS text message. A Denial of Service (DoS) attack aims to overwhelm a server to make it unavailable to legitimate users, not to harvest credentials via a spoofed site.",
+      B: "",
+      C: "Tailgating is a physical security breach where an unauthorized person follows an authorized user through a physical doorway or checkpoint. An Evil Twin requires the setup of a rogue wireless access point broadcasting a spoofed SSID, not a barcode scan on a mobile device.",
+      D: "Dumpster diving requires a threat actor to physically comb through an organization's garbage to find sensitive discarded documents. A replay attack involves stealing a logical token (like a web cookie) and resending it to spoof an authenticated session, which did not happen here."
+    },
+    examTrap: "Granular identification of Phishing subsets. CompTIA loves layering social engineering terminology (Smishing for the medium, Whaling for the target, Quishing for the payload)."
+  },
+  {
+    id: "Q009",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "medium",
+    scenario: "A SOHO administrator is upgrading the firmware on a wireless access point to support modern security standards. The administrator wants to completely eliminate the vulnerability of offline passphrase cracking associated with traditional pre-shared keys. However, the business is small, so the administrator needs a solution that still allows employees to connect using a shared group password without the overhead of installing a dedicated AAA server. Furthermore, the administrator wants to guarantee that disassociation frames are encrypted to prevent denial of service attacks.",
+    prompt: "Which configuration is the BEST choice to meet all of the administrator's technical requirements?",
+    choices: [
+      { key: "A", text: "Configure WPA2-Personal using AES and CCMP, ensuring the chosen passphrase is exactly 14 characters long." },
+      { key: "B", text: "Configure WPA3-Enterprise using 802.1X and EAP-TLS, mandating that clients use smart cards for authentication." },
+      { key: "C", text: "Configure WPA3-SAE, which generates a new key for every transmission and mandates the use of protected management frames." },
+      { key: "D", text: "Configure WPA2-TKIP+AES compatibility mode to support legacy devices while utilizing Wi-Fi Enhanced Open for encrypted guest access." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"eliminate the vulnerability of offline passphrase cracking\", \"shared group password without the overhead of installing a dedicated AAA server\", \"disassociation frames are encrypted\"",
+    explanationCorrect: "Option C is correct because WPA3-SAE (Simultaneous Authentication of Equals) uses perfect forward secrecy to generate a new key for every transmission, effectively neutralizing offline dictionary attacks while still operating as a \"Personal\" mode that relies on a shared password without a AAA server. Additionally, WPA3 inherently mandates the use of encrypted management frames, which prevents attackers from spoofing disassociation frames to drop clients from the network.",
+    explanationIncorrect: {
+      A: "WPA2-Personal uses the older 4-way handshake, which is fundamentally vulnerable to key recovery manipulations, regardless of using AES/CCMP. While a 14-character password helps mitigate brute-force risks, it does not mathematically eliminate the offline cracking vulnerability the way SAE's perfect forward secrecy does.",
+      B: "WPA3-Enterprise using EAP-TLS is an incredibly strong security standard utilizing digital certificates. However, this option explicitly violates the scenario's requirement to avoid installing a dedicated AAA server, as enterprise authentication requires a RADIUS or similar backend directory server.",
+      C: "",
+      D: "Configuring WPA2-TKIP+AES compatibility mode is highly discouraged as it weakens security to allow vulnerable legacy clients to connect. Furthermore, Wi-Fi Enhanced Open is used for public networks with no passphrase, which directly contradicts the requirement to use a shared group password."
+    },
+    examTrap: "Understanding the specific mechanical improvements of WPA3 (SAE over PSK, Perfect Forward Secrecy, Protected Management Frames) rather than just knowing it is \"the newest one.\""
+  },
+  {
+    id: "Q010",
+    topic: "2.1 Summarize various security measures and their purposes (Integrated with Network Hardware)",
+    difficulty: "hard",
+    scenario: "A high-security research facility restricts physical access to its server room using a turnstile access control vestibule paired with a biometric palmprint scanner. Late one night, a highly motivated intruder bypasses the vestibule entirely by removing a ceiling tile in the adjacent hallway, crawling through the HVAC ductwork, and dropping directly onto the server room floor. The instant the intruder's feet hit the floor and they take a step toward the server rack, a loud alarm sounds in the security office.",
+    prompt: "Based on the intruder's method of entry and the facility's layered physical security, which of the following alarm systems MOST likely detected the intruder?",
+    choices: [
+      { key: "A", text: "A circuit alarm wired to the access control vestibule." },
+      { key: "B", text: "A radio frequency ID (RFID) proximity reader attached to the server chassis." },
+      { key: "C", text: "A passive infrared (PIR) motion sensor installed inside the server room." },
+      { key: "D", text: "A manually triggered duress alarm system located near the server racks." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"bypasses the vestibule entirely by removing a ceiling tile\", \"instant the intruder's feet hit the floor and they take a step\"",
+    explanationCorrect: "Option C is correct because a motion sensor alarm utilizes either microwave radar or passive infrared (PIR) to detect moving heat sources or movement within an enclosed area. Because the intruder bypassed the door and was instantly detected merely by stepping toward the rack, the internal motion sensor is the system that successfully caught the intrusion.",
+    explanationIncorrect: {
+      A: "A circuit alarm functions by sounding when a physical circuit is opened or closed, such as a traditional door or window swinging open. Because the intruder bypassed the door by crawling through the overhead ductwork, the door's circuit was never broken.",
+      B: "RFID proximity alarms are used to track the movement of tagged objects to prevent the physical theft of hardware. The alarm in the scenario triggered the moment the intruder stepped toward the rack, well before they ever touched or moved any tagged equipment.",
+      C: "",
+      D: "A duress alarm is triggered manually by a staff member using a concealed button, pendant, or special access code when they are under physical threat. Since this occurred late at night with no staff present to manually push a button, a duress alarm is incorrect."
+    },
+    examTrap: "Domain Integration (Facilities/Physical Security). Testing the ability to deduce which specific sensor triggers based on physical environmental conditions, recognizing that perimeter defenses (doors/circuits) fail against Z-axis (ceiling/floor) attacks."
+  },
+  {
+    id: "Q011",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "hard",
+    scenario: "Employees report that whenever they view a specific thread on the corporate human resources intranet bulletin board, their web browser immediately redirects to a convincing spoofed Microsoft 365 login page. The IT security team investigates and discovers that a user previously submitted a message to the bulletin board containing a hidden <script src=\"https://badsite.foo/hook.js\"><\/script> tag, which the web application failed to sanitize before saving it to the database.",
+    prompt: "Which specific type of vulnerability was exploited, and what is the BEST long-term development strategy to prevent this from recurring?",
+    choices: [
+      { key: "A", text: "Non-persistent Cross-Site Scripting (XSS); the developers must implement parameterized queries to prevent the script from executing on the server." },
+      { key: "B", text: "Persistent Cross-Site Scripting (XSS); the developers must implement output encoding to convert special characters into a safe format before displaying them." },
+      { key: "C", text: "SQL Injection; the developers must remove special characters from the database inputs and utilize a Content Security Policy (CSP)." },
+      { key: "D", text: "A zero-day exploit; the developers must wait for the web server vendor to release a patch and run a vulnerability scanner to detect non-compliant systems." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"view a specific thread... submitted a message to the bulletin board... saving it to the database.\"",
+    explanationCorrect: "Option B is correct because a stored (or persistent) XSS attack occurs when a threat actor inserts malicious code into a back-end database, such as a bulletin board, causing the script to execute in the browser of any user who later views that data. The best remediation for XSS vulnerabilities is to ensure the web application sanitizes user input and uses output encoding to convert special characters into a safe, non-executable format before rendering it on the client's screen.",
+    explanationIncorrect: {
+      A: "Non-persistent XSS involves crafting a malicious link that executes immediately when clicked, rather than being stored in a back-end database for later viewing by other users. Additionally, parameterized queries are a defense against SQL injection, not XSS.",
+      B: "",
+      C: "SQL injection modifies backend database queries by injecting executable SQL commands (like ' or 1=1--). This scenario describes a script executing in the client's browser, not manipulating database tables, making SQLi incorrect.",
+      D: "A zero-day is a vulnerability exploited before a vendor knows about it. The scenario describes a well-known input validation flaw resulting in an XSS attack, which requires secure coding practices to fix, not a vendor patch for the underlying OS or server software."
+    },
+    examTrap: "Differentiating between XSS and SQL Injection based on where the code executes (client browser vs. backend database), and distinguishing between persistent (stored) and non-persistent (reflected) XSS."
+  },
+  {
+    id: "Q012",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks",
+    difficulty: "medium",
+    scenario: "A remote employee is setting up a Voice over IP (VoIP) handset on their home router. The handset requires a complex configuration where outbound traffic on one port must automatically open inbound access on a different port for a set period to receive calls. The employee initially considers enabling UPnP to automate this, but corporate policy dictates that UPnP must remain disabled due to its severe security vulnerabilities. Furthermore, the handset's IP address occasionally changes when the router reboots.",
+    prompt: "How should the employee configure the SOHO router to ensure the VoIP handset functions correctly while strictly adhering to corporate security policy?",
+    choices: [
+      { key: "A", text: "Assign a static IP address to the handset locally and place it in the router's DMZ to bypass the inbound firewall filters." },
+      { key: "B", text: "Enable a dynamic host configuration protocol (DHCP) reservation for the handset's MAC address and configure a port-forwarding rule for the required ports." },
+      { key: "C", text: "Keep UPnP disabled, configure a DHCP reservation using the handset's MAC address, and configure a port-triggering rule on the router." },
+      { key: "D", text: "Disable the firewall's inbound filtering block entirely and configure the router's content filter to only allow connections from the corporate VoIP server." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"outbound traffic on one port must automatically open inbound access on a different port for a set period,\" \"handset's IP address occasionally changes.\"",
+    explanationCorrect: "Option C is correct because port-triggering is specifically designed for applications like VoIP or FTP that require multiple dynamically opened ports based on outbound activity. To ensure the rule consistently applies to the correct device despite reboots, a DHCP reservation must be created using the device's MAC address so the router always assigns it the same IP. This perfectly adheres to the policy by avoiding UPnP entirely.",
+    explanationIncorrect: {
+      A: "While placing the device in a SOHO DMZ would make it work, it strips the device of all firewall protections and exposes it completely to the internet. This is a massive security risk and violates the core intent of the corporate policy to maintain a secure network.",
+      B: "A standard port-forwarding rule permanently maps a single external port to an internal port and IP. The scenario specifically states the application requires outbound traffic to dynamically open inbound access for a set period, which requires port-triggering, not static port-forwarding.",
+      C: "",
+      D: "Disabling the firewall's inbound filter entirely compromises the whole local network, rendering it defenseless against external threats. A content filter is used for outbound access restriction (preventing users from visiting malicious sites), not for protecting internal devices from inbound connections."
+    },
+    examTrap: "Distinguishing between Port Forwarding (static) and Port Triggering (dynamic outbound/inbound relationship)."
+  },
+  {
+    id: "Q013",
+    topic: "2.1 Summarize various security measures and their purposes",
+    difficulty: "easy",
+    scenario: "A technology firm recently installed biometric palmprint scanners at the entrance of its server room to increase security. However, during a red team security audit, an authorized employee scans their hand and opens the door, and an auditor wearing a convincing maintenance uniform asks the employee to hold the door open because they are pushing a heavy cleaning cart. The employee complies, allowing the auditor unauthorized entry.",
+    prompt: "What specific physical security vulnerability did the auditor exploit, and what is the BEST hardware control to mitigate this in the future?",
+    choices: [
+      { key: "A", text: "Tailgating; the company should install a walk-through magnetometer." },
+      { key: "B", text: "Piggybacking; the company should install an access control vestibule." },
+      { key: "C", text: "Shoulder surfing; the company should install a biometric retina scanner instead of a palmprint scanner." },
+      { key: "D", text: "Impersonation; the company should employ a security guard to manually verify employee badges." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"asks the employee to hold the door open,\" \"employee complies.\"",
+    explanationCorrect: "Option B is correct because piggybacking specifically occurs when an attacker enters a secure area with the authorized employee's permission or cooperation, such as being asked to hold a door. The most effective hardware control to prevent both tailgating and piggybacking is an access control vestibule (or turnstile), which uses a dual-gateway system to restrict entry to exactly one person at a time.",
+    explanationIncorrect: {
+      A: "Tailgating involves sneaking in closely behind an authorized person without their knowledge or consent, whereas piggybacking relies on their active compliance. Furthermore, a magnetometer detects metal (like weapons), which does nothing to physically stop two people from walking through a door together.",
+      B: "",
+      C: "Shoulder surfing is the act of observing someone typing a PIN or password. Since the door uses a contactless palmprint scanner, there is no PIN to steal, and upgrading to a retina scanner would still not stop someone from simply holding the door open afterward.",
+      D: "While the attacker used a form of impersonation (wearing a uniform), replacing a biometric scanner with a manual guard check does not technically address the physical gateway flaw as effectively as a mechanical vestibule. Moreover, guards are prone to the exact same social engineering manipulation that tricked the employee."
+    },
+    examTrap: "The subtle difference between Tailgating (unauthorized, no consent) and Piggybacking (unauthorized, with consent/cooperation of the authorized party)."
+  },
+  {
+    id: "Q014",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "medium",
+    scenario: "A local cafe wants to offer free Wi-Fi to its customers without requiring them to type in a shared password or ask the barista for credentials. Recently, the cafe's network was targeted by an attacker who used an on-path attack to sniff unencrypted HTTP traffic and steal session cookies from patrons using the open network. The owner insists that the network must remain password-less to ensure ease of use for customers.",
+    prompt: "Which wireless security configuration provides the BEST solution to protect against packet sniffing while meeting the owner's requirement for password-less access?",
+    choices: [
+      { key: "A", text: "Implement WPA2-Personal using AES/CCMP and configure a captive portal." },
+      { key: "B", text: "Implement WPA3 with Wi-Fi Enhanced Open." },
+      { key: "C", text: "Implement WPA3-SAE to utilize perfect forward secrecy." },
+      { key: "D", text: "Retain Open authentication but hide the SSID to prevent attackers from finding the network." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"without requiring them to type in a shared password\", \"protect against packet sniffing\"",
+    explanationCorrect: "Option B is correct because WPA3 includes a feature called Wi-Fi Enhanced Open. This feature allows an open Wi-Fi network to exist with no passphrase (satisfying the owner's requirement), while simultaneously encrypting the wireless traffic between the station and the access point. This encryption perfectly mitigates the threat of casual packet sniffing and on-path attacks that plague traditional open networks.",
+    explanationIncorrect: {
+      A: "WPA2-Personal requires the configuration of a pre-shared key (passphrase), which directly violates the owner's requirement that the network must be password-less. A captive portal forces agreement to terms but does not encrypt the over-the-air traffic.",
+      B: "",
+      C: "WPA3-SAE (Simultaneous Authentication of Equals) provides robust protection using perfect forward secrecy, but it is a \"Personal\" mode that still inherently requires the use of a shared group passphrase to connect, violating the business requirement.",
+      D: "Hiding the SSID provides a minor margin of privacy but explicitly does not secure or encrypt the network. An attacker with a basic Wi-Fi analyzer can easily discover the hidden network and continue to sniff the unencrypted traffic."
+    },
+    examTrap: "Distinguishing between WPA3's SAE mode (which requires a password) and WPA3's Enhanced Open mode (which encrypts traffic without a password)."
+  },
+  {
+    id: "Q015",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "easy",
+    scenario: "A corporate network administrator notices an unusual spike in outbound bandwidth originating from a junior technician's workstation. Upon investigation, the administrator discovers that the technician has installed and is hosting a multiplayer game server on their machine to play with friends outside the company. The workstation is fully updated, and no malware or external unauthorized access is detected.",
+    prompt: "How should this specific threat be categorized, and why is it dangerous?",
+    choices: [
+      { key: "A", text: "A malicious external threat; the gaming server acts as a Command & Control (C&C) node for a botnet." },
+      { key: "B", text: "A malicious insider threat; the technician is actively attempting to exfiltrate proprietary company data." },
+      { key: "C", text: "A non-malicious insider threat; the technician has exposed the network to unnecessary risk and increased the attack surface." },
+      { key: "D", text: "A zero-day vulnerability; the game server is exploiting an unknown flaw in the operating system." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"junior technician... installed and is hosting a multiplayer game server\", \"no malware or external unauthorized access\"",
+    explanationCorrect: "Option C is correct because an insider threat actor is someone who has been granted authorized permissions on the system, such as an employee. Setting up an unauthorized game server is a classic example of a non-malicious insider threat; the employee is not actively trying to harm the company, but their actions expose the network to unnecessary risks and increase the system's attack surface by opening unapproved ports.",
+    explanationIncorrect: {
+      A: "An external threat actor is someone who has no authorized access or accounts on the system. Because the technician is an authorized employee, this is definitively an internal threat, not external.",
+      B: "A malicious insider is a disgruntled or corrupt employee actively trying to damage systems or steal confidential data. Hosting a game for friends is a policy violation and a risk, but it lacks the malicious intent to damage the organization.",
+      C: "",
+      D: "A zero-day is a specific fault in software code that is exploited before the vendor can patch it. The issue here is an unauthorized application being deliberately installed by a user, not an unpatched vulnerability being exploited by malware."
+    },
+    examTrap: "Recognizing that \"Insider Threats\" are not always malicious hackers or spies; they are often just careless employees bypassing policy."
+  },
+{
+  id: "Q016",
+  topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks (Integrated with Network Topology)",
+  difficulty: "hard",
+  scenario: "A small business wants to host a public-facing web server on their internal SOHO network. The business owner reads that placing public servers in a \"DMZ\" protects the internal network. The owner logs into the SOHO wireless router and adds the web server's static IP address to the \"DMZ Host\" configuration field.",
+  prompt: "Why does this configuration critically FAIL to meet the owner's goal of protecting the internal network?",
+  choices: [
+    { key: "A", text: "A SOHO router DMZ merely exposes the single host completely to the Internet by bypassing the firewall; it does not create an isolated screened subnet, meaning a compromised server can still attack the local LAN." },
+    { key: "B", text: "A SOHO router DMZ relies on Universal Plug-and-Play (UPnP) to dynamically open ports, which is inherently insecure and allows external attackers to reconfigure the firewall." },
+    { key: "C", text: "Placing a host in the SOHO DMZ automatically changes its static IP back to a DHCP-assigned address, breaking the routing table and causing a denial of service." },
+    { key: "D", text: "The owner failed to implement port-triggering alongside the DMZ setting, which is required to allow outbound traffic to return to the internal network." }
+  ],
+  correctKey: "A",
+  triggerPhrase: "\"adds the web server's static IP address to the 'DMZ Host' configuration field\", \"FAIL to meet the owner's goal of protecting the internal network\"",
+  explanationCorrect: "Option A is correct because the term \"DMZ\" is heavily misused by SOHO router vendors. In an enterprise network, a screened subnet (DMZ) physically isolates the server using multiple firewall interfaces to protect the internal LAN. However, on a SOHO router, configuring a \"DMZ host\" simply strips that specific computer of all default inbound firewall protections, exposing it fully to the internet while keeping it on the same local subnet as everything else. If compromised, the attacker has unrestricted lateral access to the LAN.",
+  explanationIncorrect: {
+    A: "",
+    B: "While UPnP is a security risk that dynamically alters firewall rules for things like game consoles, it operates independently of the SOHO DMZ Host setting. The DMZ setting uses a blanket allow-all rule, not dynamic UPnP.",
+    C: "Placing a device in a DMZ does not alter its IP address configuration. If the machine is set to a static IP, it will retain that static IP. The failure is in the network security architecture, not DHCP addressing.",
+    D: "Port-triggering is used to temporarily open inbound ports based on outbound requests (like FTP or VoIP). A web server requires persistent, static inbound access, meaning port-forwarding would be appropriate, not port-triggering. Furthermore, the DMZ opens all ports, making triggering irrelevant."
+  },
+  examTrap: "The \"DMZ Definition\" trap. CompTIA explicitly tests the difference between an Enterprise Screened Subnet (highly secure, isolated) and a SOHO DMZ (highly insecure, exposed)."
+},
+{
+  id: "Q017",
+  topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+  difficulty: "medium",    
+  scenario: "A university's primary student portal crashes and becomes completely unavailable. The security team analyzes the perimeter firewall and observes that the portal is being flooded by millions of bogus HTTP requests, consuming all available bandwidth. The requests are originating from thousands of compromised residential IoT devices (like smart refrigerators and webcams) spread across the globe.",
+    prompt: "Which of the following accurately describes the architecture of this attack?",
+    choices: [
+      { key: "A", text: "It is a Denial of Service (DoS) attack relying on an Evil Twin access point to spoof the university's MAC address." },
+      { key: "B", text: "It is a Distributed Denial of Service (DDoS) attack where a threat actor is using a Command & Control (C&C) server to orchestrate a botnet." },
+      { key: "C", text: "It is a replay attack utilizing stolen logical tokens from the residential IoT devices to authenticate against the student portal." },
+      { key: "D", text: "It is an on-path (MitM) attack designed to intercept and modify the HTTP requests between the students and the portal." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"flooded by millions of bogus HTTP requests... originating from thousands of compromised residential IoT devices\"",
+    explanationCorrect: "Option B is correct because a Distributed Denial of Service (DDoS) attack involves flooding a target with traffic launched from multiple compromised systems. This network of compromised devices is known as a botnet, which is coordinated and instructed by the threat actor using a persistent remote-control channel via a Command & Control (C&C) server.",
+    explanationIncorrect: {
+      A: "An Evil Twin is a rogue wireless access point used to spoof a legitimate network and harvest credentials from local users. It is not a mechanism used to generate volumetric network flooding across the global internet.",
+      B: "",
+      C: "A replay attack involves stealing a session token (like a web cookie) and resending it to impersonate a specific user. This scenario explicitly describes a bandwidth-consuming flood of bogus requests meant to crash the service, not an attempt to covertly log in.",
+      D: "An on-path attack involves covertly intercepting and reading or modifying traffic between two hosts. The goal of this attack is destruction of availability via overwhelming bandwidth, not stealthy data interception."
+    },
+    examTrap: "Linking the symptom (crashing due to bandwidth exhaustion) to the specific threat actor architecture (Botnets driven by C&C servers)."
+  },
+  {
+    id: "Q018",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods (Integrates with Enterprise Networking)",
+    difficulty: "hard",
+    scenario: "A senior network engineer is deploying a new WPA3-Enterprise wireless network. They want the wireless access points to forward user credentials securely to a central backend directory server without the APs storing any local accounts. Simultaneously, the engineer wants to secure the administrative command-line access to all the company's Cisco network switches, specifically requiring a protocol that separates authentication from authorization to allow for granular command restrictions.",
+    prompt: "Which combination of Authentication, Authorization, and Accounting (AAA) protocols should the engineer implement to meet these specific requirements?",
+    choices: [
+      { key: "A", text: "Deploy Kerberos for the wireless access points and EAP-TLS for the network switches." },
+      { key: "B", text: "Deploy RADIUS for the wireless access points and TACACS+ for the network switches." },
+      { key: "C", text: "Deploy TACACS+ for the wireless access points and RADIUS for the network switches." },
+      { key: "D", text: "Deploy 802.1X for the network switches and WPA3-SAE for the wireless access points." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"forward user credentials securely to a central backend... without the APs storing any local accounts\", \"secure the administrative command-line access to all the company's Cisco network switches\"",
+    explanationCorrect: "Option B is correct because RADIUS (Remote Authentication Dial-in User Service) is the standard protocol used to implement enterprise wireless authentication, allowing APs to act as clients that forward credentials to a central server. TACACS+ (Terminal Access Controller Access Control System Plus) was developed by Cisco and is the premier protocol used for authenticating administrative access to routers and switches because, unlike RADIUS, it distinctly separates authentication from authorization, allowing for strict command-level control.",
+    explanationIncorrect: {
+      A: "Kerberos is used for SSO on trusted local wired networks (like Windows Active Directory); access points do not natively support direct Kerberos authentication for wireless clients, relying on RADIUS instead. EAP-TLS is a certificate-based wireless authentication method, not a protocol for managing command-line access to switches.",
+      B: "",
+      C: "This reverses the standard use cases. While technically possible in some environments, RADIUS is overwhelmingly the standard for network access (VPN/Wireless), while TACACS+ is overwhelmingly the standard for device administration (Routers/Switches) due to its separation of authorization.",
+      D: "802.1X is the port-based access control standard used by the wireless network. WPA3-SAE is a \"Personal\" mode that uses a pre-shared passphrase, which explicitly violates the scenario's requirement for central directory server authentication without local accounts."
+    },
+    examTrap: "Domain Integration. Knowing the distinct enterprise use cases for RADIUS (network access) vs. TACACS+ (device management)."
+  },
+  {
+    id: "Q019",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "An accounting firm relies on a highly specialized, custom-built database application running on a Windows Server 2008 R2 machine. The software developer went bankrupt five years ago, and Microsoft no longer provides security updates or patches for this specific operating system. A threat actor easily exploits a newly discovered vulnerability in the server's network protocol, bypassing the antivirus software entirely.",
+    prompt: "What specific vulnerability classification allowed this attack to succeed, and what is the BEST remediation strategy if the server cannot be upgraded or replaced?",
+    choices: [
+      { key: "A", text: "Unprotected System; the administrator should install a secondary Host-based Intrusion Detection System (HIDS)." },
+      { key: "B", text: "Zero-day vulnerability; the administrator must contact Microsoft to request a custom emergency patch." },
+      { key: "C", text: "End of Life (EOL) system; the administrator should place the server on a physically isolated network segment without internet access." },
+      { key: "D", text: "Non-compliant System; the administrator should run a vulnerability scanner to enforce a strict configuration baseline." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Microsoft no longer provides security updates or patches for this specific operating system.\"",
+    explanationCorrect: "Option C is correct because an End of Life (EOL) or legacy system is explicitly defined as one where the vendor no longer provides support, security updates, or fixes for problems. Because the system can never be patched against new threats, the best remediation is physical or logical isolation (air-gapping or strict VLAN/firewall rules) to remove its attack surface from the broader network and internet.",
+    explanationIncorrect: {
+      A: "An unprotected system lacks basic security controls like antivirus or firewalls. The scenario explicitly states the server has antivirus running, but the vulnerability bypassed it because the OS itself is inherently flawed and unpatchable.",
+      B: "A zero-day is a vulnerability exploited before the vendor is aware of it or can release a patch. However, because the OS is EOL, Microsoft is fully aware of flaws but will never release a patch. You cannot request a patch for a dead operating system.",
+      C: "",
+      D: "A non-compliant system has drifted from its established configuration baseline (e.g., a setting was changed). Running a vulnerability scanner will simply report that the OS is massively vulnerable, but it cannot fix the fundamental problem that no patches exist for the EOL software."
+    },
+    examTrap: "Distinguishing between Zero-day (patch coming eventually) and EOL (patch never coming)."
+  },
+  {
+    id: "Q020",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "hard",
+    scenario: "A university library offers a WPA2-Personal Wi-Fi network for students. However, students frequently complain that their laptops abruptly drop the connection. A network technician uses a packet sniffer and discovers that an attacker is sitting in the corner with a specialized Wi-Fi tool. The attacker is sending spoofed \"deauthentication\" frames using the access point's MAC address, forcing all nearby client devices to drop their connections.",
+    prompt: "Which of the following is the BEST long-term configuration upgrade to prevent this specific type of Denial of Service (DoS) attack?",
+    choices: [
+      { key: "A", text: "Upgrade the access point to use the AES cipher with the CCMP protocol, as this encrypts all user data payloads." },
+      { key: "B", text: "Implement 802.1X Enterprise authentication with a RADIUS server to ensure all users have unique credentials." },
+      { key: "C", text: "Upgrade the network to WPA3, which inherently mandates the use of Protected Management Frames (PMF) to encrypt disassociation messages." },
+      { key: "D", text: "Configure the SOHO router to disable the SSID broadcast, making it impossible for the attacker to spoof the MAC address." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"sending spoofed 'deauthentication' frames\", \"forcing all nearby client devices to drop their connections\"",
+    explanationCorrect: "Option C is correct because under WPA and WPA2, the management frames used for association, authentication, and deauthentication are sent unencrypted, allowing attackers to easily spoof them to disconnect users. WPA3 mathematically eliminates this vulnerability because it mandates the use of Protected Management Frames (PMF), which encrypts these control messages, preventing attackers from forcing clients off the network.",
+    explanationIncorrect: {
+      A: "WPA2 already uses AES and CCMP. While this encrypts the data payload (web traffic, emails), it completely fails to encrypt the wireless management frames, which is the specific layer the attacker is exploiting.",
+      B: "Moving to 802.1X Enterprise authentication provides excellent security for user credentials and accounting, but if the underlying protocol remains WPA2, the management frames are still unencrypted, and the deauth attack will still succeed.",
+      C: "",
+      D: "Disabling the SSID broadcast only hides the network name from casual observers; it does not hide the BSSID (MAC address) of the access point, nor does it secure the network traffic. The attacker can still easily see the access point with a packet sniffer and spoof its MAC."
+    },
+    examTrap: "Understanding the specific mechanical improvements of WPA3 (Protected Management Frames) rather than just knowing it as a general upgrade."
+  },
+  {
+    id: "Q021",
+    topic: "2.1 Summarize various security measures and their purposes",
+    difficulty: "medium",
+    scenario: "A retail store secures its high-value inventory room with a heavy steel door equipped with an electronic PIN keypad. The room has no windows, and the walls are reinforced. During a break-in, a sophisticated thief uses a specialized tool to drill a tiny hole through the wall, inserting a wire to push the \"request to exit\" button on the inside of the door, bypassing the keypad entirely. The thief enters, steals the inventory, and leaves. The store manager is furious because the perimeter door circuit alarm never triggered.",
+    prompt: "What additional layer of physical security would MOST likely have detected the thief the moment they stepped inside the room?",
+    choices: [
+      { key: "A", text: "A walk-through magnetometer." },
+      { key: "B", text: "A circuit-based alarm system wired to the door hinges." },
+      { key: "C", text: "An RFID proximity reader." },
+      { key: "D", text: "A passive infrared (PIR) motion sensor." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"bypassing the keypad entirely\", \"perimeter door circuit alarm never triggered\", \"moment they stepped inside\"",
+    explanationCorrect: "Option D is correct because a passive infrared (PIR) motion sensor triggers an alarm by detecting moving heat sources within an enclosed area. Because the thief successfully bypassed the door's electronic lock without breaking the circuit, an internal motion sensor serves as the critical second layer of defense, detecting the intruder's body heat as soon as they enter the room.",
+    explanationIncorrect: {
+      A: "A magnetometer is a metal detector used at checkpoints (like airports) to find concealed weapons. It is not an alarm system used to secure an empty room overnight.",
+      B: "A circuit alarm sounds when a physical connection is broken, such as a door opening. The scenario explicitly states the thief bypassed the keypad and pressed the internal exit button, which the system interprets as a legitimate, authorized exit, meaning the door circuit alarm is temporarily disabled by design.",
+      C: "RFID proximity alarms track tagged objects. While this might alert security if the thief tries to walk out the front door with a tagged item, it would not detect the thief the moment they stepped into the room, which is what the prompt asks.",
+      D: ""
+    },
+    examTrap: "Layered Physical Security. Recognizing that perimeter defenses (circuits/locks) can be bypassed mechanically, requiring internal environmental sensors (PIR/Motion) to catch the intrusion."
+  },
+  {
+    id: "Q022",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities (Integrates with Mobile Devices)",
+    difficulty: "easy",
+    scenario: "Several employees receive an urgent text message on their corporate-issued smartphones. The message appears to come from the company's IT Helpdesk and states: \"Your Mobile Device Management (MDM) security profile has expired. Scan the barcode below immediately to update your device and prevent network lockout.\" Below the text is an image of a 2D matrix barcode. An employee scans the image, which redirects their mobile browser to a fake portal that harvests their Active Directory credentials.",
+    prompt: "Which specific combination of social engineering attacks was utilized in this campaign?",
+    choices: [
+      { key: "A", text: "Vishing and Whaling." },
+      { key: "B", text: "Smishing and Quishing." },
+      { key: "C", text: "Spear-phishing and Tailgating." },
+      { key: "D", text: "Dumpster Diving and an Evil Twin attack." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"urgent text message on their corporate-issued smartphones\", \"image of a 2D matrix barcode\"",
+    explanationCorrect: "Option B is correct because the attack uses two distinct vectors. First, the delivery mechanism is an SMS text message, which is the definition of Smishing (SMS Phishing). Second, the payload relies on tricking the victim into scanning a malicious QR code (the 2D matrix barcode) to redirect them to a fake website, which is specifically known as Quishing (QR code phishing).",
+    explanationIncorrect: {
+      A: "Vishing is conducted over a voice channel, such as a telephone call or VoIP, not an SMS text. Whaling targets high-level executives (like a CEO), whereas this attack broadly targeted \"several employees.\"",
+      B: "",
+      C: "Spear-phishing relies on using specific, targeted information about the victim (like knowing the document they are working on) via email. Tailgating is a physical security breach where someone follows an employee through a door, which has nothing to do with mobile devices.",
+      D: "Dumpster diving involves digging through physical garbage to find discarded sensitive documents. An Evil Twin is a rogue Wi-Fi access point used to spoof a legitimate network. Neither of these techniques involves text messages or barcodes."
+    },
+    examTrap: "Granular terminology mapping. CompTIA expects test-takers to precisely identify phishing subsets based on the delivery medium (SMS = Smishing, QR Code = Quishing, Voice = Vishing)."
+  },
+  {
+    id: "Q023",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks",
+    difficulty: "hard",
+    scenario: "A technician configures a new SOHO wireless router for a small branch office. The technician changes the default administrator password to a 16-character complex string, disables the guest network, and leaves the firewall at its default settings. To ensure they can assist the branch office from home later, the technician checks a box labeled \"Enable Remote Management\" on port 80. A week later, the router’s configuration is wiped, and all users are locked out of the network. The ISP confirms the router's public IP address was actively scanned by a botnet the night before.",
+    prompt: "Which of the following is the MOST likely cause of the router compromise, and what was the BEST configuration the technician should have applied?",
+    choices: [
+      { key: "A", text: "The technician failed to implement MAC filtering; they should have configured a strict allowlist for internal administrative devices." },
+      { key: "B", text: "The technician allowed unencrypted management traffic over the WAN interface; they should have disabled remote management or mandated HTTPS/SSH." },
+      { key: "C", text: "The default firewall settings allowed inbound traffic; the technician should have configured a port-forwarding rule to block port 80." },
+      { key: "D", text: "The router was infected via a Universal Plug-and-Play (UPnP) vulnerability; the technician should have placed the router in a screened subnet." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"Enable Remote Management on port 80\", \"actively scanned by a botnet\"",
+    explanationCorrect: "Option B is correct because enabling remote management on port 80 exposes the router's web-based management interface to the entire internet (WAN) using unencrypted HTTP. When the botnet scanned the public IP, it could easily intercept or brute-force the plaintext login sequence. The best configuration is to disable remote WAN management entirely, or if absolutely necessary, ensure it uses a secure, encrypted protocol like HTTPS or SSH.",
+    explanationIncorrect: {
+      A: "MAC filtering is a technically valid, albeit weak, LAN-side security control used to restrict which local devices can join the Wi-Fi. However, it is incorrect here because the attack vector came from the external internet (WAN) scanning the public IP, meaning local MAC filtering would not have prevented the external breach.",
+      B: "",
+      C: "It is true that port 80 was exploited, but SOHO firewalls block all inbound connections by default. The technician specifically overrode this block for the management interface by enabling the remote management feature; port-forwarding is used to map traffic to internal hosts, not to secure the router's own management interface.",
+      D: "UPnP vulnerabilities are a massive risk for SOHO networks, often allowing devices to alter firewall rules dynamically. However, the scenario explicitly points to the exposure of the remote management portal on port 80 as the entry point, not a UPnP exploit, and a SOHO router acts as the perimeter device, so it cannot be placed behind itself in a screened subnet."
+    },
+    examTrap: "Recognizing the critical difference between unencrypted (HTTP/Port 80) and encrypted (HTTPS/Port 443) management protocols, and understanding that perimeter exposure overrides strong passwords."
+  },
+  {
+    id: "Q024",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "A security analyst is reviewing a packet capture (PCAP) in Wireshark after a suspected data breach on a legacy internal application. The analyst isolates an unencrypted HTTP POST request containing a user authentication string. The string appears as YWRtaW46cGFzc3dvcmQxMjM=. A junior technician argues that the password is safe because it has been securely transformed using a cryptographic hash.",
+    prompt: "Which of the following explains why the junior technician is incorrect, and what technical principle is actually being observed?",
+    choices: [
+      { key: "A", text: "The string is encrypted using AES block ciphers; it can only be decrypted if the attacker steals the symmetric key." },
+      { key: "B", text: "The string is hashed using MD5; the attacker must use a dictionary attack or Hashcat to recover the plaintext." },
+      { key: "C", text: "The string is encoded using Base64; it is simply an ASCII representation of binary data and is easily reversible without a key." },
+      { key: "D", text: "The string is an intercepted logical token; the attacker can perform a replay attack but cannot read the actual password." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "YWRtaW46cGFzc3dvcmQxMjM=, \"unencrypted HTTP POST request\", \"securely transformed using a cryptographic hash\"",
+    explanationCorrect: "Option C is correct because the string presented (ending in an equals sign for padding) is a classic example of Base64 encoding. The source material explicitly states that Base64 is simply an ASCII representation of binary data and is not the same as cryptographic hashing. Because encoding relies on a public algorithm without a secret key, the password value can be instantly and easily derived by anyone who intercepts it.",
+    explanationIncorrect: {
+      A: "AES is a robust symmetric encryption algorithm that requires a secret key to decrypt data. If the string were AES-encrypted, the junior tech's assertion that the password was relatively safe from casual viewing would be correct; however, the == padding and standard alphanumeric format definitively identify this as Base64 encoding.",
+      B: "Cryptographic hashes (like MD5 or SHA) are one-way functions that mathematically cannot be reversed, requiring tools like Hashcat to guess the original input. This is incorrect because the string is encoded, not hashed, meaning it can be reversed instantly without any cracking tools or dictionaries.",
+      C: "",
+      D: "A logical token (like a web cookie) can indeed be intercepted via an on-path attack and used in a replay attack. However, the scenario specifically states this is the user's authentication string being sent in a login POST request, not a generated session token."
+    },
+    examTrap: "The Encoding vs. Hashing vs. Encryption trap. CompTIA expects technicians to recognize that encoding (Base64) provides zero security or confidentiality for credentials."
+  },
+  {
+    id: "Q025",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "hard",
+    scenario: "A hospital network administrator is instructed to upgrade the wireless network security for medical IoT devices. Due to budget constraints, the administrator cannot replace the legacy Wi-Fi enabled EKG carts from 2009, which do not support modern AES encryption. To ensure the new tablets can use strong encryption while keeping the EKG carts online, the administrator configures the access points to \"WPA2-TKIP+AES compatibility mode.\"",
+    prompt: "Why does this configuration pose a severe security risk to the entire hospital wireless network?",
+    choices: [
+      { key: "A", text: "TKIP relies on an 802.1X enterprise authentication server, which will crash if modern AES devices attempt to authenticate without digital certificates." },
+      { key: "B", text: "Compatibility mode forces all devices on the network, including the modern tablets, to encrypt their payloads using only TKIP." },
+      { key: "C", text: "It enables an attacker to perform a downgrade attack, forcing modern clients to negotiate the weaker TKIP protocol, which is vulnerable to key recovery manipulations." },
+      { key: "D", text: "It disables Protected Management Frames (PMF), allowing attackers to sniff the unencrypted Base64 payload data of the modern tablets." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"legacy Wi-Fi enabled EKG carts from 2009\", \"WPA2-TKIP+AES compatibility mode.\"",
+    explanationCorrect: "Option C is correct because enabling \"compatibility mode\" on an access point allows it to support both legacy TKIP and modern AES (CCMP) simultaneously. However, this inherently weakens the overall security posture because a malicious actor can exploit this mixed environment to perform a downgrade attack, artificially forcing secure modern clients to connect using the deprecated, highly vulnerable TKIP protocol.",
+    explanationIncorrect: {
+      A: "TKIP is an encryption protocol, while 802.1X is an authentication framework. TKIP does not rely on or require an 802.1X server to function; it was heavily used in early WPA-Personal environments using pre-shared keys.",
+      B: "Compatibility mode does not force all devices to use TKIP by default; modern devices will still attempt to negotiate AES. The risk is that an attacker can manipulate the handshake to force the downgrade, not that the AP does it automatically to everyone.",
+      C: "",
+      D: "Protected Management Frames (PMF) are a mandate of the WPA3 standard, designed to encrypt association and deauthentication frames. WPA2 (whether using AES or TKIP) does not natively mandate PMF, and PMF does not protect payload data (which is handled by the cipher), making this technically inaccurate."
+    },
+    examTrap: "Understanding the systemic risks of backwards compatibility. Technicians must recognize that leaving legacy protocols enabled compromises the security of modern devices."
+  },
+  {
+    id: "Q026",
+    topic: "2.1 Summarize various security measures and their purposes (Integrates with Hardware)",
+    difficulty: "easy",
+    scenario: "A corporation stores highly sensitive proprietary source code on specialized, air-gapped internal servers. The server room is protected by CCTV, security guards, and a biometric facial recognition lock. Despite these massive perimeter controls, an authorized internal network engineer unplugs one of the servers, pops open the side panel, removes the internal 4TB fixed disk containing the code, slips it into their backpack, and walks out.",
+    prompt: "What specific hardware security control MUST be implemented to prevent this specific insider threat from recurring?",
+    choices: [
+      { key: "A", text: "Install an access control vestibule to prevent the engineer from piggybacking out of the room." },
+      { key: "B", text: "Implement chassis locks and faceplates on the server racks." },
+      { key: "C", text: "Attach Kensington locks to all server chassis and network appliances." },
+      { key: "D", text: "Install a walk-through magnetometer at the exit of the server room." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"pops open the side panel, removes the internal 4TB fixed disk\"",
+    explanationCorrect: "Option B is correct because chassis locks and locking faceplates are physical hardware controls specifically designed to prevent the covers of server equipment from being opened. By locking the chassis closed, an insider threat is physically prevented from accessing internal components, external USB ports, or stealing internal fixed disks.",
+    explanationIncorrect: {
+      A: "An access control vestibule (turnstile/mantrap) prevents unauthorized individuals from tailgating or piggybacking behind authorized users. Since the engineer in the scenario is already an authorized insider with legitimate access to the room, a vestibule would not stop them from leaving with the stolen drive.",
+      B: "",
+      C: "A Kensington lock is a heavy-duty cable tie used to secure a device (like a laptop or monitor) to a heavy desk to prevent the entire device from being carried away. It does not secure the internal components or stop someone from simply opening the computer's case.",
+      D: "A walk-through magnetometer detects metal, such as concealed weapons. While it might beep if a hard drive passed through it, it does not physically prevent the initial theft or tampering with the server, making chassis locks the far superior preventive control."
+    },
+    examTrap: "Domain Integration (Physical Security + Hardware Components). Knowing the precise use-case of different physical locks (Kensington vs. Chassis vs. Cabinet)."
+  },
+  {
+    id: "Q027",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "An accounting clerk receives an email appearing to be from the company's Chief Financial Officer (CFO). The email instructs the clerk to immediately wire $50,000 to a new overseas vendor to secure a critical supply chain contract. The IT security team investigates the email headers and discovers that the email was not spoofed; it was actually sent from the CFO's legitimate internal email account.",
+    prompt: "Based on the evidence in the email headers, what specific type of social engineering attack has occurred?",
+    choices: [
+      { key: "A", text: "A Spear-phishing attack." },
+      { key: "B", text: "A Whaling attack." },
+      { key: "C", text: "Business Email Compromise (BEC)." },
+      { key: "D", text: "A Replay attack." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"email was not spoofed\", \"actually sent from the CFO's legitimate internal email account.\"",
+    explanationCorrect: "Option C is correct because Business Email Compromise (BEC) is a specific type of impersonation attack where the threat actor actually gains unauthorized access to a legitimate, trusted corporate email account (often an executive's). Because the attacker is logged into the actual account, the emails originate from inside the organization and easily bypass spam filters, making the fraudulent request for money highly credible to the employee.",
+    explanationIncorrect: {
+      A: "Spear-phishing involves sending targeted, spoofed electronic communications to a specific individual to trick them into clicking a link or revealing info. While targeted, the defining characteristic here is that the email was not spoofed, but sent from a compromised internal account, defining it as BEC.",
+      B: "Whaling is a phishing attack directed against upper management (like trying to trick a CEO into giving up their password). In this scenario, the CFO's account has already been compromised and is being used as a weapon against a lower-level clerk, not the other way around.",
+      C: "",
+      D: "A replay attack occurs when an attacker intercepts a logical token (like a web cookie) over the network and resends it to authenticate to a service. This scenario describes the fraudulent use of a compromised email system for social engineering, not the interception of network authentication tokens."
+    },
+    examTrap: "Distinguishing between standard spoofed Phishing campaigns and true Business Email Compromise (BEC) where the internal account itself is the weapon."
+  },
+  {
+    id: "Q028",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks (Integrates with Network Addressing)",
+    difficulty: "hard",
+    scenario: "A remote developer hosts a custom web server on their local SOHO network for client testing. The developer configured a port-forwarding rule on the SOHO router to forward external port 80 to the internal web server at 192.168.1.50. Everything works perfectly for a month. Following a brief neighborhood power outage, the router and server reboot. Now, external clients receive a \"Connection Refused\" error, even though the developer can successfully load the site locally by typing 192.168.1.52 into their browser.",
+    prompt: "According to the troubleshooting methodology, what is the MOST likely cause of the external connection failure, and what is the BEST configuration step to prevent it from happening again?",
+    choices: [
+      { key: "A", text: "The router's firewall reverted to its default inbound block rule; the developer must implement a screened subnet (DMZ) for the server." },
+      { key: "B", text: "The web server's dynamic lease expired and changed upon reboot; the developer must configure a DHCP reservation using the server's MAC address." },
+      { key: "C", text: "The ISP reassigned the router's public WAN IP address; the developer must implement Port Triggering to dynamically track the new address." },
+      { key: "D", text: "The local content filter blocked the outbound response traffic; the developer must add the server's IP to the router's allowlist." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"forward external port 80 to the internal web server at 192.168.1.50\", \"load the site locally by typing 192.168.1.52\"",
+    explanationCorrect: "Option B is correct because port-forwarding rules strictly rely on a static destination IP address. When the power went out, the server's standard DHCP lease expired or was reallocated, changing its internal IP to 192.168.1.52. The router is still blindly forwarding port 80 traffic to .50, resulting in connection failure. The best long-term prevention strategy is to create a DHCP reservation linking the server's MAC address to .50, ensuring it never changes upon reboot.",
+    explanationIncorrect: {
+      A: "If the router's firewall reverted entirely, the port-forwarding rule would simply be gone. While possible, the evidence clearly points to an IP address mismatch (the server is now on .52). Furthermore, placing the server in a SOHO DMZ strips it of all firewall protection, which is an insecure configuration, not a best practice.",
+      B: "",
+      C: "It is highly likely the ISP changed the public WAN IP after a power outage, which would cause connection issues. However, Port Triggering is used for dynamic internal port opening based on outbound traffic (like FTP or VoIP), not for tracking public WAN IP changes (which requires Dynamic DNS).",
+      D: "Content filtering is used to block internal users from accessing malicious external websites (outbound filtering). It has nothing to do with allowing external users to access an internal web server (inbound filtering)."
+    },
+    examTrap: "Domain Integration (Network Addressing + Firewall Security). CompTIA tests the prerequisite knowledge that static firewall rules completely break if underlying dynamic addressing (DHCP) changes."
+  },
+  {
+    id: "Q029",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "An IT administrator is performing a routine audit of the corporate perimeter network. While examining the backend systems, the administrator discovers a legacy server running an old version of Linux. The vendor of the software running on this server went bankrupt over a decade ago, meaning no security updates or code fixes have been released since. The server must remain online because it manages a proprietary local database required for accounting.",
+    prompt: "How should this specific system vulnerability be classified, and what is the BEST architectural mitigation strategy?",
+    choices: [
+      { key: "A", text: "It is a zero-day vulnerability; it should be mitigated by installing a robust Host-based Intrusion Detection System (HIDS)." },
+      { key: "B", text: "It is a non-compliant system; it should be mitigated by running a vulnerability scanner and applying a strict configuration baseline." },
+      { key: "C", text: "It is an End of Life (EOL) system; it should be mitigated by placing the server in a physically isolated network segment." },
+      { key: "D", text: "It is an unprotected system; it should be mitigated by enabling the server's internal software firewall and installing antivirus." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"vendor of the software... went bankrupt over a decade ago\", \"no security updates or code fixes have been released since.\"",
+    explanationCorrect: "Option C is correct because an End of Life (EOL) or legacy system is explicitly defined as one where the software vendor no longer provides support or fixes for problems. Because the system can never be patched against modern vulnerabilities, the best architectural mitigation is strict physical or logical isolation (air-gapping or heavy VLAN firewalls) to dramatically reduce its attack surface.",
+    explanationIncorrect: {
+      A: "A zero-day is a vulnerability that is exploited before the developer knows about it or can release a patch. This is not a zero-day because the software is permanently dead; the vendor will never release a patch.",
+      B: "A non-compliant system is one that has drifted from its authorized security baseline (e.g., someone changed a setting). While a vulnerability scanner would flag this machine, a scanner cannot fix the fundamental issue that the underlying code is unpatchable.",
+      C: "",
+      D: "An unprotected system lacks basic technical controls like antivirus or a firewall. While enabling these is a good idea, it does not fix the root vulnerability categorization of the OS being entirely unpatchable and EOL."
+    },
+    examTrap: "Differentiating between temporary unpatched states (Zero-day) and permanent unpatchable states (End of Life), and assigning the correct mitigation (Isolation)."
+  },
+  {
+    id: "Q030",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "hard",
+    scenario: "A university library experiences a series of network disruptions. An attacker sits in the main reading room and successfully uses an automated tool to force nearby laptops to disconnect from the \"Library-Guest\" Wi-Fi network. The attacker is executing this by spoofing the access point's MAC address and flooding the area with unencrypted control messages telling clients to drop their connection.",
+    prompt: "What specific type of attack is occurring, and what is the BEST long-term configuration upgrade the network administrator should implement to prevent it?",
+    choices: [
+      { key: "A", text: "An Evil Twin attack; mitigate by configuring the access points to disable the SSID broadcast." },
+      { key: "B", text: "A Deauthentication (DoS) attack; mitigate by upgrading the network to WPA3, which mandates Protected Management Frames (PMF)." },
+      { key: "C", text: "An On-path (MitM) attack; mitigate by upgrading from TKIP to the AES-CCMP encryption cipher." },
+      { key: "D", text: "A Replay attack; mitigate by upgrading to WPA3-SAE to utilize Perfect Forward Secrecy for all payload data." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"force nearby laptops to disconnect\", \"flooding the area with unencrypted control messages telling clients to drop\"",
+    explanationCorrect: "Option B is correct because flooding a network with spoofed control messages to force clients off the network is a specific Denial of Service (DoS) technique known as a deauthentication (or disassociation) attack. The best mitigation is upgrading to the WPA3 standard, because WPA3 mathematically eliminates this vulnerability by mandating the use of Protected Management Frames (PMF), which encrypts these control messages so they cannot be spoofed.",
+    explanationIncorrect: {
+      A: "An Evil Twin involves setting up a rogue access point to trick users into connecting to it to harvest credentials, not merely dropping their connections. Furthermore, hiding the SSID provides no cryptographic security and would not stop a packet-sniffing attacker from spoofing MAC addresses.",
+      B: "",
+      C: "An On-path attack involves covertly intercepting and reading traffic between two hosts, not loudly breaking their connections. While AES-CCMP is stronger than TKIP, it only encrypts the data payload (like web browsing), leaving the management frames totally unencrypted and vulnerable under WPA2.",
+      D: "A replay attack involves stealing a token or hash and resending it. While WPA3-SAE does use Perfect Forward Secrecy to prevent offline decryption of the handshake, the specific attack dropping clients is mitigated by PMF, not SAE's forward secrecy."
+    },
+    examTrap: "Understanding the specific mechanical improvements of WPA3 (Protected Management Frames for DoS vs. SAE for password cracking) rather than just treating it as a magic bullet."
+  },
+  {
+    id: "Q031",
+    topic: "2.1 Summarize various security measures and their purposes (Integrates with Hardware)",
+    difficulty: "easy",
+    scenario: "A high-security bio-hazard laboratory requires researchers to wear thick protective gloves and full-body suits before entering the clean room. The researchers need to quickly and reliably open the interior electronic doors without touching anything or removing their gear. The security team initially deployed a system that unlocked the door when users spoke a specific command, but it suffered from high false-negative rates when users caught colds.",
+    prompt: "To maintain hands-free entry while significantly increasing accuracy and security against false negatives, which biometric technology is the BEST alternative?",
+    choices: [
+      { key: "A", text: "Implement a fingerprint reader on a capacitive cell panel." },
+      { key: "B", text: "Implement an infrared retina scanner." },
+      { key: "C", text: "Implement a palmprint scanner utilizing visible light." },
+      { key: "D", text: "Implement facial recognition using stored templates." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"without touching anything or removing their gear\", \"suffered from high false-negative rates when users caught colds.\"",
+    explanationCorrect: "Option D is correct because facial recognition is an extremely secure, fast, and accurate biometric technology that is entirely contactless, making it perfect for an environment where users cannot use their hands. When a user approaches the door, the camera captures their image and compares it to stored templates, avoiding the inaccuracies associated with voice recognition when a user is ill or surrounded by background noise.",
+    explanationIncorrect: {
+      A: "Fingerprint readers use a capacitive cell to detect ridges on the skin. This completely fails the primary environmental constraint because the researchers are wearing thick protective gloves and cannot touch the sensor.",
+      B: "A retina scanner is highly secure and contactless, but it is relatively intrusive and complex to use, often requiring the user to position their eye very closely and specifically to the scanner. In a full-body bio-suit, facial recognition is vastly more practical and less complex to execute.",
+      C: "A palmprint scanner uses infrared light to read vein patterns. While contactless, it still requires the user to make an intentional gesture with their hand near the sensor. Furthermore, thick protective gloves would block the infrared light from reading the vein patterns in the hand.",
+      D: ""
+    },
+    examTrap: "Evaluating biometric solutions against specific physical environmental constraints (Gloves = No fingerprints/veins; Masks/Suits = Needs robust camera tech; Voice = Fails during illness)."
+  },
+  {
+    id: "Q032",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks",
+    difficulty: "medium",
+    scenario: "A parent is configuring a SOHO router to restrict their teenager's internet access during overnight hours. The parent accesses the router's management interface and successfully creates a rule that disables all WAN access for the teenager's smartphone between 10:00 PM and 6:00 AM. However, a few nights later, the parent notices the teenager is still playing online games on their desktop computer at 1:00 AM.",
+    prompt: "Which of the following features did the parent MOST likely configure, and why did it fail to restrict the desktop computer?",
+    choices: [
+      { key: "A", text: "The parent configured Port Forwarding; this only restricts inbound traffic, meaning the desktop's outbound gaming traffic was allowed by default." },
+      { key: "B", text: "The parent configured MAC filtering; this feature only applies to wireless devices, so the wired desktop bypassed the rule." },
+      { key: "C", text: "The parent configured a time-based Content Filter using the smartphone's IP/MAC address; this rule must be explicitly applied to the desktop's unique hardware address as well." },
+      { key: "D", text: "The parent configured a Screened Subnet (DMZ) for the smartphone; the desktop remained protected on the local LAN with unrestricted outbound access." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"disables all WAN access for the teenager's smartphone between 10:00 PM and 6:00 AM\", \"still playing online games on their desktop computer\"",
+    explanationCorrect: "Option C is correct because SOHO routers utilize Content Filtering (often labeled as Parental Controls) to restrict outbound internet access based on specific times or blocklists. Because these rules are typically applied to individual devices identified by their specific IP or MAC address, a rule created solely for the teenager's smartphone will have absolutely no effect on a completely different device like their desktop computer.",
+    explanationIncorrect: {
+      A: "Port Forwarding is indeed used for inbound traffic, not outbound. However, the scenario explicitly states the parent successfully created a rule that disabled WAN access for the smartphone at specific times, which is a content filtering/parental control feature, not a port forwarding rule.",
+      B: "MAC filtering is an allow/deny list for joining the local network, but it does not intrinsically control time-based WAN routing. Furthermore, MAC addressing applies to both wired (Ethernet) and wireless interfaces, not just wireless.",
+      C: "",
+      D: "A DMZ takes a specific device and exposes it to the internet by removing inbound firewall protections. It has nothing to do with restricting outbound access times for a teenager."
+    },
+    examTrap: "Recognizing the granular scope of SOHO filtering rules (rules applied to Device A do not magically apply to Device B)."
+  },
+  {
+  id: "Q033",
+  topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities (Integrates with Web Applications)",
+  difficulty: "hard",
+  scenario: "A software developer creates a corporate web application that allows users to look up employee details. The application features a search box. A penetration tester types <script>alert('Session Stolen');<\/script> into the search box and clicks submit. The application immediately processes the request and the browser executes the script, generating a pop-up alert on the tester's screen. However, when a second user logs in and views the same search page, nothing happens.",
+  prompt: "What specific vulnerability was exploited by the penetration tester, and what is the BEST remediation strategy the developer should employ?",
+  choices: [
+    { key: "A", text: "Persistent (Stored) XSS; the developer should utilize parameterized queries to isolate the database from executable code." },
+    { key: "B", text: "SQL Injection; the developer must implement input sanitization to remove special characters from the database query." },
+    { key: "C", text: "Non-persistent (Reflected) XSS; the developer must implement output encoding to convert special characters into a safe format before rendering them in the browser." },
+    { key: "D", text: "A Replay attack; the developer should implement a strict Content Security Policy (CSP) and enforce short session timeouts." }
+  ],
+  correctKey: "C",
+  triggerPhrase: "\"browser executes the script, generating a pop-up\", \"when a second user logs in... nothing happens\"",
+  explanationCorrect: "Option C is correct because a Cross-Site Scripting (XSS) attack involves injecting a malicious script into a trusted web application. Because the script executed immediately in the tester's browser but did not affect other users, it is a non-persistent (reflected) attack; the code was bounced back by the server, not saved to a database. The best remediation for all XSS is ensuring the web app sanitizes input and uses output encoding to convert <script> tags into safe, non-executable text before displaying them.",
+  explanationIncorrect: {
+    A: "Persistent (Stored) XSS occurs when the malicious script is saved into the back-end database (like a forum post) and executes automatically for anyone who views the page later. The scenario specifically states the second user was completely unaffected, proving the script was not stored.",
+    B: "SQL Injection involves manipulating backend database queries using SQL syntax (e.g., ' or 1=1--). This scenario involves JavaScript executing in the client's web browser, not unauthorized database manipulation.",
+    C: "",
+    D: "A replay attack involves stealing a session token (like a cookie) over the network and reusing it to impersonate a user. While an XSS script could be used to steal a cookie, the vulnerability demonstrated by the pop-up box is the lack of input validation, not a session management failure."
+  },
+  examTrap: "Domain Integration. Differentiating between Stored vs. Reflected XSS based on the scope of the impact (one user vs. all users)."
+},
+  {
+    id: "Q034",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "An office worker leaves their cubicle to get coffee. While they are away, an attacker slowly walks down the aisle, pretending to talk on their cell phone. The attacker stops next to the worker's empty desk, looks down, and observes the worker's username and password scribbled on a sticky note attached to the bottom corner of the monitor. The attacker memorizes the credential and walks away without touching anything.",
+    prompt: "Which of the following social engineering techniques did the attacker successfully utilize?",
+    choices: [
+      { key: "A", text: "Shoulder Surfing." },
+      { key: "B", text: "Tailgating." },
+      { key: "C", text: "Dumpster Diving." },
+      { key: "D", text: "Impersonation." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "\"observes the worker's username and password scribbled on a sticky note\", \"memorizes the credential and walks away without touching anything\"",
+    explanationCorrect: "Option A is correct because shoulder surfing involves a threat actor learning a password, PIN, or other secure information simply by observing it. While it usually involves watching a user type the password in real-time, the direct physical observation and memorization of a written password left out in the open heavily aligns with the mechanics of shoulder surfing.",
+    explanationIncorrect: {
+      A: "",
+      B: "Tailgating is a physical security breach where an unauthorized person follows closely behind an authorized person through a secure door or checkpoint without their knowledge. This scenario describes data theft via observation inside an already open area.",
+      C: "Dumpster diving requires an attacker to comb through an organization's physical garbage to find discarded documents or hardware. The sticky note in this scenario was actively attached to a workstation monitor, not thrown away in the trash.",
+      D: "Impersonation involves developing a pretext scenario and actively interacting with an employee to manipulate them (e.g., pretending to be IT support on a phone call to ask for a password). The attacker here did not interact with the victim at all; they simply observed the data covertly."
+    },
+    examTrap: "Recognizing that Shoulder Surfing applies to observing any exposed secure information (like sticky notes), not just watching fingers hit a keyboard."
+  },
+  {
+    id: "Q035",
+    topic: "2.1 Summarize various security measures and their purposes (Integrates with Hardware)",
+    difficulty: "medium",
+    scenario: "A university library provides high-end desktop workstations for video editing. To prevent theft, the IT department secures every workstation to the heavy wooden desks using thick steel cable ties attached to the back of the monitors and desktop towers. Despite this physical perimeter security, a technician discovers that the expensive internal graphics processing units (GPUs) and solid-state drives (SSDs) have been stripped from three workstations over the weekend.",
+    prompt: "Which of the following is the BEST long-term physical security measure to prevent this specific type of component theft?",
+    choices: [
+      { key: "A", text: "Implement an access control vestibule at the library entrance to prevent tailgating." },
+      { key: "B", text: "Install biometric fingerprint readers on the workstation peripherals to lock the operating systems." },
+      { key: "C", text: "Attach Kensington locks to all workstation towers and monitors." },
+      { key: "D", text: "Install chassis locks and locking faceplates on the workstation towers." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"internal graphics processing units (GPUs) and solid-state drives (SSDs) have been stripped\", \"thick steel cable ties attached to the back\"",
+    explanationCorrect: "Option D is correct because chassis locks and locking faceplates are physical hardware controls explicitly designed to prevent the covers of computer equipment from being opened. Because the thief was able to bypass the cable ties by simply opening the case to steal the internal fixed disks and GPUs, locking the chassis closed is the superior preventive measure that directly addresses the vulnerability of internal component theft.",
+    explanationIncorrect: {
+      A: "An access control vestibule (turnstile) is highly effective at preventing unauthorized individuals from piggybacking into a secure area. However, a library is inherently a public or semi-public space where students are authorized to enter, so a vestibule will not stop authorized users from tampering with the machines once inside.",
+      B: "A biometric fingerprint reader is a logical access control used to authenticate users and unlock the operating system. While this secures the digital data, it provides zero physical protection against a thief opening the computer case and stealing the physical hardware components.",
+      C: "Kensington locks are cable ties used to secure a device to a desk or pillar to prevent the entire device from being carried away. The scenario explicitly states the computers were already secured to the desks with steel cables, meaning the thief bypassed this by opening the case, which a Kensington lock does not prevent.",
+      D: ""
+    },
+    examTrap: "Domain Integration (Physical Security + Hardware Components). Distinguishing between whole-device anti-theft mechanisms (Kensington) and internal component anti-theft mechanisms (Chassis locks)."
+  },
+  {
+    id: "Q036",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "easy",
+    scenario: "A local coffee shop wants to upgrade its wireless network. The owner insists that customers must be able to join the Wi-Fi immediately without needing to ask the barista for a password or typing in a pre-shared key. However, the owner recently learned about \"packet sniffing\" and wants to ensure that the over-the-air web traffic of the customers is completely encrypted to prevent on-path data interception.",
+    prompt: "Which wireless security configuration provides the BEST solution to meet both of the owner's operational and security requirements?",
+    choices: [
+      { key: "A", text: "Implement WPA2-Personal using the AES-CCMP cipher and disable the SSID broadcast." },
+      { key: "B", text: "Implement WPA3 with Wi-Fi Enhanced Open." },
+      { key: "C", text: "Implement WPA3-SAE to utilize perfect forward secrecy." },
+      { key: "D", text: "Retain the Open network configuration but implement a captive portal." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"without needing to ask the barista for a password\", \"over-the-air web traffic of the customers is completely encrypted\"",
+    explanationCorrect: "Option B is correct because WPA3 includes a feature called Wi-Fi Enhanced Open, which allows a network to operate without a passphrase while simultaneously encrypting the wireless traffic between the station and the access point. This perfectly satisfies the owner's requirement for a password-less connection while mitigating the threat of casual packet sniffing that plagues traditional open networks.",
+    explanationIncorrect: {
+      A: "WPA2-Personal requires the configuration of a pre-shared key (passphrase), which directly violates the owner's operational requirement that the network must be password-less. Furthermore, disabling the SSID broadcast does not encrypt traffic; it only hides the network name.",
+      B: "",
+      C: "WPA3-SAE (Simultaneous Authentication of Equals) provides robust protection using perfect forward secrecy to protect against offline dictionary attacks. However, it is a \"Personal\" mode that still inherently requires the use of a shared group passphrase to connect, violating the business requirement.",
+      D: "A captive portal forces users to agree to terms or view advertisements before accessing the internet. However, if the underlying network is standard Open authentication, the over-the-air traffic remains completely unencrypted, leaving users vulnerable to the packet sniffing the owner explicitly wants to prevent."
+    },
+    examTrap: "Distinguishing between WPA3's SAE mode (which requires a password) and WPA3's Enhanced Open mode (which encrypts traffic without a password)."
+  },
+  {
+    id: "Q037",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities (Integrates with Web Applications)",
+    difficulty: "hard",
+    scenario: "A software development team is testing a new dynamic web application. During the vulnerability scanning phase, a penetration tester enters the string ' or 1=1--# into the application's login email field. The application processes the request and subsequently returns a complete list of all registered users in the backend database. The lead developer suggests fixing this by implementing a Content Security Policy (CSP) and output encoding.",
+    prompt: "Which specific vulnerability was exploited, and why is the lead developer's proposed remediation strategy technically flawed for this specific issue?",
+    choices: [
+      { key: "A", text: "Cross-Site Scripting (XSS); the developer's solution is flawed because a CSP only protects the database, not the client's browser, meaning input sanitization is still required." },
+      { key: "B", text: "SQL Injection; the developer's solution is flawed because a CSP and output encoding mitigate malicious scripts executing in a client's browser, whereas this attack requires parameterized queries to protect the backend database." },
+      { key: "C", text: "A Zero-day exploit; the developer's solution is flawed because this is an unknown threat that requires a vendor patch for the web server OS rather than a software code change." },
+      { key: "D", text: "Persistent Cross-Site Scripting (XSS); the developer's solution is flawed because the script is being stored in the database, meaning a Host-based Intrusion Detection System (HIDS) must be installed." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "' or 1=1--#, \"returns a complete list of all registered users in the backend database\"",
+    explanationCorrect: "Option B is correct because injecting a logical statement like 1=1 (which is always true) combined with a comment operator (--#) to manipulate backend database queries is the definitive signature of a SQL Injection attack. The developer's proposed solution is completely flawed because Content Security Policies (CSP) and output encoding are mitigations for Cross-Site Scripting (XSS), which target the client browser; SQL injection must be mitigated using input sanitization and parameterized queries to treat user input strictly as data rather than executable SQL code.",
+    explanationIncorrect: {
+      A: "While the developer's proposed solution (CSP and output encoding) is the correct mitigation for XSS, the attack described is not XSS. XSS involves injecting scripts (like JavaScript) to execute in a browser, not manipulating SQL syntax to dump database tables.",
+      B: "",
+      C: "A zero-day is a vulnerability exploited before a vendor knows about it or can release a patch. The scenario describes a highly common, well-known input validation flaw (SQLi) resulting from poor coding practices, which requires secure coding (parameterized queries) to fix, not an OS patch.",
+      D: "Persistent XSS occurs when a malicious script is saved into a back-end database and executes automatically for anyone who views the page later. This scenario describes an active query manipulation that instantly dumps data, not a script being stored for later execution."
+    },
+    examTrap: "Domain Integration. Differentiating between web-layer vulnerabilities (XSS) and database-layer vulnerabilities (SQLi), and strictly pairing them with their correct respective mitigations (CSP/Encoding vs Parameterized Queries)."
+  },
+  {
+    id: "Q038",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks",
+    difficulty: "medium",
+    scenario: "A remote worker is configuring their SOHO router to support a legacy File Transfer Protocol (FTP) client required by their employer. The worker knows that FTP is highly unusual because it requires an initial outbound request on one port, which must then dynamically open inbound access on a different port to allow the data transfer to succeed. The worker decides to configure a static port forwarding rule for port 21. While the initial connection to the corporate server establishes successfully, the actual data file transfers immediately time out and fail.",
+    prompt: "According to the troubleshooting methodology, what is the MOST likely cause of the file transfer failure, and what is the BEST configuration step to resolve it?",
+    choices: [
+      { key: "A", text: "The ISP has blocked port 21; the worker must place the FTP client in a screened subnet (DMZ) to bypass the ISP's filters." },
+      { key: "B", text: "Port forwarding only maps a single static port and cannot handle dynamic inbound port requests; the worker must configure Port Triggering instead." },
+      { key: "C", text: "The worker's dynamic DHCP lease expired during the transfer; the worker must configure a MAC address reservation for the FTP client." },
+      { key: "D", text: "Universal Plug-and-Play (UPnP) is disabled on the router; the worker must enable UPnP to dynamically build a secure firewall rule for the data transfer." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"outbound request on one port, which must then dynamically open inbound access on a different port\", \"initial connection... establishes successfully, the actual data file transfers immediately time out\"",
+    explanationCorrect: "Option B is correct because standard port-forwarding rules permanently map a single, static external port to an internal IP. As the scenario states, FTP requires multiple ports where outbound traffic dynamically triggers the opening of a different inbound port for a set period. Therefore, port-triggering is the specific firewall feature required to allow complex, multi-port applications like FTP to function correctly.",
+    explanationIncorrect: {
+      A: "If the ISP had blocked port 21, the initial connection to the server would have failed entirely. Furthermore, placing a device in a SOHO DMZ strips it of all local firewall protections but does not bypass ISP-level upstream blocking.",
+      B: "",
+      C: "While a DHCP lease expiring and changing an IP address would break a static port forwarding rule, the scenario indicates the initial connection established successfully and only the secondary data transfers failed. Port triggering automatically maps the inbound traffic back to the requesting internal IP, making static MAC reservations less critical than simply using the correct triggering protocol.",
+      D: "While UPnP does dynamically alter firewall rules, it is associated with severe security vulnerabilities and should generally remain disabled. Furthermore, legacy FTP clients typically do not support the UPnP framework to automatically ask the router to open ports, meaning manual port triggering is the appropriate, secure configuration."
+    },
+    examTrap: "Distinguishing between Port Forwarding (static, inbound-only) and Port Triggering (dynamic, outbound-initiated inbound mapping) based on application behavior."
+  },
+  {
+    id: "Q039",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "A university's primary e-learning portal suddenly crashes and becomes completely unavailable during final exams. The incident response team analyzes the perimeter firewall logs and observes that the portal is being overwhelmed by millions of bogus HTTP requests, consuming all available bandwidth. The IP addresses of the incoming requests are traced back to thousands of compromised residential smart refrigerators and IP webcams spread across the globe.",
+    prompt: "Which of the following accurately describes the architecture of this specific network attack?",
+    choices: [
+      { key: "A", text: "It is a Denial of Service (DoS) attack relying on an Evil Twin access point to spoof the university's MAC address." },
+      { key: "B", text: "It is a replay attack utilizing stolen logical tokens from the residential IoT devices to continuously authenticate against the student portal." },
+      { key: "C", text: "It is a Distributed Denial of Service (DDoS) attack where a threat actor is using a Command & Control (C&C) server to orchestrate a botnet." },
+      { key: "D", text: "It is an on-path (MitM) attack designed to intercept and modify the HTTP requests between the students and the portal." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"overwhelmed by millions of bogus HTTP requests\", \"traced back to thousands of compromised residential smart refrigerators\"",
+    explanationCorrect: "Option C is correct because a Distributed Denial of Service (DDoS) attack specifically involves flooding a target with traffic launched simultaneously from multiple compromised systems. This vast network of compromised devices (often IoT devices like webcams) is known as a botnet, which is orchestrated by the threat actor using a persistent remote-control channel via a Command & Control (C&C) server.",
+    explanationIncorrect: {
+      A: "An Evil Twin is a rogue wireless access point used to spoof a legitimate Wi-Fi network to harvest credentials from local users. It is not a mechanism used to generate volumetric network flooding across the global internet.",
+      B: "A replay attack involves stealing a session token (like a web cookie) and resending it to impersonate a specific user. This scenario explicitly describes a bandwidth-consuming flood of bogus requests meant to crash the service, not an attempt to covertly log in to individual accounts.",
+      C: "",
+      D: "An on-path attack (formerly MitM) involves covertly intercepting and reading or modifying traffic between two hosts. The goal of this attack is destruction of availability via overwhelming bandwidth, not stealthy data interception."
+    },
+    examTrap: "Linking the symptom (crashing due to bandwidth exhaustion from multiple sources) to the specific threat actor architecture (Botnets driven by C&C servers)."
+  },
+  {
+    id: "Q040",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "hard",
+    scenario: "A corporate network engineer is deploying a new WPA3-Enterprise wireless network. The Chief Information Security Officer (CISO) mandates the implementation of the strongest available multifactor authentication. The new policy requires that the authentication system establish a trust relationship using digital certificates before transmitting any user credentials, and the wireless devices must securely store their private keys in hardware, requiring a PIN for access. A junior administrator suggests configuring WPA3-Enterprise using RADIUS and PEAP to meet these requirements.",
+    prompt: "Which of the following is the BEST configuration to meet the CISO’s requirements, and why is the junior administrator's suggestion inadequate?",
+    choices: [
+      { key: "A", text: "Implement WPA3-SAE, as it uses perfect forward secrecy to generate a new key for every transmission, fulfilling the hardware requirement." },
+      { key: "B", text: "Implement EAP-TLS, because it requires both server and client digital certificates, and the client’s private key can be stored in a Trusted Platform Module (TPM)." },
+      { key: "C", text: "Retain the junior administrator's suggestion of PEAP, as it encrypts the username and password in transit using the server's certificate." },
+      { key: "D", text: "Deploy 802.1X with TACACS+ to ensure that authorization is strictly separated from authentication." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"trust relationship using digital certificates before transmitting\", \"securely store their private keys in hardware\"",
+    explanationCorrect: "Option B is correct because EAP with Transport Layer Security (EAP-TLS) is one of the strongest types of multifactor authentication, uniquely requiring both the server and the wireless supplicant to be issued an encryption key pair and digital certificate. To satisfy the hardware requirement, EAP-TLS securely stores the client's private key in a Trusted Platform Module (TPM) or USB key, requiring the user to authenticate with a PIN or bio gesture (Factor 1) before the key (Factor 2) can be used.",
+    explanationIncorrect: {
+      A: "WPA3-SAE (Simultaneous Authentication of Equals) does use perfect forward secrecy, making it highly secure against offline cracking. However, this is a \"Personal\" mode of authentication that relies on a shared passphrase rather than digital certificates, completely failing to meet the CISO's enterprise-level multifactor and hardware storage requirements.",
+      B: "",
+      C: "PEAP with a RADIUS server is a valid enterprise authentication method that uses a server-side certificate to create a secure tunnel. However, it is inadequate here because standard PEAP only requires a certificate on the AAA server, whereas the scenario explicitly mandates a mutual trust relationship using certificates on both the server and the client machine.",
+      D: "TACACS+ is an AAA protocol often used for authenticating administrative access to routers and switches because it separates authorization from authentication. However, TACACS+ itself is not an EAP method that dictates how certificates and TPM hardware are utilized by the client supplicant, which is what the CISO's policy demands."
+    },
+    examTrap: "Confusing Enterprise authentication protocols (EAP-TLS vs. PEAP) and understanding the specific requirements for mutual certificate-based authentication."
+  },
+  {
+    id: "Q041",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "easy",
+    scenario: "The Chief Executive Officer (CEO) of a logistics company receives an urgent, physically mailed letter claiming their corporate tax account has been frozen due to suspicious activity. The letter contains corporate branding and includes an image of a 2D matrix barcode, instructing the CEO to scan it immediately with their smartphone's camera to authenticate and unlock the account. The panicked CEO scans the image, which instantly redirects their mobile browser to a highly convincing fake Microsoft 365 login page designed to capture their password.",
+    prompt: "Which combination of threat types accurately describes the multiple layers of this social engineering attack?",
+    choices: [
+      { key: "A", text: "Smishing, Whaling, and a Denial of Service (DoS) attack." },
+      { key: "B", text: "Spear-phishing, Tailgating, and an Evil Twin attack." },
+      { key: "C", text: "Whaling and Quishing (QR code phishing)." },
+      { key: "D", text: "Vishing, Dumpster Diving, and a Replay attack." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"Chief Executive Officer (CEO)\", \"image of a 2D matrix barcode\", \"scan it immediately with their smartphone's camera\"",
+    explanationCorrect: "Option C is correct because the attack specifically targets a high-level executive (the CEO), which classifies the targeting methodology as Whaling. Furthermore, the payload relies on tricking the victim into scanning a malicious 2D matrix barcode (QR code) to reach a fake website, which is the exact definition of Quishing.",
+    explanationIncorrect: {
+      A: "Smishing relies on SMS text messages as the delivery medium, whereas this attack used a physically mailed letter. A Denial of Service (DoS) attack aims to overwhelm a server to make it unavailable, not to harvest credentials via a spoofed site.",
+      B: "Tailgating is a physical security breach where an unauthorized person follows an authorized user through a physical doorway or checkpoint. An Evil Twin requires the setup of a rogue wireless access point broadcasting a spoofed SSID, not a barcode scan on a mobile device.",
+      C: "",
+      D: "Vishing relies on voice communication channels, such as VoIP or traditional telephone calls. A replay attack involves stealing a logical token (like a web cookie) over a network and resending it to spoof an authenticated session, which did not happen here."
+    },
+    examTrap: "Granular identification of Phishing subsets. CompTIA loves layering social engineering terminology (Whaling for the target, Quishing for the payload)."
+  },
+  {
+    id: "Q042",
+    topic: "2.10 Given a scenario, apply security settings on SOHO wireless and wired networks (Integrates with Networking Architecture)",
+    difficulty: "medium",
+    scenario: "A remote worker is setting up a multiplayer gaming server on their SOHO router. They want the server accessible to the internet but are struggling with outbound NAT configurations. A gaming forum post suggests placing the PC's static IP into the router's \"DMZ\" to solve the connectivity issue quickly. The user implements this, and the game works perfectly. A week later, however, the PC is severely infected with ransomware originating from an automated internet scan.",
+    prompt: "What is the MOST likely cause of the rapid infection, and what was the BEST appropriate configuration the user should have applied instead to allow game traffic?",
+    choices: [
+      { key: "A", text: "The router's DMZ created a screened subnet that failed to isolate the LAN; the user should have used Universal Plug-and-Play (UPnP) to dynamically build a firewall rule." },
+      { key: "B", text: "The DMZ setting completely removed the PC from the router's default firewall protection; the user should have configured a static port-forwarding rule specifically for the gaming server's required ports." },
+      { key: "C", text: "The router's default outbound content filter blocked the game traffic; the user should have configured port triggering to allow inbound FTP traffic." },
+      { key: "D", text: "The PC's dynamic IP address changed, breaking the DMZ rule; the user should have implemented a DHCP reservation to keep the PC secure." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "\"placing the PC's static IP into the router's 'DMZ'\"",
+    explanationCorrect: "Option B is correct because on a standard home (SOHO) router, configuring a \"DMZ host\" effectively strips the device of all default inbound firewall protections, making it fully accessible and highly vulnerable to any host on the Internet. The most secure and appropriate method to allow external traffic to a specific local service is to use port forwarding, which instructs the router to pass requests only for specific TCP/UDP ports to the designated LAN host, keeping the rest of the OS protected.",
+    explanationIncorrect: {
+      A: "A true enterprise screened subnet uses multiple firewalls to establish a separate secure network segment, whereas a SOHO DMZ merely exposes the host directly to the internet. Furthermore, UPnP is associated with severe security vulnerabilities and should be disabled, not relied upon as a secure alternative.",
+      B: "",
+      C: "Outbound content filtering restricts which websites or IPs internal hosts are permitted to visit, which has nothing to do with allowing inbound multiplayer gaming connections. Additionally, port triggering is meant for applications requiring dynamically paired ports, whereas a dedicated gaming server requires persistent static port forwarding.",
+      D: "While configuring a DHCP reservation is a great way to ensure a device maintains a static IP address for routing purposes, it provides absolutely zero security benefits against malware. Keeping a static IP inside a SOHO DMZ ensures the machine remains permanently exposed to the internet."
+    },
+    examTrap: "The \"DMZ\" Terminology Trap. CompTIA tests the critical difference between an enterprise DMZ (a highly secure, firewalled subnet) and a SOHO router DMZ (a feature that turns off the firewall completely for one host)."
+  },
+  {
+    id: "Q043",
+    topic: "2.1 Summarize various security measures and their purposes",
+    difficulty: "hard",
+    scenario: "A high-security research facility restricts physical access to its server room using a sophisticated biometric scanner. To authenticate, personnel must look into a specialized camera that shines an infrared light into their eye to map the highly complex arrangement of blood vessels. One senior researcher, who recently returned from medical leave following cataract surgery, is suddenly experiencing persistent \"Access Denied\" errors, despite their authorization remaining active in the database.",
+    prompt: "Based on the technology described, what is the MOST likely cause of the authentication failure?",
+    choices: [
+      { key: "A", text: "The facial recognition scanner is failing to match the user's template due to slight facial swelling from the surgery." },
+      { key: "B", text: "The iris scanner is unable to read the user's eye due to a reflection caused by new prescription eyeglasses." },
+      { key: "C", text: "The retina scanner is producing a false negative because the user's recent eye disease or surgery altered the required physiological pattern." },
+      { key: "D", text: "The palmprint scanner is failing because the user is no longer making the required intentional physical gesture to authenticate." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "\"shines an infrared light into their eye to map the highly complex arrangement of blood vessels\", \"cataract surgery\"",
+    explanationCorrect: "Option C is correct because the scenario explicitly describes a retina scanner, which functions by shining an infrared light into the eye to identify the complex pattern of blood vessels. While retinal patterns are generally permanent and highly accurate, false negatives can be produced by specific eye diseases or injuries, such as cataracts, which directly explains the researcher's sudden authentication failures.",
+    explanationIncorrect: {
+      A: "Facial recognition is a valid, highly secure biometric method that compares a captured image of the face against stored templates. However, the technology described in the scenario relies on mapping blood vessels via infrared light in the eye, not capturing overall facial geometry.",
+      B: "Iris scanning is a real biometric technology, but the source material and the specific mechanism described (blood vessel mapping) explicitly define this as a retina scanner. Iris scanners look at the colored ring of the eye, not the internal blood vessels.",
+      C: "",
+      D: "A palmprint scanner is a contactless camera-based scanner that uses visible or infrared light to record vein patterns in a person's hand. This is incorrect because the scenario specifically states the user must look into a camera to scan their eye, not their hand."
+    },
+    examTrap: "Differentiating between closely related biometric modalities (Retina vs. Iris vs. Facial) based on their specific underlying operational mechanisms and physical limitations (cataracts affecting retinas)."
+  },
+  {
+    id: "Q044",
+    topic: "2.5 Compare and contrast common social engineering attacks, threats, and vulnerabilities",
+    difficulty: "medium",
+    scenario: "An IT administrator is performing a routine audit of the corporate perimeter network. While examining the backend systems, the administrator discovers a legacy server running an old version of a Linux operating system. The vendor of the proprietary database software running on this server went bankrupt over a decade ago, meaning no security updates, patches, or code fixes have been released since. The server must remain online because it manages local data required for historical accounting.",
+    prompt: "How should this specific system vulnerability be classified, and what is the BEST architectural mitigation strategy?",
+    choices: [
+      { key: "A", text: "It is a zero-day vulnerability; it should be mitigated by installing a robust Host-based Intrusion Detection System (HIDS)." },
+      { key: "B", text: "It is a non-compliant system; it should be mitigated by running a vulnerability scanner and applying a strict configuration baseline." },
+      { key: "C", text: "It is an unprotected system; it should be mitigated by enabling the server's internal software firewall and installing modern antivirus." },
+      { key: "D", text: "It is an End of Life (EOL) system; it should be mitigated by placing the server in a physically or logically isolated network segment." }
+    ],
+    correctKey: "D",
+    triggerPhrase: "\"vendor of the proprietary database software... went bankrupt over a decade ago\", \"no security updates, patches, or code fixes have been released since.\"",
+    explanationCorrect: "Option D is correct because an End of Life (EOL) or legacy system is explicitly defined as one where the software vendor no longer provides support or fixes for problems. Because the system can never be patched against modern vulnerabilities, the best architectural mitigation is strict physical or logical isolation (air-gapping or heavy VLAN firewalls) to dramatically reduce its attack surface from the rest of the network.",
+    explanationIncorrect: {
+      A: "A zero-day is a vulnerability that is exploited before the developer knows about it or can release a patch. This is not a zero-day because the software is permanently dead; the vendor is bankrupt and will never release a patch.",
+      B: "A non-compliant system is one that has drifted from its authorized security baseline (e.g., someone changed a setting). While a vulnerability scanner would flag this machine as vulnerable, a scanner cannot fix the fundamental issue that the underlying code is permanently unpatchable.",
+      C: "An unprotected system lacks basic technical controls like antivirus or a firewall. While enabling these is a good idea, it does not fix the root vulnerability categorization of the OS and software being entirely unpatchable and EOL.",
+      D: ""
+    },
+    examTrap: "Differentiating between temporary unpatched states (Zero-day) and permanent unpatchable states (End of Life), and assigning the correct mitigation (Isolation)."
+  },
+  {
+    id: "Q045",
+    topic: "2.3 Compare and contrast wireless security protocols and authentication methods",
+    difficulty: "hard",
+    scenario: "A security analyst is reviewing a packet capture (PCAP) in Wireshark after a suspected data breach on an internal network segment. The analyst isolates an unencrypted HTTP POST request containing a user authentication string. The string appears as YWRtaW46cGFzc3dvcmQxMjM=. A junior technician argues that the password is safe from casual observation because it has been securely transformed using a cryptographic hash.",
+    prompt: "Which of the following explains why the junior technician is incorrect, and what technical principle is actually being observed?",
+    choices: [
+      { key: "A", text: "The string is encoded using Base64; it is simply an ASCII representation of binary data and is easily reversible without a key." },
+      { key: "B", text: "The string is encrypted using AES block ciphers; it can only be decrypted if the attacker steals the symmetric key." },
+      { key: "C", text: "The string is hashed using MD5; the attacker must use a dictionary attack or Hashcat to recover the plaintext." },
+      { key: "D", text: "The string is an intercepted logical token; the attacker can perform a replay attack but cannot read the actual password." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "YWRtaW46cGFzc3dvcmQxMjM=, \"unencrypted HTTP POST request\", \"securely transformed using a cryptographic hash\"",
+    explanationCorrect: "Option A is correct because the string presented (ending in an equals sign for padding) is a classic example of Base64 encoding. The CompTIA source material explicitly states that Base64 is simply an ASCII representation of binary data and is not the same as cryptographic hashing. Because encoding relies on a public algorithm without a secret key or one-way math, the password value can be instantly and easily derived by anyone who intercepts it.",
+    explanationIncorrect: {
+      A: "",
+      B: "AES is a robust symmetric encryption algorithm that requires a secret key to decrypt data. If the string were AES-encrypted, the junior tech's assertion that the password was relatively safe from casual viewing would be correct; however, the == padding and standard alphanumeric format definitively identify this as Base64 encoding, not AES encryption.",
+      C: "Cryptographic hashes (like MD5 or SHA) are one-way functions that mathematically cannot be reversed, requiring tools like Hashcat or dictionary attacks to guess the original input. This is incorrect because the string is encoded, not hashed, meaning it can be reversed instantly without any cracking tools.",
+      D: "A logical token (like a web cookie) can indeed be intercepted via an on-path attack and used in a replay attack. However, the scenario specifically states this is the user's authentication string being sent in a login POST request, not a generated session token."
+    },
+    examTrap: "The Encoding vs. Hashing vs. Encryption trap. CompTIA expects technicians to recognize that encoding (Base64) provides zero security or confidentiality for credentials."
+  },
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
