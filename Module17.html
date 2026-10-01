@@ -1,0 +1,2565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Instructor-Grade MCQ Question Bank</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --panel: #0f1a2e;
+      --card: #0f1a2e;
+      --card2:#101f38;
+      --text: #e7eefc;
+      --muted: #b7c3de;
+      --muted2:#95a6c9;
+      --border: rgba(231,238,252,0.10);
+      --shadow: 0 10px 25px rgba(0,0,0,0.28);
+      --shadow2: 0 6px 18px rgba(0,0,0,0.22);
+      --good: #2dd4bf;
+      --bad: #fb7185;
+      --warn:#fbbf24;
+      --link:#93c5fd;
+      --focus:#a78bfa;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 20% 10%, rgba(167,139,250,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 90% 20%, rgba(45,212,191,0.10), transparent 55%),
+                  radial-gradient(1200px 800px at 50% 90%, rgba(147,197,253,0.08), transparent 55%),
+                  var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    a{ color: var(--link); }
+
+    .app{
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      padding: 18px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 980px){
+      .app{ grid-template-columns: 1fr; }
+    }
+
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel .hdr{
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .brand{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+    }
+
+    .badge{
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(167,139,250,0.16);
+      border: 1px solid rgba(167,139,250,0.28);
+      box-shadow: var(--shadow2);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+
+    .badge svg{ width:22px; height:22px; opacity:0.95; }
+
+    .title{
+      margin:0;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      font-weight: 700;
+    }
+
+    .subtitle{
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .panel .body{
+      padding: 14px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap: 12px;
+    }
+
+    .group{
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .group h3{
+      margin:0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .row{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    label{
+      display:block;
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    select, input[type="number"], input[type="text"]{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(12, 19, 35, 0.55);
+      color: var(--text);
+      outline: none;
+    }
+
+    select:focus, input:focus, button:focus, .choice:focus-within{
+      box-shadow: 0 0 0 3px rgba(167,139,250,0.30);
+      border-color: rgba(167,139,250,0.45);
+    }
+
+    .inline{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btnbar{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 12px;
+      font-weight: 650;
+      letter-spacing: 0.15px;
+      cursor:pointer;
+      transition: transform 0.05s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    button:hover{ background: rgba(255,255,255,0.09); }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      background: rgba(147,197,253,0.16);
+      border-color: rgba(147,197,253,0.28);
+    }
+    .primary:hover{ background: rgba(147,197,253,0.22); }
+
+    .danger{
+      background: rgba(251,113,133,0.12);
+      border-color: rgba(251,113,133,0.25);
+    }
+    .danger:hover{ background: rgba(251,113,133,0.18); }
+
+    .mutedbtn{
+      background: rgba(255,255,255,0.04);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      width:100%;
+      justify-content:space-between;
+    }
+
+    .stat{
+      display:flex;
+      flex-direction:column;
+      gap: 2px;
+    }
+
+    .stat .k{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 650;
+    }
+
+    .stat .v{
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .hint{
+      font-size: 12px;
+      color: var(--muted2);
+      margin: 2px 0 0;
+    }
+
+    /* Main content */
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap: 18px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .card .hdr{
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+    }
+
+    .card .hdr h2{
+      margin:0;
+      font-size: 15.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .meta{
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 650;
+    }
+
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+
+    .tag.good{ border-color: rgba(45,212,191,0.35); background: rgba(45,212,191,0.10); color: rgba(197,255,247,0.95); }
+    .tag.bad{ border-color: rgba(251,113,133,0.35); background: rgba(251,113,133,0.10); color: rgba(255,210,219,0.95); }
+    .tag.warn{ border-color: rgba(251,191,36,0.35); background: rgba(251,191,36,0.10); color: rgba(255,244,210,0.95); }
+
+    .card .body{
+      padding: 16px 18px 18px;
+    }
+
+    .lead{
+      margin:0 0 12px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+
+    .scenario{
+      margin: 0 0 12px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+    }
+
+    .scenario h4{
+      margin:0 0 8px;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scenario p{
+      margin:0;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .prompt{
+      margin: 0 0 12px;
+      font-size: 15px;
+      font-weight: 750;
+      letter-spacing: 0.15px;
+    }
+
+    fieldset{
+      border:0;
+      padding:0;
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .choice{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      padding: 12px;
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      transition: background 0.15s ease, border-color 0.15s ease, transform 0.05s ease;
+    }
+
+    .choice:hover{
+      background: rgba(255,255,255,0.05);
+    }
+
+    .choice input{
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .choice .ctext{
+      display:flex;
+      gap: 8px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .key{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      flex: 0 0 auto;
+    }
+
+    .choice .txt{
+      color: var(--text);
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    .actions{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .note{
+      margin-top: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(16,31,56,0.55);
+      overflow:hidden;
+    }
+
+    .note .nh{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      flex-wrap:wrap;
+    }
+
+    .note .nh h3{
+      margin:0;
+      font-size: 12.5px;
+      letter-spacing: 0.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .note .nb{
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .kv{
+      display:grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items:start;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+    }
+
+    @media (max-width: 620px){
+      .kv{ grid-template-columns: 1fr; }
+    }
+
+    .kv .k{
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: 0.15px;
+      font-size: 12.5px;
+      text-transform: uppercase;
+    }
+
+    .kv .v{
+      color: var(--text);
+      font-size: 13.8px;
+      font-weight: 600;
+    }
+
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+
+    .hr{
+      height:1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+
+    .toast{
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .toast.good{
+      border-color: rgba(45,212,191,0.35);
+      background: rgba(45,212,191,0.09);
+      color: rgba(224,255,251,0.95);
+    }
+
+    .toast.bad{
+      border-color: rgba(251,113,133,0.35);
+      background: rgba(251,113,133,0.09);
+      color: rgba(255,226,232,0.95);
+    }
+
+    .footer{
+      color: var(--muted2);
+      font-size: 12px;
+      padding: 0 2px 6px;
+    }
+
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      margin-left: 6px;
+      display:inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left panel -->
+    <aside class="panel" aria-label="Controls panel">
+      <div class="hdr">
+        <div class="brand">
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 7h10v10H7V7Z" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M9 3h6M9 21h6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M3 9v6M21 9v6" stroke="currentColor" stroke-width="1.8" opacity="0.9"/>
+              <path d="M10 10h4v4h-4v-4Z" fill="currentColor" opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <p class="title">MCQ Practice Console</p>
+            <p class="subtitle">Structured feedback, reflective review, and persistence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="group" aria-label="Filters">
+          <h3>Filters</h3>
+          <div class="inline">
+            <div>
+              <label for="topicSelect">Topic</label>
+              <select id="topicSelect" aria-label="Topic filter"></select>
+            </div>
+            <div>
+              <label for="difficultySelect">Difficulty</label>
+              <select id="difficultySelect" aria-label="Difficulty filter">
+                <option value="all">All</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="numQuestions">Quiz length</label>
+            <input id="numQuestions" type="number" min="1" max="45" value="10" inputmode="numeric" aria-label="Quiz length" />
+            <p class="hint">If fewer questions match your filters, the quiz uses the maximum available.</p>
+          </div>
+        </div>
+
+        <div class="group" aria-label="Mode controls">
+          <h3>Modes</h3>
+          <div class="btnbar">
+            <button class="primary" id="startBtn" aria-label="Start quiz">Start Quiz</button>
+            <button id="reviewBtn" aria-label="Review missed questions">Review Missed</button>
+            <button class="mutedbtn" id="resumeBtn" aria-label="Resume saved session">Resume</button>
+            <button class="danger" id="resetBtn" aria-label="Reset all saved data">Reset</button>
+          </div>
+          <p class="hint">Keyboard support: use <span class="kbd">Tab</span> to navigate and <span class="kbd">Space</span> to select choices.</p>
+        </div>
+
+        <div class="group" aria-label="Session summary">
+          <h3>Session</h3>
+          <div class="pill" role="group" aria-label="Score summary">
+            <div class="stat">
+              <div class="k">Score</div>
+              <div class="v" id="scoreText">—</div>
+            </div>
+            <div class="stat" style="text-align:right;">
+              <div class="k">Completion</div>
+              <div class="v" id="completionText">—</div>
+            </div>
+          </div>
+          <div class="hint" id="modeText">Mode: Idle</div>
+        </div>
+
+        <div class="group" aria-label="Insights panel">
+          <h3>Insights</h3>
+          <div class="toast" id="insightsSummary">No missed-question pattern data yet.</div>
+          <div class="hr"></div>
+          <div class="hint" id="insightsDetails">When you miss questions, this panel summarizes patterns by topic and difficulty.</div>
+        </div>
+
+        <div class="footer">
+          Data persistence uses localStorage on this device. Use <strong>Reset</strong> to clear.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main" aria-label="Main content">
+      <section class="card" aria-label="Question card">
+        <div class="hdr">
+          <div>
+            <h2 id="cardTitle">Ready when you are.</h2>
+            <div class="meta" id="cardMeta">
+              <span class="tag" id="tagMode">Idle</span>
+              <span class="tag" id="tagTopic">Topic: —</span>
+              <span class="tag" id="tagDiff">Difficulty: —</span>
+            </div>
+          </div>
+          <div class="meta" aria-label="Progress">
+            <span class="tag" id="tagProgress">Question — of —</span>
+          </div>
+        </div>
+
+        <div class="body">
+          <p class="lead" id="leadText">
+            Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.
+          </p>
+
+          <div class="scenario" id="scenarioBox" hidden>
+            <h4>Scenario</h4>
+            <p id="scenarioText"></p>
+          </div>
+
+          <div id="promptBox" hidden>
+            <p class="prompt" id="promptText"></p>
+
+            <form id="questionForm" aria-label="Question form">
+              <fieldset id="choicesFieldset">
+                <legend class="sr-only">Answer choices</legend>
+              </fieldset>
+
+              <div class="actions">
+                <button type="button" class="primary" id="submitBtn" aria-label="Submit answer">Submit Answer</button>
+                <button type="button" id="nextBtn" aria-label="Next question" hidden>Next</button>
+                <span class="hint" id="submitHint">Select one option, then submit explicitly.</span>
+              </div>
+            </form>
+
+            <div id="feedbackBox" class="note" hidden aria-live="polite" aria-label="Instructor notes">
+              <div class="nh">
+                <h3>Instructor Notes</h3>
+                <span class="tag" id="resultTag">—</span>
+              </div>
+              <div class="nb" id="feedbackBody"></div>
+            </div>
+          </div>
+
+          <div id="summaryBox" hidden aria-label="Quiz summary">
+            <div class="toast" id="summaryToast"></div>
+            <div class="hr"></div>
+            <div class="btnbar">
+              <button class="primary" id="retakeBtn" aria-label="Retake with current filters">Retake</button>
+              <button id="reviewFromSummaryBtn" aria-label="Review missed from summary">Review Missed</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+<script>
+const QUESTION_BANK = [
+  {
+    id: "Q001",
+    topic: "Linux Permissions",
+    difficulty: "hard",
+    scenario: "An administrator is deploying a custom network monitoring script (monitor.sh) on a Linux server. To comply with security policies, the administrator must configure the file permissions so that the file owner has full rights (read, write, execute), the \"netadmins\" group can read and execute the script but cannot alter it, and no one else on the system has any access whatsoever. The administrator types chmod 760 monitor.sh, but users in the \"netadmins\" group immediately report \"Permission Denied\" errors when trying to run it.",
+    prompt: "Which of the following commands is the correct configuration to achieve the required security policy?",
+    choices: [
+      { key: "A", text: "chmod 750 monitor.sh" },
+      { key: "B", text: "chmod 754 monitor.sh" },
+      { key: "C", text: "chmod 770 monitor.sh" },
+      { key: "D", text: "chown 750 monitor.sh" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "owner has full rights... group can read and execute... no one else... has any access",
+    explanationCorrect: "In Linux, file permissions can be expressed numerically using octal values where read is 4, write is 2, and execute is 1. The first digit represents the owner (4+2+1 = 7 for full rights), the second digit represents the group (4+0+1 = 5 for read and execute), and the third digit represents others (0 for no permissions). Therefore, the chmod 750 command properly applies the exact permissions dictated by the security policy.",
+    explanationIncorrect: {
+      A: "",
+      B: "This option is incorrect because the third digit is a 4, which would grant \"read\" access to others (the world). This directly violates the security policy that states no one else on the system should have any access.",
+      C: "This option is incorrect because the second digit is a 7, which would grant full read, write, and execute permissions to the \"netadmins\" group. The scenario explicitly requires that the group cannot alter (write) the script.",
+      D: "This option is technically invalid in this context because the chown command is used to change the owner or group of a file, not the octal permission settings. An administrator must use chmod to alter read/write/execute modes."
+    },
+    examTrap: "Confusing octal permission calculations (addition of 4, 2, 1) and mixing up command utilities (chmod vs. chown)."
+  },
+  {
+    id: "Q002",
+    topic: "macOS Continuity Features",
+    difficulty: "medium",
+    scenario: "A user at a marketing firm is trying to use the Universal Clipboard feature to copy a photo from their iPhone and paste it into a document on their MacBook. Both devices are signed into the identical Apple ID and connected to the same corporate Wi-Fi network. However, the paste function on the Mac only outputs the last text copied locally. Upon investigation, the technician notices the user recently adjusted their Mac settings to preserve battery life.",
+    prompt: "What is the MOST likely cause of the Universal Clipboard failure?",
+    choices: [
+      { key: "A", text: "The MacBook requires a Rapid Security Response (RSR) patch." },
+      { key: "B", text: "FileVault is encrypting the clipboard data transfer." },
+      { key: "C", text: "Bluetooth has been disabled on the MacBook." },
+      { key: "D", text: "The devices are not paired via the Network System Settings." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "adjusted their Mac settings to preserve battery life",
+    explanationCorrect: "Universal Clipboard is a macOS/iOS Continuity feature that allows seamless sharing of clipboard data across devices. The core technical requirement for Continuity features to function is that all devices must be signed into the same Apple ID, be on the same Wi-Fi network, and have Bluetooth enabled. Users often disable Bluetooth to save battery, which immediately breaks the proximity detection required for Handoff and Universal Clipboard.",
+    explanationIncorrect: {
+      A: "RSR updates deliver critical vulnerability patches quickly, but they do not specifically govern or break Continuity feature functionality. Missing a patch would not selectively stop Universal Clipboard from working.",
+      B: "FileVault is used to encrypt data at rest on the local macOS disk to prevent unauthorized access if the drive is stolen. It does not interface with or restrict local network-based clipboard synchronization.",
+      C: "",
+      D: "While Bluetooth must be turned on, Apple Continuity features negotiate their own trusted connections via the shared Apple ID. You do not manually pair iOS and macOS devices in Network System Settings to use Universal Clipboard."
+    },
+    examTrap: "Domain Integration (Mobile Device features + OS features) and identifying the hidden dependencies of proprietary synchronization ecosystems."
+  },
+  {
+    id: "Q003",
+    topic: "Linux Storage Management",
+    difficulty: "easy",
+    scenario: "A technician is tasked with installing a massive software repository update on an Ubuntu web server. The server operates without a graphical desktop environment. Before proceeding, the technician wants to ensure there is adequate storage capacity on the root partition to accommodate the download without crashing the server.",
+    prompt: "Which of the following commands should the technician run FIRST to verify the available storage on the device?",
+    choices: [
+      { key: "A", text: "df" },
+      { key: "B", text: "du" },
+      { key: "C", text: "fsck" },
+      { key: "D", text: "top" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "ensure there is adequate storage capacity on the root partition",
+    explanationCorrect: "The df (disk free) command is specifically designed to report the amount of free and used disk space on a Linux system's mounted file systems. It provides a high-level view of device capacity, space used, available space, and the mount point, making it the perfect tool to check partition capacity before a large installation.",
+    explanationIncorrect: {
+      A: "",
+      B: "While related to storage, du (disk usage) is used to estimate file space usage by specific directory trees and files within them, rather than showing overall free space on a partition. It is technically valid for checking file sizes but inefficient for checking partition-wide free space.",
+      C: "The fsck utility is used to check and repair file system consistency and corruption errors. It does not report available capacity or free space, making it useless for this specific scenario.",
+      D: "The top command provides a dynamic, real-time view of running processes, CPU utilization, and RAM usage. It does not provide information regarding persistent disk storage capacity."
+    },
+    examTrap: "Distinguishing between closely related administrative commands (df vs. du).",
+    "BEST First Step Explanation": "Running df is the best first step because attempting a massive package installation on a full drive could corrupt the system or crash the package manager."
+  },
+  {
+    id: "Q004",
+    topic: "macOS FileVault",
+    difficulty: "hard",
+    scenario: "A financial analyst is issued a new MacBook. Due to regulatory requirements, the IT department enables FileVault to encrypt the drive. During setup, the technician creates a local recovery key but mistakenly saves it as a .txt file directly onto the user's macOS Desktop. Six months later, the user forgets their login password and contacts IT for assistance in accessing their encrypted files.",
+    prompt: "Which statement BEST describes the impact of the technician's error?",
+    choices: [
+      { key: "A", text: "The data cannot be recovered because the key is locked inside the encrypted volume itself." },
+      { key: "B", text: "The data can be recovered by booting into Internet Recovery Mode and extracting the desktop file." },
+      { key: "C", text: "Time Machine will automatically bypass the prompt since the key was stored in the user directory." },
+      { key: "D", text: "Keychain First Aid will decrypt the drive because the key is stored in the local file hierarchy." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "mistakenly saves it as a .txt file directly onto the user's macOS Desktop",
+    explanationCorrect: "FileVault is a full-disk encryption feature that protects data at rest. If a user forgets their password, the recovery key is the only method to unlock the drive. Because the technician saved the plaintext recovery key inside the encrypted volume (on the Desktop), it is completely inaccessible while the drive is locked, rendering data recovery impossible.",
+    explanationIncorrect: {
+      A: "",
+      B: "Internet Recovery Mode downloads a recovery system to reinstall macOS or access disk tools, but it cannot bypass FileVault encryption without the recovery key or an authorized password. The file on the desktop remains encrypted and unreadable.",
+      C: "Time Machine is a backup utility, not a decryption tool. Even if a backup exists, restoring encrypted files requires the proper credentials or recovery key to access the original FileVault container.",
+      D: "Keychain First Aid is used to repair broken password databases for applications and websites, not for bypassing FileVault volume encryption. Furthermore, the drive must be unlocked to access the Keychain."
+    },
+    examTrap: "Remediation vs. Prevention logic, and understanding the core architectural limitation of full-disk encryption (storing the key in the safe you are locking)."
+  },
+  {
+    id: "Q005",
+    topic: "Linux Scheduling (cron)",
+    difficulty: "medium",
+    scenario: "A Linux administrator wants to automate a local data backup using the rsync command. The organization's policy requires this synchronization to happen exactly at 2:15 AM every Friday to avoid impacting network bandwidth during business hours. The administrator opens the crontab editor to insert the scheduling syntax.",
+    prompt: "Which of the following strings represents the correct configuration for this cron job?",
+    choices: [
+      { key: "A", text: "15 02 * * 5 /usr/bin/rsync -av /data /backup" },
+      { key: "B", text: "02 15 * * 5 /usr/bin/rsync -av /data /backup" },
+      { key: "C", text: "15 02 5 * * /usr/bin/rsync -av /data /backup" },
+      { key: "D", text: "15 14 * * 5 /usr/bin/rsync -av /data /backup" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "exactly at 2:15 AM every Friday",
+    explanationCorrect: "In Linux, the crontab syntax strictly follows the order: minutes, hours, day of the month, month, and day of the week (mm hh dd MM weekday). Therefore, 15 represents the minutes, 02 represents 2:00 AM on a 24-hour clock, the asterisks allow any day of the month and any month, and 5 represents Friday. This perfectly satisfies the scheduling requirement.",
+    explanationIncorrect: {
+      A: "",
+      B: "This configuration places the hour in the minutes column and the minutes in the hours column. This job would run at 3:02 PM (15:02 on a 24-hour clock) every Friday.",
+      C: "This syntax puts the number 5 in the \"day of the month\" slot instead of the \"day of the week\" slot. This job would run at 2:15 AM on the 5th day of every month, regardless of whether it is a Friday.",
+      D: "The hour value 14 represents 2:00 PM on a 24-hour clock, not 2:00 AM. This would run the backup during peak business hours, violating the company policy."
+    },
+    examTrap: "Exact syntax ordering for automation tools, testing memory of mm hh dd MM weekday structure."
+  },
+  {
+    id: "Q006",
+    topic: "macOS Application Management",
+    difficulty: "medium",
+    scenario: "A user is editing a 4K video project on their Mac when the application suddenly stops responding. The screen dims slightly, and the spinning wait cursor appears and remains for over 15 minutes. The user urgently needs to terminate the application but cannot restart the Mac because an unsaved database query is running in the background.",
+    prompt: "Which of the following is the BEST FIRST step to resolve the unresponsive application?",
+    choices: [
+      { key: "A", text: "Press COMMAND+OPTION+ESC to launch the Force Quit window." },
+      { key: "B", text: "Use Spotlight Search to open Terminal and type sudo reboot." },
+      { key: "C", text: "Press F3 to open Mission Control and drag the app window to the Trash." },
+      { key: "D", text: "Open System Settings and disable the app from Login Items & Extensions." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "terminate the application but cannot restart the Mac",
+    explanationCorrect: "When an application on macOS hangs and displays a spinning wait cursor, it means the processing thread is unresponsive. The safest and most direct method to close a locked application without restarting the entire OS is to invoke the Force Quit menu by pressing COMMAND+OPTION+ESC. This isolates the termination to just the offending program, saving the background database query from being interrupted.",
+    explanationIncorrect: {
+      A: "",
+      B: "Executing a reboot command will instantly power cycle the system. This directly violates the scenario's constraint that the user cannot restart the Mac due to the background database task.",
+      C: "Mission Control is used for window management and workspace organization, not process termination. Dragging a window in Mission Control does not send a kill signal to an unresponsive application; furthermore, you cannot uninstall/trash a running app this way.",
+      D: "Disabling an application in Login Items prevents it from launching during the next boot cycle. It does absolutely nothing to stop an application thread that is currently frozen in real-time memory."
+    },
+    examTrap: "Differentiating between long-term configuration changes (Login Items) and immediate incident remediation (Force Quit).",
+    "BEST First Step Explanation": "Pressing the Force Quit hotkey immediately interrupts the frozen app's loop without risking data loss for other running applications."
+  },
+  {
+    id: "Q007",
+    topic: "Linux Process Management",
+    difficulty: "hard",
+    scenario: "A Linux server hosting an internal application has become severely sluggish. An administrator SSHs into the box and suspects a rogue process is hoarding CPU cycles. The administrator wants to identify the process ID (PID) of the application consuming the most resources and monitor it in real-time before deciding whether to send a termination signal.",
+    prompt: "Which of the following commands is the BEST choice for the administrator's goal?",
+    choices: [
+      { key: "A", text: "Run the top command and press P." },
+      { key: "B", text: "Run the ps -e command." },
+      { key: "C", text: "Run grep -i \"cpu\" /var/log/messages." },
+      { key: "D", text: "Run the systemctl status command." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "monitor it in real-time\" and \"consuming the most resources",
+    explanationCorrect: "The top command provides a dynamic, real-time view of running processes and their resource consumption. Once running, pressing the P key interactively sorts the process list by CPU utilization, allowing the administrator to immediately spot and monitor the rogue PID causing the performance degradation.",
+    explanationIncorrect: {
+      A: "",
+      B: "While ps displays process information, it only generates a static snapshot of the process table at the exact moment it is executed. It does not provide the interactive, real-time monitoring capabilities required by the scenario.",
+      C: "The grep command searches text files for specific patterns. While it could theoretically find hardware errors related to the CPU in the syslog, it is completely incapable of monitoring real-time active process usage or PIDs.",
+      D: "systemctl status is used to check if a specific systemd service is active, inactive, or failed. It requires a specific service argument to work effectively and does not provide a holistic view of overall CPU consumption by all system processes."
+    },
+    examTrap: "Tool selection nuances (dynamic/interactive tools vs. static snapshot tools).",
+    "BEST First Step Explanation": "Identifying the exact PID and its behavior interactively is the necessary step before attempting any remedial kill actions."
+  },
+  {
+    id: "Q008",
+    topic: "macOS Gatekeeper",
+    difficulty: "medium",
+    scenario: "A graphic designer downloads a highly recommended, proprietary font-rendering engine directly from an independent developer's website. The file is packaged as a .pkg. When the designer attempts to open the package, macOS immediately halts the installation and displays a security dialogue stating the software cannot be verified. The designer is logged in as an Administrator.",
+    prompt: "What is the MOST likely cause of this installation failure?",
+    choices: [
+      { key: "A", text: "By default, macOS security settings only permit installations from the App Store and identified developers." },
+      { key: "B", text: "The .pkg file extension is deprecated and no longer supported by modern macOS versions." },
+      { key: "C", text: "The application requires a mandatory Rapid Security Response (RSR) update to be run prior to installation." },
+      { key: "D", text: "The local user account must be linked to a corporate Mobile Device Management (MDM) profile to run independent software." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "directly from an independent developer's website",
+    explanationCorrect: "macOS utilizes a security feature called Gatekeeper, which, by default, strictly restricts application installations to software obtained from the Apple App Store or from cryptographically identified and trusted developers. Because the .pkg was downloaded directly from an independent, unverified website, the operating system blocks it to prevent potential malware execution.",
+    explanationIncorrect: {
+      A: "",
+      B: "This is technically false. The .pkg file format is fully supported by macOS and is actively used for complex installations that require running background services or placing files in multiple system directories.",
+      C: "Rapid Security Response updates are urgent patches issued by Apple to fix OS-level vulnerabilities. They have no relationship to verifying the trust certificates of third-party software installers.",
+      D: "While MDMs can enforce software policies, standard macOS usage does not mandate MDM enrollment simply to install third-party software. The block is occurring due to default native macOS security policies, not a missing MDM payload."
+    },
+    examTrap: "Default OS security posture and identifying misleading technical causes for standard operational blocks."
+  },
+  {
+    id: "Q009",
+    topic: "Linux Text Processing",
+    difficulty: "hard",
+    scenario: "A cybersecurity incident responder is analyzing a compromised Linux host. The analyst needs to rapidly search through all the plain text files within the /var/log directory to find any entries that contain the text string \"unauthorized access\". Because attackers often alter capitalization, the search must be case-insensitive.",
+    prompt: "Which of the following command syntax combinations is the BEST method to fulfill this requirement?",
+    choices: [
+      { key: "A", text: "grep -i \"unauthorized access\" /var/log/*" },
+      { key: "B", text: "find /var/log -type f -name \"unauthorized access\"" },
+      { key: "C", text: "ls -la /var/log | grep \"unauthorized access\"" },
+      { key: "D", text: "cat -n /var/log | locate \"unauthorized access\"" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "search through all the plain text files... case-insensitive",
+    explanationCorrect: "The grep (Globally search a Regular Expression and Print) command is the standard Linux utility for searching the actual contents of files. By appending the -i switch, the search becomes case-insensitive. Using the wildcard * at the end of the /var/log/ path tells the shell to apply the grep search to the contents of every file within that directory.",
+    explanationIncorrect: {
+      A: "",
+      B: "The find command is used to search the file system hierarchy for file names, attributes, or permissions. This command would look for a file literally named \"unauthorized access,\" rather than searching the text strings inside the log files.",
+      C: "This command lists the directory contents (filenames, permissions, owners) and pipes that output to grep. This would only return results if a file was named \"unauthorized access,\" ignoring the contents entirely. It also misses the -i flag for case insensitivity.",
+      D: "The cat command cannot be executed on a directory itself; it requires a file argument. Furthermore, the locate command searches a pre-built database for filenames, not file contents."
+    },
+    examTrap: "Differentiating between file name search tools (find, piping ls) and file content search tools (grep), as well as command switch knowledge (-i)."
+  },
+  {
+    id: "Q010",
+    topic: "macOS Time Machine",
+    difficulty: "medium",
+    scenario: "While working offline on a cross-country flight, a macOS user accidentally permanently deletes a critical spreadsheet from their local Documents folder. The user relies heavily on Time Machine for backups, but their external APFS-formatted backup drive is packed inside their checked luggage in the cargo hold.",
+    prompt: "How can the user BEST attempt to recover the deleted spreadsheet immediately?",
+    choices: [
+      { key: "A", text: "Open Time Machine and attempt to restore the file from a local snapshot." },
+      { key: "B", text: "Run the Disk Utility First Aid feature to un-allocate the deleted sectors." },
+      { key: "C", text: "Launch macOS Recovery by holding COMMAND+R and select Reinstall macOS." },
+      { key: "D", text: "Log into iCloud Drive using the Safari web browser and access the trash bin." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "working offline... external APFS-formatted backup drive is packed",
+    explanationCorrect: "Time Machine is designed with mobility in mind. Even when the primary external backup drive is disconnected, macOS stores backups as \"local snapshots\" directly on the internal system drive as long as space permits. By opening the Time Machine application, the user can navigate the timeline and potentially restore the file from a recent local snapshot without needing the external hardware.",
+    explanationIncorrect: {
+      A: "",
+      B: "Disk Utility First Aid is used to verify and repair file system corruption or catalog errors on APFS/HFS+ volumes. It is not an undelete tool and has no capability to recover intentionally deleted files.",
+      C: "Reinstalling macOS overwrites system files and places a fresh copy of the OS on the drive. It does absolutely nothing to recover a deleted user document, and rebooting into recovery would interrupt their immediate offline workflow.",
+      D: "The scenario explicitly states the user is on a cross-country flight and working offline. They do not have internet access to reach iCloud Drive via a web browser."
+    },
+    examTrap: "Recognizing alternative operational states of native OS features (Time Machine local snapshots vs. external reliance)."
+  },
+  {
+    id: "Q011",
+    topic: "Linux Name Resolution",
+    difficulty: "hard",
+    scenario: "A Linux network administrator is troubleshooting internal communication between two servers. When the admin types dig server01.local, the command returns a \"no answer\" response. Curiously, when the admin types ping server01.local, the server successfully resolves the name and pings 192.168.1.10. The network is completely disconnected from the Internet and no internal DNS server is operating.",
+    prompt: "What is the MOST likely architectural reason for this discrepancy?",
+    choices: [
+      { key: "A", text: "The hostname to IP mapping is statically configured in the /etc/hosts file." },
+      { key: "B", text: "The /etc/resolv.conf file is caching an outdated ARP table record." },
+      { key: "C", text: "The dig command requires elevated privileges via sudo to access network sockets." },
+      { key: "D", text: "NetworkManager has automatically invoked the systemd-networkd proxy protocol." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "dig... returns no answer\" vs \"ping... successfully resolves the name",
+    explanationCorrect: "In Linux networking architectures, local name resolution is processed sequentially. The OS first checks the local /etc/hosts file for manual, static hostname-to-IP mappings before it attempts to query external DNS servers. Because ping relies on the OS resolution process, it succeeds by reading /etc/hosts. Conversely, the dig command is a specialized Domain Information Groper tool that explicitly and solely queries DNS name servers. Since there is no internal DNS server running, dig fails.",
+    explanationIncorrect: {
+      A: "",
+      B: "The /etc/resolv.conf file dictates which DNS servers the system should query; it does not cache ARP (Address Resolution Protocol) records. ARP resolves IP addresses to MAC addresses, not hostnames to IPs.",
+      C: "dig is a standard informational querying tool that binds to unprivileged outgoing ports. It does not require sudo or root privileges to execute basic DNS lookups.",
+      D: "NetworkManager and systemd-networkd are distinct, competing network configuration managers. One does not act as a proxy protocol for the other to intercept ICMP pings."
+    },
+    examTrap: "Domain integration (OS network configuration + Network troubleshooting protocol behavior)."
+  },
+  {
+    id: "Q012",
+    topic: "Linux Persistent Mounts",
+    difficulty: "medium",
+    scenario: "A junior database administrator physically installs a new secondary hard drive into a Linux workstation. The admin identifies the new block device as /dev/sdb1 and successfully mounts it to /mnt/data using the mount command. The team writes data to the drive successfully for the rest of the shift. After a scheduled automated reboot at midnight, the morning shift reports that the /mnt/data directory is completely empty.",
+    prompt: "What critical configuration step did the junior administrator forget to perform?",
+    choices: [
+      { key: "A", text: "Modifying the /etc/fstab file to define the mount point persistently." },
+      { key: "B", text: "Running the fsck utility to format the volume prior to rebooting." },
+      { key: "C", text: "Changing the ownership of /mnt/data using the chown -R command." },
+      { key: "D", text: "Initializing the volume in the GRUB bootloader configuration." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "successfully mounts it... after a scheduled automated reboot... directory is completely empty",
+    explanationCorrect: "The mount command attaches a file system to a directory in the existing hierarchy dynamically, but this running configuration is not persistent across reboots. To ensure a file system mounts automatically at boot time, an administrator must place a static configuration entry (including device name, mount point, and file system type) into the /etc/fstab file. Because this step was missed, the OS simply booted without attaching the secondary drive to the directory.",
+    explanationIncorrect: {
+      A: "",
+      B: "The fsck utility is used to check and repair file system corruption, not to format drives. Additionally, the team was able to write data to it all day, proving the drive was already formatted and functioning properly before the reboot.",
+      C: "If there was a permissions or ownership issue, the morning shift would have received a \"Permission Denied\" error rather than seeing an empty directory. The directory is empty because the disk partition containing the files simply isn't mounted to that path.",
+      D: "GRUB is the Grand Unified Bootloader responsible for loading the Linux kernel into memory. It manages boot configurations and operating system selection; it is not used to map or mount secondary data partitions for the OS user space."
+    },
+    examTrap: "Understanding the difference between dynamic/running commands (mount) and persistent configurations (/etc/fstab)."
+  },
+  {
+    id: "Q013",
+    topic: "Linux Shell Quoting",
+    difficulty: "hard",
+    scenario: "An administrator is writing a Linux shell script that will output configuration details to a log file. A specific requirement dictates that the script must output a literal string containing both a system variable $(pwd) and an asterisk wildcard *. The administrator needs to ensure that the shell processes the string exactly as written, without expanding the variable into a directory path or treating the asterisk as a wildcard.",
+    prompt: "Which of the following syntax configurations should the administrator use to achieve this exact output?",
+    choices: [
+      { key: "A", text: "Enclose the string entirely in single quotes." },
+      { key: "B", text: "Enclose the string entirely in double quotes." },
+      { key: "C", text: "Prefix the entire string with a single backslash." },
+      { key: "D", text: "Pipe the string through the grep command." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "without expanding the variable... or treating the asterisk as a wildcard",
+    explanationCorrect: "In Linux command-line environments, metacharacters like the asterisk and variable strings have special meanings that the shell automatically interprets. Using single quotes (' ') provides \"strong escaping,\" meaning the shell will treat absolutely everything inside the quotes as a literal text string without executing or expanding it. This perfectly satisfies the requirement to output $(pwd) and * exactly as they are written.",
+    explanationIncorrect: {
+      A: "",
+      B: "Double quotes provide \"weak escaping\" in Linux. While they group text together, they still allow for variable expansion and command substitution, meaning $(pwd) would be expanded into the actual current working directory rather than printing the literal string.",
+      C: "A backslash (\\) is used to escape only the single character immediately following it. Prefixing an entire multi-word string with one backslash would not protect the variable or wildcard located later in the sequence from being expanded by the shell.",
+      D: "The grep command is a tool used to search and filter file contents based on string matches or regular expressions. It is not an escaping mechanism, and piping an unescaped string to it would result in the shell expanding the variables before grep even received the input."
+    },
+    examTrap: "Understanding the nuanced differences between strong escaping (single quotes) and weak escaping (double quotes)."
+  },
+  {
+    id: "Q014",
+    topic: "macOS Recovery",
+    difficulty: "hard",
+    scenario: "A user's MacBook suffers a complete failure of its internal solid-state drive. A technician replaces the dead drive with a brand new, unformatted, and completely blank APFS-compatible drive. The user has no external Time Machine backup drives, but the technician has connected the MacBook to the company's secure Wi-Fi network. The technician needs to reinstall the operating system immediately.",
+    prompt: "What is the MOST likely method the technician will use to initiate the macOS reinstallation?",
+    choices: [
+      { key: "A", text: "Boot the Mac while holding COMMAND+R to load the local Recovery menu." },
+      { key: "B", text: "The Mac will automatically boot into Internet Recovery Mode to download the recovery system." },
+      { key: "C", text: "Open System Settings and select the \"Transfer or Reset\" option." },
+      { key: "D", text: "Launch Disk Utility First Aid to reconstruct the core system files." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "brand new, unformatted, and completely blank... connected... to Wi-Fi",
+    explanationCorrect: "Because the newly installed hard drive is completely blank, it does not contain the local, hidden macOS Recovery partition normally used to restore the system. When a Mac detects that its startup drive is entirely unavailable or blank, and it is connected to the internet, it will automatically bypass local booting and boot into Internet Recovery Mode. This mode reaches out to Apple's servers to download a minimal recovery system into RAM, allowing the technician to format the new drive and reinstall macOS.",
+    explanationIncorrect: {
+      A: "Holding COMMAND+R attempts to access the local recovery partition stored on the physical startup disk. Because the drive was just replaced with a completely blank unit, there is no local recovery partition available to load.",
+      C: "System Settings is an application located within the graphical macOS interface. Since the computer currently has no operating system installed on the blank drive, the technician cannot log into macOS to access this menu.",
+      D: "Disk Utility First Aid is designed to verify and repair filesystem corruption on an existing volume. It cannot miraculously reconstruct gigabytes of core operating system files onto a blank drive out of thin air."
+    },
+    examTrap: "Hardware + OS Domain Integration; distinguishing between local recovery dependency and Internet Recovery capabilities."
+  },
+  {
+    id: "Q015",
+    topic: "Linux systemd Services",
+    difficulty: "medium",
+    scenario: "A systems administrator successfully installs a new background service on a Linux server and immediately types systemctl start myservice. The service runs perfectly for three weeks. After a scheduled facility power outage, the server reboots cleanly. However, users report that the service is completely down. The administrator logs in, runs systemctl status myservice, and sees the service is \"inactive (dead)\".",
+    prompt: "What critical configuration step did the administrator miss during the initial setup?",
+    choices: [
+      { key: "A", text: "The administrator failed to run the systemctl enable myservice command." },
+      { key: "B", text: "The administrator failed to execute the start command with sudo privileges." },
+      { key: "C", text: "The administrator did not add the service to the /etc/fstab configuration file." },
+      { key: "D", text: "The administrator neglected to run apt update after starting the service." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "systemctl start... After a scheduled facility power outage, the server reboots... service is inactive",
+    explanationCorrect: "In Linux, the systemctl start command only initiates a service dynamically for the current session; it does not make the configuration persistent across reboots. To ensure that systemd automatically launches a service when the operating system boots up, the administrator must explicitly use the systemctl enable command. Because this step was missed, the server rebooted after the power outage and left the service in its default inactive state.",
+    explanationIncorrect: {
+      A: "",
+      B: "If the administrator lacked the necessary permissions to start the service initially, the systemctl start command would have failed immediately with a permissions error. The scenario states the service ran perfectly for three weeks, proving it was started successfully.",
+      C: "The /etc/fstab file is strictly used to define static information about filesystems and how disk partitions should be automatically mounted at boot. It has absolutely nothing to do with managing or launching system software services.",
+      D: "The apt update command is used exclusively to refresh the local package manager's information regarding available software updates from remote repositories. It plays no role in the persistence or execution state of a locally running system service."
+    },
+    examTrap: "Understanding the difference between dynamic/session commands (start) and persistent system configurations (enable)."
+  },
+  {
+    id: "Q016",
+    topic: "macOS Keychain",
+    difficulty: "medium",
+    scenario: "A macOS user navigates to a secure website but has forgotten their complex password. They open the Keychain Access app from the Utilities folder, locate the specific website entry, and check the \"Show password\" box. A security prompt appears asking for credentials, but the user repeatedly enters their Apple ID password, and the prompt rejects it.",
+    prompt: "What is the MOST likely cause of this authentication failure?",
+    choices: [
+      { key: "A", text: "The user must enter the local macOS administrator password, not their Apple ID password." },
+      { key: "B", text: "The Keychain database is corrupted and requires the user to run Keychain First Aid." },
+      { key: "C", text: "The iCloud account is disconnected in System Settings, preventing Apple ID verification." },
+      { key: "D", text: "Gatekeeper is blocking the action because the website is not an identified developer." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "check the \"Show password\" box... user repeatedly enters their Apple ID password",
+    explanationCorrect: "The Keychain Access application securely stores passwords for websites, emails, and Wi-Fi networks. When a user requests to view an encrypted password in plain text by checking the \"Show password\" box, macOS architecture specifically requires them to authenticate using a local administrator password. Entering an Apple ID password (which is used for App Store and iCloud services) will inherently fail this local security checkpoint.",
+    explanationIncorrect: {
+      A: "",
+      B: "While Keychain First Aid is a valid tool for repairing broken keychain databases, an outright credential rejection is standard expected behavior when the wrong password is provided. Rejection of an Apple ID password here is not a symptom of database corruption.",
+      C: "Even if iCloud Keychain synchronization is utilized, the physical act of revealing a password within the local macOS Keychain Access app relies on local administrator authentication. Network connectivity or iCloud synchronization status does not change this specific local security prompt.",
+      D: "Gatekeeper is a macOS security feature that dictates which applications are allowed to be installed based on cryptographic signatures and App Store trust. It has no interaction with retrieving saved web credentials from the Keychain Access application."
+    },
+    examTrap: "Security Policy Knowledge; differentiating between local administrative credentials and cloud (Apple ID) credentials."
+  },
+  {
+    id: "Q017",
+    topic: "Linux Package Management",
+    difficulty: "easy",
+    scenario: "An IT support specialist attempts to install a newly released network diagnostic tool on an Ubuntu Linux client workstation by typing apt install new-diag-tool. The terminal immediately returns an error stating the package cannot be located. The specialist confirms the computer has a strong internet connection and that the package is available in the official vendor repositories.",
+    prompt: "Which of the following is the BEST FIRST step to resolve this installation error?",
+    choices: [
+      { key: "A", text: "Run apt update to refresh the package manager's information from the repositories." },
+      { key: "B", text: "Run apt upgrade to install missing core system dependencies." },
+      { key: "C", text: "Use the dnf install command instead of the apt command." },
+      { key: "D", text: "Edit the /etc/resolv.conf file to configure a static IP address." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "newly released... error stating the package cannot be located",
+    explanationCorrect: "In Debian-based Linux distributions like Ubuntu, the Advanced Packaging Tool (APT) relies on a local database of software packages to know what is available to download. When a new package is released, the local system will not know it exists until the local index is refreshed. Running the apt update command forces the system to reach out to the configured repositories and download the most current list of available software, making the new package visible for installation.",
+    explanationIncorrect: {
+      A: "",
+      B: "The apt upgrade command is used to install newer versions of packages that are already installed on the system. It does not update the repository index to find missing or newly released software, making it the wrong choice for this scenario.",
+      C: "The dnf command is the package manager for Red Hat-based distributions (like Fedora or CentOS). The scenario explicitly states the system is running Ubuntu, which strictly uses the APT system handling .deb packages.",
+      D: "The /etc/resolv.conf file is used specifically to define DNS name servers for domain resolution, not to assign static IP addresses. Furthermore, the scenario states the system already has a strong internet connection, ruling out a core networking failure."
+    },
+    examTrap: "Tool Selection; confusing package manager index updates (update) with application version updates (upgrade).",
+    "BEST First Step Explanation": "Updating the local package list is always the necessary prerequisite step before installing newly released software on Linux."
+  },
+  {
+    id: "Q018",
+    topic: "macOS Continuity Features",
+    difficulty: "medium",
+    scenario: "A marketing executive is attempting to use the Handoff feature to begin composing a document on their iPhone and seamlessly finish typing it on their Mac. Both devices are signed into the exact same Apple ID and are connected to the corporate Wi-Fi network. Despite these configurations, the Handoff icon refuses to appear in the Mac's Dock.",
+    prompt: "What is the MOST likely missing requirement preventing this feature from functioning?",
+    choices: [
+      { key: "A", text: "Bluetooth has been disabled on one or both of the devices." },
+      { key: "B", text: "The user does not have an active iCloud+ storage subscription." },
+      { key: "C", text: "The Mac is connected via Wi-Fi instead of a wired Ethernet connection." },
+      { key: "D", text: "The Mac requires a Rapid Security Response (RSR) patch to sync text." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "signed into the exact same Apple ID and are connected to the corporate Wi-Fi",
+    explanationCorrect: "Handoff is a core Continuity feature in the Apple ecosystem that allows users to transition tasks between devices seamlessly. For Continuity features to function properly, Apple dictates strict environmental requirements: devices must be signed into the same Apple ID, be on the same Wi-Fi network, and vitally, have Bluetooth enabled. Bluetooth is used for proximity detection to ensure the devices are physically near each other before offering the Handoff prompt.",
+    explanationIncorrect: {
+      A: "",
+      B: "While Apple offers upgraded iCloud+ subscriptions for additional storage space, core Continuity features like Handoff are built into the base operating systems. They do not require paid storage tiers to function.",
+      C: "The scenario explicitly states that both devices are on the corporate Wi-Fi network, which perfectly satisfies the network requirement. A wired Ethernet connection is not a prerequisite for Continuity features.",
+      D: "RSR patches are out-of-band updates designed specifically to address urgent security vulnerabilities in the operating system quickly. They are not functional prerequisites for enabling or fixing standard macOS Continuity features like Handoff."
+    },
+    examTrap: "Domain Integration (Mobile Devices + OS Features) and identifying the hidden hardware dependencies (Bluetooth) of proprietary OS features."
+  },
+  {
+    id: "Q019",
+    topic: "Linux File Concatenation",
+    difficulty: "hard",
+    scenario: "A security analyst is analyzing two separate log files named audit1.log and audit2.log. The analyst needs to combine the text from both files and add it to the very bottom of an existing file named master_audit.log. It is critical that the analyst does not delete the original files or overwrite any of the historical data currently sitting inside master_audit.log.",
+    prompt: "Which of the following commands will successfully accomplish this exact task?",
+    choices: [
+      { key: "A", text: "cat audit1.log audit2.log >> master_audit.log" },
+      { key: "B", text: "cat audit1.log audit2.log > master_audit.log" },
+      { key: "C", text: "cp audit1.log audit2.log master_audit.log" },
+      { key: "D", text: "mv audit1.log audit2.log master_audit.log" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "combine the text... add it to the very bottom of an existing file... does not... overwrite",
+    explanationCorrect: "The cat command in Linux is used to display or concatenate the contents of files sequentially. When combining files, the output must be redirected. Using the double greater-than operator (>>) explicitly tells the shell to append the combined output to the destination file, ensuring that the historical data in master_audit.log remains intact while adding the new data to the bottom.",
+    explanationIncorrect: {
+      A: "",
+      B: "Using a single greater-than operator (>) tells the shell to redirect output by completely overwriting the destination file. This would instantly destroy all the historical data currently inside master_audit.log, directly violating the scenario's constraints.",
+      C: "The cp command is used to copy entire files to new directories or new filenames, not to concatenate text strings inside them. Executing this command with multiple source files requires the final argument to be a directory, not a text file, resulting in an error.",
+      D: "The mv command is used to move files or rename them, removing them from their original location. This command would fail to merge text and would also violate the constraint that the original audit1.log and audit2.log files must not be deleted or moved."
+    },
+    examTrap: "Differentiating between the destructive overwrite operator (>) and the non-destructive append operator (>>)."
+  },
+  {
+    id: "Q020",
+    topic: "macOS Fonts",
+    difficulty: "easy",
+    scenario: "An IT administrator is setting up a shared iMac in a university design lab. The administrator needs to install a custom, proprietary font file so that it is globally available to any faculty member who logs into their own personal user account on that specific machine.",
+    prompt: "Into which macOS system folder should the administrator place the font file?",
+    choices: [
+      { key: "A", text: "/Library" },
+      { key: "B", text: "/System" },
+      { key: "C", text: "/Users/Library" },
+      { key: "D", text: "/Applications" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "globally available to any faculty member who logs into their own personal user account",
+    explanationCorrect: "In the macOS directory structure, the /Library folder is specifically designed to store system-wide resources, settings, and support files (such as custom fonts) that need to be accessed by applications and all users on the Mac. Placing the font here ensures it is universally available regardless of which local account is currently logged in.",
+    explanationIncorrect: {
+      A: "",
+      B: "The /System folder contains the core, protected system files and resources strictly necessary for macOS to operate. This folder is heavily guarded by the operating system and is generally not supposed to be modified by users or administrators adding custom assets.",
+      C: "The /Users/Library (or ~/Library) directory is a hidden folder located inside a specific user's home directory. Placing a font here would make it accessible only to that specific individual user, completely failing the requirement to make it globally available to all faculty.",
+      D: "The /Applications folder is the central repository for installed executable programs (.app files) for all users. It is not the designated location for shared granular resources like fonts or plugin files."
+    },
+    examTrap: "Understanding the macOS filesystem hierarchy and the scope of system folders (Global vs User vs OS Core)."
+  },
+  {
+    id: "Q021",
+    topic: "Linux Network Tools",
+    difficulty: "medium",
+    scenario: "A developer is testing an internal application that requests data from a RESTful API at http://api.teched.local. The application is currently failing to display data. The developer runs the ping api.teched.local command and receives continuous, successful replies, verifying network reachability. The developer now needs to test the application layer to verify if the web server is actually sending back the HTTP data payload.",
+    prompt: "Which of the following tools is the MOST appropriate choice for the developer to retrieve the API web response?",
+    choices: [
+      { key: "A", text: "curl" },
+      { key: "B", text: "dig" },
+      { key: "C", text: "traceroute" },
+      { key: "D", text: "grep" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "test the application layer to verify if the web server is actually sending back the HTTP data",
+    explanationCorrect: "The curl command is a highly versatile network tool designed to transfer data to or from a server using various application-layer protocols, including HTTP and HTTPS. It is explicitly recognized as an excellent tool for interacting with and testing web services and APIs, as it will fetch and display the raw HTTP data payload directly in the terminal.",
+    explanationIncorrect: {
+      A: "",
+      B: "The dig (Domain Information Groper) command is used specifically to query DNS name servers to troubleshoot hostname resolution. Because the developer already successfully pinged the hostname, DNS is known to be working, making dig useless for checking the HTTP payload.",
+      C: "The traceroute command is a diagnostic tool used to track the hop-by-hop pathway a packet takes across an IP network to measure transit delays. It operates at the network layer to diagnose routing issues, not at the application layer to retrieve web data.",
+      D: "The grep command is a local file system utility used to search and filter text within files based on strings or regular expressions. It is not a network communication tool and cannot initiate HTTP requests to an API."
+    },
+    examTrap: "Networking Domain Integration; differentiating between Layer 3 network testing tools (ping, traceroute) and Layer 7 application tools (curl)."
+  },
+  {
+    id: "Q022",
+    topic: "macOS Rapid Security Response",
+    difficulty: "easy",
+    scenario: "A critical, actively exploited zero-day vulnerability is discovered in macOS. Apple releases an urgent patch to fix the flaw immediately. The IT department notifies all users that they must apply this patch, reassuring them that the installation will be incredibly fast and may not even require a full system restart to take effect.",
+    prompt: "What specific mechanism is Apple utilizing to deliver this critical update?",
+    choices: [
+      { key: "A", text: "Rapid Security Response (RSR)" },
+      { key: "B", text: "Time Machine Local Snapshot" },
+      { key: "C", text: "Gatekeeper .pkg Installer" },
+      { key: "D", text: "FileVault Cryptographic Update" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "urgent patch... installation will be incredibly fast and may not even require a full system restart",
+    explanationCorrect: "Apple introduced Rapid Security Response (RSR) in modern macOS versions to deliver critical security updates much faster than traditional, bulky OS updates. RSR patches are specifically designed to be smaller, install much quicker, address severe vulnerabilities immediately, and often apply without requiring the user to endure a lengthy system reboot.",
+    explanationIncorrect: {
+      A: "",
+      B: "Time Machine local snapshots are backup states saved dynamically to the internal hard drive to allow users to restore deleted files when an external drive is disconnected. They are a data recovery mechanism, not a method for delivering or applying software vulnerability patches.",
+      C: "Gatekeeper is a macOS security feature that dictates what software can run based on developer signatures, and a .pkg is just a standard software installation format. Neither of these are the mechanism Apple uses to push out-of-band, hot-patch OS updates.",
+      D: "FileVault is the native macOS full-disk encryption system used to protect data at rest on the storage drive. It is not an update delivery system, nor does it issue patches to fix software vulnerabilities."
+    },
+    examTrap: "Direct Objective Recall of proprietary Apple update terminology."
+  },
+  {
+    id: "Q023",
+    topic: "Linux Privilege Escalation",
+    difficulty: "hard",
+    scenario: "A junior administrator is troubleshooting an issue on a Linux server while logged into their standard user account. They type su and enter the root password to elevate their privileges. They run a repair script, but it immediately fails because it attempts to write output logs to the /root directory, resulting in a path error. A senior admin observes that while the user has root powers, they are still operating within their original standard user's environment profile.",
+    prompt: "What command should the junior administrator have used to switch privileges AND fully adopt the root user's environment?",
+    choices: [
+      { key: "A", text: "su -" },
+      { key: "B", text: "sudo" },
+      { key: "C", text: "usermod" },
+      { key: "D", text: "newgrp" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "still operating within their original standard user's environment profile... switch privileges AND fully adopt the root user's environment",
+    explanationCorrect: "The su (switch user) command changes the current privilege level to root, but when used without options, it dangerously retains the original user's shell profile and home directory mapping. By appending a hyphen and using the su - command, the system not only switches to the root account but also starts an entirely new shell loaded with the actual root environment, paths, and home directory, which is considered the proper administrative practice.",
+    explanationIncorrect: {
+      A: "",
+      B: "The sudo (superuser do) command allows a standard user to execute a single, specific command with superuser privileges, requiring them to enter their own password rather than the root password. While safer for general administration, sudo does not switch the user into an interactive shell with the root user's complete environment profile loaded.",
+      C: "The usermod command is an administrative tool used to modify existing user account properties stored in the system, such as changing their login name, expiration date, or default shell. It is not used to actively switch contexts or elevate privileges in an active terminal session.",
+      D: "The newgrp command is used to log into a new group, effectively changing a user's current primary group ID for the active session. It manages group permissions for file access, but it does not switch user accounts or grant root-level superuser privileges."
+    },
+    examTrap: "Subtle command switch nuance (su vs su -) and understanding how shell environments are inherited."
+  },
+  {
+    id: "Q024",
+    topic: "macOS Application Uninstallation",
+    difficulty: "medium",
+    scenario: "A macOS user wants to free up space on their hard drive. They open the Finder, navigate to the /Applications folder, drag a large, outdated legacy application to the Trash, and click \"Empty Trash.\" Several weeks later, the user uses a disk analysis tool and discovers that gigabytes of hidden cache data belonging to that deleted application are still consuming space on the drive.",
+    prompt: "Why did dragging the application to the Trash fail to completely uninstall the program?",
+    choices: [
+      { key: "A", text: "Dragging the .app bundle to the Trash often leaves behind associated support files and caches located in the /Library or /Users/Library folders." },
+      { key: "B", text: "The user failed to temporarily disable System Integrity Protection (SIP) before emptying the Trash." },
+      { key: "C", text: "The application was installed via a .pkg file, which mandates using the Terminal rm -r command for a full uninstallation." },
+      { key: "D", text: "The user must authenticate with Gatekeeper credentials to authorize the deletion of hidden files." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "drag a large... application to the Trash... hidden cache data... still consuming space",
+    explanationCorrect: "In macOS, an application visible in the /Applications folder is actually a directory containing the executable, packaged with an .app extension. While dragging this .app to the Trash removes the core program, it is highly unreliable for a complete uninstallation because complex apps generate system-wide support files, preferences, and caches that remain untouched in the /Library or ~/Library folders.",
+    explanationIncorrect: {
+      A: "",
+      B: "System Integrity Protection (SIP) protects core OS files (like those in /System) from being altered by malware or root users. Standard third-party applications placed in the /Applications folder are not protected by SIP, and users never disable SIP for standard software uninstallation.",
+      C: "While .pkg files are used for complex installations that scatter files across multiple directories, macOS does not mandate the use of the dangerous Terminal rm -r command to uninstall them. Users typically rely on vendor-supplied uninstallers or third-party cleanup utilities for this task.",
+      D: "Gatekeeper is purely an installation and execution security mechanism that prevents untrusted software from running. It does not intercept or manage the deletion of cache files when the Trash is emptied."
+    },
+    examTrap: "Remediation vs Prevention/Best Practices; understanding the limitations of the drag-to-trash GUI action versus complete software uninstallation."
+  },
+  {
+    id: "Q025",
+    topic: "macOS Boot Camp",
+    difficulty: "hard",
+    scenario: "A professor's iMac features a Boot Camp partition running Windows for specialized scientific software. The professor uses macOS for all daily activities and web browsing. The university's network security team detects the iMac's IP address aggressively broadcasting a known Windows-based worm over the local network. The professor immediately runs a full malware scan on the macOS side using Avast for Mac, but the software reports zero threats.",
+    prompt: "What is the MOST likely cause of this security discrepancy?",
+    choices: [
+      { key: "A", text: "The worm is a fake security alert designed to spoof the iMac's MAC address to evade Apple diagnostics." },
+      { key: "B", text: "The Windows boot partition is actively infected and requires its own dedicated Windows antivirus scanning." },
+      { key: "C", text: "The macOS Gatekeeper feature is isolating Avast in a sandbox, preventing it from scanning network sockets." },
+      { key: "D", text: "The worm is hiding within an encrypted FileVault volume that the third-party antivirus cannot decrypt." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "Boot Camp partition running Windows... IP address aggressively broadcasting a known Windows-based worm... scan on the macOS side",
+    explanationCorrect: "If a Mac has a bootable Windows partition (Boot Camp), that partition operates entirely independently of macOS and must be treated like a standalone Windows computer. A macOS antivirus scan focuses on the macOS filesystem, so it will miss active malware operating inside the isolated Windows environment. To remediate this, the user must boot into the Windows partition and utilize antivirus software dedicated to protecting that specific operating system against Windows viruses.",
+    explanationIncorrect: {
+      A: "While macOS is susceptible to malware like fake security alerts, these are typically browser-based tricks to steal credentials. A fake alert does not actively broadcast network worms, nor does it selectively hide from local antivirus scans by spoofing hardware addresses.",
+      C: "Gatekeeper is a macOS security feature that dictates which applications are allowed to be installed based on developer certificates and App Store trust. It does not sandbox or throttle the scanning capabilities of an already-installed, authorized antivirus program.",
+      D: "FileVault encrypts disk data to protect against unauthorized physical access if the disk is stolen. Antivirus software running on a logged-in, unlocked macOS profile has full access to scan the decrypted FileVault volume, meaning encryption is not the reason the scan missed the virus."
+    },
+    examTrap: "Domain Integration (macOS + Security); understanding the hard boundaries of dual-boot partitions."
+  },
+  {
+    id: "Q026",
+    topic: "Linux Network Diagnostics",
+    difficulty: "medium",
+    scenario: "A Linux database server's cooling fans are running at maximum speed. To investigate, an administrator runs the ps -e command to summarize the currently running processes on the system. The administrator spots a high-CPU process named indexer_script that has a ? symbol listed in the TTY column.",
+    prompt: "What does the ? symbol in the TTY column indicate about this specific process?",
+    choices: [
+      { key: "A", text: "The process is a zombie thread that has failed to terminate properly." },
+      { key: "B", text: "The process has no controlling terminal and is operating in the background." },
+      { key: "C", text: "The user who initiated the process lacks a valid /etc/passwd entry." },
+      { key: "D", text: "The process requires the sudo password to be viewed interactively." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "ps -e command... ? symbol listed in the TTY column",
+    explanationCorrect: "The ps command displays the process table, and the TTY column indicates the terminal or pseudoterminal associated with a process. When a process has a question mark (?) in the TTY column, it signifies that the process has no controlling terminal. This is standard behavior for system daemons or background services that do not require interactive text input or output from a user.",
+    explanationIncorrect: {
+      A: "Zombie processes are typically indicated by a \"Z\" in the state column, not a question mark in the TTY column. The TTY column strictly tracks terminal associations, not execution states.",
+      B: "",
+      C: "The /etc/passwd file stores user account settings. The ps command relies on this file to resolve User IDs to usernames; it does not place question marks in the TTY column to indicate missing users.",
+      D: "The ps -e command lists all processes on the system, regardless of who owns them. A question mark does not denote a permissions barrier or an encrypted state; it simply means there is no terminal attached to the process."
+    },
+    examTrap: "Direct Objective Recall of specific command output formatting (ps TTY column)."
+  },
+  {
+    id: "Q027",
+    topic: "macOS Secure Erase",
+    difficulty: "hard",
+    scenario: "An IT technician is preparing to sell an older faculty MacBook to a third-party refurbisher. To protect sensitive institutional data and ensure regulatory compliance, the technician must completely wipe the internal system drive using secure erasure options. The technician logs into the local administrator account to begin the process.",
+    prompt: "Which of the following is the BEST FIRST step to accomplish this secure decommissioning?",
+    choices: [
+      { key: "A", text: "Open System Settings and select the \"Transfer or Reset\" option." },
+      { key: "B", text: "Launch Disk Utility from the /Applications folder and select \"Erase.\"" },
+      { key: "C", text: "Reboot the Mac while holding COMMAND+R to load the macOS Recovery menu." },
+      { key: "D", text: "Move all files in the /Users folder to the Trash and securely empty it." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "completely wipe the internal system drive... preparing to sell",
+    explanationCorrect: "macOS includes utilities to reformat and repair the system disk, but these actions cannot be performed on the active startup partition while the operating system is booted. To securely erase the internal drive when selling or passing on a Mac, the technician must reboot the machine while holding COMMAND+R to load the macOS Recovery menu. From there, the technician can access the offline Disk Utility app to apply security erase options to the system drive.",
+    explanationIncorrect: {
+      A: "While modern macOS on Apple Silicon has a \"Transfer or Reset\" feature in System Settings to erase content, the text strictly specifies using Disk Utility via the Recovery Menu for erasing a disk when passing on a Mac. Furthermore, older Macs rely entirely on the Recovery Menu method.",
+      B: "While Disk Utility is the correct application for formatting volumes, running it from inside the active macOS environment will fail. An operating system cannot format the physical disk sectors that it is currently running from.",
+      C: "",
+      D: "Moving files to the Trash and emptying it removes user data but leaves the operating system, applications, and hidden caches completely intact. A complete device wipe requires reformatting the actual disk volume, not just deleting the user directories."
+    },
+    examTrap: "Understanding the operational states required for structural disk changes (active OS vs Recovery Environment).",
+    "BEST First Step Explanation": "Booting into the Recovery Environment is the mandatory prerequisite step before any structural formatting can be applied to a system partition."
+  },
+  {
+    id: "Q028",
+    topic: "Linux File Search",
+    difficulty: "medium",
+    scenario: "A Linux administrator is auditing a compromised file server. They suspect a malicious actor has planted hidden network sockets or named pipes within standard system paths to siphon data. The admin wants to search the /var/www directory specifically for objects classified as directories, while completely ignoring regular text files or scripts in the search output.",
+    prompt: "Which of the following command syntax combinations should the admin use?",
+    choices: [
+      { key: "A", text: "find /var/www -type d" },
+      { key: "B", text: "ls -la /var/www | grep \"directory\"" },
+      { key: "C", text: "find /var/www -name \"*dir*\"" },
+      { key: "D", text: "grep -i \"directory\" /var/www/*" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "specifically for objects classified as directories, while completely ignoring regular text files",
+    explanationCorrect: "The find command is a powerful Linux search utility that can filter results based on specific file attributes. By using the -type option, an administrator can accurately distinguish between files, directories, block devices, network sockets, symbolic links, and named pipes. Therefore, -type d is the exact syntax required to isolate and return only directory objects within the specified path.",
+    explanationIncorrect: {
+      A: "",
+      B: "The ls -la command lists detailed directory contents, but piping it to grep \"directory\" will only search for the literal string \"directory\" in the text output. It does not reliably filter filesystem objects by their actual metadata type.",
+      C: "The -name option tells the find command to look for files or folders that contain the string \"dir\" in their actual title. This would miss directories named \"images\" or \"css\" entirely, while incorrectly returning a standard text file named \"directions.txt\".",
+      D: "The grep command searches the internal contents of files for matching text strings. It cannot evaluate the filesystem metadata to determine if an object is a directory or a regular file."
+    },
+    examTrap: "Distinguishing between file name search queries (-name) and file metadata attribute queries (-type)."
+  },
+  {
+    id: "Q029",
+    topic: "macOS Privacy Permissions",
+    difficulty: "easy",
+    scenario: "A user installs a highly-rated, third-party video conferencing application downloaded directly from the developer's website. The installation succeeds, and the application's audio feed works perfectly. However, the camera feed remains completely black. The user verifies that the physical built-in webcam is functioning by successfully testing it in the native Apple FaceTime application.",
+    prompt: "What configuration should the IT support technician check FIRST to remediate this issue?",
+    choices: [
+      { key: "A", text: "The application permissions in the Privacy & Security preferences pane." },
+      { key: "B", text: "The developer certificate trust level in the Gatekeeper settings." },
+      { key: "C", text: "The Accessibility preferences pane to ensure Video Zoom is disabled." },
+      { key: "D", text: "The System Settings > Displays pane to calibrate the camera color profile." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "camera feed remains completely black... built-in webcam is functioning... in Apple FaceTime",
+    explanationCorrect: "macOS enforces strict data and hardware protection policies. Through the Privacy & Security preferences pane, users must explicitly grant apps permission to access sensitive hardware like the camera, microphone, and location services. Because the webcam works in Apple's native software but fails in the newly installed third-party app, the issue is almost certainly a denied or unconfigured camera permission in this menu.",
+    explanationIncorrect: {
+      A: "",
+      B: "Gatekeeper is a security mechanism that governs whether an application is allowed to be installed and executed in the first place. Since the application installed successfully and the audio is actively working, Gatekeeper is not blocking the software.",
+      C: "The Accessibility pane configures assistive options like VoiceOver, screen magnification, and cursor size. It does not control hardware-level access restrictions for peripheral devices like webcams.",
+      D: "The Displays pane is used to adjust desktop scaling, brightness, and color calibration for the monitor itself. It has no settings related to the integrated webcam's functionality or app permissions."
+    },
+    examTrap: "Direct Objective Recall of macOS privacy architectures and understanding how granular hardware permissions manifest as symptoms.",
+    "BEST First Step Explanation": "Checking Privacy & Security is the best first step because it directly governs third-party hardware access in macOS."
+  },
+  {
+    id: "Q030",
+    topic: "Linux Process States",
+    difficulty: "medium",
+    scenario: "A Linux database server's root partition has triggered a capacity warning. The administrator suspects a specific application directory (/var/lib/pgsql) is hoarding disk space due to bloated temporary files. Before deleting anything, the administrator needs to confirm the exact size of that specific directory tree.",
+    prompt: "Which command should the administrator select to verify the size of this specific directory tree?",
+    choices: [
+      { key: "A", text: "df /var/lib/pgsql" },
+      { key: "B", text: "du /var/lib/pgsql" },
+      { key: "C", text: "ls -la /var/lib/pgsql" },
+      { key: "D", text: "fsck /var/lib/pgsql" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "confirm the exact size of that specific directory tree",
+    explanationCorrect: "The du (disk usage) command is specifically designed to calculate and display how a storage device is used at a granular level, including detailing the size of specific directory trees and the files within them. Executing it against a specific path will yield the exact byte-size footprint of that folder, perfectly fulfilling the administrator's requirement.",
+    explanationIncorrect: {
+      A: "The df (disk free) command provides a macro-level view of a mounted partition's overall free space, total size, and percentage used. It does not calculate or report the size of specific granular directory trees.",
+      B: "",
+      C: "While the ls -l command lists file sizes for individual items directly inside the directory, it does not recursively calculate and aggregate the total cumulative size of the directory and all its nested subfolders.",
+      D: "The fsck utility is used to check and repair filesystem corruption errors, usually against a device partition like /dev/sda1. It does not measure or report disk space usage metrics."
+    },
+    examTrap: "Tool Selection; differentiating between partition-wide storage tools (df) and granular directory sizing tools (du)."
+  },
+  {
+    id: "Q031",
+    topic: "macOS Spaces",
+    difficulty: "easy",
+    scenario: "A software developer using macOS has dozens of application windows open simultaneously for coding, testing, and researching. The desktop has become severely cluttered. The developer wants to create a completely separate, clean workspace exclusively for their email and calendar applications, without having to close any of their active coding windows.",
+    prompt: "Which macOS feature should the developer use to configure this new workspace?",
+    choices: [
+      { key: "A", text: "Spotlight Search" },
+      { key: "B", text: "Displays Preferences" },
+      { key: "C", text: "Mission Control" },
+      { key: "D", text: "Handoff" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "create a completely separate, clean workspace... without having to close any of their active coding windows",
+    explanationCorrect: "Mission Control is the macOS feature designed to manage windows and set up multiple virtual desktops (Spaces). By activating Mission Control, the developer can create a new, distinct desktop environment, allowing them to organize their email and calendar apps separately from their cluttered coding workspace.",
+    explanationIncorrect: {
+      A: "Spotlight Search is the macOS search utility accessed via COMMAND+SPACE used to quickly find files, apps, and web results. It has no window management or virtual desktop capabilities.",
+      B: "The Displays pane in System Settings is used to adjust physical monitor hardware settings like scaling, brightness, and color calibration. It cannot create virtual software workspaces on a single screen.",
+      C: "",
+      D: "Handoff is an Apple Continuity feature that allows a user to start a task on one physical device (like an iPhone) and seamlessly resume it on another (like a Mac). It does not organize or create virtual desktop environments on a single machine."
+    },
+    examTrap: "Recognizing proprietary Apple terminology for common desktop management tasks (Virtual Desktops = Mission Control)."
+  },
+  {
+    id: "Q032",
+    topic: "Linux Ownership",
+    difficulty: "hard",
+    scenario: "A senior Linux administrator establishes a new shared directory structure at /opt/finance_data using the root account. The admin needs to transfer the ownership of the parent directory, along with all 500 existing subdirectories and files nested inside it, to the user jsmith and the group accounting.",
+    prompt: "Which command will efficiently achieve this policy-compliant solution?",
+    choices: [
+      { key: "A", text: "chmod -R 770 /opt/finance_data" },
+      { key: "B", text: "chown jsmith:accounting /opt/finance_data/*" },
+      { key: "C", text: "chown -R jsmith:accounting /opt/finance_data" },
+      { key: "D", text: "usermod -aG accounting jsmith" }
+    ],
+    correctKey: "C",
+    triggerPhrase: "transfer the ownership of the parent directory, along with all 500 existing subdirectories and files nested inside it",
+    explanationCorrect: "The chown command allows an administrator to change the owner and group of a file or directory. To apply this change to a parent directory and dynamically push it down to all nested subdirectories and files, the recursive -R switch must be utilized. The syntax chown -R jsmith:accounting /opt/finance_data flawlessly transfers complete ownership to the targeted user and group across the entire directory tree.",
+    explanationIncorrect: {
+      A: "The chmod command is used to alter the read, write, and execute permissions (such as 770) of an object, not the ownership. The directory would remain owned by the root account.",
+      B: "Using the wildcard * will change the ownership of the files and folders immediately inside the directory, but it is not truly recursive. It will fail to change the ownership of the parent /opt/finance_data directory itself, and it may miss hidden files or deeper nested folders depending on the shell expansion.",
+      C: "",
+      D: "The usermod command alters existing user account properties. This specific syntax adds the user jsmith to the accounting group, but it does absolutely nothing to change the ownership of the filesystem directory in /opt."
+    },
+    examTrap: "Differentiating between permission modification (chmod) and ownership modification (chown), and identifying recursive directory flags (-R)."
+  },
+  {
+    id: "Q033",
+    topic: "macOS Time Machine Management",
+    difficulty: "medium",
+    scenario: "A macOS user utilizes an external 2TB APFS drive configured for Time Machine. The user notices the drive is now 98% full. Worried that the scheduled hourly backups will fail today due to a lack of disk space, the user contacts the IT help desk to request a data purging script.",
+    prompt: "What is the BEST administrative response to this user's concern?",
+    choices: [
+      { key: "A", text: "Advise the user to manually drag the oldest backup folders to the Trash to clear catalog space immediately." },
+      { key: "B", text: "Run the Disk Utility First Aid tool to selectively compress the oldest APFS snapshots." },
+      { key: "C", text: "Inform the user that no action is needed; Time Machine automatically deletes the oldest backups when the disk becomes full." },
+      { key: "D", text: "Temporarily disable \"Back Up Automatically\" in System Settings until a larger replacement drive is purchased." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "drive is now 98% full... worried that the scheduled hourly backups will fail... request a data purging script",
+    explanationCorrect: "Time Machine is designed with automated lifecycle management for backups. It keeps hourly, daily, and weekly backups based on a set schedule. When the backup drive eventually becomes full, Time Machine's default operational behavior is to automatically prune and delete the oldest backups to free up space for new ones. Therefore, the system is working as intended, and no administrative scripts or manual purges are necessary.",
+    explanationIncorrect: {
+      A: "Attempting to manually delete Time Machine backup folders via the Finder can corrupt the backup catalog and break the integrity of the Time Machine database. It is a highly dangerous practice.",
+      B: "Disk Utility First Aid is used to check and repair filesystem corruption and structural errors on a volume. It is not a compression tool and has no functionality to manage or shrink Time Machine snapshots.",
+      C: "",
+      D: "Disabling backups entirely leaves the user's current working data completely unprotected and vulnerable to loss. Since Time Machine manages space automatically, halting the backup process is a severely flawed and unnecessary preventative measure."
+    },
+    examTrap: "Long-term prevention vs. unnecessary remediation; understanding native automated OS maintenance routines."
+  },
+  {
+    id: "Q034",
+    topic: "Linux Directory Sizing",
+    difficulty: "medium",
+    scenario: "A Linux database server's root partition has triggered a capacity warning. The administrator suspects a specific application directory (/var/lib/pgsql) is hoarding disk space due to bloated temporary files. Before deleting anything, the administrator needs to confirm the exact size of that specific directory tree.",
+    prompt: "Which command should the administrator select to verify the size of this specific directory tree?",
+    choices: [
+      { key: "A", text: "df /var/lib/pgsql" },
+      { key: "B", text: "du /var/lib/pgsql" },
+      { key: "C", text: "ls -la /var/lib/pgsql" },
+      { key: "D", text: "fsck /var/lib/pgsql" }
+    ],
+    correctKey: "B",
+    triggerPhrase: "confirm the exact size of that specific directory tree",
+    explanationCorrect: "The du (disk usage) command is specifically designed to calculate and display how a storage device is used at a granular level, including detailing the size of specific directory trees and the files within them. Executing it against a specific path will yield the exact byte-size footprint of that folder, perfectly fulfilling the administrator's requirement.",
+    explanationIncorrect: {
+      A: "The df (disk free) command provides a macro-level view of a mounted partition's overall free space, total size, and percentage used. It does not calculate or report the size of specific granular directory trees.",
+      B: "",
+      C: "While the ls -l command lists file sizes for individual items directly inside the directory, it does not recursively calculate and aggregate the total cumulative size of the directory and all its nested subfolders.",
+      D: "The fsck utility is used to check and repair filesystem corruption errors, usually against a device partition like /dev/sda1. It does not measure or report disk space usage metrics."
+    },
+    examTrap: "Tool Selection; differentiating between partition-wide storage tools (df) and granular directory sizing tools (du)."
+  },
+  {
+    id: "Q035",
+    topic: "macOS Continuity Features",
+    difficulty: "hard",
+    scenario: "A faculty member frequently relies on Universal Clipboard to copy academic text from their iPhone and instantly paste it onto their MacBook while working in their campus office. One afternoon, the campus Wi-Fi router suffers a hardware failure. The faculty member seamlessly transitions their iPhone to a 5G cellular data connection to continue researching, but complains to IT that the Universal Clipboard immediately stopped functioning.",
+    prompt: "What is the MOST likely architectural reason for the Universal Clipboard failure?",
+    choices: [
+      { key: "A", text: "Universal Clipboard requires an active iCloud+ subscription to synchronize data over a cellular connection." },
+      { key: "B", text: "Apple Continuity features dictate that both devices must be connected to the exact same Wi-Fi network." },
+      { key: "C", text: "The cellular provider is actively blocking the Apple Handoff synchronization port over their 5G network." },
+      { key: "D", text: "The Mac requires a hardwired Ethernet connection whenever the companion iPhone is utilizing cellular data." }
+    ],
+    correctKey: "B",
+    triggerPhrase: "campus Wi-Fi router suffers a hardware failure... transitions their iPhone to a 5G cellular data connection",
+    explanationCorrect: "Universal Clipboard is a core macOS/iOS Continuity feature. Apple enforces strict environmental prerequisites for these features to operate: the devices must be signed into the same Apple ID, have Bluetooth enabled, and critically, they must be connected to the same Wi-Fi network. By switching the iPhone to a cellular network while the Mac is disconnected from Wi-Fi, the shared local network requirement is broken, causing the feature to fail.",
+    explanationIncorrect: {
+      A: "Continuity features like Universal Clipboard are native, free functions built into the base operating systems. They do not require a paid iCloud+ storage subscription to operate, over cellular or otherwise.",
+      B: "",
+      C: "Continuity features rely on local peer-to-peer Wi-Fi and Bluetooth negotiation, not routing through the cellular provider's wide-area network. The cellular provider is not blocking a port; the local networking prerequisite simply isn't met.",
+      D: "Continuity proximity features explicitly require a shared Wi-Fi connection to negotiate trusted handshakes. Hardwiring the Mac via Ethernet does not resolve the broken requirement of the devices needing to be on the same wireless network."
+    },
+    examTrap: "Domain Integration (Mobile Devices + Networking + OS Features); identifying the rigid environmental dependencies of proprietary synchronization tools."
+  },
+  {
+    id: "Q036",
+    topic: "Linux File Copy",
+    difficulty: "easy",
+    scenario: "A junior technician is tasked with backing up an entire folder containing numerous project subdirectories. The technician types cp /home/david/project /tmp/backup into the Linux terminal. The shell immediately returns an error indicating that directories are involved, and the copy operation is aborted.",
+    prompt: "How must the technician modify the command syntax to successfully copy the entire directory structure?",
+    choices: [
+      { key: "A", text: "Add the -v option to force the terminal to increase verbosity." },
+      { key: "B", text: "Append /* to the source path to select all files individually." },
+      { key: "C", text: "Add the -r option to copy the directory and its contents recursively." },
+      { key: "D", text: "Run the mount command on the /tmp/backup directory first." }
+    ],
+    correctKey: "C",
+    triggerPhrase: "backing up an entire folder containing numerous project subdirectories... error indicating that directories are involved",
+    explanationCorrect: "The standard cp command is designed to copy individual files. When attempting to copy a directory that contains subdirectories and files, the command will fail unless the administrator explicitly tells it to drill down into the folder structure. Adding the -r (recursive) option instructs the cp command to copy the parent directory and all nested contents within it.",
+    explanationIncorrect: {
+      A: "The -v (verbose) option simply forces the command to print a detailed text list of the files as they are copied. It does not grant the command the functional capability to handle directories.",
+      B: "While /* would select all immediate files within the parent folder, it would fail to copy any nested subdirectories found inside that folder unless the recursive flag was also used.",
+      C: "",
+      D: "The mount command attaches an entire filesystem to a directory hierarchy. The /tmp directory is already a standard, mounted part of the Linux filesystem structure; running a mount command against a basic backup folder is technically invalid and unnecessary."
+    },
+    examTrap: "Understanding the strict requirement of recursive flags when manipulating folder hierarchies in command-line environments."
+  },
+  {
+    id: "Q037",
+    topic: "Linux Text Processing",
+    difficulty: "medium",
+    scenario: "A Linux system administrator is tasked with extracting specific data from a massive log file located at /var/log/syslog. The administrator needs to find all log entries containing the word \"error\" (ignoring whether it is capitalized or lowercase) and place those exact lines into a completely new, blank text file named audit.txt. The administrator types grep \"error\" /var/log/syslog >> audit.txt into the terminal. Upon opening audit.txt, they notice it missed several entries labeled \"ERROR\" and instead of creating a clean file, it added the new text to the bottom of an older report.",
+    prompt: "Which of the following command syntaxes will correctly resolve both of the administrator's issues?",
+    choices: [
+      { key: "A", text: "grep -i \"error\" /var/log/syslog > audit.txt" },
+      { key: "B", text: "grep -i \"error\" /var/log/syslog >> audit.txt" },
+      { key: "C", text: "find /var/log/syslog -name \"error\" > audit.txt" },
+      { key: "D", text: "cat -n /var/log/syslog | grep \"error\" > audit.txt" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "ignoring whether it is capitalized or lowercase... completely new, blank text file",
+    explanationCorrect: "The grep command uses the -i switch to perform a case-insensitive search, which ensures that strings like \"error\", \"ERROR\", and \"Error\" are all successfully matched. To output this data into a completely fresh file (or overwrite an existing one), the administrator must use the single greater-than operator (>), which dictates that the destination file will be overwritten with the new standard output. This perfectly resolves both the capitalization omission and the appending error.",
+    explanationIncorrect: {
+      A: "",
+      B: "This option is incorrect because the double greater-than operator (>>) tells the shell to append the new data to the bottom of the destination file. While it correctly utilizes the -i flag for case insensitivity, it fails the requirement to place the data into a clean, blank text file.",
+      C: "The find command is used to search for the actual names of files within a directory path, not the text strings contained inside those files. Using the -name switch here would literally search the filesystem for a file titled \"error,\" making it useless for parsing text logs.",
+      D: "While the single > correctly overwrites the destination file, this command is missing the -i flag required to make the grep search case-insensitive. Furthermore, piping cat -n simply adds line numbers to the output, which was not requested in the scenario."
+    },
+    examTrap: "Differentiating between the destructive overwrite redirection operator (>) and the non-destructive append operator (>>), alongside basic command flags (-i)."
+  },
+  {
+    id: "Q038",
+    topic: "macOS Keyboard Mapping",
+    difficulty: "easy",
+    scenario: "A new software developer is issued a Mac mini but insists on connecting their personal, third-party mechanical keyboard designed for Windows PCs. The developer complains that their muscle memory is severely disrupted because the physical ALT key is not triggering the correct native macOS shortcut functions. They suspect the keyboard requires a proprietary driver update.",
+    prompt: "What is the MOST appropriate administrative action to resolve the developer's frustration?",
+    choices: [
+      { key: "A", text: "Open the Keyboard preferences pane in System Settings to map the modifier keys correctly." },
+      { key: "B", text: "Open the Accessibility preferences pane to enable VoiceOver cursor mapping." },
+      { key: "C", text: "Download a .pkg driver installation file from the keyboard manufacturer's website." },
+      { key: "D", text: "Boot into the macOS Recovery menu and reset the core USB interface configurations." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "mechanical keyboard designed for Windows PCs... ALT key is not triggering the correct native macOS shortcut",
+    explanationCorrect: "Apple keyboards feature specialized modifier keys—specifically COMMAND, OPTION, and CONTROL. When a standard Windows PC keyboard is connected to a Mac, the ALT key typically acts as the OPTION key, which can cause confusion based on physical placement. macOS includes a native feature within the Keyboard pane in System Preferences specifically designed to remap modifier keys when using non-Apple keyboards, allowing the user to customize the layout to match their muscle memory seamlessly.",
+    explanationIncorrect: {
+      A: "",
+      B: "The Accessibility pane is designed for assistive vision and sound options, such as screen narration (VoiceOver) and zoom tools. It is not the location for remapping basic hardware keyboard modifier strokes.",
+      C: "Basic USB keyboards use standard HID (Human Interface Device) drivers that are universally recognized by macOS out of the box. Searching for a .pkg installer for fundamental modifier key behavior is an unnecessary overcomplication when the OS provides native mapping tools.",
+      D: "The macOS Recovery menu (accessed via COMMAND+R) is used for extreme troubleshooting, such as restoring from Time Machine, reinstalling the OS, or utilizing Disk Utility to erase a drive. Resetting interfaces in a recovery environment is an excessive and incorrect remediation for a simple user preference mapping issue."
+    },
+    examTrap: "Recognizing native OS configuration locations versus unnecessary hardware/driver interventions."
+  },
+  {
+    id: "Q039",
+    topic: "Linux Process Monitoring",
+    difficulty: "medium",
+    scenario: "A Linux web server is experiencing severe performance degradation due to a runaway background process. The administrator knows the offending process is owned by the apache service user account, but does not know the specific Process ID (PID). The administrator launches the top command, but the terminal is immediately flooded with hundreds of rapidly shifting processes from the root account, making it impossible to spot the target.",
+    prompt: "Which interactive keystroke should the administrator use FIRST to isolate the runaway process?",
+    choices: [
+      { key: "A", text: "Press the u key and type apache at the prompt." },
+      { key: "B", text: "Press SHIFT+N to sort the processes in decreasing order." },
+      { key: "C", text: "Press P to sort the processes by CPU utilization." },
+      { key: "D", text: "Press q to exit and run the systemctl stop apache command." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "knows the offending process is owned by the apache service user... terminal is immediately flooded... making it impossible to spot",
+    explanationCorrect: "The top command is an interactive process management tool that provides a dynamic, real-time view of running system processes. Because the administrator already knows the exact user account tied to the rogue process, pressing the u key allows them to input a specific username at the prompt, instantly filtering the display to show only processes owned by that user. This cleanly eliminates the clutter of root processes and fulfills the immediate objective.",
+    explanationIncorrect: {
+      A: "",
+      B: "Pressing SHIFT+N interactively sorts the process list by PID number. Because the administrator explicitly does not know the PID, sorting numerically will not help them identify the rogue apache process amid the hundreds of shifting entries.",
+      C: "While sorting by CPU usage (using P) is a highly valuable troubleshooting step, it will not definitively filter out the root clutter if multiple system services are actively fighting for CPU time. Filtering by the known user (u) is a far more precise first step to narrow the visual field.",
+      D: "Pressing q will successfully exit the top utility. However, blindly attempting to stop an entire service via systemctl without first isolating and observing the specific offending PID's behavior is contrary to good diagnostic methodology; the administrator needs to view the process first."
+    },
+    examTrap: "Familiarity with the interactive keystrokes embedded within persistent command-line utilities.",
+    "BEST First Step Explanation": "Filtering a flooded, dynamic display by a known parameter (username) is required before analytical monitoring can take place."
+  },
+  {
+    id: "Q040",
+    topic: "macOS Filesystem Protection",
+    difficulty: "hard",
+    scenario: "A university researcher attempts to manually clean up their macOS hard drive to free up space. Using the Finder, they navigate to the root directory and attempt to drag a massive subfolder named System to the Trash. The researcher assumes that they only need the Users and Applications directories for their daily workflow. The OS immediately blocks the deletion with an alert, despite the researcher being logged in as an Administrator.",
+    prompt: "Why is this administrative action blocked?",
+    choices: [
+      { key: "A", text: "The folder contains the core operating system files guarded by macOS and is generally not modifiable by users." },
+      { key: "B", text: "The macOS Gatekeeper feature restricts arbitrary file deletions to cryptographically identified developers." },
+      { key: "C", text: "The researcher must authenticate using their Apple ID password rather than local credentials to delete root objects." },
+      { key: "D", text: "The hard drive is protected by FileVault encryption, requiring the Disk Utility to delete top-level directories." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "navigate to the root directory and attempt to drag a massive subfolder named System to the Trash",
+    explanationCorrect: "In the macOS directory structure, the /System folder houses the absolute core system files and critical resources required for the operating system to boot and function securely. To prevent accidental or malicious destruction of the OS, this folder is strictly managed by the operating system itself and is heavily guarded against modifications, even from users holding local Administrator privileges.",
+    explanationIncorrect: {
+      A: "",
+      B: "Gatekeeper is a dedicated security mechanism designed to control the installation and execution of applications by checking developer certificates and App Store trust. It plays no role in governing the deletion of local folders via the Finder interface.",
+      C: "While an Apple ID is heavily integrated into macOS for iCloud, App Store purchases, and synchronization, standard local administrative actions (when permitted) rely on the local Administrator account password. The Apple ID does not magically bypass core OS file protections.",
+      D: "FileVault provides full-disk encryption to protect data at rest against unauthorized physical access if the device is stolen. Once a user successfully logs into macOS, the volume is decrypted for that session; FileVault does not prevent an active, logged-in user from moving decrypted files to the Trash."
+    },
+    examTrap: "Understanding the filesystem hierarchy constraints and the difference between user space (/Users, /Applications) and protected OS space (/System)."
+  },
+  {
+    id: "Q041",
+    topic: "Linux Filesystem Repair",
+    difficulty: "medium",
+    scenario: "After an unexpected facility power failure, a Linux web server reboots. Instead of launching the graphical desktop and loading standard services, the server boots directly into a minimal command-line environment, displaying a warning message that filesystem corruption has been detected on the root partition (/dev/sda1).",
+    prompt: "Which of the following commands is the BEST tool to remediate this unmounted, corrupted partition?",
+    choices: [
+      { key: "A", text: "fsck /dev/sda1" },
+      { key: "B", text: "mount /dev/sda1 /mnt" },
+      { key: "C", text: "df /dev/sda1" },
+      { key: "D", text: "systemctl start apache2" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "filesystem corruption has been detected on the root partition",
+    explanationCorrect: "The fsck (Filesystem Check) command is a highly specific maintenance utility designed exclusively to check the structural integrity of filesystems and repair data corruption. When a Linux system experiences an improper shutdown and detects severe errors on a partition like /dev/sda1, running fsck against that unmounted device block is the required procedural step to fix the errors before the operating system can safely boot.",
+    explanationIncorrect: {
+      A: "",
+      B: "The mount command attaches a functional, healthy filesystem to a directory hierarchy so users can access the data. Attempting to actively mount a severely corrupted partition before repairing it can cause further catastrophic data loss or kernel panics.",
+      C: "The df (disk free) command simply calculates and displays the total capacity and available free space on a volume. It provides read-only informational metrics and possesses absolutely zero capability to repair corrupted disk sectors or filesystem catalogs.",
+      D: "The systemctl command interacts with systemd to manage services. Attempting to launch a high-level application service like a web server while the underlying root filesystem is corrupted and unmounted will instantly fail, as the executable binaries cannot be safely accessed."
+    },
+    examTrap: "Recognizing the correct sequence of disaster recovery methodologies (repairing the block device before mounting or starting application services)."
+  },
+  {
+    id: "Q042",
+    topic: "macOS Auto Unlock",
+    difficulty: "hard",
+    scenario: "An executive wants to utilize the Auto Unlock feature to bypass the login screen on their MacBook Pro using their authenticated Apple Watch. The watch and the Mac are both logged into the identical Apple ID, have Bluetooth actively enabled, and are physically inches apart. However, the Mac refuses to unlock. The IT technician notes that the executive recently turned off Wi-Fi on the MacBook to force all network traffic over a hardwired Ethernet connection.",
+    prompt: "What is the MOST likely architectural reason for the Auto Unlock failure?",
+    choices: [
+      { key: "A", text: "Apple Continuity features strictly require both devices to be connected to the exact same Wi-Fi network to negotiate trust." },
+      { key: "B", text: "The hardwired Ethernet adapter is routing through a corporate proxy that is blocking port 443." },
+      { key: "C", text: "The Apple Watch must be manually paired via the System Settings > Bluetooth pane prior to using the feature." },
+      { key: "D", text: "Auto Unlock relies on iCloud synchronization, which requires an active, paid iCloud+ storage subscription to function locally." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "turned off Wi-Fi on the MacBook to force all network traffic over a hardwired Ethernet connection",
+    explanationCorrect: "Auto Unlock is an Apple Continuity feature that enables seamless interaction between hardware devices. A rigid, mandatory prerequisite for Continuity features—including Auto Unlock, Handoff, and Universal Clipboard—is that both participating devices must be signed into the same Apple ID, have Bluetooth turned on, and be actively connected to the exact same Wi-Fi network. By disabling Wi-Fi on the Mac, the executive severed the local peer-to-peer network negotiation pathway, causing the feature to fail.",
+    explanationIncorrect: {
+      A: "",
+      B: "Continuity features rely heavily on local, proximity-based wireless network connections (Wi-Fi and Bluetooth) to establish a trusted handshake. The status of outbound internet ports on the Ethernet connection is irrelevant because the physical Wi-Fi radio requirement is missing.",
+      C: "Apple Continuity and Auto Unlock establish their own secure, invisible Bluetooth/Wi-Fi pairings authenticated through the shared Apple ID. Users do not, and cannot, manually pair an Apple Watch to a Mac in the standard Bluetooth settings menu.",
+      D: "While iCloud handles the underlying account identity, Auto Unlock is a native, free feature built into the operating system. It does not require a premium, paid iCloud+ subscription to operate."
+    },
+    examTrap: "Domain Integration (macOS Features + Networking); identifying the rigid environmental dependencies of proprietary wireless synchronization tools."
+  },
+  {
+    id: "Q043",
+    topic: "Linux Package Managers",
+    difficulty: "easy",
+    scenario: "A technician is tasked with deploying software on a cluster of Red Hat Enterprise Linux (RHEL) servers. The technician attempts to install a required networking tool by typing apt install nmap into the terminal. The shell immediately returns a \"command not found\" error, despite the server possessing full outbound internet connectivity and resolving external domains successfully.",
+    prompt: "What is the MOST likely reason for this error message?",
+    choices: [
+      { key: "A", text: "Red Hat-based distributions utilize the dnf package manager rather than the apt utility." },
+      { key: "B", text: "The technician failed to run the apt update command to build the local repository index first." },
+      { key: "C", text: "The package manager's cryptographic signature (GPG) for the installation has expired." },
+      { key: "D", text: "The apt command requires elevated execution privileges via sudo to be recognized by the shell." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "Red Hat Enterprise Linux (RHEL) servers... apt install... command not found",
+    explanationCorrect: "Linux distributions utilize different package management systems depending on their architectural lineage. The Advanced Packaging Tool (apt) is strictly native to Debian-based distributions (like Ubuntu). Conversely, Red Hat-based distributions (such as RHEL, CentOS, or Fedora) utilize Dandified YUM (dnf) to handle .rpm packages. Because the technician typed an Ubuntu-specific command into a Red Hat terminal, the shell rightfully stated the tool did not exist.",
+    explanationIncorrect: {
+      A: "",
+      B: "If the apt utility were actually present on the system, failing to run an update would result in a \"package not located\" error, not a \"command not found\" error. The shell is rejecting the program name itself.",
+      C: "While package managers verify software integrity using cryptographic hashes, an invalid signature results in a distinct security warning during the download phase. It does not cause the core package manager executable (apt) to become invisible to the shell.",
+      D: "If a standard user attempts to install software without sudo, the shell will return a \"Permission Denied\" error. A \"command not found\" error proves the executable binary is entirely missing from the system path, which is expected since it's the wrong OS family."
+    },
+    examTrap: "Direct Objective Recall; correlating the correct package manager syntax to the appropriate Linux distribution family."
+  },
+  {
+    id: "Q044",
+    topic: "macOS Gatekeeper",
+    difficulty: "medium",
+    scenario: "A university student downloads an open-source data visualization tool directly from a developer's GitHub page. The application is packaged as a standard .dmg file. The student opens the image and copies the app to the Applications folder. However, when they double-click the program to launch it, macOS halts the execution with a strict warning, stating the app cannot be opened because the developer cannot be verified.",
+    prompt: "Which of the following actions provides the safest, policy-compliant solution to run this software?",
+    choices: [
+      { key: "A", text: "Navigate to System Settings > Privacy & Security, click the padlock, authenticate as an Administrator, and authorize the application." },
+      { key: "B", text: "Open the Terminal and run chmod 777 on the .app file to grant global execution permissions." },
+      { key: "C", text: "Launch Disk Utility, select the primary macOS volume, and disable the APFS system snapshot protection." },
+      { key: "D", text: "Temporarily turn off FileVault encryption to bypass the digital signature checks during application launch." }
+    ],
+    correctKey: "A",
+    triggerPhrase: "downloaded... directly from a developer's GitHub... app cannot be opened because the developer cannot be verified",
+    explanationCorrect: "macOS utilizes a security feature known as Gatekeeper, which by default heavily restricts application execution strictly to software downloaded from the official App Store or from developers cryptographically identified by Apple. To override this block for a legitimate but unverified third-party application, the user must navigate to the Privacy & Security preferences pane in System Settings, explicitly authenticate using an Administrator password, and manually grant permission for the app to run.",
+    explanationIncorrect: {
+      A: "",
+      B: "The chmod command modifies basic read/write/execute permissions on the filesystem. The block happening here is not a filesystem permission issue; it is an active security policy block executed by Gatekeeper. chmod will not bypass Gatekeeper.",
+      C: "Disk Utility manages physical volumes and formatting. APFS snapshots are tied to Time Machine backups and local recovery states. Disabling them does absolutely nothing to alter OS-level software execution policies.",
+      D: "FileVault provides data-at-rest encryption to protect the hard drive if the physical device is stolen. It has no interaction with or influence over digital software signatures or runtime application authorization."
+    },
+    examTrap: "Understanding the specific administrative intervention required to bypass default OS execution security (Gatekeeper)."
+  },
+  {
+    id: "Q045",
+    topic: "Linux Scheduling (cron)",
+    difficulty: "hard",
+    scenario: "A Linux administrator creates a script to back up an SQL database. To adhere strictly to a new disaster recovery policy, this script must be configured to run completely automatically at exactly 11:45 PM every Tuesday, without fail. The administrator opens the crontab editor to insert the scheduling syntax.",
+    prompt: "Which of the following text strings represents the correct configuration for this automation task?",
+    choices: [
+      { key: "A", text: "45 23 * * 2 /opt/scripts/sql_backup.sh" },
+      { key: "B", text: "45 11 * * 3 /opt/scripts/sql_backup.sh" },
+      { key: "C", text: "23 45 2 * * /opt/scripts/sql_backup.sh" },
+      { key: "D", text: "45 23 * 2 * /opt/scripts/sql_backup.sh" }
+    ],
+    correctKey: "A",
+    triggerPhrase: "exactly 11:45 PM every Tuesday",
+    explanationCorrect: "The cron scheduling daemon requires syntax in a highly specific sequential order: minutes, hours, day of the month, month, and day of the week. In this required sequence, 45 represents the minutes, 23 represents 11:00 PM on a 24-hour clock, the two asterisks (* *) represent any day of the month and any month, and 2 represents Tuesday (with 0 or 7 being Sunday). This string flawlessly executes the policy constraint.",
+    explanationIncorrect: {
+      A: "",
+      B: "This configuration incorrectly uses 11 for the hour, which corresponds to 11:00 AM on a 24-hour clock, rather than the requested 11:00 PM. Furthermore, it uses 3 for the day of the week, which would schedule the job for Wednesday, not Tuesday.",
+      C: "This string reverses the minute and hour fields, attempting to schedule the job for the 45th hour of the 23rd minute, which is invalid syntax. Additionally, the 2 is placed in the \"day of the month\" slot, meaning the job would only run on the 2nd day of every month.",
+      D: "While the minute and hour (11:45 PM) are correct, the 2 is placed in the \"month\" column. This configuration means the backup would only execute during the month of February, rather than every Tuesday year-round."
+    },
+    examTrap: "Exact parameter sequencing for the crontab utility (mm hh dd MM weekday) and 24-hour clock conversions."
+  }
+];
+
+// Make it globally available for the quiz engine
+window.QUESTION_BANK = QUESTION_BANK;
+
+/* =========================
+   Persistence / State
+   ========================= */
+const LS_KEY = "mcq_instructor_console_state_v1";
+
+const defaultState = () => ({
+  mode: "idle",                 // idle | quiz | review | summary
+  filters: { topic: "all", difficulty: "all", numQuestions: 10 },
+  quiz: {
+    order: [],                  // array of question ids in current run
+    index: 0,                   // current question index
+    answers: {},                // { [qid]: { selectedKey, correct, timestamp } }
+    submitted: false
+  },
+  missed: [],                   // array of question ids (unique) for review
+  lastSummary: null             // { total, correct, incorrect, percent, mode, timestamp }
+});
+
+let state = loadState();
+
+/* =========================
+   DOM Elements
+   ========================= */
+const topicSelect = document.getElementById("topicSelect");
+const difficultySelect = document.getElementById("difficultySelect");
+const numQuestionsInput = document.getElementById("numQuestions");
+
+const startBtn = document.getElementById("startBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+const resumeBtn = document.getElementById("resumeBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const scoreText = document.getElementById("scoreText");
+const completionText = document.getElementById("completionText");
+const modeText = document.getElementById("modeText");
+
+const insightsSummary = document.getElementById("insightsSummary");
+const insightsDetails = document.getElementById("insightsDetails");
+
+const cardTitle = document.getElementById("cardTitle");
+const cardMeta = document.getElementById("cardMeta");
+const leadText = document.getElementById("leadText");
+
+const tagMode = document.getElementById("tagMode");
+const tagTopic = document.getElementById("tagTopic");
+const tagDiff = document.getElementById("tagDiff");
+const tagProgress = document.getElementById("tagProgress");
+
+const scenarioBox = document.getElementById("scenarioBox");
+const scenarioText = document.getElementById("scenarioText");
+
+const promptBox = document.getElementById("promptBox");
+const promptText = document.getElementById("promptText");
+const questionForm = document.getElementById("questionForm");
+const choicesFieldset = document.getElementById("choicesFieldset");
+
+const submitBtn = document.getElementById("submitBtn");
+const nextBtn = document.getElementById("nextBtn");
+const submitHint = document.getElementById("submitHint");
+
+const feedbackBox = document.getElementById("feedbackBox");
+const feedbackBody = document.getElementById("feedbackBody");
+const resultTag = document.getElementById("resultTag");
+
+const summaryBox = document.getElementById("summaryBox");
+const summaryToast = document.getElementById("summaryToast");
+const retakeBtn = document.getElementById("retakeBtn");
+const reviewFromSummaryBtn = document.getElementById("reviewFromSummaryBtn");
+
+/* =========================
+   Utilities
+   ========================= */
+function saveState(){
+  localStorage.setItem(LS_KEY, JSON.stringify(state));
+  renderAll();
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+
+    // minimal migration hardening
+    const base = defaultState();
+    return {
+      ...base,
+      ...parsed,
+      filters: { ...base.filters, ...(parsed.filters || {}) },
+      quiz: { ...base.quiz, ...(parsed.quiz || {}) },
+      missed: Array.isArray(parsed.missed) ? parsed.missed : base.missed
+    };
+  }catch(e){
+    return defaultState();
+  }
+}
+
+function byId(id){
+  return QUESTION_BANK.find(q => q.id === id) || null;
+}
+
+function unique(arr){
+  return Array.from(new Set(arr));
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function clamp(n, min, max){
+  return Math.max(min, Math.min(max, n));
+}
+
+function countCorrectIncorrect(){
+  const answers = state.quiz.answers || {};
+  const ids = state.quiz.order || [];
+  let correct = 0, incorrect = 0, answered = 0;
+  for(const qid of ids){
+    const a = answers[qid];
+    if(a && typeof a.correct === "boolean"){
+      answered++;
+      if(a.correct) correct++;
+      else incorrect++;
+    }
+  }
+  return { correct, incorrect, answered, total: ids.length };
+}
+
+function calcPercent(correct, total){
+  if(!total) return 0;
+  return Math.round((correct / total) * 100);
+}
+
+/* =========================
+   Initialization
+   ========================= */
+function init(){
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  wireEvents();
+  renderAll();
+}
+
+function populateTopicDropdown(){
+  const topics = unique(QUESTION_BANK.map(q => q.topic)).sort((a,b)=>a.localeCompare(b));
+  topicSelect.innerHTML = "";
+  const optAll = document.createElement("option");
+  optAll.value = "all";
+  optAll.textContent = "All";
+  topicSelect.appendChild(optAll);
+
+  for(const t of topics){
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    topicSelect.appendChild(opt);
+  }
+}
+
+function applyFiltersToUIFromState(){
+  topicSelect.value = state.filters.topic ?? "all";
+  difficultySelect.value = state.filters.difficulty ?? "all";
+  numQuestionsInput.value = clamp(Number(state.filters.numQuestions ?? 10), 1, 45);
+}
+
+/* =========================
+   Event Wiring
+   ========================= */
+function wireEvents(){
+  topicSelect.addEventListener("change", () => {
+    state.filters.topic = topicSelect.value;
+    saveState();
+  });
+
+  difficultySelect.addEventListener("change", () => {
+    state.filters.difficulty = difficultySelect.value;
+    saveState();
+  });
+
+  numQuestionsInput.addEventListener("change", () => {
+    state.filters.numQuestions = clamp(Number(numQuestionsInput.value || 10), 1, 45);
+    numQuestionsInput.value = state.filters.numQuestions;
+    saveState();
+  });
+
+  startBtn.addEventListener("click", startQuizFromFilters);
+  reviewBtn.addEventListener("click", startReviewMode);
+  resumeBtn.addEventListener("click", resumeSession);
+  resetBtn.addEventListener("click", resetAll);
+
+  submitBtn.addEventListener("click", submitAnswer);
+  nextBtn.addEventListener("click", nextQuestion);
+
+  retakeBtn.addEventListener("click", () => {
+    // retake uses current filters as set in the left panel
+    startQuizFromFilters();
+  });
+
+  reviewFromSummaryBtn.addEventListener("click", startReviewMode);
+
+  // Allow Enter to submit in a controlled way (only when a choice is selected).
+  questionForm.addEventListener("keydown", (e) => {
+    if(e.key === "Enter" && state.mode !== "idle"){
+      e.preventDefault();
+      if(!state.quiz.submitted) submitAnswer();
+      else nextQuestion();
+    }
+  });
+}
+
+/* =========================
+   Mode Entry Points
+   ========================= */
+function startQuizFromFilters(){
+  const filtered = filterQuestions(state.filters.topic, state.filters.difficulty);
+  if(filtered.length === 0){
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    state.lastSummary = null;
+    saveState();
+    announce("No questions match the current filters. Adjust topic or difficulty and try again.", "warn");
+    return;
+  }
+
+  const n = clamp(Number(state.filters.numQuestions || 10), 1, 45);
+  const order = shuffle(filtered.map(q => q.id)).slice(0, n);
+
+  state.mode = "quiz";
+  state.quiz = {
+    order,
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function startReviewMode(){
+  const missed = unique(state.missed || []);
+  const available = missed.map(byId).filter(Boolean);
+  if(available.length === 0){
+    announce("There are no missed questions to review yet.", "warn");
+    renderAll();
+    return;
+  }
+
+  state.mode = "review";
+  state.quiz = {
+    order: available.map(q => q.id),
+    index: 0,
+    answers: {},
+    submitted: false
+  };
+  state.lastSummary = null;
+  saveState();
+
+  focusFirstChoice();
+}
+
+function resumeSession(){
+  // Resume only if there is an in-progress quiz/review with an order.
+  const hasOrder = Array.isArray(state.quiz.order) && state.quiz.order.length > 0;
+  if(!hasOrder || state.mode === "idle" || state.mode === "summary"){
+    announce("No in-progress session to resume. Start a new quiz or review missed questions.", "warn");
+    renderAll();
+    return;
+  }
+  renderAll();
+  focusFirstChoice();
+}
+
+function resetAll(){
+  localStorage.removeItem(LS_KEY);
+  state = defaultState();
+  populateTopicDropdown();
+  applyFiltersToUIFromState();
+  renderAll();
+  announce("All saved progress has been cleared.", "good");
+}
+
+/* =========================
+   Filtering
+   ========================= */
+function filterQuestions(topic, difficulty){
+  return QUESTION_BANK.filter(q => {
+    const tOk = (topic === "all") || (q.topic === topic);
+    const dOk = (difficulty === "all") || (q.difficulty === difficulty);
+    return tOk && dOk;
+  });
+}
+
+/* =========================
+   Rendering
+   ========================= */
+function renderAll(){
+  renderHeaderAndStats();
+  renderInsights();
+  renderMain();
+}
+
+function renderHeaderAndStats(){
+  const modeLabel = state.mode === "quiz" ? "Quiz" :
+                    state.mode === "review" ? "Review" :
+                    state.mode === "summary" ? "Summary" : "Idle";
+
+  tagMode.textContent = modeLabel;
+  tagMode.className = "tag";
+
+  modeText.textContent = `Mode: ${modeLabel}`;
+
+  const { correct, incorrect, answered, total } = countCorrectIncorrect();
+  if(state.mode === "quiz" || state.mode === "review"){
+    scoreText.textContent = `${correct} correct / ${incorrect} incorrect`;
+    completionText.textContent = `${answered} of ${total}`;
+  }else if(state.lastSummary){
+    scoreText.textContent = `${state.lastSummary.correct} correct / ${state.lastSummary.incorrect} incorrect`;
+    completionText.textContent = `${state.lastSummary.total} total (${state.lastSummary.percent}%)`;
+  }else{
+    scoreText.textContent = "—";
+    completionText.textContent = "—";
+  }
+}
+
+function renderInsights(){
+  const missedIds = unique(state.missed || []).filter(id => !!byId(id));
+  if(missedIds.length === 0){
+    insightsSummary.textContent = "No missed-question pattern data yet.";
+    insightsSummary.className = "toast";
+    insightsDetails.textContent = "When you miss questions, this panel summarizes patterns by topic and difficulty.";
+    return;
+  }
+
+  const topicCounts = {};
+  const diffCounts = {};
+  for(const id of missedIds){
+    const q = byId(id);
+    if(!q) continue;
+    topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+    diffCounts[q.difficulty] = (diffCounts[q.difficulty] || 0) + 1;
+  }
+
+  const topTopic = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1])[0];
+  const topDiff = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1])[0];
+
+  insightsSummary.className = "toast";
+  insightsSummary.textContent = `Missed set: ${missedIds.length} question(s). Most frequent topic: ${topTopic[0]} (${topTopic[1]}). Most frequent difficulty: ${topDiff[0]} (${topDiff[1]}).`;
+
+  const topicList = Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  const diffList = Object.entries(diffCounts).sort((a,b)=>b[1]-a[1]).map(([k,v]) => `${k}: ${v}`).join(" • ");
+  insightsDetails.textContent = `By topic → ${topicList}. By difficulty → ${diffList}.`;
+}
+
+function renderMain(){
+  // idle
+  if(state.mode === "idle"){
+    cardTitle.textContent = "Ready when you are.";
+    leadText.textContent = "Use the panel on the left to start a quiz. You will receive immediate, instructor-style feedback after submitting each answer.";
+    scenarioBox.hidden = true;
+    promptBox.hidden = true;
+    feedbackBox.hidden = true;
+    summaryBox.hidden = true;
+
+    tagTopic.textContent = "Topic: —";
+    tagDiff.textContent = "Difficulty: —";
+    tagProgress.textContent = "Question — of —";
+    return;
+  }
+
+  // summary
+  if(state.mode === "summary"){
+    renderSummary();
+    return;
+  }
+
+  // quiz/review
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+
+  if(!q){
+    // defensive fallback
+    state.mode = "idle";
+    state.quiz = defaultState().quiz;
+    saveState();
+    return;
+  }
+
+  const modeLabel = state.mode === "review" ? "Review" : "Quiz";
+  cardTitle.textContent = `${modeLabel}: One question at a time`;
+  leadText.textContent = "Select one answer, then submit explicitly. Review the instructor notes carefully before proceeding to the next item.";
+
+  tagTopic.textContent = `Topic: ${q.topic}`;
+  tagDiff.textContent = `Difficulty: ${q.difficulty}`;
+  tagProgress.textContent = `Question ${state.quiz.index + 1} of ${state.quiz.order.length}`;
+
+  scenarioBox.hidden = false;
+  scenarioText.textContent = q.scenario;
+
+  promptBox.hidden = false;
+  promptText.textContent = q.prompt;
+
+  renderChoices(q);
+  renderFeedbackIfSubmitted(q);
+
+  summaryBox.hidden = true;
+}
+
+function renderChoices(q){
+  choicesFieldset.innerHTML = "";
+  const answered = state.quiz.answers[q.id];
+  const selectedKey = answered ? answered.selectedKey : null;
+
+  for(const c of q.choices){
+    const row = document.createElement("label");
+    row.className = "choice";
+    row.tabIndex = 0; // container focus for better keyboard discoverability
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "choice";
+    input.value = c.key;
+    input.setAttribute("aria-label", `Choose option ${c.key}`);
+    input.checked = (c.key === selectedKey);
+    input.disabled = !!state.quiz.submitted;
+
+    input.addEventListener("change", () => {
+      // do not save selection until submission; this keeps "explicit submit" semantics
+    });
+
+    // allow pressing Enter/Space on label container
+    row.addEventListener("keydown", (e) => {
+      if(state.quiz.submitted) return;
+      if(e.key === " " || e.key === "Enter"){
+        e.preventDefault();
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const ctext = document.createElement("div");
+    ctext.className = "ctext";
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = c.key;
+
+    const txt = document.createElement("div");
+    txt.className = "txt";
+    txt.textContent = c.text;
+
+    ctext.appendChild(key);
+    ctext.appendChild(txt);
+
+    row.appendChild(input);
+    row.appendChild(ctext);
+    choicesFieldset.appendChild(row);
+  }
+
+  submitBtn.hidden = !!state.quiz.submitted;
+  nextBtn.hidden = !state.quiz.submitted;
+
+  submitHint.textContent = state.quiz.submitted
+    ? "Review the instructor notes, then proceed."
+    : "Select one option, then submit explicitly.";
+}
+
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+function renderSummary(){
+  scenarioBox.hidden = true;
+  promptBox.hidden = true;
+  feedbackBox.hidden = true;
+  summaryBox.hidden = false;
+
+  const summary = state.lastSummary;
+  if(!summary){
+    cardTitle.textContent = "Summary";
+    leadText.textContent = "No summary is available.";
+    summaryToast.className = "toast";
+    summaryToast.textContent = "Start a quiz to generate a completion summary.";
+    return;
+  }
+
+  cardTitle.textContent = "Quiz Completion Summary";
+  leadText.textContent = "Use the summary to decide whether to retake or to review missed questions with the same instructor notes.";
+
+  const cls = summary.percent >= 80 ? "good" : (summary.percent >= 60 ? "warn" : "bad");
+  summaryToast.className = `toast ${cls === "warn" ? "" : cls}`;
+  summaryToast.textContent =
+    `${summary.mode} completed — ${summary.correct} correct, ${summary.incorrect} incorrect, ` +
+    `${summary.percent}% (Total: ${summary.total}).`;
+
+  tagTopic.textContent = "Topic: —";
+  tagDiff.textContent = "Difficulty: —";
+  tagProgress.textContent = "Question — of —";
+}
+
+/* =========================
+   Interaction Logic
+   ========================= */
+function submitAnswer(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  const qid = state.quiz.order[state.quiz.index];
+  const q = byId(qid);
+  if(!q) return;
+
+  // explicit submission: read selected radio at submission time
+  const selected = document.querySelector('input[name="choice"]:checked');
+  if(!selected){
+    announce("Please select an answer choice before submitting.", "warn");
+    return;
+  }
+
+  const selectedKey = selected.value;
+  const correct = (selectedKey === q.correctKey);
+
+  state.quiz.answers[qid] = {
+    selectedKey,
+    correct,
+    timestamp: Date.now()
+  };
+  state.quiz.submitted = true;
+
+  if(!correct){
+    const nextMissed = unique([...(state.missed || []), qid]);
+    state.missed = nextMissed;
+  }
+
+  saveState();
+}
+
+function nextQuestion(){
+  if(state.mode !== "quiz" && state.mode !== "review") return;
+
+  // If not submitted, do not advance.
+  if(!state.quiz.submitted){
+    announce("Submit your answer to receive feedback before proceeding.", "warn");
+    return;
+  }
+
+  const isLast = state.quiz.index >= state.quiz.order.length - 1;
+  if(isLast){
+    completeSession();
+    return;
+  }
+
+  state.quiz.index += 1;
+  state.quiz.submitted = false;
+  saveState();
+  focusFirstChoice();
+}
+
+function completeSession(){
+  const { correct, incorrect, total } = countCorrectIncorrect();
+  const percent = calcPercent(correct, total);
+
+  state.lastSummary = {
+    total,
+    correct,
+    incorrect,
+    percent,
+    mode: state.mode === "review" ? "Review" : "Quiz",
+    timestamp: Date.now()
+  };
+
+  state.mode = "summary";
+  // keep quiz order/answers for potential review history, but summary becomes primary view
+  saveState();
+}
+
+function focusFirstChoice(){
+  // Small delay to ensure DOM is updated before focusing.
+  setTimeout(() => {
+    const firstRadio = document.querySelector('input[name="choice"]');
+    if(firstRadio) firstRadio.focus();
+  }, 0);
+}
+
+/* =========================
+   UI Helpers
+   ========================= */
+function kv(k, v){
+  const wrap = document.createElement("div");
+  wrap.className = "kv";
+  const kk = document.createElement("div");
+  kk.className = "k";
+  kk.textContent = k;
+  const vv = document.createElement("div");
+  vv.className = "v";
+  vv.textContent = v;
+  wrap.appendChild(kk);
+  wrap.appendChild(vv);
+  return wrap;
+}
+
+function announce(message, kind){
+  // Use the Insights summary toast as a lightweight announcement region without creating popups.
+  // kind: good | bad | warn
+  const t = insightsSummary;
+  t.className = "toast";
+  if(kind === "good") t.classList.add("good");
+  if(kind === "bad") t.classList.add("bad");
+  t.textContent = message;
+
+  // Ensure ARIA readers detect changes
+  t.setAttribute("aria-live", "polite");
+  setTimeout(() => t.removeAttribute("aria-live"), 400);
+}
+
+/* =========================
+   Boot
+   ========================= */
+
+// ───────────────────────────────────────────────
+// Your original JavaScript logic continues here (state, render, events, etc.)
+// Add this small enhancement to show the exam trap in feedback:
+function renderFeedbackIfSubmitted(q){
+  if(!state.quiz.submitted){
+    feedbackBox.hidden = true;
+    return;
+  }
+  feedbackBox.hidden = false;
+
+  const record = state.quiz.answers[q.id];
+  const selectedKey = record ? record.selectedKey : null;
+  const correctKey = q.correctKey;
+
+  const isCorrect = selectedKey === correctKey;
+  resultTag.textContent = isCorrect ? "Correct" : "Incorrect";
+  resultTag.className = `tag ${isCorrect ? "good" : "bad"}`;
+
+  // Defensive defaults (prevents crashes / blank feedback)
+  const trigger = (typeof q.triggerPhrase === "string" && q.triggerPhrase.trim())
+    ? q.triggerPhrase
+    : "—";
+
+  const correctLogic = (typeof q.explanationCorrect === "string" && q.explanationCorrect.trim())
+    ? q.explanationCorrect
+    : "—";
+
+  const explMap = (q.explanationIncorrect && typeof q.explanationIncorrect === "object")
+    ? q.explanationIncorrect
+    : {};
+
+  const examTrap = (typeof q.examTrap === "string" && q.examTrap.trim())
+    ? q.examTrap
+    : null;
+
+  feedbackBody.innerHTML = "";
+
+  // Status line
+  const status = document.createElement("div");
+  status.className = `toast ${isCorrect ? "good" : "bad"}`;
+  status.textContent = isCorrect
+    ? "Your selection matches the best technical action for the scenario."
+    : "Your selection does not match the best technical action for the scenario.";
+  feedbackBody.appendChild(status);
+
+  // Trigger Phrase
+  feedbackBody.appendChild(kv("Trigger Phrase", trigger));
+
+  // Correct Answer
+  const correctChoiceText = q.choices?.find(x => x.key === correctKey)?.text || "—";
+  feedbackBody.appendChild(kv("Correct Answer", `${correctKey}) ${correctChoiceText}`));
+
+  // Correct Logic
+  feedbackBody.appendChild(kv("Correct Logic", correctLogic));
+
+  // Optional Exam Trap
+  if(examTrap){
+    feedbackBody.appendChild(kv("Exam Trap", examTrap));
+  }
+
+  // Distractor Analysis (all A/B/C/D)
+  const distractorBlock = document.createElement("div");
+  distractorBlock.className = "kv";
+
+  const dk = document.createElement("div");
+  dk.className = "k";
+  dk.textContent = "Distractor Analysis";
+
+  const dv = document.createElement("div");
+  dv.className = "v";
+
+  const order = ["A","B","C","D"];
+  for(const key of order){
+    const line = document.createElement("div");
+    line.style.padding = "8px 0";
+    line.style.borderTop = key === "A" ? "none" : "1px solid rgba(231,238,252,0.10)";
+
+    const isSel = selectedKey === key;
+    const isAns = correctKey === key;
+
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.gap = "8px";
+    hdr.style.alignItems = "center";
+    hdr.style.flexWrap = "wrap";
+
+    const t = document.createElement("span");
+    t.className = "tag";
+    if(isAns) t.classList.add("good");
+    if(isSel && !isAns) t.classList.add("bad");
+    t.textContent = `${key}${isAns ? " (Correct)" : ""}${isSel ? " (Selected)" : ""}`;
+
+    const ctext = document.createElement("span");
+    ctext.style.color = "rgba(231,238,252,0.95)";
+    ctext.style.fontWeight = "650";
+    const choiceText = q.choices?.find(x => x.key === key)?.text || "";
+    ctext.textContent = choiceText;
+
+    const expl = document.createElement("div");
+    expl.style.marginTop = "6px";
+    expl.style.color = "rgba(231,238,252,0.90)";
+    expl.style.fontWeight = "600";
+
+    // Defensive read: if missing, do not crash
+    expl.textContent = (typeof explMap[key] === "string" && explMap[key].trim())
+      ? explMap[key]
+      : "—";
+
+    hdr.appendChild(t);
+    hdr.appendChild(ctext);
+
+    line.appendChild(hdr);
+    line.appendChild(expl);
+    dv.appendChild(line);
+  }
+
+  distractorBlock.appendChild(dk);
+  distractorBlock.appendChild(dv);
+  feedbackBody.appendChild(distractorBlock);
+}
+init();
+</script>
+</body>
+</html>
